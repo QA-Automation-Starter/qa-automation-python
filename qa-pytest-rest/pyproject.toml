@@ -6,8 +6,8 @@ authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-  "qa-testing-utils @ file://../qa-testing-utils",
-  "qa-pytest-commons @ file://../qa-pytest-commons",
+  "qa-testing-utils",
+  "qa-pytest-commons",
   "tenacity",
   "PyHamcrest",
   "pytest",
