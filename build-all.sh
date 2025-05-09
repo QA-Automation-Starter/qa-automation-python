@@ -9,9 +9,8 @@ MODULES=(
 )
 
 for module in "${MODULES[@]}"; do
-  echo "🚀 Building and publishing $module..."
+  echo "🚀 Building $module..."
   cd "$module"
   hatch build
-  hatch publish
   cd ..
 done

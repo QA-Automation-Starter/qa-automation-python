@@ -17,7 +17,7 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
-publish-all = "bash ./release-all.sh"
+build-all = "bash ./build-all.sh"
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
