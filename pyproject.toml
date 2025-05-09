@@ -12,7 +12,8 @@ dependencies = [
   "returns",
   "requests",
   "webdriver-manager",
-  "selenium"
+  "selenium",
+  "twine"
 ]
 
 [tool.hatch.envs.default.scripts]
