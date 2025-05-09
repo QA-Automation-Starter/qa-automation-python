@@ -12,8 +12,11 @@ dependencies = [
   "returns",
   "requests",
   "webdriver-manager",
-  "selenium",
+  "selenium"
 ]
+
+[tool.hatch.envs.default.scripts]
+report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
@@ -34,7 +37,3 @@ pythonpath = [
 python_files = "*.py"
 python_classes = "*Tests"
 python_functions = "should_*"
-
-
-[tool.hatch.envs.default.scripts]
-report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"

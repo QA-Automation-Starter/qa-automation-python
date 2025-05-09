@@ -1,0 +1,10 @@
+POST https://petstore.swagger.io/v2/pet
+content-type: application/json
+
+{
+    "name": "sample",
+    "status": "available"
+}
+###
+
+GET https://petstore.swagger.io/v2/pet/findByStatus?status=available
