@@ -13,12 +13,12 @@ from tenacity import Retrying, stop_after_attempt, wait_exponential, retry_if_ex
 from qa.testing.utils.exception_utils import safely
 from qa.testing.utils.logger import LoggerMixin, traced
 from qa.testing.utils.object_utils import Supplier, Valid, valid
-from qa.pytest.commons.abstract_configuration import AbstractConfiguration
+from qa.pytest.commons.base_configuration import BaseConfiguration
 from qa.pytest.commons.bdd_keywords import BddKeywords
 from qa.testing.utils.thread_utils import sleep_for
 
 
-class GenericSteps[TConfiguration: AbstractConfiguration](
+class GenericSteps[TConfiguration: BaseConfiguration](
         BddKeywords['GenericSteps'],
         LoggerMixin):
     """

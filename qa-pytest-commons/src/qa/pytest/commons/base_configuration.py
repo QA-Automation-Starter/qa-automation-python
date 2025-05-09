@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import configparser
-from abc import ABC
 from functools import cached_property
 from pathlib import Path
 from typing import final
@@ -12,7 +11,7 @@ from qa.testing.utils.logger import LoggerMixin
 from qa.testing.utils.object_utils import ImmutableMixin
 
 
-class AbstractConfiguration(ABC, LoggerMixin, ImmutableMixin):
+class BaseConfiguration(LoggerMixin, ImmutableMixin):
     """
     Base class for all types of configurations, providing a parser for a
     pre-specified configuration file.

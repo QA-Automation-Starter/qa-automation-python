@@ -11,9 +11,9 @@ from typing import BinaryIO, Iterable, Iterator, Tuple, final, override
 from zlib import crc32
 
 from more_itertools import peekable
-from utils.logger import *
-from utils.object_utils import *
-from utils.string_utils import *
+from qa.testing.utils.logger import *
+from qa.testing.utils.object_utils import *
+from qa.testing.utils.string_utils import *
 
 LAUNCHING_DIR = Path.cwd()
 

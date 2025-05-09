@@ -10,5 +10,5 @@ class SwaggerPetstoreConfiguration(RestConfiguration):
 
     def __init__(
             self,
-            path: Path = Path("resources/swagger-petstore-default-config.ini")):
+            path: Path = Path("qa-pytest-examples/resources/swagger-petstore-default-config.ini")):
         super().__init__(path)

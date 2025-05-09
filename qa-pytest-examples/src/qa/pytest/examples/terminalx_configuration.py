@@ -12,7 +12,7 @@ from qa.pytest.webdriver.selenium_configuration import SeleniumConfiguration
 class TerminalXConfiguration(SeleniumConfiguration):
 
     def __init__(
-            self, path: Path = Path("resources/terminalx-default-config.ini")):
+            self, path: Path = Path("qa-pytest-examples/resources/terminalx-default-config.ini")):
         super().__init__(path)
 
     @property

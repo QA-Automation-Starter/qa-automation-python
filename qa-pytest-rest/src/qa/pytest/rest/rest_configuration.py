@@ -6,11 +6,11 @@ from functools import cached_property
 from typing import final
 from urllib.parse import urljoin
 
-from qa.pytest.commons.abstract_configuration import AbstractConfiguration
+from qa.pytest.commons.base_configuration import BaseConfiguration
 from qa.testing.utils.string_utils import EMPTY
 
 
-class RestConfiguration(AbstractConfiguration):
+class RestConfiguration(BaseConfiguration):
 
     @final
     @cached_property

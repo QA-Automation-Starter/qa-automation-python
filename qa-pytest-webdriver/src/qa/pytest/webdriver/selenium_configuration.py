@@ -4,12 +4,12 @@
 
 from functools import cached_property
 from typing import final
-from qa.pytest.commons.abstract_configuration import AbstractConfiguration
+from qa.pytest.commons.base_configuration import BaseConfiguration
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-class SeleniumConfiguration(AbstractConfiguration):
+class SeleniumConfiguration(BaseConfiguration):
 
     @cached_property
     @final

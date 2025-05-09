@@ -7,14 +7,14 @@ from functools import cached_property
 from typing import Any, Type, final
 
 from qa.pytest.commons.generic_steps import GenericSteps
-from qa.pytest.commons.abstract_configuration import AbstractConfiguration
+from qa.pytest.commons.base_configuration import BaseConfiguration
 from qa.testing.utils.logger import LoggerMixin
 from qa.testing.utils.object_utils import ImmutableMixin
 
 
 class AbstractTestsBase[TSteps: GenericSteps[Any],
-                        TConfiguration: AbstractConfiguration](ABC,
-                                                               LoggerMixin, ImmutableMixin):
+                        TConfiguration: BaseConfiguration](ABC,
+                                                           LoggerMixin, ImmutableMixin):
     """
     Basic test scenario implementation, holding some type of steps and a logger
     facility.

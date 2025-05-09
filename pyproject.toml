@@ -1,6 +1,8 @@
 [tool.hatch.envs.default]
 path = ".hatch/envs/default"
 dependencies = [
+  "pytest",
+  "pytest-html",
   "tenacity",
   "PyHamcrest",
   "pyfunctional",
@@ -12,3 +14,27 @@ dependencies = [
   "webdriver-manager",
   "selenium",
 ]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+testpaths = [
+  "qa-pytest-examples/tests",
+  "qa-pytest-rest/tests",
+  "qa-pytest-webdriver/tests",
+  "qa-pytest-commons/tests",
+  "qa-testing-utils/tests"
+]
+pythonpath = [
+  "qa-testing-utils/src",
+  "qa-pytest-commons/src",
+  "qa-pytest-rest/src",
+  "qa-pytest-webdriver/src",
+  "qa-pytest-examples/src"
+]
+python_files = "*.py"
+python_classes = "*Tests"
+python_functions = "should_*"
+
+
+[tool.hatch.envs.default.scripts]
+report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
