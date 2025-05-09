@@ -1,0 +1,14 @@
+[tool.hatch.envs.default]
+path = ".hatch/envs/default"
+dependencies = [
+  "tenacity",
+  "PyHamcrest",
+  "pyfunctional",
+  "ppretty",
+  "allure-pytest",
+  "more-itertools",
+  "returns",
+  "requests",
+  "webdriver-manager",
+  "selenium",
+]
