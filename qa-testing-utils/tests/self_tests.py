@@ -10,10 +10,10 @@ import attr
 from hamcrest import assert_that, is_  # type: ignore
 import pytest
 from tenacity import before_sleep_log, retry, retry_if_exception_type, stop_after_attempt, wait_fixed
-from qa.testing.utils.logger import traced
-from qa.testing.utils.logger import *
-from qa.testing.utils.exceptions import *
-from qa.testing.utils.thread_utils import *
+from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import *
+from qa_testing_utils.exceptions import *
+from qa_testing_utils.thread_utils import *
 
 
 @final

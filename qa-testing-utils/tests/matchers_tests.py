@@ -9,10 +9,10 @@ import attr
 import pytest
 from functional import seq
 from hamcrest import all_of, assert_that, has_item, has_property, is_  # type: ignore -- seq
-from qa.testing.utils.string_utils import to_string
-from qa.testing.utils.matchers import *
-from qa.testing.utils.object_utils import *
-from qa.testing.utils.string_utils import *
+from qa_testing_utils.string_utils import to_string
+from qa_testing_utils.matchers import *
+from qa_testing_utils.object_utils import *
+from qa_testing_utils.string_utils import *
 
 
 @to_string()

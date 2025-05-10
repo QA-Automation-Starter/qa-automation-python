@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from hamcrest import is_  # type: ignore
-from qa.pytest.examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
-from qa.pytest.examples.swagger_petstore_steps import SwaggerPetstoreSteps
-from qa.pytest.examples.model.swagger_petstore_pet import SwaggerPetstorePet
-from qa.pytest.rest.rest_tests import RestTests
-from qa.testing.utils.matchers import traced, yields_item
+from qa_pytest_examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
+from qa_pytest_examples.swagger_petstore_steps import SwaggerPetstoreSteps
+from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
+from qa_pytest_rest.rest_tests import RestTests
+from qa_testing_utils.matchers import traced, yields_item
 
 
 class SwaggerPetstoreTests(

@@ -4,7 +4,7 @@
 
 import attr
 from hamcrest import assert_that, is_  # type: ignore
-from qa.testing.utils.tuple_utils import *
+from qa_testing_utils.tuple_utils import *
 
 
 def should_assert_from_tuple():

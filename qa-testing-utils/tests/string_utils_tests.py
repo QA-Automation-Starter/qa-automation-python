@@ -6,7 +6,7 @@ from enum import Enum
 import logging
 from typing import List
 
-from qa.testing.utils.string_utils import *
+from qa_testing_utils.string_utils import *
 
 
 class Status(Enum):
