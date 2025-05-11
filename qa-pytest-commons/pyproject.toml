@@ -1,6 +1,6 @@
 [project]
-name = "qa-pytest-commons"
-version = "0.1.0"
+name = "qa_pytest_commons"
+version = "0.1.1"
 description = "PyTest commons library"
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
@@ -18,16 +18,14 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/qa/pytest/commons"]
+[tool.hatch.build]
+sources = ["src"]
 
 [tool.hatch.envs.default]
 path = ".hatch/envs/default"
 dependencies = [
   "pytest",
+  "pytest-html",
   "pytest-cov",
   "mypy",
   "isort",

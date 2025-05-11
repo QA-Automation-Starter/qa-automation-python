@@ -4,6 +4,7 @@
 
 import inspect
 import logging.config
+from pathlib import Path
 import sys
 from typing import Callable, Optional
 
@@ -11,7 +12,7 @@ import pytest
 
 # https://docs.python.org/3/whatsnew/3.13.html
 MIN_PYTHON_VERSION = (3, 13)
-pytest_plugins = ["pytest_html"]
+# pytest_plugins = ["pytest_html"]
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -20,7 +21,7 @@ def pytest_configure(config: pytest.Config) -> None:
         raise pytest.UsageError(
             f"Python version must be {MIN_PYTHON_VERSION} or higher for these tests.")
 
-    logging.config.fileConfig('logging.ini')
+    logging.config.fileConfig(Path(__file__).parent / "logging.ini")
 
 
 def pytest_html_report_title(report) -> None:  # type: ignore
