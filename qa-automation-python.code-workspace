@@ -1,0 +1,48 @@
+{
+    "folders": [
+        {
+            "path": "qa-testing-utils"
+        },
+        {
+            "path": "qa-pytest-commons"
+        },
+        {
+            "path": "qa-pytest-rest"
+        },
+        {
+            "path": "qa-pytest-webdriver"
+        },
+        {
+            "path": "qa-pytest-examples"
+        }
+    ],
+    "settings": {
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "python.terminal.activateEnvironment": true,
+        "python.analysis.autoImportCompletions": true,
+        "python.analysis.typeCheckingMode": "strict",
+        "python.analysis.diagnosticSeverityOverrides": {
+            "reportMissingTypeStubs": "none"
+        },
+        "python.analysis.indexing": true,
+        "python.analysis.completeFunctionParens": true,
+        "python.analysis.inlayHints.variableTypes": true,
+        "python.analysis.inlayHints.functionReturnTypes": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.unusedImports": "explicit"
+        },
+        "[python]": {
+            "editor.defaultFormatter": "ms-python.autopep8",
+            "editor.formatOnSave": true
+        },
+        "autopep8.args": [
+            "--max-line-length=80",
+            "--experimental"
+        ]
+    }
+}

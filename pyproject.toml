@@ -1,33 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qa-monorepo"
+version = "0.0.0"
+description = "Shared tooling environment for all QA modules"
+requires-python = ">=3.13"
+dependencies = []  # No runtime deps here — only tools in envs
+
 [tool.hatch.envs.default]
-path = ".hatch/envs/default"
+path = ".venv"
+editable = false  # Prevent Hatch from attempting editable install
 dependencies = [
   "pytest",
+  "pytest-cov",
   "pytest-html",
-  "tenacity",
-  "PyHamcrest",
-  "pyfunctional",
-  "ppretty",
-  "allure-pytest",
-  "more-itertools",
-  "returns",
-  "requests",
-  "webdriver-manager",
-  "selenium",
-  "twine"
+  "mypy",
+  "autopep8",
+  "isort"
 ]
 
 [tool.hatch.envs.default.scripts]
 report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
-build-all = "bash ./build-all.sh"
+format = "autopep8 --in-place --recursive ."
+lint = "mypy qa-*/src"
+sort = "isort qa-*/src"
+test = "pytest"
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
 testpaths = [
-  "qa-pytest-examples/tests",
+  "qa-testing-utils/tests",
+  "qa-pytest-commons/tests",
   "qa-pytest-rest/tests",
   "qa-pytest-webdriver/tests",
-  "qa-pytest-commons/tests",
-  "qa-testing-utils/tests"
+  "qa-pytest-examples/tests"
 ]
 pythonpath = [
   "qa-testing-utils/src",

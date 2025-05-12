@@ -1,10 +1,15 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
 [project]
-name = "qa_testing_utils"
-version = "0.1.1"
+name = "qa-testing-utils"
+dynamic = ["version"]
 description = "Testing utilities library for QA automation"
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
+license = "Apache-2.0"
 dependencies = [
   "PyHamcrest",
   "pyfunctional",
@@ -14,15 +19,13 @@ dependencies = [
   "returns"
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.hatch.version]
+source = "vcs"
 
 [tool.hatch.build]
 sources = ["src"]
 
 [tool.hatch.envs.default]
-path = ".hatch/envs/default"
 dependencies = [
   "pytest",
   "pytest-html",
