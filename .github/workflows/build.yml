@@ -22,13 +22,16 @@ jobs:
         with:
           path: |
             ~/.cache/pdm
-            ~/.local/share/pdm
+            .venv/
           key: pdm-${{ runner.os }}-${{ hashFiles('**/pdm.lock') }}
           restore-keys: |
             pdm-${{ runner.os }}-
 
+      - name: Enable PDM install cache
+        run: pdm config install.cache true
+
       - name: Install dependencies
-        run: pdm install
+        run: pdm install --no-editable --no-lock
 
       - name: Run tests
         run: pdm run pytest -m "not (flaky or selenium)"
