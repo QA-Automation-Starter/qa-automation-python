@@ -1,49 +1,48 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
-name = "qa-monorepo"
-version = "0.0.0"
-description = "Shared tooling environment for all QA modules"
+name = "qa-automation-python"
+version = "0.0.2"
+description = "Default template for PDM package"
 requires-python = ">=3.13"
-dependencies = []  # No runtime deps here — only tools in envs
+dependencies = []                                                         # No runtime deps here — only tools in envs
+authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
+readme = "README.md"
+license = { text = "Apache-2.0" }
 
-[tool.hatch.envs.default]
-path = ".venv"
-editable = false  # Prevent Hatch from attempting editable install
-dependencies = [
-  "pytest",
-  "pytest-cov",
-  "pytest-html",
-  "mypy",
-  "autopep8",
-  "isort"
+[tool.pdm]
+distribution = true
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e qa-testing-utils @ file:///${PROJECT_ROOT}/qa-testing-utils",
+    "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
+    "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
+    "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
+    "pytest",
+    "pytest-cov",
+    "pytest-html",
 ]
-
-[tool.hatch.envs.default.scripts]
-report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
-format = "autopep8 --in-place --recursive ."
-lint = "mypy qa-*/src"
-sort = "isort qa-*/src"
-test = "pytest"
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
-addopts = "--import-mode=importlib"
+addopts = "--import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
 testpaths = [
   "qa-testing-utils/tests",
   "qa-pytest-commons/tests",
   "qa-pytest-rest/tests",
   "qa-pytest-webdriver/tests",
-  "qa-pytest-examples/tests"
+  "qa-pytest-examples/tests",
 ]
 pythonpath = [
   "qa-testing-utils/src",
   "qa-pytest-commons/src",
   "qa-pytest-rest/src",
   "qa-pytest-webdriver/src",
-  "qa-pytest-examples/src"
+  "qa-pytest-examples/src",
 ]
 python_files = "*.py"
 python_classes = "*Tests"
 python_functions = "should_*"
+
+[tool.pdm.scripts]
+clean = "git clean -fdX"

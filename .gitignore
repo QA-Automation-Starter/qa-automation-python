@@ -1,19 +1,23 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# Hatch & Python environments
-*/venv/
+# Python environments
+.venv/
 
 # VSCode settings (optional: keep .vscode/settings.json)
 .vscode/*
 !.vscode/settings.json
 
 # Distribution / packaging
-*/dist/
+dist/
+.pdm-build
+.pdm-python
+.python-version
 
 # Installer logs
 
 # Unit test / coverage reports
+.pytest_cache/
 
 # Mypy
 
@@ -22,7 +26,7 @@ __pycache__/
 # Ruff
 
 # Debugging & development
-*/*.log
+*.log
 
 # Notebook / IPython
 
@@ -36,4 +40,5 @@ __pycache__/
 #.idea/
 
 # Miscellaneous
-*.pypirc
+allure-results
+report.html

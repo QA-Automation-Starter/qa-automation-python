@@ -15,54 +15,51 @@ qa-automation-python/
 ├── qa-pytest-webdriver/     # Selenium-specific implementation
 ├── qa-pytest-template/      # Cookiecutter project template
 ├── qa-pytest-examples/      # Usage examples for application test projects
-├── pyproject.toml           # Root environment definition for Hatch
+├── pyproject.toml           # Root environment definition for PDM
 └── .vscode/                 # Recommended settings for VSCode integration
 ```
 
 ---
 
-## ⚙️ Requirements
+## 🚀 Quick Start (Locally with [PDM](https://pdm-project.org))
 
-- Python 3.13+ (recommended: 3.13.0 or later)
-- [Hatch](https://hatch.pypa.io/latest/) (for environment management and packaging)
-- [VSCode](https://code.visualstudio.com/) + Python + Pylance extensions
+> ⚠️ Requires Python 3.13 installed on your system.
 
-Install Hatch globally:
-```bash
-pipx install hatch
-```
+1. Install PDM and UV (if not installed):
+   ```bash
+   pipx install pdm[all]
+   pipx install uv
+   pdm config --global use_uv true
+   ```
 
-Or:
-```bash
-pip install --user hatch
-```
+2. Install dependencies:
+   ```bash
+   pdm install
+   ```
 
----
+3. Run all tests from the root:
+   ```bash
+   pdm run pytest
+   ```
 
-## 🚀 Getting Started
-
-From the monorepo root:
-
-```bash
-# Enter the dev environment
-hatch shell
-
-# Run tests (across submodules if configured)
-hatch run test
-
-# Format code with autopep8
-hatch run format
-
-# Run type checks
-hatch run lint
-```
+4. Clean up local build/test artifacts:
+   ```bash
+   pdm run clean-all
+   ```
 
 ---
 
 ## 🧪 Working Inside a Submodule
 
 Each submodule (e.g. `qa-testing-utils/`) is a standalone Python package.
-Each module has its own `pyproject.toml` and can be published independently.
+Each module has its own `pyproject.toml` and can be built/published independently using PDM:
+
+```bash
+cd qa-testing-utils
+pdm bump patch     # or set a specific version
+pdm build
+pdm publish
+```
 
 ---
 
@@ -70,10 +67,10 @@ Each module has its own `pyproject.toml` and can be published independently.
 
 The `.vscode/settings.json` file is pre-configured to:
 
-- Use the local Hatch environment
-- Enable strict type checking (`mypy`)
+- Use `.venv` with PDM
+- Enable strict type checking (Pylance)
 - Format code with `autopep8`
-- Resolve multi-package imports using `"extraPaths"`
+- Resolve multi-package imports using `"python.analysis.extraPaths"`
 
 ### 🔧 VSCode Setup (if needed)
 
@@ -93,38 +90,26 @@ Ctrl+Shift+P → Reload Window
 
 ```bash
 cd qa-automation-python
-hatch new my-new-package
+pdm plugin add pdm-init  # if not already available
+pdm init  # or copy an existing module like qa-testing-utils
 ```
 
-Or copy the structure from an existing module like `qa-testing-utils`.
+Then edit `pyproject.toml` accordingly.
 
 ---
 
 ## 📦 Publishing to PyPI
 
-Each module (e.g. `qa-testing-utils/`) can be published independently:
+Each module can be published separately:
 
 ```bash
-cd qa-testing-utils
-hatch build
-hatch publish
+cd qa-pytest-commons
+pdm bump patch
+pdm build
+pdm publish
 ```
 
-Ensure the `[project]` section in `pyproject.toml` is properly configured with name, version, authors, and dependencies.
-
----
-
-## 🧹 Cleaning Up
-
-To remove a Hatch environment:
-```bash
-hatch env remove default
-```
-
-To start fresh:
-```bash
-hatch shell
-```
+You can also define a centralized `release-all` script in the root `pyproject.toml` to version and publish all modules at once.
 
 ---
 

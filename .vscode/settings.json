@@ -1,0 +1,45 @@
+{
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingTypeStubs": "none"
+  },
+  "python.analysis.indexing": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "editor.rulers": [80],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.unusedImports": "explicit"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSave": true
+  },
+  "autopep8.args": [
+    "--max-line-length=80",
+    "--experimental"
+  ],
+  "python.formatting.provider": "autopep8",
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "qa-testing-utils/tests",
+    "qa-pytest-commons/tests",
+    "qa-pytest-rest/tests",
+    "qa-pytest-webdriver/tests",
+    "qa-pytest-examples/tests",
+  ],
+  "python.analysis.extraPaths": [
+    "qa-testing-utils/src",
+    "qa-pytest-commons/src",
+    "qa-pytest-rest/src",
+    "qa-pytest-webdriver/src",
+    "qa-pytest-examples/src",
+  ]
+}
