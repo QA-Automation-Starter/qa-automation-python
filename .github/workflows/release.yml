@@ -1,0 +1,33 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+            version: "2.24.1"
+            python-version: "3.13"
+
+      - name: Set up Twine credentials
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          echo "[pypi]" > ~/.pypirc
+          echo "username = __token__" >> ~/.pypirc
+          echo "password = $PYPI_TOKEN" >> ~/.pypirc
+
+      - name: Build packages
+        run: pdm run build-all
+
+      - name: Publish packages
+        run: pdm run publish-all

@@ -4,6 +4,7 @@
 
 import random
 from hamcrest import is_  # type: ignore
+import pytest  # type: ignore
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
 from qa_pytest_webdriver.selenium_tests import SeleniumTests
 from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
@@ -11,6 +12,7 @@ from qa_testing_utils.matchers import contains_string_ignoring_case, traced, yie
 from qa_pytest_examples.terminalx_steps import TerminalXSteps
 
 
+@pytest.mark.selenium
 class TerminalXTests(SeleniumTests[TerminalXSteps, TerminalXConfiguration]):
     _steps_type = TerminalXSteps
     _configuration = TerminalXConfiguration()
