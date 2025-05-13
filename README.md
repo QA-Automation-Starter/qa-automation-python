@@ -25,11 +25,9 @@ qa-automation-python/
 
 > ⚠️ Requires Python 3.13 installed on your system.
 
-1. Install PDM and UV (if not installed):
+1. Install PDM:
    ```bash
    pipx install pdm[all]
-   pipx install uv
-   pdm config --global use_uv true
    ```
 
 2. Install dependencies:
@@ -41,26 +39,39 @@ qa-automation-python/
    ```bash
    pdm run pytest
    ```
+---
 
-4. Clean up local build/test artifacts:
+## 🧪 Releasing
+
+0. Ensure PyPi username and token are in the environment:
+   ```bash
+   env | grep PDM
+   ```
+   Should yield something like:
+   ```
+   PDM_PUBLISH_USERNAME=__token__
+   PDM_PUBLISH_PASSWORD=...
+   ```
+
+1. Clean up local build/test artifacts:
    ```bash
    pdm run clean-all
    ```
 
----
+2. Commit and create a tag for this version:
+   ```bash
+   git commit -m "release X.X.X"
+   git tag vX.X.X
+   git push
+   ```
 
-## 🧪 Working Inside a Submodule
+3. Build all and publish:
+   ```bash
+   pdm run build-all
+   pdm run publish-all
+   ```
 
-Each submodule (e.g. `qa-testing-utils/`) is a standalone Python package.
-Each module has its own `pyproject.toml` and can be built/published independently using PDM:
-
-```bash
-cd qa-testing-utils
-pdm bump patch     # or set a specific version
-pdm build
-pdm publish
-```
-
+ 4. Verify new versions appeared on https://pypi.org/
 ---
 
 ## 🧠 VSCode Configuration
