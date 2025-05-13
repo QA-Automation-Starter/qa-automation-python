@@ -54,6 +54,7 @@ class BddScenarioTests(
                 lambda rep: self.steps.when.waiting(timedelta(seconds=rep)))
             .then.it_works(is_(True)))
 
+    @pytest.mark.flaky
     def should_eventually_work(self):
         def do_something_unreliable() -> str:
             if random.randint(0, 10) > 2:

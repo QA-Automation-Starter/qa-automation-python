@@ -6,6 +6,7 @@ import logging
 from random import randint
 from typing import Callable
 
+import pytest
 from tenacity import Retrying, before_sleep_log, retry_if_exception_type, stop_after_attempt, wait_exponential
 
 
@@ -13,10 +14,12 @@ def unstable_function():
     return randint(1, 3)
 
 
+@pytest.mark.flaky
 def should_test_unstable_function_1():
     assert unstable_function() == 1
 
 
+@pytest.mark.flaky
 def should_test_unstable_function_2():
     def assert_value():
         assert unstable_function() == 1
@@ -29,6 +32,7 @@ def should_test_unstable_function_2():
     )(lambda: assert_value())
 
 
+@pytest.mark.flaky
 def should_test_unstable_function_3():
     def retry_with_assertion(
             the_function: Callable[[],
