@@ -15,19 +15,17 @@ jobs:
       - name: Setup PDM
         uses: pdm-project/setup-pdm@v4
         with:
-            version: "2.24.1"
-            python-version: "3.13"
-
-      - name: Set up Twine credentials
-        env:
-          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          echo "[pypi]" > ~/.pypirc
-          echo "username = __token__" >> ~/.pypirc
-          echo "password = $PYPI_TOKEN" >> ~/.pypirc
+          version: "2.24.1"
+          python-version: "3.13"
 
       - name: Build packages
+        env:
+          PDM_PUBLISH_USERNAME: __token__
+          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: pdm run build-all
 
       - name: Publish packages
+        env:
+          PDM_PUBLISH_USERNAME: __token__
+          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: pdm run publish-all

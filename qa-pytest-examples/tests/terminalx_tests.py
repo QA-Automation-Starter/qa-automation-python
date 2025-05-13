@@ -12,6 +12,7 @@ from qa_testing_utils.matchers import contains_string_ignoring_case, traced, yie
 from qa_pytest_examples.terminalx_steps import TerminalXSteps
 
 
+@pytest.mark.external
 @pytest.mark.selenium
 class TerminalXTests(SeleniumTests[TerminalXSteps, TerminalXConfiguration]):
     _steps_type = TerminalXSteps
