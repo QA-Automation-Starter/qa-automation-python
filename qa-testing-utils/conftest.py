@@ -12,7 +12,6 @@ import pytest
 
 # https://docs.python.org/3/whatsnew/3.13.html
 MIN_PYTHON_VERSION = (3, 13)
-# pytest_plugins = ["pytest_html"]
 
 
 @pytest.hookimpl(tryfirst=True)

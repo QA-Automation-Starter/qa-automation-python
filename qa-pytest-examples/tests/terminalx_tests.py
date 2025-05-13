@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import random
-from hamcrest import is_
+from hamcrest import is_  # type: ignore
 import pytest  # type: ignore
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
 from qa_pytest_webdriver.selenium_tests import SeleniumTests
