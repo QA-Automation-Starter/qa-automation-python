@@ -6,7 +6,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "qa_pytest_webdriver"
-version = "0.0.2"
+dynamic = ["version"]
 description = "PyTest WebDriver library"
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
@@ -23,3 +23,9 @@ dependencies = [
   "webdriver-manager",
   "selenium"
 ]
+
+[tool.pdm.version]
+source = "scm"
+write_to = "qa_pytest_webdriver/__init__.py"
+write_template = "__version__ = '{}'"
+fallback_version = "0.0.0"

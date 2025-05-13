@@ -6,8 +6,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "qa_pytest_rest"
-version = "0.0.2"
-description = "PyTest REST library"
+dynamic = ["version"]
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
@@ -22,3 +21,9 @@ dependencies = [
   "more-itertools",
   "requests",
 ]
+
+[tool.pdm.version]
+source = "scm"
+write_to = "qa_pytest_rest/__init__.py"
+write_template = "__version__ = '{}'"
+fallback_version = "0.0.0"

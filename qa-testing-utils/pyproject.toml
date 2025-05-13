@@ -7,7 +7,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "qa-testing-utils"
-version = "0.0.2"
+dynamic = ["version"]
 description = "QA testing utilities"
 authors = [
     { name = "Adrian Herscu", email = "adrian.herscu@gmail.com" },
@@ -23,3 +23,9 @@ dependencies = [
     "more-itertools",
     "returns",
 ]
+
+[tool.pdm.version]
+source = "scm"
+write_to = "qa_testing_utils/__init__.py"
+write_template = "__version__ = '{}'"
+fallback_version = "0.0.0"
