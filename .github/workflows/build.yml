@@ -17,6 +17,16 @@ jobs:
             version: "2.24.1"
             python-version: "3.13"
 
+      - name: Cache PDM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pdm
+            ~/.local/share/pdm
+          key: pdm-${{ runner.os }}-${{ hashFiles('**/pdm.lock') }}
+          restore-keys: |
+            pdm-${{ runner.os }}-
+
       - name: Install dependencies
         run: pdm install
 
