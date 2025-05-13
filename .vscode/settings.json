@@ -13,8 +13,8 @@
   "python.analysis.inlayHints.functionReturnTypes": true,
   "editor.rulers": [80],
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit",
-    "source.unusedImports": "explicit"
+    "source.organizeImports": "always",
+    "source.unusedImports": "always"
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8",
@@ -24,7 +24,6 @@
     "--max-line-length=80",
     "--experimental"
   ],
-  "python.formatting.provider": "autopep8",
   "python.defaultInterpreterPath": ".venv/bin/python",
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
