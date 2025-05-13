@@ -6,7 +6,7 @@ from dataclasses import FrozenInstanceError, dataclass
 from functools import cache
 
 import pytest
-from qa.testing.utils.object_utils import *
+from qa_testing_utils.object_utils import *
 
 
 def should_raise_exception():

@@ -1,18 +1,7 @@
 {
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
-  "python.defaultInterpreterPath": ".hatch/envs/default/bin/python",
   "python.terminal.activateEnvironment": true,
-  "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": false,
-  "python.testing.pytestArgs": [
-    "-s",
-    "qa-testing-utils/tests",
-    "qa-pytest-commons/tests",
-    "qa-pytest-rest/tests",
-    "qa-pytest-webdriver/tests",
-    "qa-pytest-examples/tests",
-  ],
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "strict",
   "python.analysis.diagnosticSeverityOverrides": {
@@ -22,16 +11,7 @@
   "python.analysis.completeFunctionParens": true,
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.inlayHints.functionReturnTypes": true,
-  "python.analysis.extraPaths": [
-    "qa-testing-utils/src",
-    "qa-pytest-commons/src",
-    "qa-pytest-rest/src",
-    "qa-pytest-webdriver/src",
-    "qa-pytest-examples/src"
-  ],
-  "editor.rulers": [
-    80
-  ],
+  "editor.rulers": [80],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
     "source.unusedImports": "explicit"
@@ -43,5 +23,23 @@
   "autopep8.args": [
     "--max-line-length=80",
     "--experimental"
+  ],
+  "python.formatting.provider": "autopep8",
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "qa-testing-utils/tests",
+    "qa-pytest-commons/tests",
+    "qa-pytest-rest/tests",
+    "qa-pytest-webdriver/tests",
+    "qa-pytest-examples/tests",
+  ],
+  "python.analysis.extraPaths": [
+    "qa-testing-utils/src",
+    "qa-pytest-commons/src",
+    "qa-pytest-rest/src",
+    "qa-pytest-webdriver/src",
+    "qa-pytest-examples/src",
   ]
 }

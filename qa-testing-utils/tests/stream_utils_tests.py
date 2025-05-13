@@ -6,7 +6,7 @@ from typing import Iterator
 
 from functional import seq
 from more_itertools import peekable
-from qa.testing.utils.stream_utils import *
+from qa_testing_utils.stream_utils import *
 
 # NOTE: there is another streaming library named pystreamapi.
 # In contrast with pyfunctional it is type annotated.

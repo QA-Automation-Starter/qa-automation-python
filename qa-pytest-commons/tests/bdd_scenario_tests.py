@@ -9,10 +9,10 @@ from typing import final
 from hamcrest import is_  # type: ignore
 import pytest
 import tenacity
-from qa.testing.utils.logger import *
-from qa.pytest.commons.abstract_tests_base import *
-from qa.testing.utils.exceptions import *
-from qa.pytest.commons.generic_steps import *
+from qa_testing_utils.logger import *
+from qa_pytest_commons.abstract_tests_base import *
+from qa_testing_utils.exceptions import *
+from qa_pytest_commons.generic_steps import *
 
 
 @logger

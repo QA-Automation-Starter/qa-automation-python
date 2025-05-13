@@ -1,40 +1,30 @@
+[tool.pdm]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
 [project]
 name = "qa-pytest-commons"
-version = "0.1.0"
-description = "PyTest commons library"
+dynamic = ["version"]
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
+license = "Apache-2.0"
 dependencies = [
   "qa-testing-utils",
-  "tenacity",
-  "PyHamcrest",
-  "pytest",
-  "pyfunctional",
-  "more-itertools"
+  "tenacity==9.1.2",
+  "pytest==8.3.5",
+  "PyHamcrest==2.1.0",
+  "pyfunctional==1.5.0",
+  "ppretty==1.3",
+  "allure-pytest==2.14.2",
+  "more-itertools==10.7.0",
+  "returns==0.25.0",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/qa/pytest/commons"]
-
-[tool.hatch.envs.default]
-path = ".hatch/envs/default"
-dependencies = [
-  "pytest",
-  "pytest-cov",
-  "mypy",
-  "isort",
-  "autopep8"
-]
-
-[tool.hatch.envs.default.scripts]
-test = "pytest"
-lint = "mypy src"
-format = "autopep8 --in-place --recursive src"
+[tool.pdm.version]
+source = "scm"
+write_to = "qa_pytest_commons/__init__.py"
+write_template = "__version__ = '{}'"
+fallback_version = "0.0.0"

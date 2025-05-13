@@ -4,7 +4,7 @@
 
 from typing import Any
 
-from qa.testing.utils.exception_utils import *
+from qa_testing_utils.exception_utils import *
 
 
 def should_swallow_exception():

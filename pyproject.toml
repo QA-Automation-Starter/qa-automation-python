@@ -1,41 +1,52 @@
-[tool.hatch.envs.default]
-path = ".hatch/envs/default"
-dependencies = [
-  "pytest",
-  "pytest-html",
-  "tenacity",
-  "PyHamcrest",
-  "pyfunctional",
-  "ppretty",
-  "allure-pytest",
-  "more-itertools",
-  "returns",
-  "requests",
-  "webdriver-manager",
-  "selenium",
-  "twine"
-]
+[project]
+name = "qa-automation-python"
+version = "0.0.0" # not relevant
+description = "QA Automation framework for Python"
+requires-python = ">=3.13"
+dependencies = []                                                         # No runtime deps here — only tools in envs
+authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
+readme = "README.md"
+license = { text = "Apache-2.0" }
 
-[tool.hatch.envs.default.scripts]
-report = "pytest --html=report.html --self-contained-html --alluredir=allure-results"
-build-all = "bash ./build-all.sh"
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e qa-testing-utils @ file:///${PROJECT_ROOT}/qa-testing-utils",
+    "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
+    "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
+    "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
+    "pytest==8.3.5",
+    "pytest-cov==6.1.1",
+    "pytest-html==4.1.1",
+    "allure-pytest==2.14.2",
+]
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
-addopts = "--import-mode=importlib"
+addopts = "--import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
 testpaths = [
-  "qa-pytest-examples/tests",
+  "qa-testing-utils/tests",
+  "qa-pytest-commons/tests",
   "qa-pytest-rest/tests",
   "qa-pytest-webdriver/tests",
-  "qa-pytest-commons/tests",
-  "qa-testing-utils/tests"
+  "qa-pytest-examples/tests",
 ]
 pythonpath = [
   "qa-testing-utils/src",
   "qa-pytest-commons/src",
   "qa-pytest-rest/src",
   "qa-pytest-webdriver/src",
-  "qa-pytest-examples/src"
+  "qa-pytest-examples/src",
 ]
 python_files = "*.py"
 python_classes = "*Tests"
 python_functions = "should_*"
+
+[tool.pdm.scripts]
+clean-all = "git clean -fdX"
+build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
+publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
