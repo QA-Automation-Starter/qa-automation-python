@@ -5,7 +5,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [project]
-name = "qa_pytest_webdriver"
+name = "qa-pytest-webdriver"
 dynamic = ["version"]
 description = "PyTest WebDriver library"
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]

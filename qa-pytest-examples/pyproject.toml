@@ -5,7 +5,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [project]
-name = "qa_pytest_examples"
+name = "qa-pytest-examples"
 dynamic = ["version"]
 description = "PyTest examples"
 authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
