@@ -17,9 +17,10 @@ dev = [
     "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
     "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
-    "pytest",
-    "pytest-cov",
-    "pytest-html",
+    "pytest==8.3.5",
+    "pytest-cov==6.1.1",
+    "pytest-html==4.1.1",
+    "allure-pytest==2.14.2",
 ]
 [build-system]
 requires = ["pdm-backend"]
