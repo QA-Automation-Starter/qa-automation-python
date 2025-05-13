@@ -16,12 +16,12 @@ readme = "README.md"
 requires-python = ">=3.13"
 license = {text = "Apache-2.0"}
 dependencies = [
-    "PyHamcrest",
-    "pyfunctional",
-    "ppretty",
-    "allure-pytest",
-    "more-itertools",
-    "returns",
+    "PyHamcrest==2.1.0",
+    "pyfunctional==1.5.0",
+    "ppretty==1.3",
+    "allure-pytest==2.14.2",
+    "more-itertools==10.7.0",
+    "returns==0.25.0",
 ]
 
 [tool.pdm.version]

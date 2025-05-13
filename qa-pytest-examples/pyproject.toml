@@ -17,11 +17,11 @@ dependencies = [
   "qa-pytest-commons",
   "qa-pytest-rest",
   "qa-pytest-webdriver",
-  "tenacity",
-  "PyHamcrest",
-  "pytest",
-  "pyfunctional",
-  "more-itertools"
+  "tenacity==9.1.2",
+  "pytest==8.3.5",
+  "PyHamcrest==2.1.0",
+  "pyfunctional==1.5.0",
+  "more-itertools==10.7.0",
 ]
 
 [tool.pdm.version]
