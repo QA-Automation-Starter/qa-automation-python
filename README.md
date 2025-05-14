@@ -1,7 +1,7 @@
 # QA Automation for Python
 
 [![Build](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml/badge.svg)](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml)
-![Release](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml)
+![Release](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml/badge.svg)
 [![PyPI version](https://img.shields.io/pypi/v/qa-testing-utils.svg)](https://pypi.org/project/qa-testing-utils/)
 [![PyPI version](https://img.shields.io/pypi/v/qa-pytest-commons.svg)](https://pypi.org/project/qa-pytest-commons/)
 [![PyPI version](https://img.shields.io/pypi/v/qa-pytest-rest.svg)](https://pypi.org/project/qa-pytest-rest/)
