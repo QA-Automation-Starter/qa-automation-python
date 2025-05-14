@@ -2,10 +2,10 @@
 
 [![Build](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml/badge.svg)](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml)
 [![Release](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml/badge.svg)](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml)
-[![PyPI version](https://img.shields.io/pypi/v/qa-testing-utils.svg)](https://pypi.org/project/qa-testing-utils/)
-[![PyPI version](https://img.shields.io/pypi/v/qa-pytest-commons.svg)](https://pypi.org/project/qa-pytest-commons/)
-[![PyPI version](https://img.shields.io/pypi/v/qa-pytest-rest.svg)](https://pypi.org/project/qa-pytest-rest/)
-[![PyPI version](https://img.shields.io/pypi/v/qa-pytest-webdriver.svg)](https://pypi.org/project/qa-pytest-webdriver/)
+[![utils](https://img.shields.io/pypi/v/qa-testing-utils.svg?label=utils)](https://pypi.org/project/qa-testing-utils/)
+[![commons](https://img.shields.io/pypi/v/qa-pytest-commons.svg?label=commons)](https://pypi.org/project/qa-pytest-commons/)
+[![rest](https://img.shields.io/pypi/v/qa-pytest-rest.svg?label=rest)](https://pypi.org/project/qa-pytest-rest/)
+[![webdriver](https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver)](https://pypi.org/project/qa-pytest-webdriver/)
 
 
 This monorepo contains modular, reusable Python packages for building structured, maintainable, BDD-style automated tests using `pytest`, `Hamcrest`, and related tooling.
