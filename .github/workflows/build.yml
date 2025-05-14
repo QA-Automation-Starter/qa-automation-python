@@ -3,6 +3,12 @@ name: build
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '.devcontainer/**'
+      - '**.md'
+      - '.idea/**'
+      - '.*'
+      - '/*/.*'
 
 jobs:
   build:
