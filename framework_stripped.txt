@@ -1,0 +1,1617 @@
+qa-pytest-commons/conftest.py:
+import inspect
+import logging.config
+from pathlib import Path
+import sys
+from typing import Callable, Optional
+import pytest
+MIN_PYTHON_VERSION = (3, 13)
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+if sys.version_info < MIN_PYTHON_VERSION:
+raise pytest.UsageError(f'Python version must be {MIN_PYTHON_VERSION} or higher for these tests.')
+logging.config.fileConfig(Path(__file__).parent / 'logging.ini')
+def pytest_html_report_title(report) -> None:
+report.title = 'Tests Report'
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+if call.when == 'call':
+item._report_sections.append(('call', 'body', get_test_body(item)))
+def get_test_body(item: pytest.Item) -> str:
+function: Optional[Callable[..., None]] = getattr(item, 'function', None)
+if function is None:
+return 'No function found for this test item.'
+try:
+return inspect.getsource(function)
+except Exception as e:
+return f'Could not get source code: {str(e)}'
+
+================================================================================
+qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py:
+from abc import ABC
+from functools import cached_property
+from typing import Any, Type, final
+from qa_pytest_commons.generic_steps import GenericSteps
+from qa_pytest_commons.base_configuration import BaseConfiguration
+from qa_testing_utils.logger import LoggerMixin
+from qa_testing_utils.object_utils import ImmutableMixin
+class AbstractTestsBase[TSteps: GenericSteps[Any], TConfiguration: BaseConfiguration](ABC, LoggerMixin, ImmutableMixin):
+pass
+_steps_type: Type[TSteps]
+_configuration: TConfiguration
+@final
+@cached_property
+def steps(self) -> TSteps:
+pass
+self.log.debug(f'initiating {self._steps_type}')
+return self._steps_type()
+def setup_method(self):
+pass
+self.log.debug('setup')
+def teardown_method(self):
+pass
+self.log.debug('teardown')
+
+================================================================================
+qa-pytest-commons/src/qa_pytest_commons/base_configuration.py:
+import configparser
+from functools import cached_property
+from pathlib import Path
+from typing import final
+from qa_testing_utils.logger import LoggerMixin
+from qa_testing_utils.object_utils import ImmutableMixin
+class BaseConfiguration(LoggerMixin, ImmutableMixin):
+pass
+_path: Path
+def __init__(self, path: Path):
+pass
+if not path.exists():
+raise FileNotFoundError(path.absolute())
+self.log.debug(f'using configuration from {path}')
+self._path = path
+@final
+@cached_property
+def parser(self) -> configparser.ConfigParser:
+pass
+self.log.debug(f'reading configuration from {self._path}')
+parser = configparser.ConfigParser()
+config_files = parser.read(self._path)
+self.log.debug(f'successfully read {config_files}')
+return parser
+
+================================================================================
+qa-pytest-commons/src/qa_pytest_commons/bdd_keywords.py:
+from abc import ABC, abstractmethod
+class BddKeywords[TSteps: BddKeywords](ABC):
+pass
+@property
+@abstractmethod
+def given(self) -> TSteps:
+pass
+pass
+@property
+@abstractmethod
+def when(self) -> TSteps:
+pass
+pass
+@property
+@abstractmethod
+def then(self) -> TSteps:
+pass
+pass
+@property
+@abstractmethod
+def and_(self) -> TSteps:
+pass
+pass
+@property
+@abstractmethod
+def with_(self) -> TSteps:
+pass
+pass
+
+================================================================================
+qa-pytest-commons/src/qa_pytest_commons/generic_steps.py:
+import logging
+from datetime import timedelta
+from typing import Any, Callable, Self, final, override
+from functional import seq
+from hamcrest import assert_that
+from hamcrest.core.matcher import Matcher
+from tenacity import Retrying, stop_after_attempt, wait_exponential, retry_if_exception_type, before_sleep_log
+from qa_testing_utils.exception_utils import safely
+from qa_testing_utils.logger import LoggerMixin, traced
+from qa_testing_utils.object_utils import Supplier, Valid, valid
+from qa_pytest_commons.base_configuration import BaseConfiguration
+from qa_pytest_commons.bdd_keywords import BddKeywords
+from qa_testing_utils.thread_utils import sleep_for
+class GenericSteps[TConfiguration: BaseConfiguration](BddKeywords['GenericSteps'], LoggerMixin):
+pass
+_retrying: Retrying
+_configuration: TConfiguration
+def __init__(self):
+self._retrying = Retrying(stop=stop_after_attempt(4), wait=wait_exponential(min=1, max=10), retry=retry_if_exception_type(Exception), before_sleep=before_sleep_log(self.log, logging.DEBUG))
+@final
+@property
+def configured(self) -> TConfiguration:
+return self._configuration
+@final
+@property
+def retry_policy(self) -> Retrying:
+return self._retrying
+@final
+@property
+@override
+def given(self) -> Self:
+return self
+@final
+@property
+@override
+def when(self) -> Self:
+return self
+@final
+@property
+@override
+def then(self) -> Self:
+return self
+@final
+@property
+@override
+def and_(self) -> Self:
+return self
+@final
+@property
+@override
+def with_(self) -> Self:
+return self
+@final
+@property
+def nothing(self) -> Self:
+pass
+return self
+def configuration(self, configuration: TConfiguration) -> Self:
+pass
+self._configuration = configuration
+return self
+def set[T: Valid](self, field_name: str, field_value: T) -> T:
+pass
+if field_name not in self.__class__.__annotations__:
+raise AttributeError(f'{field_name} is not a valid attribute of {self.__class__.__name__}.')
+setattr(self, field_name, valid(field_value))
+return field_value
+@final
+def step(self, *args: Any) -> Self:
+pass
+return self
+@final
+def tracing(self, value: Any) -> Self:
+pass
+self.log.debug(f'=== {value}')
+return self
+@final
+@traced
+def waiting(self, duration: timedelta=timedelta(seconds=0)) -> Self:
+pass
+sleep_for(duration)
+return self
+@final
+@traced
+def failing(self, exception: Exception) -> Self:
+pass
+raise exception
+@final
+@traced
+def repeating(self, range: range, step: Callable[[int], Self]) -> Self:
+pass
+seq(range).for_each(step)
+return self
+@final
+@traced
+def safely(self, step: Callable[[], Self]) -> Self:
+pass
+return safely(lambda: step()).value_or(self)
+@final
+def retrying(self, step: Callable[[], Self]) -> Self:
+pass
+return self._retrying(step)
+@final
+def eventually_assert_that[T](self, supplier: Supplier[T], by_rule: Matcher[T]) -> Self:
+pass
+return self._retrying(lambda: self._assert_that(supplier(), by_rule))
+@final
+@traced
+def it_works(self, matcher: Matcher[bool]) -> Self:
+pass
+assert_that(True, matcher)
+return self
+@final
+def _assert_that[T](self, value: T, by_rule: Matcher[T]) -> Self:
+pass
+assert_that(value, by_rule)
+return self
+
+================================================================================
+qa-pytest-commons/tests/bdd_scenario_tests.py:
+import random
+from datetime import timedelta
+from typing import final
+from hamcrest import is_
+import pytest
+import tenacity
+from qa_testing_utils.logger import *
+from qa_pytest_commons.abstract_tests_base import *
+from qa_testing_utils.exceptions import *
+from qa_pytest_commons.generic_steps import *
+@logger
+@final
+class BddScenarioTests(AbstractTestsBase[GenericSteps[BaseConfiguration], BaseConfiguration]):
+_steps_type = GenericSteps
+def should_work(self):
+self.steps.given.nothing.when.waiting(timedelta(seconds=1)).then.it_works(is_(True))
+def should_fail(self):
+with pytest.raises(TestException):
+self.steps.given.nothing.when.failing(TestException('just failing'))
+def should_swallow_exception(self):
+self.steps.given.nothing.when.safely(lambda: self.steps.when.failing(TestException('boom'))).then.it_works(is_(True))
+def should_retry(self):
+with pytest.raises(tenacity.RetryError):
+self.steps.given.nothing.when.retrying(lambda: self.steps.when.failing(TestException('boom')))
+def should_repeat(self):
+self.steps.given.nothing.when.repeating(range(1, 4), lambda rep: self.steps.when.waiting(timedelta(seconds=rep))).then.it_works(is_(True))
+@pytest.mark.flaky
+def should_eventually_work(self):
+def do_something_unreliable() -> str:
+if random.randint(0, 10) > 2:
+raise TestException('failed')
+else:
+return 'ok'
+self.steps.given.nothing.then.eventually_assert_that(lambda: do_something_unreliable(), is_('ok'))
+
+================================================================================
+qa-pytest-examples/.pdm-build/src/qa_pytest_examples/__init__.py:
+__version__ = '0.0.6'
+
+================================================================================
+qa-pytest-examples/conftest.py:
+import inspect
+import logging.config
+from pathlib import Path
+import sys
+from typing import Callable, Optional
+import pytest
+MIN_PYTHON_VERSION = (3, 13)
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+if sys.version_info < MIN_PYTHON_VERSION:
+raise pytest.UsageError(f'Python version must be {MIN_PYTHON_VERSION} or higher for these tests.')
+logging.config.fileConfig(Path(__file__).parent / 'logging.ini')
+def pytest_html_report_title(report) -> None:
+report.title = 'Tests Report'
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+if call.when == 'call':
+item._report_sections.append(('call', 'body', get_test_body(item)))
+def get_test_body(item: pytest.Item) -> str:
+function: Optional[Callable[..., None]] = getattr(item, 'function', None)
+if function is None:
+return 'No function found for this test item.'
+try:
+return inspect.getsource(function)
+except Exception as e:
+return f'Could not get source code: {str(e)}'
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/model/credentials.py:
+from dataclasses import dataclass
+@dataclass
+class Credentials:
+username: str
+password: str
+@classmethod
+def from_(cls, colon_separated: str):
+return cls(*colon_separated.split(':'))
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/model/swagger_petstore_credentials.py:
+from dataclasses import dataclass
+from qa_pytest_examples.model.credentials import Credentials
+@dataclass
+class SwaggerPetstoreCredentials(Credentials):
+pass
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/model/swagger_petstore_pet.py:
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Iterator
+from uuid import uuid4
+from requests import Response
+from qa_testing_utils.string_utils import to_string
+@dataclass(eq=True, frozen=True)
+@to_string()
+class SwaggerPetstorePet:
+name: str
+status: str
+@staticmethod
+def random() -> SwaggerPetstorePet:
+return SwaggerPetstorePet(name=str(uuid4()), status='available')
+@staticmethod
+def from_(response: Response) -> Iterator[SwaggerPetstorePet]:
+return (SwaggerPetstorePet(name=pet['name'], status=pet['status']) for pet in response.json() if 'name' in pet and 'status' in pet)
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/model/terminalx_credentials.py:
+from dataclasses import dataclass
+from qa_pytest_examples.model.credentials import Credentials
+@dataclass
+class TerminalXCredentials(Credentials):
+pass
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/model/terminalx_user.py:
+from dataclasses import dataclass
+from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
+@dataclass(frozen=True)
+class TerminalXUser:
+credentials: TerminalXCredentials
+name: str
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/swagger_petstore_configuration.py:
+from pathlib import Path
+from qa_pytest_rest.rest_configuration import RestConfiguration
+class SwaggerPetstoreConfiguration(RestConfiguration):
+def __init__(self, path: Path=Path('qa-pytest-examples/resources/swagger-petstore-default-config.ini')):
+super().__init__(path)
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/swagger_petstore_steps.py:
+from dataclasses import asdict
+from typing import Iterator, Self, final
+from requests import Request
+from hamcrest.core.matcher import Matcher
+import requests
+from qa_pytest_examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
+from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
+from qa_pytest_rest.rest_steps import HttpMethod, RestSteps
+from qa_testing_utils.logger import traced
+from qa_testing_utils.matchers import adapted_object
+@final
+class SwaggerPetstoreSteps(RestSteps[SwaggerPetstoreConfiguration]):
+def swagger_petstore(self, client: requests.Session):
+self._rest_session = client
+return self
+@traced
+def adding(self, pet: SwaggerPetstorePet) -> Self:
+return self.invoking(Request(method=HttpMethod.POST, url=self.configured.endpoint_url(path='pet'), json=asdict(pet)))
+@traced
+def the_available_pets(self, by_rule: Matcher[Iterator[SwaggerPetstorePet]]) -> Self:
+return self.the_invocation(Request(method=HttpMethod.GET, url=self.configured.endpoint_url(path='pet/findByStatus'), params={'status': 'available'}), adapted_object(lambda response: SwaggerPetstorePet.from_(response), by_rule))
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/terminalx_configuration.py:
+from pathlib import Path
+from typing import List, final
+from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
+from qa_pytest_examples.model.terminalx_user import TerminalXUser
+from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+class TerminalXConfiguration(SeleniumConfiguration):
+def __init__(self, path: Path=Path('qa-pytest-examples/resources/terminalx-default-config.ini')):
+super().__init__(path)
+@property
+@final
+def users(self) -> List[TerminalXUser]:
+users_section = self.parser['users']
+return [TerminalXUser(TerminalXCredentials.from_(username_password), name=key) for key, username_password in users_section.items()]
+
+================================================================================
+qa-pytest-examples/src/qa_pytest_examples/terminalx_steps.py:
+from typing import Iterator, Self, final
+from hamcrest.core.matcher import Matcher
+from selenium.webdriver.remote.webdriver import WebDriver
+from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
+from qa_pytest_webdriver.selenium_steps import SeleniumSteps, By
+from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
+from qa_testing_utils.logger import traced
+from qa_testing_utils.matchers import adapted_iterator, adapted_object
+@final
+class TerminalXSteps(SeleniumSteps[TerminalXConfiguration]):
+def terminalx(self, driver: WebDriver) -> Self:
+self._web_driver = driver
+self._web_driver.get(self.configured.ui_url)
+return self
+def clicking_login(self) -> Self:
+return self.clicking(By.xpath("//div[contains(text(), 'התחברות')]"))
+def clicking_search(self) -> Self:
+return self.clicking(By.xpath("//button[@data-test-id='qa-header-search-button']"))
+def submitting_login(self) -> Self:
+return self.clicking(By.xpath("//button[contains(text(), 'התחברות')]"))
+@traced
+def logging_in_with(self, credentials: TerminalXCredentials) -> Self:
+return self.clicking_login().and_.typing(By.id('qa-login-email-input'), credentials.username).and_.typing(By.id('qa-login-password-input'), credentials.password).and_.submitting_login()
+@traced
+def the_user_logged_in(self, by_rule: Matcher[str]) -> Self:
+return self.the_element(By.xpath("//button[@data-test-id='qa-header-profile-button']/span[2]"), adapted_object(lambda element: element.text, by_rule))
+@traced
+def searching_for(self, text: str) -> Self:
+return self.typing(By.xpath("//input[@data-test-id='qa-search-box-input']"), text)
+@traced
+def the_search_hints(self, by_rule: Matcher[Iterator[str]]) -> Self:
+return self.the_elements(By.xpath("(//ul[@class='list_3tWy'])[2]/li/div/div/a"), adapted_iterator(lambda element: element.text, by_rule))
+
+================================================================================
+qa-pytest-examples/tests/swagger_petstore_tests.py:
+from hamcrest import is_
+import pytest
+from qa_pytest_examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
+from qa_pytest_examples.swagger_petstore_steps import SwaggerPetstoreSteps
+from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
+from qa_pytest_rest.rest_tests import RestTests
+from qa_testing_utils.matchers import traced, yields_item
+@pytest.mark.external
+class SwaggerPetstoreTests(RestTests[SwaggerPetstoreSteps, SwaggerPetstoreConfiguration]):
+_steps_type = SwaggerPetstoreSteps
+_configuration = SwaggerPetstoreConfiguration()
+def should_add(self):
+random_pet = SwaggerPetstorePet.random()
+self.steps.given.configuration(self._configuration).and_.swagger_petstore(self._rest_session).when.adding(random_pet).then.the_available_pets(yields_item(traced(is_(random_pet))))
+
+================================================================================
+qa-pytest-examples/tests/terminalx_tests.py:
+import random
+from hamcrest import is_
+import pytest
+from qa_pytest_examples.model.terminalx_user import TerminalXUser
+from qa_pytest_webdriver.selenium_tests import SeleniumTests
+from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
+from qa_testing_utils.matchers import contains_string_ignoring_case, traced, yields_item
+from qa_pytest_examples.terminalx_steps import TerminalXSteps
+@pytest.mark.external
+@pytest.mark.selenium
+class TerminalXTests(SeleniumTests[TerminalXSteps, TerminalXConfiguration]):
+_steps_type = TerminalXSteps
+_configuration = TerminalXConfiguration()
+def login_section(self, user: TerminalXUser) -> TerminalXSteps:
+return self.steps.given.configuration(self._configuration).and_.terminalx(self._web_driver).when.logging_in_with(user.credentials).then.the_user_logged_in(is_(user.name))
+def should_login(self):
+self.login_section(random.choice(self._configuration.users))
+def should_find(self):
+self.login_section(random.choice(self._configuration.users)).when.clicking_search()
+for word in ['hello', 'kitty']:
+self.steps.when.searching_for(word).then.the_search_hints(yields_item(traced(contains_string_ignoring_case(word))))
+
+================================================================================
+qa-pytest-rest/conftest.py:
+import inspect
+import logging.config
+from pathlib import Path
+import sys
+from typing import Callable, Optional
+import pytest
+MIN_PYTHON_VERSION = (3, 13)
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+if sys.version_info < MIN_PYTHON_VERSION:
+raise pytest.UsageError(f'Python version must be {MIN_PYTHON_VERSION} or higher for these tests.')
+logging.config.fileConfig(Path(__file__).parent / 'logging.ini')
+def pytest_html_report_title(report) -> None:
+report.title = 'Tests Report'
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+if call.when == 'call':
+item._report_sections.append(('call', 'body', get_test_body(item)))
+def get_test_body(item: pytest.Item) -> str:
+function: Optional[Callable[..., None]] = getattr(item, 'function', None)
+if function is None:
+return 'No function found for this test item.'
+try:
+return inspect.getsource(function)
+except Exception as e:
+return f'Could not get source code: {str(e)}'
+
+================================================================================
+qa-pytest-rest/src/qa_pytest_rest/rest_configuration.py:
+from functools import cached_property
+from typing import final
+from urllib.parse import urljoin
+from qa_pytest_commons.base_configuration import BaseConfiguration
+from qa_testing_utils.string_utils import EMPTY
+class RestConfiguration(BaseConfiguration):
+@final
+@cached_property
+def endpoint_base(self) -> str:
+return self.parser['endpoint']['base']
+def endpoint_url(self, path: str=EMPTY) -> str:
+return urljoin(self.endpoint_base, path)
+
+================================================================================
+qa-pytest-rest/src/qa_pytest_rest/rest_steps.py:
+from enum import Enum
+from typing import Self, final
+from hamcrest import is_
+import requests
+from requests import Request, Response
+from qa_pytest_rest.rest_configuration import RestConfiguration
+from qa_pytest_commons.generic_steps import GenericSteps
+from qa_testing_utils.logger import traced
+from hamcrest.core.matcher import Matcher
+class HttpMethod(str, Enum):
+GET = 'GET'
+POST = 'POST'
+PUT = 'PUT'
+DELETE = 'DELETE'
+PATCH = 'PATCH'
+class RestSteps[TConfiguration: RestConfiguration](GenericSteps[TConfiguration]):
+_rest_session: requests.Session
+@final
+def _invoke(self, request: Request) -> Response:
+return self._rest_session.send(self._rest_session.prepare_request(request))
+@traced
+@final
+def invoking(self, request: Request) -> Self:
+return self.eventually_assert_that(lambda: self._invoke(request).ok, is_(True))
+@traced
+@final
+def the_invocation(self, request: Request, by_rule: Matcher[Response]) -> Self:
+return self.eventually_assert_that(lambda: self._invoke(request), by_rule)
+
+================================================================================
+qa-pytest-rest/src/qa_pytest_rest/rest_tests.py:
+from typing import Any, Generic, TypeVar, override
+from qa_pytest_rest.rest_configuration import RestConfiguration
+from qa_pytest_rest.rest_steps import RestSteps
+from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+import requests
+TConfiguration = TypeVar('TConfiguration', bound=RestConfiguration)
+TSteps = TypeVar('TSteps', bound=RestSteps[Any])
+class RestTests(Generic[TSteps, TConfiguration], AbstractTestsBase[TSteps, TConfiguration]):
+_rest_session: requests.Session
+@override
+def setup_method(self):
+super().setup_method()
+self._rest_session = requests.Session()
+@override
+def teardown_method(self):
+try:
+self._rest_session.close()
+finally:
+super().teardown_method()
+
+================================================================================
+qa-pytest-webdriver/conftest.py:
+import inspect
+import logging.config
+from pathlib import Path
+import sys
+from typing import Callable, Optional
+import pytest
+MIN_PYTHON_VERSION = (3, 13)
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+if sys.version_info < MIN_PYTHON_VERSION:
+raise pytest.UsageError(f'Python version must be {MIN_PYTHON_VERSION} or higher for these tests.')
+logging.config.fileConfig(Path(__file__).parent / 'logging.ini')
+def pytest_html_report_title(report) -> None:
+report.title = 'Tests Report'
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+if call.when == 'call':
+item._report_sections.append(('call', 'body', get_test_body(item)))
+def get_test_body(item: pytest.Item) -> str:
+function: Optional[Callable[..., None]] = getattr(item, 'function', None)
+if function is None:
+return 'No function found for this test item.'
+try:
+return inspect.getsource(function)
+except Exception as e:
+return f'Could not get source code: {str(e)}'
+
+================================================================================
+qa-pytest-webdriver/src/qa_pytest_webdriver/selenium_configuration.py:
+from functools import cached_property
+from typing import final
+from qa_pytest_commons.base_configuration import BaseConfiguration
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+class SeleniumConfiguration(BaseConfiguration):
+@cached_property
+@final
+def ui_url(self) -> str:
+return self.parser['ui']['url']
+@cached_property
+@final
+def web_driver_service(self) -> Service:
+return Service(ChromeDriverManager().install())
+
+================================================================================
+qa-pytest-webdriver/src/qa_pytest_webdriver/selenium_steps.py:
+from dataclasses import dataclass
+from typing import Callable, Iterator, List, Optional, Protocol, Self, Tuple, Union, final, overload
+from hamcrest.core.matcher import Matcher
+from selenium.webdriver.common.by import By as _By
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
+from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_pytest_commons.generic_steps import GenericSteps
+from qa_testing_utils.logger import traced
+class SearchContext(Protocol):
+def find_element(self, by: str, value: Optional[str]) -> WebElement:
+...
+def find_elements(self, by: str, value: Optional[str]) -> List[WebElement]:
+...
+@dataclass(frozen=True)
+class Locator:
+by: str
+value: str
+def as_tuple(self) -> Tuple[str, str]:
+return (self.by, self.value)
+class By:
+@staticmethod
+def id(value: str) -> Locator:
+return Locator(_By.ID, value)
+@staticmethod
+def xpath(value: str) -> Locator:
+return Locator(_By.XPATH, value)
+@staticmethod
+def link_text(value: str) -> Locator:
+return Locator(_By.LINK_TEXT, value)
+@staticmethod
+def partial_link_text(value: str) -> Locator:
+return Locator(_By.PARTIAL_LINK_TEXT, value)
+@staticmethod
+def name(value: str) -> Locator:
+return Locator(_By.NAME, value)
+@staticmethod
+def tag_name(value: str) -> Locator:
+return Locator(_By.TAG_NAME, value)
+@staticmethod
+def class_name(value: str) -> Locator:
+return Locator(_By.CLASS_NAME, value)
+@staticmethod
+def css_selector(value: str) -> Locator:
+return Locator(_By.CSS_SELECTOR, value)
+ElementSupplier = Callable[[], WebElement]
+LocatorOrSupplier = Union[Locator, ElementSupplier]
+class SeleniumSteps[TConfiguration: SeleniumConfiguration](GenericSteps[TConfiguration]):
+_web_driver: WebDriver
+@final
+@traced
+def clicking_once(self, element_supplier: ElementSupplier) -> Self:
+element_supplier().click()
+return self
+@overload
+def clicking(self, element: Locator) -> Self:
+...
+@overload
+def clicking(self, element: ElementSupplier) -> Self:
+...
+@final
+def clicking(self, element: LocatorOrSupplier) -> Self:
+return self.retrying(lambda: self.clicking_once(self._resolve(element)))
+@final
+@traced
+def typing_once(self, element_supplier: ElementSupplier, text: str) -> Self:
+element = element_supplier()
+element.clear()
+element.send_keys(text)
+return self
+@overload
+def typing(self, element: Locator, text: str) -> Self:
+...
+@overload
+def typing(self, element: ElementSupplier, text: str) -> Self:
+...
+@final
+def typing(self, element: LocatorOrSupplier, text: str) -> Self:
+return self.retrying(lambda: self.typing_once(self._resolve(element), text))
+@final
+def the_element(self, locator: Locator, by_rule: Matcher[WebElement], context: Optional[SearchContext]=None) -> Self:
+return self.eventually_assert_that(lambda: self._element(locator, context), by_rule)
+@final
+def the_elements(self, locator: Locator, by_rule: Matcher[Iterator[WebElement]], context: Optional[SearchContext]=None) -> Self:
+return self.eventually_assert_that(lambda: self._elements(locator, context), by_rule)
+@final
+@traced
+def _elements(self, locator: Locator, context: Optional[SearchContext]=None) -> Iterator[WebElement]:
+return iter((context or self._web_driver).find_elements(*locator.as_tuple()))
+@final
+@traced
+def _element(self, locator: Locator, context: Optional[SearchContext]=None) -> WebElement:
+return self._scroll_into_view((context or self._web_driver).find_element(*locator.as_tuple()))
+def _scroll_into_view(self, element: WebElement) -> WebElement:
+self._web_driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+return element
+@final
+def _resolve(self, element: LocatorOrSupplier) -> ElementSupplier:
+if isinstance(element, Locator):
+return lambda: self._element(element)
+return element
+
+================================================================================
+qa-pytest-webdriver/src/qa_pytest_webdriver/selenium_tests.py:
+from typing import Any, Generic, TypeVar, override
+from selenium.webdriver import Chrome
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.chrome.options import Options
+from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_pytest_webdriver.selenium_steps import SeleniumSteps
+from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+TConfiguration = TypeVar('TConfiguration', bound=SeleniumConfiguration)
+TSteps = TypeVar('TSteps', bound=SeleniumSteps[Any])
+class SeleniumTests(Generic[TSteps, TConfiguration], AbstractTestsBase[TSteps, TConfiguration]):
+_web_driver: WebDriver
+@override
+def setup_method(self):
+super().setup_method()
+options = Options()
+options.add_argument('--start-maximized')
+self._web_driver = Chrome(options, self._configuration.web_driver_service)
+@override
+def teardown_method(self):
+try:
+self._web_driver.quit()
+finally:
+super().teardown_method()
+
+================================================================================
+qa-testing-utils/conftest.py:
+import inspect
+import logging.config
+from pathlib import Path
+import sys
+from typing import Callable, Optional
+import pytest
+MIN_PYTHON_VERSION = (3, 13)
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+if sys.version_info < MIN_PYTHON_VERSION:
+raise pytest.UsageError(f'Python version must be {MIN_PYTHON_VERSION} or higher for these tests.')
+logging.config.fileConfig(Path(__file__).parent / 'logging.ini')
+def pytest_html_report_title(report) -> None:
+report.title = 'Tests Report'
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+if call.when == 'call':
+item._report_sections.append(('call', 'body', get_test_body(item)))
+def get_test_body(item: pytest.Item) -> str:
+function: Optional[Callable[..., None]] = getattr(item, 'function', None)
+if function is None:
+return 'No function found for this test item.'
+try:
+return inspect.getsource(function)
+except Exception as e:
+return f'Could not get source code: {str(e)}'
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/exception_utils.py:
+import functools
+import logging
+from typing import Any, Callable
+from returns.maybe import Maybe, Nothing, Some
+from qa_testing_utils.object_utils import Supplier
+def safely[T](supplier: Supplier[T]) -> Maybe[T]:
+pass
+try:
+result = supplier()
+return Some(result)
+except Exception as e:
+logging.exception(f'Exception occurred: {e}')
+return Nothing
+def swallow(func: Callable[..., Any]) -> Callable[..., Any]:
+pass
+@functools.wraps(func)
+def wrapper(*args: Any, **kwargs: Any) -> Any:
+return safely(lambda: func(*args, **kwargs)).value_or(None)
+return wrapper
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/exceptions.py:
+class TestException(Exception):
+pass
+pass
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/file_utils.py:
+import csv
+from io import DEFAULT_BUFFER_SIZE, BufferedReader, RawIOBase
+from lzma import LZMADecompressor
+from pathlib import Path
+from tarfile import TarInfo, open
+from typing import BinaryIO, Iterable, Iterator, Tuple, final, override
+from zlib import crc32
+from more_itertools import peekable
+from qa_testing_utils.logger import *
+from qa_testing_utils.object_utils import *
+from qa_testing_utils.string_utils import *
+LAUNCHING_DIR = Path.cwd()
+@final
+class IterableReader(RawIOBase, LoggerMixin, ImmutableMixin):
+pass
+def __init__(self, chunks: Iterable[bytes]):
+self._chunks = iter(chunks)
+self._accumulated_buffer = bytearray()
+@override
+def readable(self) -> bool:
+return True
+@override
+def readinto(self, output_buffer: memoryview) -> int:
+while len(self._accumulated_buffer) < len(output_buffer) and (chunk := next(self._chunks, None)) is not None:
+self.log.debug(f'buffered chunk with length={len(chunk)}')
+self._accumulated_buffer.extend(chunk)
+consumed_bytes = min(len(self._accumulated_buffer), len(output_buffer))
+output_buffer[:consumed_bytes] = self._accumulated_buffer[:consumed_bytes]
+del self._accumulated_buffer[:consumed_bytes]
+self.log.debug(f'consumed {consumed_bytes} bytes')
+return consumed_bytes
+@staticmethod
+def from_(chunks: Iterable[bytes], buffer_size: int=DEFAULT_BUFFER_SIZE) -> BinaryIO:
+pass
+return BufferedReader(IterableReader(chunks), buffer_size)
+def stream_file(file_path: Path, chunk_size: int=DEFAULT_BUFFER_SIZE) -> Iterator[bytes]:
+pass
+with file_path.open('rb') as f:
+yield from iter(lambda: f.read(chunk_size), EMPTY_BYTE_STRING)
+def read_lines(byte_stream: Iterable[bytes], encoding: str=UTF_8, eol: str=LF) -> Iterator[str]:
+pass
+has_content = False
+buffer = bytearray()
+eol_bytes = eol.encode(encoding)
+for chunk in byte_stream:
+print(DOT, end=SPACE)
+has_content = True
+buffer.extend(chunk)
+*lines, buffer = buffer.split(eol_bytes)
+trace(f'streaming {len(lines)} lines; leftover {len(buffer)} chars')
+yield from (line.decode(encoding) for line in lines)
+if buffer:
+yield buffer.decode(encoding)
+if not has_content:
+trace('no lines')
+def decompress_xz_stream(compressed_chunks: Iterable[bytes]) -> Iterator[bytes]:
+pass
+decompressor = LZMADecompressor()
+return map(decompressor.decompress, compressed_chunks)
+def extract_files_from_tar(tar_chunks: Iterable[bytes]) -> Iterator[Tuple[TarInfo, bytes]]:
+pass
+with open(fileobj=IterableReader.from_(tar_chunks), mode='r|*') as tar:
+for member in tar:
+if member.isfile():
+extracted_file = tar.extractfile(member)
+if extracted_file:
+yield (member, extracted_file.read())
+def crc32_of(file: BinaryIO, chunk_size: int=DEFAULT_BUFFER_SIZE) -> int:
+pass
+crc_value = 0
+while (chunk := file.read(chunk_size)):
+crc_value = crc32(chunk, crc_value)
+return crc_value & 4294967295
+def write_csv(file_path: Path, data_stream: Iterable[dict]):
+pass
+stream = peekable(data_stream)
+with file_path.open(mode='w', newline='') as csv_file:
+writer = csv.DictWriter(csv_file, fieldnames=list(stream.peek().keys()))
+writer.writeheader()
+writer.writerows(stream)
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/logger.py:
+import inspect
+import logging
+from functools import cached_property, wraps
+from typing import Callable, ParamSpec, TypeVar, cast, final
+import allure
+from qa_testing_utils.string_utils import EMPTY, LF
+def trace[T](value: T) -> T:
+pass
+frame = inspect.currentframe()
+try:
+if frame is not None:
+caller_frame = frame.f_back
+if caller_frame is not None:
+caller_module = inspect.getmodule(caller_frame)
+logger_name = caller_module.__name__ if caller_module else '__main__'
+logger = logging.getLogger(logger_name)
+logger.debug(f'=== {value}')
+else:
+logging.getLogger(__name__).debug(f'=== {value}')
+else:
+logging.getLogger(__name__).debug(f'=== {value}')
+finally:
+del frame
+return value
+def logger[T: type](cls: T) -> T:
+pass
+cls._logger = logging.getLogger(cls.__name__)
+@property
+def log(self: T) -> logging.Logger:
+return cast(logging.Logger, getattr(self, '_logger', None))
+cls.log = log
+return cls
+class LoggerMixin:
+pass
+@final
+@cached_property
+def log(self) -> logging.Logger:
+return logging.getLogger(self.__class__.__name__)
+@final
+def trace[T](self, value: T) -> T:
+pass
+self.log.debug(f'=== {value}')
+return value
+P = ParamSpec('P')
+R = TypeVar('R')
+def traced(func: Callable[P, R]) -> Callable[P, R]:
+pass
+@wraps(func)
+def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+signature = inspect.signature(func)
+parameters = list(signature.parameters.keys())
+if parameters and parameters[0] == 'self' and (len(args) > 0):
+instance = args[0]
+logger = logging.getLogger(f'{instance.__class__.__name__}')
+logger.debug(f">>> {func.__name__} {', '.join([str(arg) for arg in args[1:]])} {(LF.join((f'{key}={str(value)}' for key, value in kwargs.items())) if kwargs else EMPTY)}")
+with allure.step(f"{func.__name__} {', '.join([str(arg) for arg in args[1:]])}"):
+result = func(*args, **kwargs)
+if result == instance:
+logger.debug(f'<<< {func.__name__}')
+else:
+logger.debug(f'<<< {func.__name__} {result}')
+return result
+else:
+logger = logging.getLogger(func.__name__)
+logger.debug(f'>>> {func.__name__} {args} {kwargs}')
+result = func(*args, **kwargs)
+logger.debug(f'<<< {func.__name__} {result}')
+return result
+return wrapper
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/matchers.py:
+from datetime import date, datetime
+from typing import Any, Callable, Iterable, Iterator, List, Optional, Sequence, Union, cast, final, override
+from hamcrest.core.base_matcher import BaseMatcher
+from hamcrest.core.description import Description
+from hamcrest.core.helpers.wrap_matcher import wrap_matcher
+from hamcrest.core.matcher import Matcher
+from qa_testing_utils.logger import LoggerMixin
+class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
+pass
+def __init__(self, matcher: Matcher[T]) -> None:
+self._matcher = matcher
+def _matches(self, item: Any) -> bool:
+result = self._matcher.matches(item)
+self.log.debug(f'{item!r} -> {result}')
+return result
+def describe_to(self, description: Description) -> None:
+self._matcher.describe_to(description)
+def traced[T](matcher: Matcher[T]) -> TracingMatcher[T]:
+pass
+return TracingMatcher(matcher)
+class ContainsStringIgnoringCase(BaseMatcher[str]):
+def __init__(self, substring: str) -> None:
+self.substring: str = substring.lower()
+def _matches(self, item: Any) -> bool:
+if not isinstance(item, str):
+return False
+return self.substring in item.lower()
+def describe_to(self, description: Description) -> None:
+description.append_text(f"a string containing (case-insensitive) '{self.substring}'")
+def contains_string_ignoring_case(substring: str) -> ContainsStringIgnoringCase:
+return ContainsStringIgnoringCase(substring)
+@final
+class IsIteratorYielding[T](BaseMatcher[Iterator[T]]):
+pass
+def __init__(self, element_matcher: Matcher[T]) -> None:
+self.element_matcher = element_matcher
+@override
+def _matches(self, item: Iterable[T]) -> bool:
+try:
+for element in item:
+if self.element_matcher.matches(element):
+return True
+except TypeError:
+pass
+return False
+@override
+def describe_to(self, description: Description) -> None:
+description.append_text('a stream containing ').append_description_of(self.element_matcher)
+@final
+class IsStreamContainingEvery[T](BaseMatcher[Iterator[T]]):
+pass
+def __init__(self, element_matcher: Matcher[T]) -> None:
+self.element_matcher = element_matcher
+@override
+def _matches(self, item: Iterable[T]) -> bool:
+try:
+for element in item:
+if not self.element_matcher.matches(element):
+return False
+return True
+except TypeError:
+pass
+return False
+@override
+def describe_to(self, description: Description) -> None:
+description.append_text('a stream where every item is ').append_description_of(self.element_matcher)
+@final
+class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
+pass
+def __init__(self, element_matchers: List[Matcher[T]]) -> None:
+self.element_matchers = element_matchers
+@override
+def _matches(self, item: Iterable[T]) -> bool:
+unmatched_matchers = set(self.element_matchers)
+try:
+for element in item:
+unmatched_matchers = {m for m in unmatched_matchers if not m.matches(element)}
+if not unmatched_matchers:
+return True
+except TypeError:
+pass
+return False
+@override
+def describe_to(self, description: Description) -> None:
+description.append_text('a stream containing each of: ')
+for index, matcher in enumerate(self.element_matchers):
+if index > 0:
+description.append_text(', ')
+description.append_description_of(matcher)
+DateOrDateTime = Union[date, datetime]
+class IsWithinDates(BaseMatcher[DateOrDateTime]):
+def __init__(self, start_date: Optional[DateOrDateTime], end_date: Optional[DateOrDateTime]) -> None:
+self.start_date = start_date
+self.end_date = end_date
+def _matches(self, item: Optional[DateOrDateTime]) -> bool:
+if not isinstance(item, (date, datetime)):
+return False
+if isinstance(item, datetime):
+item = item.date() if isinstance(self.start_date, date) or isinstance(self.end_date, date) else item
+elif isinstance(item, date) and (isinstance(self.start_date, datetime) or isinstance(self.end_date, datetime)):
+item = datetime.combine(item, datetime.min.time())
+start = self.start_date
+if start is not None:
+start = start.date() if isinstance(start, datetime) and isinstance(item, date) else start
+end = self.end_date
+if end is not None:
+end = end.date() if isinstance(end, datetime) and isinstance(item, date) else end
+if start is None and end is not None:
+return item <= end
+elif start is not None and end is None:
+return item >= start
+elif start is not None and end is not None:
+return start <= item <= end
+return False
+def describe_to(self, description: Description) -> None:
+if self.start_date is None:
+description.append_text(f'a date before {self.end_date}')
+elif self.end_date is None:
+description.append_text(f'a date after {self.start_date}')
+else:
+description.append_text(f'a date within {self.start_date} and {self.end_date}')
+def within_dates(start_date: Optional[DateOrDateTime], end_date: Optional[DateOrDateTime]) -> IsWithinDates:
+return IsWithinDates(start_date, end_date)
+def yields_item[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
+pass
+return IsIteratorYielding(wrap_matcher(match))
+def yields_every[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
+pass
+return IsStreamContainingEvery(wrap_matcher(match))
+def yields_items[T](matches: Iterable[Union[Matcher[T], T]]) -> Matcher[Iterator[T]]:
+pass
+wrapped_matchers = [wrap_matcher(match) for match in matches]
+return IsIteratorYieldingAll(wrapped_matchers)
+def adapted_object[T, R](converter: Callable[[T], R], matcher: Matcher[R]) -> Matcher[T]:
+pass
+@final
+class AdaptedMatcher(BaseMatcher[T]):
+@override
+def _matches(self, item: T) -> bool:
+return False if item is None else matcher.matches(converter(item))
+@override
+def describe_to(self, description: Description) -> None:
+description.append_description_of(matcher)
+return AdaptedMatcher()
+def adapted_sequence[T, R](converter: Callable[[T], R], matcher: Matcher[Sequence[R]]) -> Matcher[Sequence[T]]:
+pass
+@final
+class AdaptedMatcher(BaseMatcher[Sequence[T]]):
+@override
+def _matches(self, item: Sequence[T]) -> bool:
+return matcher.matches([converter(x) for x in item])
+@override
+def describe_to(self, description: Description) -> None:
+description.append_description_of(matcher)
+return AdaptedMatcher()
+def adapted_iterator[T, R](converter: Callable[[T], R], matcher: Matcher[Iterator[R]]) -> Matcher[Iterator[T]]:
+pass
+@final
+class AdaptedMatcher(BaseMatcher[Iterator[T]]):
+@override
+def _matches(self, item: Iterable[T]) -> bool:
+return matcher.matches(map(converter, item))
+@override
+def describe_to(self, description: Description) -> None:
+description.append_description_of(matcher)
+return AdaptedMatcher()
+def match_as[T](matcher: Matcher[object]) -> Matcher[T]:
+pass
+return cast(Matcher[T], matcher)
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/object_utils.py:
+import threading
+from dataclasses import asdict, fields, is_dataclass, replace
+from enum import Enum
+from typing import Any, Callable, Dict, Protocol, Type, final
+type Supplier[T] = Callable[[], T]
+type Predicate[T] = Callable[[T], bool]
+class Valid(Protocol):
+pass
+def is_valid(self) -> bool:
+pass
+...
+class ImmutableMixin:
+pass
+def __setattr__(self, key: str, value: Any) -> None:
+if hasattr(self, key):
+raise AttributeError(f"Can't modify attribute '{key}' after initialization")
+super().__setattr__(key, value)
+class WithMixin:
+pass
+@final
+def with_[T: WithMixin](self: T, **changes: Any) -> T:
+if is_dataclass(self):
+return replace(self, **changes)
+duplicated_object = self.__class__(**self.__dict__)
+for key, value in changes.items():
+current_attr = getattr(self, key, None)
+if isinstance(current_attr, Enum):
+value = current_attr.__class__(value)
+setattr(duplicated_object, key, value)
+return duplicated_object
+class ToDictMixin:
+def to_dict(self) -> Dict[str, Any]:
+pass
+def convert(value):
+if isinstance(value, ToDictMixin):
+return value.to_dict()
+elif isinstance(value, list):
+return [convert(v) for v in value]
+elif isinstance(value, dict):
+return {k: convert(v) for k, v in value.items()}
+return value
+if not is_dataclass(self):
+raise TypeError('not a dataclass instance')
+return {key: convert(value) for key, value in asdict(self).items()}
+def flatten(self, prefix: str='') -> Dict[str, Any]:
+pass
+flat_dict = {}
+def flatten_value(key: str, value: Any):
+if isinstance(value, ToDictMixin):
+nested_flat = value.flatten(prefix=f'{key}_')
+flat_dict.update(nested_flat)
+elif isinstance(value, list):
+for idx, item in enumerate(value):
+flat_dict[f'{key}[{idx}]'] = item
+elif isinstance(value, dict):
+for sub_key, sub_val in value.items():
+flat_dict[f'{key}_{sub_key}'] = sub_val
+else:
+flat_dict[key] = value
+if not is_dataclass(self):
+raise TypeError('not a dataclass instance')
+for field in fields(self):
+value = getattr(self, field.name)
+flatten_value(f'{prefix}{field.name}', value)
+return flat_dict
+class SingletonMeta(type):
+pass
+_instances: Dict[Type['SingletonBase'], 'SingletonBase'] = {}
+_lock: threading.Lock = threading.Lock()
+def __call__(cls, *args: Any, **kwargs: Any) -> 'SingletonBase':
+with SingletonMeta._lock:
+if cls not in SingletonMeta._instances:
+instance = super().__call__(*args, **kwargs)
+SingletonMeta._instances[cls] = instance
+return SingletonMeta._instances[cls]
+class SingletonBase(metaclass=SingletonMeta):
+pass
+pass
+class InvalidValueException(ValueError):
+pass
+def valid[T: Valid](value: T) -> T:
+pass
+if not (hasattr(value, 'is_valid') and callable(getattr(value, 'is_valid'))):
+raise TypeError(f'{value.__class__.__name__} does not conform to the Valid protocol')
+if value.is_valid():
+return value
+else:
+raise InvalidValueException(value)
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/stream_utils.py:
+from typing import Iterator
+from qa_testing_utils.object_utils import Predicate
+def process_next[T](i: Iterator[T], p: Predicate[T]) -> Iterator[T]:
+pass
+return i if p(next(i)) else iter([])
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/string_utils.py:
+from typing import Callable, Type
+from ppretty import ppretty
+EMPTY = ''
+SPACE = ' '
+DOT = '.'
+LF = '\n'
+UTF_8 = 'utf-8'
+EMPTY_BYTE_STRING = b''
+def to_string[T](indent: str='    ', depth: int=1, width: int=72, seq_length: int=15, show_protected: bool=False, show_private: bool=False, show_static: bool=False, show_properties: bool=True, show_address: bool=False, str_length: int=50) -> Callable[[Type[T]], Type[T]]:
+pass
+def decorator(cls: Type[T]) -> Type[T]:
+def __str__(self: T) -> str:
+return ppretty(self, indent=indent, depth=depth, width=width, seq_length=seq_length, show_protected=show_protected, show_private=show_private, show_static=show_static, show_properties=show_properties, show_address=show_address, str_length=str_length)
+cls.__str__ = __str__
+return cls
+return decorator
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/thread_utils.py:
+import concurrent.futures
+import time
+from datetime import timedelta
+COMMON_EXECUTOR = concurrent.futures.ThreadPoolExecutor()
+def sleep_for(duration: timedelta):
+time.sleep(duration.total_seconds())
+
+================================================================================
+qa-testing-utils/src/qa_testing_utils/tuple_utils.py:
+from dataclasses import is_dataclass, replace, fields
+from typing import Any, Self, Tuple, Type
+class FromTupleMixin:
+pass
+@classmethod
+def from_tuple(cls: Type[Self], data: Tuple[Any, ...]) -> Self:
+if is_dataclass(cls):
+cls_fields = [f.name for f in fields(cls)]
+field_values = {name: value for name, value in zip(cls_fields, data)}
+instance = cls.__new__(cls)
+if getattr(cls, '__dataclass_params__').frozen:
+return replace(instance, **field_values)
+else:
+for key, value in field_values.items():
+setattr(instance, key, value)
+instance.__init__(*data)
+return instance
+else:
+instance = cls.__new__(cls)
+for attr, value in zip(cls.__annotations__.keys(), data):
+setattr(instance, attr, value)
+instance.__init__(*data)
+return instance
+
+================================================================================
+qa-testing-utils/tests/assertion_tests.py:
+import logging
+from random import randint
+from typing import Callable
+import pytest
+from tenacity import Retrying, before_sleep_log, retry_if_exception_type, stop_after_attempt, wait_exponential
+def unstable_function():
+return randint(1, 3)
+@pytest.mark.flaky
+def should_test_unstable_function_1():
+assert unstable_function() == 1
+@pytest.mark.flaky
+def should_test_unstable_function_2():
+def assert_value():
+assert unstable_function() == 1
+Retrying(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10), retry=retry_if_exception_type(Exception), before_sleep=before_sleep_log(logging.getLogger(), logging.DEBUG))(lambda: assert_value())
+@pytest.mark.flaky
+def should_test_unstable_function_3():
+def retry_with_assertion(the_function: Callable[[], int], the_assertion: Callable[[int], bool]):
+def assert_value(the_function: Callable[[], int], the_assertion: Callable[[int], bool]):
+assert the_assertion(the_function())
+Retrying(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10), retry=retry_if_exception_type(Exception), before_sleep=before_sleep_log(logging.getLogger(), logging.DEBUG))(lambda: assert_value(the_function, the_assertion))
+retry_with_assertion(lambda: unstable_function(), lambda r: r == 1)
+
+================================================================================
+qa-testing-utils/tests/exception_utils_tests.py:
+from typing import Any
+from qa_testing_utils.exception_utils import *
+def should_swallow_exception():
+def trouble(p: Any) -> str:
+raise Exception('trouble')
+assert safely(lambda: trouble(7)).value_or('nada') == 'nada'
+
+================================================================================
+qa-testing-utils/tests/logger_tests.py:
+from functools import wraps
+from typing import Callable, ParamSpec, Self, TypeVar
+from qa_testing_utils.logger import *
+from qa_testing_utils.string_utils import *
+def should_trace():
+@to_string(show_static=True)
+class Message:
+value: str = 'hello'
+id: int = 0
+@to_string()
+class Foo(LoggerMixin):
+@traced
+def run(self, message: Message) -> Self:
+self.log.debug(f'{message}')
+return self
+Foo().run(Message())
+def should_preserve_signature():
+P = ParamSpec('P')
+R = TypeVar('R')
+def my_decorator(func: Callable[P, R]) -> Callable[P, R]:
+@wraps(func)
+def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+return func(*args, **kwargs)
+return wrapper
+@my_decorator
+def my_func(s: str):
+pass
+pass
+my_func('s')
+print(my_func.__name__)
+print(my_func.__doc__)
+
+================================================================================
+qa-testing-utils/tests/matchers_tests.py:
+from datetime import datetime
+from typing import Callable
+import attr
+import pytest
+from functional import seq
+from hamcrest import all_of, assert_that, has_item, has_property, is_
+from qa_testing_utils.string_utils import to_string
+from qa_testing_utils.matchers import *
+from qa_testing_utils.object_utils import *
+from qa_testing_utils.string_utils import *
+@to_string()
+@attr.define
+class Foo(WithMixin):
+id: int = 8
+name: str = 'kuku'
+def should_match():
+def asserter[T](actual: T, rule: Callable[[T], bool]):
+assert rule(actual)
+def is_[T](expected: T) -> Callable[[T], bool]:
+def matcher(actual: T) -> bool:
+return actual == expected
+return matcher
+def has_len(expected: int) -> Callable[[str], bool]:
+def matcher(actual: str) -> bool:
+return len(actual) == expected
+return matcher
+asserter('123456', has_len(6))
+asserter('123', is_('123'))
+asserter(Foo(), is_(Foo()))
+def should_match_properties():
+assert_that(Foo(), all_of(has_property('id', 8), has_property('name', 'kuku')))
+def should_adapt_object():
+assert_that(Foo(), adapted_object(lambda foo: foo.id, is_(8)))
+def should_have_item():
+assert_that([Foo(), Foo().with_(name='muku')], has_item(Foo().with_(name='muku')))
+def should_adapt_sequence():
+assert_that([Foo(), Foo().with_(name='muku')], adapted_sequence(lambda foo: foo.name, has_item(is_('muku'))))
+def should_match_item_in_iterator():
+assert_that(iter([Foo(), Foo().with_(name='muku')]), yields_item(Foo()))
+def should_match_items_in_iterator():
+assert_that(iter([Foo(), Foo().with_(name='muku'), Foo().with_(name='kuku')]), yields_items([Foo().with_(name='muku'), Foo()]))
+def should_match_all_in_iterator():
+assert_that(iter([Foo(), Foo().with_(name='muku'), Foo().with_(name='kuku')]), yields_every(has_property('name')))
+def should_adapt_iterator():
+assert_that(iter([Foo(), Foo().with_(name='muku')]), adapted_iterator(lambda foo: foo.name, yields_item(is_('muku'))))
+def should_adapt_stream():
+pass
+assert_that(iter(seq([Foo(), Foo().with_(name='muku'), Foo().with_(name='other')]).peek(print)), adapted_iterator(lambda foo: foo.name, yields_item(is_('muku'))))
+@pytest.mark.parametrize('test_date, start_date, end_date', [(datetime(2023, 6, 15), datetime(2023, 1, 1), datetime(2023, 12, 31)), (datetime(2023, 6, 15), None, datetime(2023, 7, 1)), (datetime(2023, 6, 15), datetime(2023, 6, 1), None), (datetime(2023, 1, 1), datetime(2023, 1, 1), datetime(2023, 12, 31)), (datetime(2023, 12, 31), datetime(2023, 1, 1), datetime(2023, 12, 31))])
+def should_match_within_dates(test_date: datetime, start_date: Union[datetime, None], end_date: Union[datetime, None]):
+assert_that(test_date, within_dates(start_date, end_date))
+@pytest.mark.parametrize('test_date, start_date, end_date', [(datetime(2022, 12, 31), datetime(2023, 1, 1), datetime(2023, 12, 31)), (datetime(2024, 1, 1), datetime(2023, 1, 1), datetime(2023, 12, 31))])
+def should_fail_not_within_dates(test_date: datetime, start_date: Union[datetime, None], end_date: Union[datetime, None]):
+with pytest.raises(AssertionError):
+assert_that(test_date, within_dates(start_date, end_date))
+
+================================================================================
+qa-testing-utils/tests/object_utils_tests.py:
+from dataclasses import FrozenInstanceError, dataclass
+from functools import cache
+import pytest
+from qa_testing_utils.object_utils import *
+def should_raise_exception():
+with pytest.raises(Exception) as e:
+raise Exception('kuku')
+assert e.value.args[0] == 'kuku'
+def should_raise_invalid_exception():
+class Foo:
+def is_valid(self) -> bool:
+return False
+foo = Foo()
+with pytest.raises(InvalidValueException) as e:
+valid(foo)
+assert e.value.args[0] == foo
+def should_enforce_immutability():
+class Foo(ImmutableMixin):
+f: int = 8
+with pytest.raises(AttributeError):
+Foo().f = 9
+def should_enforce_immutability_with_dataclass():
+@dataclass(frozen=True)
+class Foo:
+f: int = 8
+with pytest.raises(FrozenInstanceError):
+Foo().f = 9
+def should_support_immutability():
+class Status(Enum):
+DEFAULT = 0
+CHANGED = 1
+class Foo:
+_status: Status = Status.DEFAULT
+f1: str = 'foo'
+@property
+def status(self) -> Status:
+return self._status
+@status.setter
+def status(self, status: Status):
+self._status = status
+class Bar(Foo, WithMixin):
+f2 = 'bar'
+bar = Bar()
+bar_dup_with_change = bar.with_(status=Status.CHANGED, f1='foo_changed', f2='bar_changed')
+assert bar.status == Status.DEFAULT
+assert bar.f1 == 'foo'
+assert bar.f2 == 'bar'
+assert bar_dup_with_change.status == Status.CHANGED
+assert bar_dup_with_change.f1 == 'foo_changed'
+assert bar_dup_with_change.f2 == 'bar_changed'
+def should_be_singleton():
+class Base:
+def __init__(self):
+print('init')
+class Foo(Base):
+pass
+@cache
+class FooSingleton(Base):
+pass
+@cache
+class GooSingleton:
+def __init__(self, i: int):
+self.i = i
+class BarSingleton(metaclass=SingletonMeta):
+def __init__(self, i: int):
+self.i = i
+assert Foo() != Foo()
+assert FooSingleton() == FooSingleton()
+assert GooSingleton(1) == GooSingleton(1)
+assert GooSingleton(1) != GooSingleton(2)
+assert BarSingleton(1) == BarSingleton(2)
+assert BarSingleton(3).i == 1
+
+================================================================================
+qa-testing-utils/tests/self_tests.py:
+from datetime import timedelta
+import random
+from typing import Any, final
+import attr
+from hamcrest import assert_that, is_
+import pytest
+from tenacity import before_sleep_log, retry, retry_if_exception_type, stop_after_attempt, wait_fixed
+from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import *
+from qa_testing_utils.exceptions import *
+from qa_testing_utils.thread_utils import *
+@final
+class SelfTests(LoggerMixin):
+def setup_method(self, method: str):
+self.log.debug(f'before {method}')
+def teardown_method(self, method: str):
+self.log.debug(f'after {method}')
+def should_print(self):
+print('hello')
+@traced
+def should_assert_true(self):
+assert True
+@pytest.mark.xfail(reason='tests a known failing assertion')
+def should_fail(self):
+assert_that(False)
+def should_assert_equality(self):
+@attr.define
+class Foo:
+value: Any
+assert_that(Foo('something'), is_(Foo('something')))
+def should_assert_defaults(self):
+@attr.define
+class Foo:
+id: int
+mandatory: str
+name: str = attr.ib(default='kuku')
+assert_that(Foo(id=1, mandatory='present').__str__(), is_("Foo(id=1, mandatory='present', name='kuku')"))
+def should_retry(self):
+retry_policy = retry(stop=stop_after_attempt(1000), wait=wait_fixed(timedelta(milliseconds=1)), retry=retry_if_exception_type(TestException), before_sleep=before_sleep_log(self.log, logging.DEBUG))
+@retry_policy
+def do_something_unreliable():
+if random.randint(0, 10) > 5:
+raise TestException('failed')
+else:
+return 'ok'
+do_something_unreliable()
+
+================================================================================
+qa-testing-utils/tests/stream_utils_tests.py:
+from typing import Iterator
+from functional import seq
+from more_itertools import peekable
+from qa_testing_utils.stream_utils import *
+def gen() -> Iterator[int]:
+yield (-1)
+for i in range(1, 4):
+print('>>')
+yield i
+def should_stream0():
+pass
+for i in gen():
+print(i)
+def should_stream():
+pass
+seq([gen()]).flat_map(lambda gen: process_next(gen, lambda i: i == -1)).map(lambda i: str(i)).for_each(print)
+def should_not_stream():
+seq(process_next(gen(), lambda i: i == -2)).map(lambda i: str(i)).for_each(print)
+def should_collect():
+print(seq(['a', 'b', 'c']).fold_left('', lambda current, next: current + next))
+print(seq([b'\x00', b'\x01', b'\x02']).fold_left(b'', lambda current, next: current + next))
+def should_flat_map():
+class Foo:
+bars = [1, 2]
+seq([Foo(), Foo()]).flat_map(lambda foo: foo.bars).for_each(lambda bar: print(bar))
+def should_validate_all():
+assert seq([True, True, True]).all()
+def should_iterate_lazily():
+s = peekable(seq([1, 2, 3]).peek(lambda x: print(f'>>> {x}')).map(lambda x: x * 2))
+while s.peek(None) is not None:
+print(next(s))
+
+================================================================================
+qa-testing-utils/tests/string_utils_tests.py:
+from enum import Enum
+import logging
+from typing import List
+from qa_testing_utils.string_utils import *
+class Status(Enum):
+OK = 0
+@to_string(show_static=True)
+class Bar:
+name: str = 'bar'
+@to_string(show_static=True)
+class Baz:
+bar: Bar = Bar()
+@to_string(show_static=True)
+class Foo:
+baz: Baz = Baz()
+@to_string(show_static=True, depth=3)
+class Goo(Foo):
+name: str = 'goo'
+_status: Status = Status.OK
+strings: List[str] = ['abc', 'def']
+@property
+def status(self) -> Status:
+return self._status
+def should_render_object():
+logging.getLogger(__name__).debug('>>>' + str(Goo()))
+
+================================================================================
+qa-testing-utils/tests/tuple_utils_tests.py:
+import attr
+from hamcrest import assert_that, is_
+from qa_testing_utils.tuple_utils import *
+def should_assert_from_tuple():
+@attr.define
+class Foo(FromTupleMixin):
+id: int
+name: str
+assert_that(str(Foo.from_tuple((1, 'kuku'))), is_("Foo(id=1, name='kuku')"))
+
+================================================================================
