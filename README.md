@@ -31,7 +31,10 @@ qa-automation-python/
 
 ## 🚀 Quick Start (Locally with [PDM](https://pdm-project.org))
 
-> ⚠️ Requires Python 3.13 installed on your system.
+Open in CodeSpace or devcontainer and everything will get installed and configured,
+otherwise:
+
+0. Install Python 3.13 on your system
 
 1. Install PDM:
    ```bash
@@ -51,59 +54,13 @@ qa-automation-python/
 
 ## 🧪 Releasing
 
-0. Ensure PyPi username and token are in the environment:
-   ```bash
-   env | grep PDM
-   ```
-   Should yield something like:
-   ```
-   PDM_PUBLISH_USERNAME=__token__
-   PDM_PUBLISH_PASSWORD=...
-   ```
-
-1. Clean up local build/test artifacts:
-   ```bash
-   pdm run clean-all
-   ```
-
-2. Commit and create a tag for this version:
-   ```bash
-   git commit -m "release X.X.X"
-   git tag vX.X.X
-   git push
-   ```
-
-3. Build all and publish:
-   ```bash
-   pdm run build-all
-   pdm run publish-all
-   ```
-
- 4. Verify new versions appeared on https://pypi.org/
+1. branch
+2. commit changes
+3. pull request -- will trigger a build
+4. build succeeds --> tag with vX.X.X, e.g. v1.2.3 -- will trigger a release
+5. verify new versions appeared on https://pypi.org/
 ---
 
-## 🧠 VSCode Configuration
-
-The `.vscode/settings.json` file is pre-configured to:
-
-- Use `.venv` with PDM
-- Enable strict type checking (Pylance)
-- Format code with `autopep8`
-- Resolve multi-package imports using `"python.analysis.extraPaths"`
-
-### 🔧 VSCode Setup (if needed)
-
-Install recommended extensions:
-
-- **Python** (ms-python.python)
-- **Pylance** (ms-python.vscode-pylance)
-
-Then reload the window:
-```
-Ctrl+Shift+P → Reload Window
-```
-
----
 
 ## 🏗 Adding a New Package
 
@@ -117,20 +74,6 @@ Then edit `pyproject.toml` accordingly.
 
 ---
 
-## 📦 Publishing to PyPI
-
-Each module can be published separately:
-
-```bash
-cd qa-pytest-commons
-pdm bump patch
-pdm build
-pdm publish
-```
-
-You can also define a centralized `release-all` script in the root `pyproject.toml` to version and publish all modules at once.
-
----
 
 ## ✅ License
 
