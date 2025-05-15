@@ -3,7 +3,9 @@
   "files.autoSaveDelay": 1000,
   "python.terminal.activateEnvironment": true,
   "python.analysis.autoImportCompletions": true,
+  "python.analysis.showOnlyDirectDependenciesInAutoImport": true,
   "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.diagnosticMode": "workspace",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportMissingTypeStubs": "none"
   },
@@ -11,7 +13,14 @@
   "python.analysis.completeFunctionParens": true,
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.inlayHints.functionReturnTypes": true,
-  "editor.rulers": [80],
+  "python.analysis.inlayHints.pytestParameters": true,
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.languageServerMode": "full",
+  "python.analysis.supportDocstringTemplate": true,
+  "python.analysis.generateWithTypeAnnotation": true,
+  "editor.rulers": [
+    80
+  ],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
     "source.unusedImports": "always"
