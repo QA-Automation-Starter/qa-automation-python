@@ -42,3 +42,4 @@ dist/
 # Miscellaneous
 allure-results
 report.html
+.coverage
