@@ -2,16 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# NOTE: there is another streaming library named pystreamapi.
+# In contrast with pyfunctional it is type annotated.
+# However, it eagerly consumes its underlying stream, defeating its purpose...
+# ISSUE see https://github.com/PickwickSoft/pystreamapi/issues/94
+# hence, we'll ignore type warnings:
+# type: ignore
+
 from typing import Iterator
 
 from functional import seq
 from more_itertools import peekable
 from qa_testing_utils.stream_utils import *
-
-# NOTE: there is another streaming library named pystreamapi.
-# In contrast with pyfunctional it is type annotated.
-# However, it eagerly consumes its underlying stream, defeating its purpose...
-# ISSUE see https://github.com/PickwickSoft/pystreamapi/issues/94
 
 
 def gen() -> Iterator[int]:

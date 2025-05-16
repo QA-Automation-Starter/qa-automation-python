@@ -5,13 +5,15 @@
 import threading
 from dataclasses import asdict, fields, is_dataclass, replace
 from enum import Enum
-from typing import (Any, Callable, Dict, Protocol, Type, final)
+from typing import (Any, Callable, Dict, Protocol,
+                    final, runtime_checkable, ClassVar)
 
 # TODO: move to stream_utils module
 type Supplier[T] = Callable[[], T]
 type Predicate[T] = Callable[[T], bool]
 
 
+@runtime_checkable
 class Valid(Protocol):
     """
     Specifies a method for validating objects.
@@ -82,17 +84,21 @@ class WithMixin:
 
 
 class ToDictMixin:
-
     def to_dict(self) -> Dict[str, Any]:
         """
         Converts a dataclass instance (with nested dataclasses) to a dictionary.
         """
-        def convert(value):
+        from typing import cast
+
+        def convert(value: Any) -> Any:
             if isinstance(value, ToDictMixin):
                 return value.to_dict()
             elif isinstance(value, list):
-                return [convert(v) for v in value]
+                # Provide a type hint for v
+                return [convert(v) for v in cast(list[Any], value)]
             elif isinstance(value, dict):
+                # type: ignore[dict-item]
+                # type: ignore[dict-item]
                 return {k: convert(v) for k, v in value.items()}
             return value
 
@@ -105,20 +111,20 @@ class ToDictMixin:
         """
         Flattens the nested structure into a flat dictionary for CSV serialization.
         """
-        flat_dict = {}
+        flat_dict: Dict[str, Any] = {}
 
-        def flatten_value(key: str, value: Any):
+        def flatten_value(key: str, value: Any) -> None:
             if isinstance(value, ToDictMixin):
                 # Flatten nested ToDictMixin dataclasses
                 nested_flat = value.flatten(prefix=f"{key}_")
                 flat_dict.update(nested_flat)
             elif isinstance(value, list):
                 # Serialize lists as JSON strings or expand into multiple columns
-                for idx, item in enumerate(value):
+                for idx, item in enumerate(value):  # type: ignore
                     flat_dict[f"{key}[{idx}]"] = item
             elif isinstance(value, dict):
                 # Serialize dicts as JSON strings or expand into multiple columns
-                for sub_key, sub_val in value.items():
+                for sub_key, sub_val in value.items():  # type: ignore
                     flat_dict[f"{key}_{sub_key}"] = sub_val
             else:
                 # Directly add non-nested fields
@@ -138,15 +144,17 @@ class SingletonMeta(type):
     """
     A thread-safe implementation of a Singleton metaclass.
     """
-    _instances: Dict[Type['SingletonBase'], 'SingletonBase'] = {}
-    _lock: threading.Lock = threading.Lock()  # Ensure thread-safety
+    _instances: ClassVar[Dict[type, object]] = {}
+    _lock: ClassVar[threading.Lock] = threading.Lock()  # Ensure thread-safety
 
-    def __call__(cls, *args: Any, **kwargs: Any) -> 'SingletonBase':
+    def __call__(
+            cls: type,
+            *args: Any, **kwargs: Any) -> "SingletonBase":
         with SingletonMeta._lock:
             if cls not in SingletonMeta._instances:
-                instance = super().__call__(*args, **kwargs)
+                instance = super().__call__(*args, **kwargs)  # type: ignore
                 SingletonMeta._instances[cls] = instance
-        return SingletonMeta._instances[cls]
+        return SingletonMeta._instances[cls]  # type: ignore[return-value]
 
 
 class SingletonBase(metaclass=SingletonMeta):
@@ -168,18 +176,12 @@ def valid[T:Valid](value: T) -> T:
         value (T:Valid): the object
 
     Raises:
-        TypeError: if the object does not support the Valid protocol
         InvalidValueException: if the object is invalid
 
     Returns:
         T:Valid: the validated object
     """
-    if not (hasattr(value, 'is_valid') and callable(
-            getattr(value, 'is_valid'))):
-        raise TypeError(
-            f"{value.__class__.__name__} does not conform to the Valid protocol")
-
     if value.is_valid():
         return value
-    else:
-        raise InvalidValueException(value)
+
+    raise InvalidValueException(value)

@@ -154,38 +154,31 @@ class IsWithinDates(BaseMatcher[DateOrDateTime]):
         self.end_date = end_date
 
     def _matches(self, item: Optional[DateOrDateTime]) -> bool:
-        if not isinstance(item, (date, datetime)):
+        if item is None:
             return False
 
-        # Convert item to a consistent type for comparison
-        if isinstance(item, datetime):
-            item = item.date() if isinstance(
-                self.start_date, date) or isinstance(
-                self.end_date, date) else item
-        elif isinstance(item, date) and (isinstance(self.start_date, datetime) or isinstance(self.end_date, datetime)):
+        # Normalize item to datetime
+        if not isinstance(item, datetime):
             item = datetime.combine(item, datetime.min.time())
 
-        # Convert start_date and end_date to compatible types if they are not None
-        start = self.start_date
-        if start is not None:
-            start = start.date() if isinstance(
-                start, datetime) and isinstance(item, date) else start
+        # Normalize start_date and end_date to datetime
+        def to_datetime(value: Optional[DateOrDateTime]) -> Optional[datetime]:
+            if value is None:
+                return None
+            return value if isinstance(
+                value, datetime) else datetime.combine(
+                value, datetime.min.time())
 
-        end = self.end_date
-        if end is not None:
-            end = end.date() if isinstance(
-                end, datetime) and isinstance(
-                item, date) else end
+        start = to_datetime(self.start_date)
+        end = to_datetime(self.end_date)
 
-        # Perform the comparison, handling open-ended ranges
-        if start is None and end is not None:
-            return item <= end
-        elif start is not None and end is None:
-            return item >= start
-        elif start is not None and end is not None:
+        if start and end:
             return start <= item <= end
+        if start:
+            return item >= start
+        if end:
+            return item <= end
 
-        # If both start_date and end_date are None, return False (no valid range)
         return False
 
     def describe_to(self, description: Description) -> None:
