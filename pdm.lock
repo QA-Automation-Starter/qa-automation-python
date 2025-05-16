@@ -522,7 +522,7 @@ files = [
 
 [[package]]
 name = "qa-pytest-commons"
-version = "0.0.1"
+version = "0.0.8.dev16"
 requires_python = ">=3.13"
 editable = true
 path = "./qa-pytest-commons"
@@ -542,7 +542,7 @@ dependencies = [
 
 [[package]]
 name = "qa-pytest-rest"
-version = "0.0.1"
+version = "0.0.8.dev16"
 requires_python = ">=3.13"
 editable = true
 path = "./qa-pytest-rest"
@@ -561,7 +561,7 @@ dependencies = [
 
 [[package]]
 name = "qa-pytest-webdriver"
-version = "0.0.1"
+version = "0.0.8.dev16"
 requires_python = ">=3.13"
 editable = true
 path = "./qa-pytest-webdriver"
@@ -582,7 +582,7 @@ dependencies = [
 
 [[package]]
 name = "qa-testing-utils"
-version = "0.1.0"
+version = "0.0.8.dev16"
 requires_python = ">=3.13"
 editable = true
 path = "./qa-testing-utils"
