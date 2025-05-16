@@ -97,9 +97,7 @@ class ToDictMixin:
                 # Provide a type hint for v
                 return [convert(v) for v in cast(list[Any], value)]
             elif isinstance(value, dict):
-                # type: ignore[dict-item]
-                # type: ignore[dict-item]
-                return {k: convert(v) for k, v in value.items()}
+                return {k: convert(v) for k, v in value.items()}  # type: ignore
             return value
 
         if not is_dataclass(self):
