@@ -180,7 +180,7 @@ def crc32_of(file: BinaryIO, chunk_size: int = DEFAULT_BUFFER_SIZE) -> int:
     return crc_value & 0xFFFFFFFF  # ensure 32-bit unsigned
 
 
-def write_csv(file_path: Path, data_stream: Iterable[dict]):
+def write_csv(file_path: Path, data_stream: Iterable[dict[str, object]]):
     """
     Writes a stream of flattened telemetry packets to a CSV file.
 
@@ -189,8 +189,13 @@ def write_csv(file_path: Path, data_stream: Iterable[dict]):
         data_stream: Iterable of dictionaries representing the rows to be written.
     """
     stream = peekable(data_stream)  # Allow peeking to extract headers
+    try:
+        first_row: dict[str, object] = stream.peek()
+    except StopIteration:
+        # No data to write
+        return
     with file_path.open(mode="w", newline="") as csv_file:
         writer = csv.DictWriter(
-            csv_file, fieldnames=list(stream.peek().keys()))
+            csv_file, fieldnames=list(first_row.keys()))
         writer.writeheader()
         writer.writerows(stream)

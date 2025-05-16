@@ -118,7 +118,8 @@ def should_adapt_stream():
     ]
 )
 def should_match_within_dates(
-        test_date: datetime, start_date: Union[datetime, None],
+        test_date: datetime,
+        start_date: Union[datetime, None],
         end_date: Union[datetime, None]):
     assert_that(test_date, within_dates(start_date, end_date))
 
@@ -126,12 +127,14 @@ def should_match_within_dates(
 @pytest.mark.parametrize(
     "test_date, start_date, end_date",
     [
+        (None, datetime(2023, 1, 1), datetime(2023, 12, 31)),
         (datetime(2022, 12, 31), datetime(2023, 1, 1), datetime(2023, 12, 31)),
         (datetime(2024, 1, 1), datetime(2023, 1, 1), datetime(2023, 12, 31)),
     ]
 )
 def should_fail_not_within_dates(
-        test_date: datetime, start_date: Union[datetime, None],
+        test_date: datetime,
+        start_date: Union[datetime, None],
         end_date: Union[datetime, None]):
     with pytest.raises(AssertionError):
         assert_that(test_date, within_dates(start_date, end_date))
