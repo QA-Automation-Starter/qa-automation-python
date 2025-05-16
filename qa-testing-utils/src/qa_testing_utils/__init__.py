@@ -1,3 +1,1 @@
-# SPDX-FileCopyrightText: 2025 Adrian Herscu
-#
-# SPDX-License-Identifier: Apache-2.0
+__version__ = '0.0.8.dev16+gb2713e0.d20250516'
