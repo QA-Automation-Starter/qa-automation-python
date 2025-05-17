@@ -18,6 +18,27 @@ TSteps = TypeVar("TSteps", bound=RestSteps[Any])
 class RestTests(
         Generic[TSteps, TConfiguration],
         AbstractTestsBase[TSteps, TConfiguration]):
+    """
+    Base class for REST API test cases.
+
+    This class provides a reusable test base for REST API testing, managing a `requests.Session`
+    for each test method. It is generic over the types of steps and configuration used.
+
+    Attributes:
+        _rest_session (requests.Session): The HTTP session used for making REST requests.
+            Note: This session is not thread-safe.
+
+    Type Parameters:
+        TSteps: The type of the steps class, typically derived from RestSteps.
+        TConfiguration: The type of the configuration class, typically derived from RestConfiguration.
+
+    Methods:
+        setup_method(self):
+            Initializes a new requests.Session before each test method.
+
+        teardown_method(self):
+            Closes the requests.Session after each test method.
+    """
     _rest_session: requests.Session  # not thread safe
 
     @override

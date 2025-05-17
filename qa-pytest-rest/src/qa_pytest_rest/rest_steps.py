@@ -36,6 +36,18 @@ class RestSteps[TConfiguration: RestConfiguration](
     @traced
     @final
     def invoking(self, request: Request) -> Self:
+        """
+        Send a REST request and assert that the response is OK.
+
+        Args:
+            request (Request): The HTTP request to send.
+
+        Returns:
+            Self: Enables method chaining.
+
+        Raises:
+            AssertionError: If the response is not OK.
+        """
         return self.eventually_assert_that(
             lambda: self._invoke(request).ok, is_(True))
 
@@ -43,6 +55,19 @@ class RestSteps[TConfiguration: RestConfiguration](
     @final
     def the_invocation(
             self, request: Request, by_rule: Matcher[Response]) -> Self:
+        """
+        Send a REST request and assert that the response matches.
+
+        Args:
+            request (Request): The HTTP request to send.
+            by_ruls (Matcher[Response]): The matcher to apply to the response.
+
+        Returns:
+            Self: Enables method chaining.
+
+        Raises:
+            AssertionError: If the response does not match the rule.
+        """
         return self.eventually_assert_that(
             lambda: self._invoke(request),
             by_rule)

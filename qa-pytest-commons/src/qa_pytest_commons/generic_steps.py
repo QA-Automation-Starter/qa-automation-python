@@ -10,11 +10,14 @@ from functional import seq
 from hamcrest import assert_that
 from hamcrest.core.matcher import Matcher
 from tenacity import Retrying, stop_after_attempt, wait_exponential, retry_if_exception_type, before_sleep_log
+from typing import Callable
 from qa_testing_utils.exception_utils import safely
+
 from qa_testing_utils.logger import LoggerMixin, traced
-from qa_testing_utils.object_utils import Supplier, Valid, valid
+from qa_testing_utils.object_utils import Valid, valid
 from qa_pytest_commons.base_configuration import BaseConfiguration
 from qa_pytest_commons.bdd_keywords import BddKeywords
+from qa_testing_utils.stream_utils import Supplier
 from qa_testing_utils.thread_utils import sleep_for
 
 

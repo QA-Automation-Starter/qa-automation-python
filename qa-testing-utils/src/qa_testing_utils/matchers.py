@@ -56,6 +56,15 @@ class ContainsStringIgnoringCase(BaseMatcher[str]):
 
 
 def contains_string_ignoring_case(substring: str) -> ContainsStringIgnoringCase:
+    """
+    Creates a matcher that checks if a given string contains the specified substring, ignoring case.
+
+    Args:
+        substring (str): The substring to search for within the target string, case-insensitively.
+
+    Returns:
+        ContainsStringIgnoringCase: A matcher object that evaluates whether the target string contains the specified substring, ignoring case.
+    """
     return ContainsStringIgnoringCase(substring)
 
 
@@ -194,6 +203,16 @@ class IsWithinDates(BaseMatcher[DateOrDateTime]):
 def within_dates(
         start_date: Optional[DateOrDateTime],
         end_date: Optional[DateOrDateTime]) -> IsWithinDates:
+    """
+    Creates an instance of IsWithinDates to check if a date or datetime value falls within the specified start and end dates.
+
+    Args:
+        start_date (Optional[DateOrDateTime]): The start of the date range. Can be None to indicate no lower bound.
+        end_date (Optional[DateOrDateTime]): The end of the date range. Can be None to indicate no upper bound.
+
+    Returns:
+        IsWithinDates: An instance configured with the provided start and end dates.
+    """
     return IsWithinDates(start_date, end_date)
 
 
