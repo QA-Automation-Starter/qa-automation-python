@@ -60,4 +60,33 @@ def should_crc32_of_file(tmp_path: Path):
     import zlib
     assert crc == zlib.crc32(b"abc123") & 0xFFFFFFFF
 
+
+def should_decompress_xz_stream():
+    import lzma
+    original = [b"hello world"]
+    compressed = [lzma.compress(original[0])]
+    decompressed = list(decompress_xz_stream(compressed))
+    assert b"".join(decompressed) == b"hello world"
+
+
+def should_extract_files_from_tar():
+    import tarfile
+    import io
+    # Create a tar archive in memory
+    file_content = b"testdata"
+    tar_bytes = io.BytesIO()
+    with tarfile.open(fileobj=tar_bytes, mode="w") as tar:
+        info = tarfile.TarInfo(name="file.txt")
+        info.size = len(file_content)
+        tar.addfile(info, io.BytesIO(file_content))
+    tar_bytes.seek(0)
+    # Split tar_bytes into chunks to simulate streaming
+    tar_chunks = list(iter(lambda: tar_bytes.read(4), b""))
+    # Extract files from tar stream
+    files = list(extract_files_from_tar(tar_chunks))
+    assert len(files) == 1
+    tarinfo, data = files[0]
+    assert tarinfo.name == "file.txt"
+    assert data == file_content
+
 # TODO: decompress_xz_stream and extract_files_from_tar require binary test data.

@@ -12,8 +12,11 @@ from qa_pytest_webdriver.selenium_steps import SeleniumSteps
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 
 # NOTE: python limitation; we cannot declare it such as:
-# class SeleniumTests[TSteps:SeleniumSteps[TConfiguration], TConfiguration: AbstractConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
+# class SeleniumTests[TSteps:SeleniumSteps[TConfiguration], TConfiguration: SeleniumConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
 TConfiguration = TypeVar("TConfiguration", bound=SeleniumConfiguration)
+# TSteps can be any subclass of SeleniumSteps, with any configuration type parameter.
+# However, Python's type system cannot enforce that the parameter to SeleniumSteps is
+# itself a subclass of SeleniumConfiguration; this is the closest we can get:
 TSteps = TypeVar("TSteps", bound=SeleniumSteps[Any])
 
 

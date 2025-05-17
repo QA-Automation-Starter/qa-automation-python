@@ -10,8 +10,11 @@ from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 import requests
 
 # NOTE: python limitation; we cannot declare it such as:
-# class SeleniumTests[TSteps:SeleniumSteps[TConfiguration], TConfiguration: AbstractConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
+# class RestTests[TSteps:RestSteps[TConfiguration], TConfiguration: RestConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
 TConfiguration = TypeVar("TConfiguration", bound=RestConfiguration)
+# TSteps can be any subclass of RestSteps, with any configuration type parameter.
+# However, Python's type system cannot enforce that the parameter to RestSteps is
+# itself a subclass of RestConfiguration; this is the closest we can get:
 TSteps = TypeVar("TSteps", bound=RestSteps[Any])
 
 

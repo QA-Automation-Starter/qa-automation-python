@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from datetime import datetime
-from typing import Callable
+from typing import Callable, Union
 
 import attr
 import pytest
@@ -138,3 +138,35 @@ def should_fail_not_within_dates(
         end_date: Union[datetime, None]):
     with pytest.raises(AssertionError):
         assert_that(test_date, within_dates(start_date, end_date))
+
+
+def should_match_contains_string_ignoring_case():
+    assert_that("Hello World", contains_string_ignoring_case("hello"))
+    assert_that("Hello World", contains_string_ignoring_case("WORLD"))
+    # Should fail if not present
+    with pytest.raises(AssertionError):
+        assert_that("Hello World", contains_string_ignoring_case("bye"))
+
+
+def should_match_iterator_yielding():
+    # Should match if any element matches
+    assert_that(iter([1, 2, 3]), yields_item(2))
+    # Should fail if none match
+    with pytest.raises(AssertionError):
+        assert_that(iter([1, 2, 3]), yields_item(5))
+
+
+def should_match_stream_containing_every():
+    # Should match if all elements match
+    assert_that(iter([2, 2, 2]), yields_every(2))
+    # Should fail if any element does not match
+    with pytest.raises(AssertionError):
+        assert_that(iter([2, 2, 3]), yields_every(2))
+
+
+def should_match_iterator_yielding_all():
+    # Should match if all specified items are yielded at least once
+    assert_that(iter([1, 2, 3]), yields_items([1, 2]))
+    # Should fail if any specified item is not yielded
+    with pytest.raises(AssertionError):
+        assert_that(iter([1, 2, 3]), yields_items([1, 4]))

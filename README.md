@@ -1,16 +1,45 @@
 # QA Automation for Python
 
-[![Build](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml/badge.svg)](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml)
-[![Release](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml/badge.svg)](https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml)
-[![utils](https://img.shields.io/pypi/v/qa-testing-utils.svg?label=utils)](https://pypi.org/project/qa-testing-utils/)
-[![commons](https://img.shields.io/pypi/v/qa-pytest-commons.svg?label=commons)](https://pypi.org/project/qa-pytest-commons/)
-[![rest](https://img.shields.io/pypi/v/qa-pytest-rest.svg?label=rest)](https://pypi.org/project/qa-pytest-rest/)
-[![webdriver](https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver)](https://pypi.org/project/qa-pytest-webdriver/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+<p align="center">
+    <!-- Build and Release -->
+    <a href="https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml">
+        <img alt="Build" src="https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/build.yml/badge.svg">
+    </a>
+    <a href="https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml">
+        <img alt="Release" src="https://github.com/QA-Automation-Starter/qa-automation-python/actions/workflows/release.yml/badge.svg">
+    </a>
+    <br>
+    <!-- Published Packages -->
+    <a href="https://pypi.org/project/qa-testing-utils/">
+        <img alt="utils" src="https://img.shields.io/pypi/v/qa-testing-utils.svg?label=utils">
+    </a>
+    <a href="https://pypi.org/project/qa-pytest-commons/">
+        <img alt="commons" src="https://img.shields.io/pypi/v/qa-pytest-commons.svg?label=commons">
+    </a>
+    <a href="https://pypi.org/project/qa-pytest-rest/">
+        <img alt="rest" src="https://img.shields.io/pypi/v/qa-pytest-rest.svg?label=rest">
+    </a>
+    <a href="https://pypi.org/project/qa-pytest-webdriver/">
+        <img alt="webdriver" src="https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver">
+    </a>
+    <br>
+    <!-- License -->
+    <a href="LICENSE">
+        <img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+    </a>
+    <br>
+    <!-- Codespaces / Dev Container -->
+    <a href="https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=QA-Automation-Starter%2Fqa-automation-python">
+        <img alt="Open in GitHub Codespaces" src="https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github">
+    </a>
+    <a href="https://vscode.dev/github/QA-Automation-Starter/qa-automation-python">
+        <img alt="Open in Dev Container" src="https://img.shields.io/badge/Open%20in-Dev%20Container-blue?logo=visualstudiocode">
+    </a>
+</p>
 
+**Modular Python packages for maintainable, BDD-style automated tests with [`pytest`](https://docs.pytest.org/), [`Hamcrest`](https://hamcrest.org/), [`Allure`](https://docs.qameta.io/allure/) reporting, and configurable logging.**
 
-This monorepo contains modular, reusable Python packages for building structured, maintainable, BDD-style automated tests using `pytest`, `Hamcrest`, and related tooling.
-It is designed to support test automation for diverse technologies like REST APIs, web UI (Selenium), messaging (RabbitMQ), and more.
+Technology-agnostic; example REST and Selenium implementations included.
 
 ---
 
@@ -32,12 +61,12 @@ qa-automation-python/
 
 ##   Architecture
 
-> NOTE: Support for additional technologies, e.g RabbitMQ, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.
+> Support for additional technologies, e.g. RabbitMQ, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.
 
 ```mermaid
 flowchart TD
-    A[Tests: Define BDD scenarios as series of steps, also define specific setup and tear-down] --> |contains| B[Steps: encapsulate UI or API operations and verifications, and may be composed of other steps]
-    B --> |contains| C[Configurations: can be per environment, such as dev, qa, staging, and contain urls, users, authentication schemes, encryption, etc.]
+    A[Tests: Define BDD scenarios as series of steps, also define specific setup and teardown] --> |contains| B[Steps: encapsulate UI or API operations and verifications, and may be composed of other steps]
+    B --> |contains| C[Configurations: can be per environment, such as dev, qa, staging, and contain URLs, users, authentication schemes, encryption, etc.]
     B --> |uses| D[Matchers: Hamcrest matchers for single objects or for iterables]
     A --> |contains| C
     B --> |uses| E[Models: domain objects]
@@ -51,10 +80,13 @@ flowchart TD
 
 ---
 
-
 ### Extending the Framework
 
-> NOTE: Support for additional technologies, e.g RabbitMQ, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.
+> To add support for a new technology (e.g., messaging, database), create:
+> - `MyTechConfiguration(BaseConfiguration)`
+> - `MyTechSteps(GenericSteps[MyTechConfiguration])`
+> - `MyTechTests(AbstractTestsBase[MyTechSteps, MyTechConfiguration])`
+> This pattern ensures you reuse the core BDD, configuration, and reporting mechanisms.
 
 ```mermaid
 classDiagram
@@ -122,12 +154,6 @@ classDiagram
     %% AbstractTestsBase, GenericSteps, and BaseConfiguration.
 ```
 
-> NOTE: To add support for a new technology (e.g., messaging, database), create:
-> - `MyTechConfiguration(BaseConfiguration)`
-> - `MyTechSteps(GenericSteps[MyTechConfiguration])`
-> - `MyTechTests(AbstractTestsBase[MyTechSteps, MyTechConfiguration])`
-> This pattern ensures you reuse the core BDD, configuration, and reporting mechanisms.
-
 **Key Classes (with links to source code):**
 
 | Class | Description | Source |
@@ -147,15 +173,13 @@ classDiagram
 
 ---
 
-
 ## 🚀 Quick Start (Locally with [PDM](https://pdm-project.org))
 
-Open in CodeSpace or devcontainer and everything will get installed and configured,
-otherwise:
+Open in Codespace or Dev Container and everything will get installed and configured, otherwise:
 
 0. Install Python 3.13 on your system
 
-1. Install PDM:
+1. Install [PDM](https://pdm-project.org):
    ```bash
    pipx install pdm[all]
    ```
@@ -169,6 +193,7 @@ otherwise:
    ```bash
    pdm run pytest
    ```
+
 ---
 
 ## 🧪 Releasing
@@ -178,8 +203,8 @@ otherwise:
 3. pull request -- will trigger a build
 4. build succeeds --> tag with vX.X.X, e.g. v1.2.3 -- will trigger a release
 5. verify new versions appeared on https://pypi.org/
----
 
+---
 
 ## 🏗 Adding a New Package
 
@@ -196,11 +221,21 @@ Then edit `pyproject.toml` accordingly.
 ## Reports
 
 1. `report.html` is generated in the root folder; just open it in a browser
-2. `allure-results/` is generated for Allure reporting (requires Allure server)
+2. `allure-results/` is generated for Allure reporting (requires [Allure server](https://docs.qameta.io/allure/)).
+   To view Allure reports, install Allure and run:
+   ```bash
+   allure serve allure-results/
+   ```
+
+---
 
 ## Example Tests
 
+Below are example test cases demonstrating BDD-style usage with this framework:
+
 ```python
+# Example: UI search test
+# (Assumes self.login_section and self._configuration.users are defined)
 def should_find(self):
     self.login_section(random.choice(self._configuration.users))
     for word in ["hello", "kitty"]:
@@ -211,6 +246,7 @@ def should_find(self):
 ```
 
 ```python
+# Example: API add test
 def should_add(self):
     random_pet = SwaggerPetstorePet.random()
     (self.steps
@@ -218,18 +254,26 @@ def should_add(self):
         .then.the_available_pets(yields_item(is_(random_pet))))
 ```
 
+---
+
 ## Requirements
 
 - Python 3.13
-- Google Chrome
-- PDM (Python package manager)
+- Google Chrome for local Selenium testing
+- [PDM](https://pdm-project.org) (Python package manager)
 
-## TODO
+---
 
-- Add GitHub Actions workflow for CI
-- Add browser matrix support (Safari, Edge)
+<details>
+<summary>TODO</summary>
+
+- Add browser matrix support (Firefox, Safari, Edge)
 - Make the BDD intro words appear in Allure report
 - Extend test examples (API + UI)
+
+</details>
+
+---
 
 ## ✅ License
 

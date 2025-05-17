@@ -111,3 +111,42 @@ def should_be_singleton():
 
     assert BarSingleton(1) == BarSingleton(2)
     assert BarSingleton(3).i == 1  # type: ignore
+
+
+def should_convert_to_dict_and_flatten():
+    from dataclasses import dataclass
+
+    @dataclass
+    class Address(ToDictMixin):
+        city: str
+        zip: int
+
+    @dataclass
+    class User(ToDictMixin):
+        name: str
+        age: int
+        address: Address
+        tags: list[str]
+        meta: dict[str, int]
+    user = User(
+        "Alice", 30, Address("London", 12345),
+        ["a", "b"],
+        {"score": 10})
+    # to_dict
+    d = user.to_dict()
+    assert d == {
+        "name": "Alice",
+        "age": 30,
+        "address": {"city": "London", "zip": 12345},
+        "tags": ["a", "b"],
+        "meta": {"score": 10}
+    }
+    # flatten
+    flat = user.flatten()
+    assert flat["name"] == "Alice"
+    assert flat["age"] == 30
+    assert flat["address_city"] == "London"
+    assert flat["address_zip"] == 12345
+    assert flat["tags[0]"] == "a"
+    assert flat["tags[1]"] == "b"
+    assert flat["meta_score"] == 10

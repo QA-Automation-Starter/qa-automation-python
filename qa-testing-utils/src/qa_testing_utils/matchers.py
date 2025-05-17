@@ -79,12 +79,11 @@ class IsIteratorYielding[T](BaseMatcher[Iterator[T]]):
 
     @override
     def _matches(self, item: Iterable[T]) -> bool:
-        try:
-            for element in item:
-                if self.element_matcher.matches(element):
-                    return True
-        except TypeError:  # not an iterator
-            pass
+        for element in item:
+            if self.element_matcher.matches(element):
+                return True
+
+        # No matching element found
         return False
 
     @override
@@ -106,14 +105,12 @@ class IsStreamContainingEvery[T](BaseMatcher[Iterator[T]]):
 
     @override
     def _matches(self, item: Iterable[T]) -> bool:
-        try:
-            for element in item:
-                if not self.element_matcher.matches(element):
-                    return False  # One non-matching element means failure
-            return True  # All elements matched
-        except TypeError:  # not an iterator
-            pass
-        return False
+        for element in item:
+            if not self.element_matcher.matches(element):
+                return False  # One non-matching element means failure
+
+        # All elements matched
+        return True
 
     @override
     def describe_to(self, description: Description) -> None:
@@ -133,14 +130,12 @@ class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
     @override
     def _matches(self, item: Iterable[T]) -> bool:
         unmatched_matchers = set(self.element_matchers)
-        try:
-            for element in item:
-                unmatched_matchers = {
-                    m for m in unmatched_matchers if not m.matches(element)}
-                if not unmatched_matchers:  # All matchers have been satisfied
-                    return True
-        except TypeError:  # not an iterator
-            pass
+        for element in item:
+            unmatched_matchers = {
+                m for m in unmatched_matchers if not m.matches(element)}
+            if not unmatched_matchers:  # All matchers have been satisfied
+                return True
+
         return False
 
     @override
