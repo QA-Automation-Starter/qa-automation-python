@@ -5,8 +5,8 @@ __pycache__/
 .venv/
 
 # VSCode settings (optional: keep .vscode/settings.json)
-.vscode/*
-!.vscode/settings.json
+# .vscode/*
+# !.vscode/settings.json
 
 # Distribution / packaging
 dist/
