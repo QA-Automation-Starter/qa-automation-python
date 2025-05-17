@@ -13,11 +13,7 @@
   "packageRules": [
     {
       "matchManagers": [
-        "pip_requirements",
-        "pip_setup",
-        "pipenv",
-        "poetry",
-        "pip_compile"
+        "pep621"
       ],
       "groupName": "Python monorepo dependency update"
     },
