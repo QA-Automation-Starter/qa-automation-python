@@ -8,10 +8,9 @@ from qa_testing_utils.object_utils import Predicate
 
 
 def process_next[T](i: Iterator[T], p: Predicate[T]) -> Iterator[T]:
-    # DELETEME -- not needed so far
     """
-    Processes next items per specified predicate. Useful, for cases in which
-    first item in a stream decides the meaning of rest of items.
+    Processes next items per specified predicate. Useful for cases in which
+    the first item in a stream decides the meaning of the rest of the items.
 
     Args:
         i (Iterator[T]): the iterator to process
