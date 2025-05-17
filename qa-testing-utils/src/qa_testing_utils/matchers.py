@@ -56,6 +56,15 @@ class ContainsStringIgnoringCase(BaseMatcher[str]):
 
 
 def contains_string_ignoring_case(substring: str) -> ContainsStringIgnoringCase:
+    """
+    Creates a matcher that checks if a given string contains the specified substring, ignoring case.
+
+    Args:
+        substring (str): The substring to search for within the target string, case-insensitively.
+
+    Returns:
+        ContainsStringIgnoringCase: A matcher object that evaluates whether the target string contains the specified substring, ignoring case.
+    """
     return ContainsStringIgnoringCase(substring)
 
 
@@ -70,12 +79,11 @@ class IsIteratorYielding[T](BaseMatcher[Iterator[T]]):
 
     @override
     def _matches(self, item: Iterable[T]) -> bool:
-        try:
-            for element in item:
-                if self.element_matcher.matches(element):
-                    return True
-        except TypeError:  # not an iterator
-            pass
+        for element in item:
+            if self.element_matcher.matches(element):
+                return True
+
+        # No matching element found
         return False
 
     @override
@@ -97,14 +105,12 @@ class IsStreamContainingEvery[T](BaseMatcher[Iterator[T]]):
 
     @override
     def _matches(self, item: Iterable[T]) -> bool:
-        try:
-            for element in item:
-                if not self.element_matcher.matches(element):
-                    return False  # One non-matching element means failure
-            return True  # All elements matched
-        except TypeError:  # not an iterator
-            pass
-        return False
+        for element in item:
+            if not self.element_matcher.matches(element):
+                return False  # One non-matching element means failure
+
+        # All elements matched
+        return True
 
     @override
     def describe_to(self, description: Description) -> None:
@@ -124,14 +130,12 @@ class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
     @override
     def _matches(self, item: Iterable[T]) -> bool:
         unmatched_matchers = set(self.element_matchers)
-        try:
-            for element in item:
-                unmatched_matchers = {
-                    m for m in unmatched_matchers if not m.matches(element)}
-                if not unmatched_matchers:  # All matchers have been satisfied
-                    return True
-        except TypeError:  # not an iterator
-            pass
+        for element in item:
+            unmatched_matchers = {
+                m for m in unmatched_matchers if not m.matches(element)}
+            if not unmatched_matchers:  # All matchers have been satisfied
+                return True
+
         return False
 
     @override
@@ -194,6 +198,16 @@ class IsWithinDates(BaseMatcher[DateOrDateTime]):
 def within_dates(
         start_date: Optional[DateOrDateTime],
         end_date: Optional[DateOrDateTime]) -> IsWithinDates:
+    """
+    Creates an instance of IsWithinDates to check if a date or datetime value falls within the specified start and end dates.
+
+    Args:
+        start_date (Optional[DateOrDateTime]): The start of the date range. Can be None to indicate no lower bound.
+        end_date (Optional[DateOrDateTime]): The end of the date range. Can be None to indicate no upper bound.
+
+    Returns:
+        IsWithinDates: An instance configured with the provided start and end dates.
+    """
     return IsWithinDates(start_date, end_date)
 
 

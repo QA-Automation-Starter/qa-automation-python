@@ -12,12 +12,9 @@ import pytest
 
 def configure(config: pytest.Config,
               path: Path = Path(__file__).parent / "logging.ini") -> None:
-    '''
-    Docstring for configure
-
-    :param config: pytest config object
-    :param path: path of ini file; defaults to the one packaged with qa_testing_utils
-    '''
+    """
+    Configures logging for pytest using a specified INI file, or defaults to internal logging.ini.
+    """
     if path.is_file():
         logging.info(f"logging ini from: {path}")
         logging.config.fileConfig(path)
@@ -27,6 +24,20 @@ def configure(config: pytest.Config,
 
 def makereport(
         item: pytest.Item, call: pytest.CallInfo[None]) -> None:
+    """
+    Appends the source code of the test function to the pytest report for the given test item.
+
+    This function ensures that the source code is included in the report even for successful tests,
+    by adding a custom report section during the 'call' phase of test execution.
+
+    Args:
+        item (pytest.Item): The pytest test item being reported.
+        call (pytest.CallInfo[None]): The call information for the test execution phase.
+
+    Returns:
+        None
+    """
+
     # NOTE: this is required in order to have source code added to report even for successful tests
     if call.when == "call":
         item._report_sections.append(  # type: ignore

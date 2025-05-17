@@ -55,7 +55,15 @@ def logger[T:type](cls: T) -> T:
 
 class LoggerMixin:
     """
-    Yet another way of adding logging by deriving from this one.
+    Mixin that provides a `log` property for convenient class-based logging.
+
+    Inherit from this mixin to get a `self.log` logger named after the class.
+    Useful for adding debug/info/error logging to any class without boilerplate.
+
+    Example:
+        class MyClass(LoggerMixin):
+            def do_something(self):
+                self.log.info("Doing something")
     """
     @final
     @cached_property
@@ -91,8 +99,15 @@ R = TypeVar('R')
 
 def traced(func: Callable[P, R]) -> Callable[P, R]:
     """
-    Method decorator that logs the function call with its arguments and the
-    return value.
+    Decorator to log function entry, arguments, and return value at DEBUG level.
+
+    Also adds an Allure step for reporting. Use on methods where tracing is useful
+    for debugging or reporting.
+
+    Example:
+        @traced
+        def my_method(self, x):
+            ...
 
     Args:
         func (Callable[P, R]): The function to be decorated.

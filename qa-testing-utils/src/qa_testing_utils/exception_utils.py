@@ -7,7 +7,7 @@ import logging
 from typing import Any, Callable
 
 from returns.maybe import Maybe, Nothing, Some
-from qa_testing_utils.object_utils import Supplier
+from qa_testing_utils.stream_utils import Supplier
 
 
 def safely[T](supplier: Supplier[T]) -> Maybe[T]:

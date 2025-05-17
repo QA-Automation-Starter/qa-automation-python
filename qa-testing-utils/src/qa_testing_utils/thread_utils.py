@@ -10,4 +10,9 @@ COMMON_EXECUTOR = concurrent.futures.ThreadPoolExecutor()
 
 
 def sleep_for(duration: timedelta):
+    """
+    Sleep for the specified duration.
+    Args:
+        duration (timedelta): The amount of time to sleep.
+    """
     time.sleep(duration.total_seconds())

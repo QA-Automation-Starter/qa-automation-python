@@ -25,10 +25,12 @@ class SelfTests(LoggerMixin):
         self.log.debug(f"after {method}")
 
     def should_print(self):
+        """Test that print statement works (placeholder/self-test)."""
         print("hello")
 
     @traced
     def should_assert_true(self):
+        """Test that a traced assertion passes (decorator coverage)."""
         assert True
 
     # @pytest.mark.skip
@@ -65,6 +67,7 @@ class SelfTests(LoggerMixin):
                     is_("Foo(id=1, mandatory='present', name='kuku')"))
 
     def should_retry(self):
+        """Test retry logic for a function that may fail multiple times."""
         retry_policy = retry(
             stop=stop_after_attempt(1000),
             wait=wait_fixed(timedelta(milliseconds=1)),

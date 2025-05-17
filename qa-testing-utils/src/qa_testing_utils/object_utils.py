@@ -5,12 +5,8 @@
 import threading
 from dataclasses import asdict, fields, is_dataclass, replace
 from enum import Enum
-from typing import (Any, Callable, Dict, Protocol,
+from typing import (Any, Dict, Protocol,
                     final, runtime_checkable, ClassVar)
-
-# TODO: move to stream_utils module
-type Supplier[T] = Callable[[], T]
-type Predicate[T] = Callable[[T], bool]
 
 
 @runtime_checkable
@@ -31,15 +27,20 @@ class Valid(Protocol):
 
 class ImmutableMixin:
     """
-    Enforces immutability by overriding __setattr__ to raise AttributeError.
+    Mixin to enforce immutability after initialization.
 
-    This implementation does not work with the WithMixin if the attributes are
-    initialized with default values.
+    Overrides __setattr__ to raise AttributeError if an attribute is modified after being set.
+    Intended for use with non-dataclasses. For dataclasses, use `@dataclass(frozen=True)`.
 
-    It also does not work when applied to a super type for which the __init__
-    is overridden.
+    Limitations:
+        - Does not work with WithMixin if attributes have default values.
+        - Does not work if applied to a superclass with a custom __init__.
 
-    Use it with non-dataclasses.
+    Example:
+        class MyImmutable(ImmutableMixin):
+            foo: int = 1
+        obj = MyImmutable()
+        obj.foo = 2  # Raises AttributeError
     """
 
     def __setattr__(self, key: str, value: Any) -> None:
@@ -51,19 +52,21 @@ class ImmutableMixin:
 
 class WithMixin:
     '''
-    Supports immutability by copying on change.
+    Mixin to support copy-on-change (functional update) for objects.
 
-    For example, instead of mutating like this::
+    Instead of mutating an object, use `with_()` to create a copy with updated fields:
+        obj2 = obj.with_(field=new_value)
 
-        obj.field = a_new_value
+    Works with both plain Python classes and dataclasses.
 
-    use::
+    Example:
+        @dataclass(frozen=True)
+        class Point(WithMixin):
+            x: int
+            y: int
 
-        dup_object_with_changes = obj.with_(field=a_new_value)
-
-    This will ensure that the changes are applied on a duplicate of `obj`.
-
-    Can be applied on plain Python classes, and on `dataclases` too.
+        p1 = Point(1, 2)
+        p2 = p1.with_(x=3)  # p2 is Point(3, 2)
     '''
     @final
     def with_[T:WithMixin](self: T, **changes: Any) -> T:
@@ -84,6 +87,23 @@ class WithMixin:
 
 
 class ToDictMixin:
+    """
+    Mixin to add serialization methods to dataclasses.
+
+    Provides:
+        - to_dict(): Recursively converts a dataclass (and nested dataclasses) to a dictionary.
+        - flatten(): Flattens nested structure for CSV or flat serialization.
+
+    Example:
+        @dataclass
+        class User(ToDictMixin):
+            name: str
+            age: int
+
+        user = User("Alice", 30)
+        user.to_dict()  # {'name': 'Alice', 'age': 30}
+    """
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Converts a dataclass instance (with nested dataclasses) to a dictionary.
@@ -140,7 +160,10 @@ class ToDictMixin:
 
 class SingletonMeta(type):
     """
-    A thread-safe implementation of a Singleton metaclass.
+    Thread-safe singleton metaclass.
+
+    Ensures only one instance of a class exists per process.
+    Use by setting `metaclass=SingletonMeta` on your class.
     """
     _instances: ClassVar[Dict[type, object]] = {}
     _lock: ClassVar[threading.Lock] = threading.Lock()  # Ensure thread-safety
@@ -158,11 +181,20 @@ class SingletonMeta(type):
 class SingletonBase(metaclass=SingletonMeta):
     """
     Base class for singletons using SingletonMeta.
+
+    Inherit from this class to make your class a singleton.
     """
     pass
 
 
 class InvalidValueException(ValueError):
+    """
+    Raised when an object fails validation via the Valid protocol.
+
+    Example:
+        if not obj.is_valid():
+            raise InvalidValueException(obj)
+    """
     pass
 
 
