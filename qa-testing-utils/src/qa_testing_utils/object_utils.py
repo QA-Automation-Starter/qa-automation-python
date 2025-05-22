@@ -5,7 +5,7 @@
 import threading
 from dataclasses import asdict, fields, is_dataclass, replace
 from enum import Enum
-from typing import (Any, Dict, Protocol,
+from typing import (Any, Dict, Optional, Protocol,
                     final, runtime_checkable, ClassVar)
 
 
@@ -215,3 +215,24 @@ def valid[T:Valid](value: T) -> T:
         return value
 
     raise InvalidValueException(value)
+
+
+def require_not_none[T](
+        value: Optional[T],
+        message: str = "Value must not be None") -> T:
+    """
+    Ensures that the provided value is not None.
+
+    Args:
+        value (Optional[T]): The value to check for None.
+        message (str, optional): The error message to use if value is None. Defaults to "Value must not be None".
+
+    Returns:
+        T: The value, guaranteed to be not None.
+
+    Raises:
+        ValueError: If value is None.
+    """
+    if value is None:
+        raise ValueError(message)
+    return value

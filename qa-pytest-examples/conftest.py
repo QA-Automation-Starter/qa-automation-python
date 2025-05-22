@@ -14,5 +14,5 @@ def pytest_configure(config: pytest.Config) -> None:
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_makereport(
-        item: pytest.Item, call: pytest.CallInfo[None]) -> None:
-    makereport(item, call)
+        item: pytest.Item, call: pytest.CallInfo[None]) -> pytest.TestReport:
+    return makereport(item, call)

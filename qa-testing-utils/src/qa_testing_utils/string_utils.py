@@ -6,12 +6,12 @@ from typing import Callable, Type
 
 from ppretty import ppretty  # type: ignore
 
-EMPTY = ""
+EMPTY_STRING = ""
 SPACE = " "
 DOT = "."
 LF = "\n"
 UTF_8 = "utf-8"
-EMPTY_BYTE_STRING = b''
+EMPTY_BYTES = b''
 
 
 def to_string[T](indent: str = '    ',

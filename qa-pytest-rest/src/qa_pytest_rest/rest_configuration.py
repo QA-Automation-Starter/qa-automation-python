@@ -7,7 +7,7 @@ from typing import final
 from urllib.parse import urljoin
 
 from qa_pytest_commons.base_configuration import BaseConfiguration
-from qa_testing_utils.string_utils import EMPTY
+from qa_testing_utils.string_utils import EMPTY_STRING
 
 
 class RestConfiguration(BaseConfiguration):
@@ -29,7 +29,7 @@ class RestConfiguration(BaseConfiguration):
         """
         return self.parser["endpoint"]["base"]
 
-    def endpoint_url(self, path: str = EMPTY) -> str:
+    def endpoint_url(self, path: str = EMPTY_STRING) -> str:
         """
         Constructs and returns the full endpoint URL by joining the base endpoint URL with the specified path.
 

@@ -7,9 +7,12 @@
 - Always prefer Iterables over lists.
 
 ## Preferred Technologies
-- Python 3.13 (with PDM) for all automation and testing.
+- Use Python 3.13 syntax for generics.
+- Use PDM for adding new dependencies.
+- Prefer one-liners unless unreadable.
 - Use pytest for all tests.
 - Use pyhamcrest for assertions.
+- Tests shall comply with `tool.pytest.ini_options` in root pyproject.toml
 - Use BDD-style for all tests that build on-top of AbstractTestsBase,
   reference qa-pytest-rest and qa-pytest-webdriver modules as examples.
 

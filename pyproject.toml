@@ -17,6 +17,8 @@ dev = [
     "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
     "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
+    "-e qa-pytest-rabbitmq @ file:///${PROJECT_ROOT}/qa-pytest-rabbitmq",
+    "types-pika==1.2.0b1",
     "pytest==8.3.5",
     "pytest-cov==6.1.1",
     "pytest-html==4.1.1",
@@ -30,11 +32,16 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
-addopts = "--import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
+addopts = "-s --import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
+python_files = "*_tests.py"
+python_classes = "*Tests"
+python_functions = "should_*"
+# IMPORTANT these also must be present in .vscode/settings.json
 testpaths = [
   "qa-testing-utils/tests",
   "qa-pytest-commons/tests",
   "qa-pytest-rest/tests",
+  "qa-pytest-rabbitmq/tests",
   "qa-pytest-webdriver/tests",
   "qa-pytest-examples/tests",
 ]
@@ -42,12 +49,10 @@ pythonpath = [
   "qa-testing-utils/src",
   "qa-pytest-commons/src",
   "qa-pytest-rest/src",
+  "qa-pytest-rabbitmq/src",
   "qa-pytest-webdriver/src",
   "qa-pytest-examples/src",
 ]
-python_files = "*.py"
-python_classes = "*Tests"
-python_functions = "should_*"
 
 markers = [
   "selenium: marks selenium tests",
