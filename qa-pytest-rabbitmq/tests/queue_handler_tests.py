@@ -36,38 +36,22 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
                 assert_that(cast(bytes, body).decode(), equal_to(some_text))
 
     def should_retrieve_one_message(self) -> None:
-        """Publishes and retrieves a message using QueueHandler."""
-        import time
-        connection_params = pika.ConnectionParameters("localhost")
-        connection = pika.BlockingConnection(connection_params)
-        channel = connection.channel()
-        queue_result = channel.queue_declare(queue="", exclusive=True)
-        queue_name = queue_result.method.queue  # type: ignore[attr-defined]
-        channel.close()  # type: ignore
-        connection.close()  # type: ignore
-        handler = QueueHandler[int, bytes](
-            queue=queue_name,  # type: ignore[arg-type]
-            connection_params=connection_params,
-            indexing_by=lambda m: hash(m.content),
-            consuming_by=lambda b: b,
-            publishing_by=lambda b: b,
-        )
-        handler.publish_values([b"abcd"])
-        handler.consume()
-        Retrying(
-            stop=stop_after_attempt(4),
-            wait=wait_exponential(min=1, max=10),
-            retry=retry_if_exception_type(Exception),
-            before_sleep=before_sleep_log(self.log, logging.DEBUG)
-        )
-        timeout = 20.0
-        poll_interval = 0.2
-        start = time.monotonic()
-        while True:
-            if handler.recieved_messages():
-                break
-            if time.monotonic() - start > timeout:
-                raise AssertionError("Message was not received within timeout")
-            time.sleep(poll_interval)
-        assert_that(tuple(handler.recieved_messages().values()), has_length(1))
-        handler.close()
+        with closing(pika.BlockingConnection(self.local_rabbit_mq)) as connection:
+            with closing(connection.channel()) as channel:
+                queue = require_not_none(
+                    channel.queue_declare(
+                        queue=EMPTY_STRING,
+                        exclusive=True)
+                    .method.queue)
+                with QueueHandler(
+                        channel,
+                        queue,
+                        indexing_by=lambda message: message.content,
+                        consuming_by=lambda bytes: bytes.decode(),
+                        publishing_by=lambda string: string.encode()) as queue_handler:
+                    queue_handler.consume()
+                    queue_handler.publish_values(iter(["a", "b", "c"]))
+                    self.retrying(
+                        lambda: assert_that(
+                            queue_handler.received_messages(),
+                            has_length(3)))
