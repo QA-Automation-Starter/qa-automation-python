@@ -21,8 +21,7 @@ class TerminalXTests(SeleniumTests[TerminalXSteps, TerminalXConfiguration]):
     # NOTE sections may be further collected in superclasses and reused across tests
     def login_section(self, user: TerminalXUser) -> TerminalXSteps:
         return (self.steps
-                .given.configuration(self._configuration)
-                .and_.terminalx(self._web_driver)
+                .given.terminalx(self._web_driver)
                 .when.logging_in_with(user.credentials)
                 .then.the_user_logged_in(is_(user.name)))
 

@@ -18,10 +18,9 @@ from qa_pytest_commons.generic_steps import *
 @logger
 @final
 class BddScenarioTests(
-    AbstractTestsBase
-    [GenericSteps[BaseConfiguration],
-     BaseConfiguration]):
+        AbstractTestsBase[GenericSteps[BaseConfiguration], Configuration]):
     _steps_type = GenericSteps
+    _configuration = Configuration()
 
     def should_work(self):
         (self.steps
