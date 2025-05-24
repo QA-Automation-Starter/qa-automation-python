@@ -157,14 +157,8 @@ class QueueHandler[K, V](LoggerMixin):
         return self._consumer_tag
 
     def close(self) -> None:
-        """Close the queue handler and cancel consumption."""
-        try:
-            if self._consuming:
-                self.cancel()
-        except Exception as e:
-            self.log.error(f"while closing got {e}")
-        # Note: We don't close the channel since it's provided externally
-        # The caller is responsible for managing the channel and connection lifecycle
+        if self._consuming:
+            self.cancel()
 
     def publish(self, messages: Iterator[Message[V]]) -> None:
         """
@@ -193,6 +187,7 @@ class QueueHandler[K, V](LoggerMixin):
         messages = (Message(content=value) for value in values)
         self.publish(messages)
 
+    @property
     def received_messages(self) -> Mapping[K, Message[V]]:
         """
         Get unmodifiable view of retrieved messages.

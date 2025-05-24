@@ -36,7 +36,7 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
 
                 assert_that(cast(bytes, body).decode(), equal_to(some_text))
 
-    def should_retrieve_one_message(self) -> None:
+    def should_publish_and_retrieve(self) -> None:
         with pika.BlockingConnection(self.local_rabbit_mq) as connection:
             with connection.channel() as channel:
                 with QueueHandler(
@@ -51,5 +51,5 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
 
                     self.retrying(
                         lambda: assert_that(
-                            queue_handler.received_messages(),
+                            queue_handler.received_messages,
                             has_length(3)))

@@ -1,22 +1,31 @@
 # SPDX-License-Identifier: Apache-2.0
-"""
-qa_pytest_rabbitmq.rabbitmq_tests
 
-Base BDD test class for RabbitMQ, similar to AbstractRabbitMqTest.java.
-"""
+import pika
+from typing import Any, Generic, TypeVar, override
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
-from qa_pytest_commons.generic_steps import GenericSteps
 from qa_pytest_rabbitmq.rabbitmq_configuration import RabbitMqConfiguration
-from qa_pytest_rabbitmq.queue_handler import QueueHandler
-from typing import Any
+from qa_pytest_rabbitmq.rabbitmq_steps import RabbitMqSteps
+
+
+K = TypeVar("K")
+V = TypeVar("V")
+TConfiguration = TypeVar("TConfiguration", bound=RabbitMqConfiguration)
+TSteps = TypeVar("TSteps", bound=RabbitMqSteps[Any, Any, Any])
 
 
 class RabbitMqTests(
-    AbstractTestsBase
-    [GenericSteps[RabbitMqConfiguration],
-     RabbitMqConfiguration]):
-    """Base class for RabbitMQ BDD tests."""
-    configuration: RabbitMqConfiguration
-    queue_handler: QueueHandler[Any, Any]
-    # ...implementation placeholder for setup/teardown and BDD step composition...
-    pass
+        Generic[K, V, TSteps, TConfiguration],
+        AbstractTestsBase[TSteps, TConfiguration]):
+    _connection: pika.BlockingConnection
+
+    @override
+    def setup_method(self):
+        super().setup_method()
+        self._connection = pika.BlockingConnection(self._configuration.amqp_url)
+
+    @override
+    def teardown_method(self):
+        try:
+            self._connection.close()
+        finally:
+            super().teardown_method()
