@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import pika
+import threading
+from typing import Any, Callable, Iterator
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from types import TracebackType
-from typing import Any, Callable, Iterable, Dict, Type, Self
-from pika.adapters.select_connection import SelectConnection
-from pika.channel import Channel
-from pika.spec import Basic, BasicProperties
-from threading import Lock, Event, Thread
+from typing import Self, Type
+import pika
+from pika.adapters.blocking_connection import BlockingChannel
+from pika.spec import BasicProperties
 
 from qa_testing_utils.logger import LoggerMixin
 from qa_testing_utils.object_utils import require_not_none
@@ -22,107 +23,197 @@ class Message[V]:
     properties: BasicProperties = field(default_factory=BasicProperties)
 
 
+@to_string()
 @dataclass
 class QueueHandler[K, V](LoggerMixin):
-    """Handles publishing and consuming messages from RabbitMQ queues."""
-
+    """
+    Retrieves RabbitMQ messages from specified queue via provided channel.
+    Messages are converted by specified value function and indexed by specified
+    key function.
+    
+    Messages are consumed in background threads and made available for retrieval
+    by their key.
+    
+    Typical workflow:
+    1. build it
+    2. start consumption -- this will run in background until closing
+    3. retrieve messages
+    """
+    
     connection_params: pika.URLParameters
     queue: str
     indexing_by: Callable[[Message[V]], K]
     consuming_by: Callable[[bytes], V]
     publishing_by: Callable[[V], bytes]
-
-    _messages: dict[K, Message[V]] = field(default_factory=dict, init=False)
-    _lock: Lock = field(default_factory=Lock, init=False)
-    _queue_declared: Event = field(default_factory=Event, init=False)
-    _channel_opened: Event = field(default_factory=Event, init=False)
-    _connection: SelectConnection | None = field(default=None, init=False)
-    _channel: Channel | None = field(default=None, init=False)
-
-    def _on_message(self, ch: Channel, method: Basic.Deliver,
-                    props: BasicProperties, body: bytes) -> None:
-        try:
-            message = Message(self.consuming_by(body), props)
-            key = self.indexing_by(message)
-            with self._lock:
-                self._messages[key] = message
-            self.log.debug(f"received {key}")
-            ch.basic_ack(delivery_tag=require_not_none(method.delivery_tag))
-        except Exception as e:
-            self.log.warning(f"skipping unknown type {e}")
-            ch.basic_reject(delivery_tag=require_not_none(
-                method.delivery_tag), requeue=True)
-
-    def _on_queue_declared(self, _: Any) -> None:
-        if not self._channel:
-            raise RuntimeError("channel not ready")
-
-        consumer_tag = self._channel.basic_consume(
+    
+    _connection: pika.BlockingConnection | None = field(default=None, init=False)
+    _channel: BlockingChannel | None = field(default=None, init=False)
+    _actual_queue_name: str | None = field(default=None, init=False)
+    _received_messages: dict[K, Message[V]] = field(default_factory=dict, init=False)
+    _consumer_tag: str | None = field(default=None, init=False)
+    _consuming: bool = field(default=False, init=False)
+    _lock: threading.RLock = field(default_factory=threading.RLock, init=False)
+    _consumer_thread: threading.Thread | None = field(default=None, init=False)
+    
+    def __enter__(self) -> Self:
+        """Enter context manager."""
+        self.log.debug("creating connection")
+        self._connection = pika.BlockingConnection(self.connection_params)
+        self._channel = self._connection.channel()
+        
+        # Declare queue - if empty string, RabbitMQ will generate a name
+        queue_result = self._channel.queue_declare(
             queue=self.queue,
-            on_message_callback=self._on_message,
-            auto_ack=False)
-
-        if self._connection and self._connection.ioloop:
-            self._connection.ioloop.add_callback_threadsafe(self._queue_declared.set)
-        else:
-            self._queue_declared.set()
-
-        self.log.debug(f"consumer started with tag {consumer_tag}")
-
-    def _on_channel_open(self, channel: Channel) -> None:
-        self._channel = channel
-        self._channel_opened.set()
-        channel.queue_declare(
-            queue=self.queue, callback=self._on_queue_declared)
-
-    def _on_connection_open(self, connection: Any) -> None:
-        self._connection = connection
-        connection.channel(on_open_callback=self._on_channel_open)
-
-    def consume(self) -> None:
-        def _run():
-            self._connection = SelectConnection(
-                parameters=self.connection_params,
-                on_open_callback=self._on_connection_open,
-            )
-            self._connection.ioloop.start()
-
-        Thread(target=_run, daemon=True).start()
-        self._queue_declared.wait(timeout=5)
-
-    def publish(self, messages: Iterable[Message[V]]) -> None:
-        if not self._channel_opened.wait(timeout=5):
-            raise RuntimeError("channel not ready")
-        if not self._channel:
-            raise RuntimeError("channel not ready")
-
+            exclusive=True if self.queue == EMPTY_STRING else False
+        )
+        self._actual_queue_name = require_not_none(queue_result.method.queue)
+        
+        return self
+    
+    def __exit__(self,
+                 exc_type: Type[BaseException] | None,
+                 exc_value: BaseException | None,
+                 traceback: TracebackType | None) -> None:
+        """Exit context manager."""
+        self.close()
+    
+    def consume(self) -> str:
+        """
+        Start the message consumption process and return immediately.
+        
+        Returns:
+            Consumer tag
+        """
+        if self._consuming or not self._channel or not self._actual_queue_name:
+            raise RuntimeError("consumer already started or handler not properly initialized")
+        
+        # Set QoS
+        self._channel.basic_qos(prefetch_count=16)
+        
+        def callback(ch: BlockingChannel, method: Any, properties: BasicProperties, body: bytes) -> None:
+            """Handle incoming messages."""
+            try:
+                # Deserialize message content
+                content = self.consuming_by(body)
+                message = Message(content=content, properties=properties)
+                
+                # Extract key
+                key = self.indexing_by(message)
+                self.log.debug(f"received {key}")
+                
+                # Store message
+                with self._lock:
+                    self._received_messages[key] = message
+                
+                # Acknowledge message
+                ch.basic_ack(delivery_tag=require_not_none(method.delivery_tag))
+                
+            except Exception as e:
+                self.log.warning(f"skipping unknown type {e}")
+                # Reject and requeue the message
+                ch.basic_reject(delivery_tag=require_not_none(method.delivery_tag), requeue=True)
+        
+        # Start consuming
+        self._consumer_tag = self._channel.basic_consume(
+            queue=self._actual_queue_name,
+            on_message_callback=callback
+        )
+        
+        self._consuming = True
+        
+        # Start consuming in background thread
+        self._consumer_thread = threading.Thread(
+            target=self._start_consuming,
+            daemon=True,
+            name="rabbitmq-consumer"
+        )
+        self._consumer_thread.start()
+        
+        consumer_tag = require_not_none(self._consumer_tag)
+        self.log.debug(f"set-up consumer with tag {consumer_tag}")
+        return consumer_tag
+    
+    def _start_consuming(self) -> None:
+        """Start the consuming loop in background thread."""
+        try:
+            if self._channel:
+                self._channel.start_consuming()
+        except Exception as e:
+            self.log.error(f"error in consuming loop: {e}")
+            self._consuming = False
+    
+    def cancel(self) -> str:
+        """
+        Cancel the consumption, previously started by consume().
+        
+        Returns:
+            The consumer tag
+            
+        Raises:
+            RuntimeError: If consumer was not started
+        """
+        if not self._consumer_tag or not self._channel:
+            raise RuntimeError("consumer not started")
+        
+        self.log.debug(f"cancelling consumer by tag {self._consumer_tag}")
+        
+        self._channel.stop_consuming()
+        self._consuming = False
+        
+        # Wait for consumer thread to finish
+        if self._consumer_thread and self._consumer_thread.is_alive():
+            self._consumer_thread.join(timeout=5.0)
+        
+        return self._consumer_tag
+    
+    def close(self) -> None:
+        """Close the queue handler and cancel consumption."""
+        try:
+            if self._consuming:
+                self.cancel()
+        except Exception as e:
+            self.log.error(f"while closing got {e}")
+        finally:
+            if self._connection and not self._connection.is_closed:
+                self.log.debug("closing connection")
+                self._connection.close()
+    
+    def publish(self, messages: Iterator[Message[V]]) -> None:
+        """
+        Publish multiple messages to the queue.
+        
+        Args:
+            messages: Iterator of messages to publish
+        """
+        if not self._channel or not self._actual_queue_name:
+            raise RuntimeError("handler not properly initialized")
+            
         for message in messages:
             self.log.debug(f"publishing {message}")
+            body = self.publishing_by(message.content)
             self._channel.basic_publish(
                 exchange=EMPTY_STRING,
-                routing_key=self.queue,
-                body=self.publishing_by(message.content),
-                properties=message.properties,
+                routing_key=self._actual_queue_name,
+                body=body,
+                properties=message.properties
             )
-
-    def publish_values(self, values: Iterable[V]) -> None:
-        self.publish(Message(value) for value in values)
-
-    def received_messages(self) -> Dict[K, Message[V]]:
+    
+    def publish_values(self, values: Iterator[V]) -> None:
+        """
+        Publish multiple values as messages to the queue.
+        
+        Args:
+            values: Iterator of values to publish
+        """
+        messages = (Message(content=value) for value in values)
+        self.publish(messages)
+    
+    def received_messages(self) -> Mapping[K, Message[V]]:
+        """
+        Get unmodifiable view of retrieved messages.
+        
+        Returns:
+            Mapping of received messages indexed by key
+        """
         with self._lock:
-            return dict(self._messages)
-
-    def close(self) -> None:
-        if self._connection:
-            self._connection.close()
-            self._connection.ioloop.stop()
-
-    def __enter__(self) -> Self:
-        return self
-
-    def __exit__(
-            self,
-            exc_type: Type[BaseException] | None,
-            exc_value: BaseException | None,
-            traceback: TracebackType | None) -> None:
-        self.close()
+            return dict(self._received_messages)
