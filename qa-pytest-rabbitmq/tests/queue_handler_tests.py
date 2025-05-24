@@ -37,15 +37,19 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
                 assert_that(cast(bytes, body).decode(), equal_to(some_text))
 
     def should_retrieve_one_message(self) -> None:
-        with QueueHandler(
-                connection_params=self.local_rabbit_mq,
-                queue=EMPTY_STRING,
-                indexing_by=lambda message: message.content,
-                consuming_by=lambda bytes: bytes.decode(),
-                publishing_by=lambda string: string.encode()) as queue_handler:
-            queue_handler.publish_values(iter(["a", "b", "c"]))
-            queue_handler.consume()
-            self.retrying(
-                lambda: assert_that(
-                    queue_handler.received_messages(),
-                    has_length(3)))
+        with pika.BlockingConnection(self.local_rabbit_mq) as connection:
+            with connection.channel() as channel:
+                with QueueHandler(
+                        channel=channel,
+                        queue=require_not_none(channel.queue_declare(queue=EMPTY_STRING, exclusive=True).method.queue),
+                        indexing_by=lambda message: message.content,
+                        consuming_by=lambda bytes: bytes.decode(),
+                        publishing_by=lambda string: string.encode()) as queue_handler:
+
+                    queue_handler.publish_values(iter(["a", "b", "c"]))
+                    queue_handler.consume()
+
+                    self.retrying(
+                        lambda: assert_that(
+                            queue_handler.received_messages(),
+                            has_length(3)))
