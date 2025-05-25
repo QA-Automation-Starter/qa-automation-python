@@ -31,7 +31,7 @@ class RabbitMqSelfTests(
         super().setup_method()
         self._queue_handler = QueueHandler(
             channel := self._connection.channel(),
-            queue=require_not_none(
+            queue_name=require_not_none(
                 channel.queue_declare(
                     queue=EMPTY_STRING, exclusive=True).method.queue),
             indexing_by=lambda message: hash(message.content),

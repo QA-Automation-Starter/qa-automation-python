@@ -13,6 +13,7 @@ from .abstract_queue_handler_tests import AbstractQueueHandlerTests
 
 class QueueHandlerTests(AbstractQueueHandlerTests):
     # NOTE: sudo rabbitmqctl status -- ensure RabbitMQ is running
+    # otherwise, sudo rabbitmq-server -detached
     def should_have_a_working_rabbitmq(self) -> None:
         some_text = random_string(10)
         with closing(pika.BlockingConnection(self.local_rabbit_mq)) as connection:
@@ -41,15 +42,18 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
             with connection.channel() as channel:
                 with QueueHandler(
                         channel=channel,
-                        queue=require_not_none(channel.queue_declare(queue=EMPTY_STRING, exclusive=True).method.queue),
+                        queue_name=require_not_none(channel.queue_declare(queue=EMPTY_STRING, exclusive=True).method.queue),
                         indexing_by=lambda message: message.content,
                         consuming_by=lambda bytes: bytes.decode(),
                         publishing_by=lambda string: string.encode()) as queue_handler:
 
                     queue_handler.publish_values(iter(["a", "b", "c"]))
                     queue_handler.consume()
+                    queue_handler.cancel()
+                    queue_handler.publish_values(iter(["d", "e", "f"]))
+                    queue_handler.consume()
 
                     self.retrying(
                         lambda: assert_that(
                             queue_handler.received_messages,
-                            has_length(3)))
+                            has_length(6)))
