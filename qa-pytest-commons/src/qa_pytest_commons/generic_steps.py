@@ -55,7 +55,8 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     _retrying: Retrying
     _configuration: TConfiguration
 
-    def __init__(self):
+    def __init__(self, configuration: TConfiguration):
+        self._configuration = configuration
         # NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;
         # see BddScenarioTests#should_retry
         self._retrying = Retrying(
@@ -121,19 +122,20 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         """
         return self
 
-    # @traced -- nothing to trace here...
-    def configuration(self, configuration: TConfiguration) -> Self:
-        """
-        Sets the configuration to use.
+    # DELETEME
+    # # @traced -- nothing to trace here...
+    # def configuration(self, configuration: TConfiguration) -> Self:
+    #     """
+    #     Sets the configuration to use.
 
-        Args:
-            configuration (TConfiguration): the configuration
+    #     Args:
+    #         configuration (TConfiguration): the configuration
 
-        Returns:
-            Self: these steps
-        """
-        self._configuration = configuration
-        return self
+    #     Returns:
+    #         Self: these steps
+    #     """
+    #     self._configuration = configuration
+    #     return self
 
     def set[T:Valid](self, field_name: str, field_value: T) -> T:
         """

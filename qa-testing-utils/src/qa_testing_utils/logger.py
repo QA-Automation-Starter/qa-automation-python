@@ -8,7 +8,7 @@ from functools import cached_property, wraps
 from typing import Callable, ParamSpec, TypeVar, cast, final
 
 import allure
-from qa_testing_utils.string_utils import EMPTY, LF
+from qa_testing_utils.string_utils import EMPTY_STRING, LF
 
 
 def trace[T](value: T) -> T:
@@ -132,7 +132,7 @@ def traced(func: Callable[P, R]) -> Callable[P, R]:
                 f"{", ".join([str(arg) for arg in args[1:]])} "
                 f"{LF.join(
                     f"{key}={str(value)}"
-                    for key, value in kwargs.items()) if kwargs else EMPTY}")
+                    for key, value in kwargs.items()) if kwargs else EMPTY_STRING}")
 
             with allure.step(  # type: ignore
                     f"{func.__name__} "

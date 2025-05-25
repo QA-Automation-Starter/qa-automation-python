@@ -11,7 +11,12 @@ from qa_testing_utils.logger import LoggerMixin
 from qa_testing_utils.object_utils import ImmutableMixin
 
 
-class BaseConfiguration(LoggerMixin, ImmutableMixin):
+class Configuration():
+    """Just to allow for empty configurations"""
+    pass
+
+
+class BaseConfiguration(Configuration, LoggerMixin, ImmutableMixin):
     """
     Base class for all types of configurations, providing a parser for a
     pre-specified configuration file.

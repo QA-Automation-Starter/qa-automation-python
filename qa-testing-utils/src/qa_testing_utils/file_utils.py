@@ -88,7 +88,7 @@ def stream_file(
         Iterator[bytes]: the binary chunks stream
     """
     with file_path.open('rb') as f:
-        yield from iter(lambda: f.read(chunk_size), EMPTY_BYTE_STRING)
+        yield from iter(lambda: f.read(chunk_size), EMPTY_BYTES)
 
 
 def read_lines(

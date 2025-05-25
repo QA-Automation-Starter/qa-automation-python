@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+import qa_pytest_examples
 from qa_testing_utils.conftest_helpers import *
 
 import pytest
@@ -9,10 +10,10 @@ import pytest
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config) -> None:
-    configure(config)
+    configure(config, Path(qa_pytest_examples.__file__).parent / "logging.ini")
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_makereport(
-        item: pytest.Item, call: pytest.CallInfo[None]) -> None:
-    makereport(item, call)
+        item: pytest.Item, call: pytest.CallInfo[None]) -> pytest.TestReport:
+    return makereport(item, call)
