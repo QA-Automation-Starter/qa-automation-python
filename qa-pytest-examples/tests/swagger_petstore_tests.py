@@ -13,7 +13,8 @@ from qa_testing_utils.matchers import traced, yields_item
 
 @pytest.mark.external
 class SwaggerPetstoreTests(
-        RestTests[SwaggerPetstoreSteps, SwaggerPetstoreConfiguration]):
+    RestTests[SwaggerPetstoreSteps[SwaggerPetstoreConfiguration],
+              SwaggerPetstoreConfiguration]):
     _steps_type = SwaggerPetstoreSteps
     _configuration = SwaggerPetstoreConfiguration()
 

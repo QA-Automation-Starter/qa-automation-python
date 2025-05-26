@@ -14,12 +14,15 @@ from qa_pytest_examples.terminalx_steps import TerminalXSteps
 
 @pytest.mark.external
 @pytest.mark.selenium
-class TerminalXTests(SeleniumTests[TerminalXSteps, TerminalXConfiguration]):
+class TerminalXTests(
+    SeleniumTests[TerminalXSteps[TerminalXConfiguration],
+                  TerminalXConfiguration]):
     _steps_type = TerminalXSteps
     _configuration = TerminalXConfiguration()
 
     # NOTE sections may be further collected in superclasses and reused across tests
-    def login_section(self, user: TerminalXUser) -> TerminalXSteps:
+    def login_section(
+            self, user: TerminalXUser) -> TerminalXSteps[TerminalXConfiguration]:
         return (self.steps
                 .given.terminalx(self._web_driver)
                 .when.logging_in_with(user.credentials)
