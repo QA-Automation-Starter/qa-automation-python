@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Iterator, Self, final
+from typing import Iterator, Self
 from hamcrest.core.matcher import Matcher
 from selenium.webdriver.remote.webdriver import WebDriver
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
@@ -12,8 +12,8 @@ from qa_testing_utils.logger import traced
 from qa_testing_utils.matchers import adapted_iterator, adapted_object
 
 
-@final
-class TerminalXSteps(SeleniumSteps[TerminalXConfiguration]):
+class TerminalXSteps[TConfiguration: TerminalXConfiguration](
+        SeleniumSteps[TConfiguration]):
     def terminalx(self, driver: WebDriver) -> Self:
         self._web_driver = driver
         self._web_driver.get(self.configured.ui_url)

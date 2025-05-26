@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from dataclasses import asdict
-from typing import Iterator, Self, final
+from typing import Iterator, Self
 
 from requests import Request
 from hamcrest.core.matcher import Matcher
@@ -16,8 +16,7 @@ from qa_testing_utils.logger import traced
 from qa_testing_utils.matchers import adapted_object
 
 
-@final
-class SwaggerPetstoreSteps(RestSteps[SwaggerPetstoreConfiguration]):
+class SwaggerPetstoreSteps[TConfiguration:SwaggerPetstoreConfiguration](RestSteps[TConfiguration]):
 
     def swagger_petstore(self, client: requests.Session):
         self._rest_session = client
