@@ -1,5 +1,7 @@
 import random
 
+import pytest
+
 from hamcrest import is_  # type: ignore
 
 from qa_pytest_examples.combined_configuration import CombinedConfiguration
@@ -10,6 +12,8 @@ from qa_pytest_webdriver.selenium_tests import SeleniumTests
 from qa_testing_utils.matchers import yields_item, traced
 
 
+@pytest.mark.external
+@pytest.mark.selenium
 class CombinedTests(
         RestTests[CombinedSteps, CombinedConfiguration],
         SeleniumTests[CombinedSteps, CombinedConfiguration]):
