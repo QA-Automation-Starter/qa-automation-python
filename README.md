@@ -201,7 +201,23 @@ Open in Codespace or Dev Container and everything will get installed and configu
 1. branch
 2. commit changes
 3. pull request -- will trigger a build
-4. build succeeds --> tag with vX.X.X, e.g. v1.2.3 -- will trigger a release
+4. build succeeds --> tag with vX.X.X, e.g. v1.2.3 -- will trigger a release:
+
+    4.1. ensure you are on main and up-to-date
+    
+    4.2. verify which tags exists in local repo
+    ```bash
+    git tag
+    ```
+    4.3. create new tag, e.g. `v0.0.8`
+    ```bash
+    git tag v0.0.8
+    ```
+    4.4. push it
+    ```bash
+    git push origin v0.0.8
+    ```
+
 5. verify new versions appeared on https://pypi.org/
 
 ---
