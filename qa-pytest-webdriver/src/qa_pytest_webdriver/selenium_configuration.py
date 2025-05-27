@@ -19,21 +19,21 @@ class SeleniumConfiguration(BaseConfiguration):
 
     @cached_property
     @final
-    def ui_url(self) -> str:
+    def base(self) -> str:
         """
         Returns the UI URL from the configuration parser.
 
         Returns:
-            str: The URL string specified under the "ui" section in the configuration.
+            str: The URL string specified under the "selenium/base" in the configuration.
 
         Raises:
-            KeyError: If the "ui" section or "url" key is not present in the configuration parser.
+            KeyError: If the "selenium" section or "base" key is not present in the configuration parser.
         """
-        return self.parser["ui"]["url"]
+        return self.parser["selenium"]["base"]
 
     @cached_property
     @final
-    def web_driver_service(self) -> Service:
+    def service(self) -> Service:
         """
         Creates and returns a Selenium WebDriver Service instance using the ChromeDriverManager.
 

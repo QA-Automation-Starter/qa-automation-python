@@ -21,7 +21,7 @@ class RabbitMqTests(
     @override
     def setup_method(self):
         super().setup_method()
-        self._connection = pika.BlockingConnection(self._configuration.amqp_url)
+        self._connection = pika.BlockingConnection(self._configuration.base)
 
     @override
     def teardown_method(self):
