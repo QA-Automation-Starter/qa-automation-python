@@ -33,7 +33,7 @@ class SeleniumTests(
         options.add_argument("--start-maximized")  # type: ignore
         self._web_driver = Chrome(
             options,
-            self._configuration.web_driver_service)
+            self._configuration.service)
 
     @override
     def teardown_method(self):

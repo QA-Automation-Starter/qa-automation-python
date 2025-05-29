@@ -16,7 +16,7 @@ class TerminalXSteps[TConfiguration: TerminalXConfiguration](
         SeleniumSteps[TConfiguration]):
     def terminalx(self, driver: WebDriver) -> Self:
         self._web_driver = driver
-        self._web_driver.get(self.configured.ui_url)
+        self._web_driver.get(self.configured.landing_page)
         return self
 
     def clicking_login(self) -> Self:

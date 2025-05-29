@@ -20,16 +20,16 @@ class RestConfiguration(BaseConfiguration):
 
     @final
     @cached_property
-    def endpoint_base(self) -> str:
+    def base_url(self) -> str:
         """
         Returns the base URL for the endpoint from the configuration parser.
 
         Returns:
-            str: The base URL specified in the configuration under the 'endpoint' section.
+            str: The base URL specified in the configuration under the 'rest/base' key.
         """
-        return self.parser["endpoint"]["base"]
+        return self.parser["rest"]["base_url"]
 
-    def endpoint_url(self, path: str = EMPTY_STRING) -> str:
+    def resource_uri(self, path: str = EMPTY_STRING) -> str:
         """
         Constructs and returns the full endpoint URL by joining the base endpoint URL with the specified path.
 
@@ -39,4 +39,4 @@ class RestConfiguration(BaseConfiguration):
         Returns:
             str: The complete URL formed by joining the base endpoint and the provided path.
         """
-        return urljoin(self.endpoint_base, path)
+        return urljoin(self.base_url, path)
