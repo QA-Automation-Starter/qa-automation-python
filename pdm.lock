@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:ff78e41913974a0439cab015ca94afc809e1789102e01fb1e0f3f52b0ac08f6a"
+content_hash = "sha256:a16432e5e80d81a547c3f558bc4c7cc473ccce29508388b4d7fa5bb920248dec"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -363,13 +363,13 @@ files = [
 
 [[package]]
 name = "pluggy"
-version = "1.5.0"
-requires_python = ">=3.8"
+version = "1.6.0"
+requires_python = ">=3.9"
 summary = "plugin and hook calling mechanisms for python"
 groups = ["dev"]
 files = [
-    {file = "pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669"},
-    {file = "pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"},
+    {file = "pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746"},
+    {file = "pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3"},
 ]
 
 [[package]]
@@ -507,8 +507,8 @@ files = [
 
 [[package]]
 name = "pytest-xdist"
-version = "3.6.1"
-requires_python = ">=3.8"
+version = "3.7.0"
+requires_python = ">=3.9"
 summary = "pytest xdist plugin for distributed testing, most importantly across multiple CPUs"
 groups = ["dev"]
 dependencies = [
@@ -516,8 +516,8 @@ dependencies = [
     "pytest>=7.0.0",
 ]
 files = [
-    {file = "pytest_xdist-3.6.1-py3-none-any.whl", hash = "sha256:9ed4adfb68a016610848639bb7e02c9352d5d9f03d04809919e2dafc3be4cca7"},
-    {file = "pytest_xdist-3.6.1.tar.gz", hash = "sha256:ead156a4db231eec769737f57668ef58a2084a34b2e55c4a8fa20d861107300d"},
+    {file = "pytest_xdist-3.7.0-py3-none-any.whl", hash = "sha256:7d3fbd255998265052435eb9daa4e99b62e6fb9cfb6efd1f858d4d8c0c7f0ca0"},
+    {file = "pytest_xdist-3.7.0.tar.gz", hash = "sha256:f9248c99a7c15b7d2f90715df93610353a485827bc06eefb6566d23f6400f126"},
 ]
 
 [[package]]
@@ -581,7 +581,8 @@ dependencies = [
     "qa-testing-utils",
     "returns==0.25.0",
     "tenacity==9.1.2",
-    ]
+    "types-pika==1.2.0b1",
+]
 
 [[package]]
 name = "qa-pytest-rest"
@@ -619,7 +620,7 @@ dependencies = [
     "qa-pytest-commons",
     "qa-testing-utils",
     "returns==0.25.0",
-    "selenium==4.32.0",
+    "selenium==4.33.0",
     "tenacity==9.1.2",
     "webdriver-manager==4.0.2",
 ]
@@ -675,21 +676,21 @@ files = [
 
 [[package]]
 name = "selenium"
-version = "4.32.0"
+version = "4.33.0"
 requires_python = ">=3.9"
 summary = "Official Python bindings for Selenium WebDriver"
 groups = ["dev"]
 dependencies = [
-    "certifi>=2021.10.8",
-    "trio-websocket~=0.9",
-    "trio~=0.17",
-    "typing-extensions~=4.9",
-    "urllib3[socks]<3,>=1.26",
-    "websocket-client~=1.8",
+    "certifi>=2025.4.26",
+    "trio-websocket~=0.12.2",
+    "trio~=0.30.0",
+    "typing-extensions~=4.13.2",
+    "urllib3[socks]~=2.4.0",
+    "websocket-client~=1.8.0",
 ]
 files = [
-    {file = "selenium-4.32.0-py3-none-any.whl", hash = "sha256:c4d9613f8a45693d61530c9660560fadb52db7d730237bc788ddedf442391f97"},
-    {file = "selenium-4.32.0.tar.gz", hash = "sha256:b9509bef4056f4083772abb1ae19ff57247d617a29255384b26be6956615b206"},
+    {file = "selenium-4.33.0-py3-none-any.whl", hash = "sha256:af9ea757813918bddfe05cc677bf63c8a0cd277ebf8474b3dd79caa5727fca85"},
+    {file = "selenium-4.33.0.tar.gz", hash = "sha256:d90974db95d2cdeb34d2fb1b13f03dc904f53e6c5d228745b0635ada10cd625d"},
 ]
 
 [[package]]
@@ -770,6 +771,16 @@ dependencies = [
 files = [
     {file = "trio_websocket-0.12.2-py3-none-any.whl", hash = "sha256:df605665f1db533f4a386c94525870851096a223adcb97f72a07e8b4beba45b6"},
     {file = "trio_websocket-0.12.2.tar.gz", hash = "sha256:22c72c436f3d1e264d0910a3951934798dcc5b00ae56fc4ee079d46c7cf20fae"},
+]
+
+[[package]]
+name = "types-pika"
+version = "1.2.0b1"
+summary = "PEP-484 stubs for Pika"
+groups = ["dev"]
+files = [
+    {file = "types-pika-1.2.0b1.tar.gz", hash = "sha256:338f56ced7cfe17bce5237764fb5561fb209be2ef7eb32712f58608f55b1dc5b"},
+    {file = "types_pika-1.2.0b1-py3-none-any.whl", hash = "sha256:d5522f5b17dbaf747e1a0e49dd0024c1656a5ffda890996daa40b43f824667bc"},
 ]
 
 [[package]]
