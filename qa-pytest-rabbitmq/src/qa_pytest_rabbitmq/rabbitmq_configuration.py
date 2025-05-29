@@ -7,5 +7,5 @@ from qa_pytest_commons.base_configuration import BaseConfiguration
 
 class RabbitMqConfiguration(BaseConfiguration):
     @cached_property
-    def base(self) -> pika.URLParameters:
-        return pika.URLParameters(self.parser.get("rabbitmq", "base"))
+    def connection_uri(self) -> pika.URLParameters:
+        return pika.URLParameters(self.parser.get("rabbitmq", "connection_uri"))

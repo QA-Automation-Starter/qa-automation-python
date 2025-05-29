@@ -27,7 +27,7 @@ class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](
     def adding(self, pet: SwaggerPetstorePet) -> Self:
         return self.invoking(Request(
             method=HttpMethod.POST,
-            url=self.configured.url(path="pet"),
+            url=self.configured.resource_uri(path="pet"),
             json=asdict(pet)
         ))
 
@@ -36,7 +36,7 @@ class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](
                            [Iterator[SwaggerPetstorePet]]) -> Self:
         return self.the_invocation(Request(
             method=HttpMethod.GET,
-            url=self.configured.url(path="pet/findByStatus"),
+            url=self.configured.resource_uri(path="pet/findByStatus"),
             params={"status": "available"}),
             adapted_object(
                 lambda response: SwaggerPetstorePet.from_(response),
