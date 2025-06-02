@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:2adf4d72a38af34b466c82ca7cd9a9aeedd8837abd6f566aaad695e75122c029"
+content_hash = "sha256:a5c501d4876c408d9912a8abb98b2c9ccb2b34292dd1c294d4865c1ae1e0622b"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -153,6 +153,17 @@ files = [
 ]
 
 [[package]]
+name = "pygments"
+version = "2.19.1"
+requires_python = ">=3.8"
+summary = "Pygments is a syntax highlighting package written in Python."
+groups = ["default"]
+files = [
+    {file = "pygments-2.19.1-py3-none-any.whl", hash = "sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c"},
+    {file = "pygments-2.19.1.tar.gz", hash = "sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f"},
+]
+
+[[package]]
 name = "pyhamcrest"
 version = "2.1.0"
 requires_python = ">=3.6"
@@ -165,21 +176,22 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.3.5"
-requires_python = ">=3.8"
+version = "8.4.0"
+requires_python = ">=3.9"
 summary = "pytest: simple powerful testing with Python"
 groups = ["default"]
 dependencies = [
-    "colorama; sys_platform == \"win32\"",
-    "exceptiongroup>=1.0.0rc8; python_version < \"3.11\"",
-    "iniconfig",
-    "packaging",
+    "colorama>=0.4; sys_platform == \"win32\"",
+    "exceptiongroup>=1; python_version < \"3.11\"",
+    "iniconfig>=1",
+    "packaging>=20",
     "pluggy<2,>=1.5",
+    "pygments>=2.7.2",
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.3.5-py3-none-any.whl", hash = "sha256:c69214aa47deac29fad6c2a4f590b9c4a9fdb16a403176fe154b79c0b4d4d820"},
-    {file = "pytest-8.3.5.tar.gz", hash = "sha256:f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845"},
+    {file = "pytest-8.4.0-py3-none-any.whl", hash = "sha256:f40f825768ad76c0977cbacdf1fd37c6f7a468e460ea6a0636078f8972d4517e"},
+    {file = "pytest-8.4.0.tar.gz", hash = "sha256:14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6"},
 ]
 
 [[package]]
@@ -195,29 +207,26 @@ files = [
 
 [[package]]
 name = "qa-pytest-commons"
-version = "0.0.7"
+version = "0.0.3"
 requires_python = ">=3.13"
 summary = ""
 groups = ["default"]
 dependencies = [
-    "PyHamcrest==2.1.0",
-    "allure-pytest==2.14.2",
-    "more-itertools==10.7.0",
-    "ppretty==1.3",
-    "pyfunctional==1.5.0",
-    "pytest==8.3.5",
+    "PyHamcrest",
+    "more-itertools",
+    "pyfunctional",
+    "pytest",
     "qa-testing-utils",
-    "returns==0.25.0",
-    "tenacity==9.1.2",
+    "tenacity",
 ]
 files = [
-    {file = "qa_pytest_commons-0.0.7-py3-none-any.whl", hash = "sha256:1d6b78d410a45d2189cfcf374b594c9f75147e49e49db9bc5d46339f65949a6d"},
-    {file = "qa_pytest_commons-0.0.7.tar.gz", hash = "sha256:a1e2bf5bd214df28183067b9fe373084bbb17f2f0be1fe57862c4e0d7318f2ca"},
+    {file = "qa_pytest_commons-0.0.3-py3-none-any.whl", hash = "sha256:b2888694ccfd6519e0afc8330ccba206bbaccb14f92808481ab51d6058662367"},
+    {file = "qa_pytest_commons-0.0.3.tar.gz", hash = "sha256:106ed3c7d65c94fe5a859797dd967f67ff44e34e321f7e4caeb2d4bd985d0f4f"},
 ]
 
 [[package]]
 name = "qa-testing-utils"
-version = "0.0.7"
+version = "0.0.5"
 requires_python = ">=3.13"
 summary = "QA testing utilities"
 groups = ["default"]
@@ -227,12 +236,11 @@ dependencies = [
     "more-itertools==10.7.0",
     "ppretty==1.3",
     "pyfunctional==1.5.0",
-    "pytest==8.3.5",
     "returns==0.25.0",
 ]
 files = [
-    {file = "qa_testing_utils-0.0.7-py3-none-any.whl", hash = "sha256:f49d7019d48de8df649c296dbe556b5bd1d566d394d6f900cdd456f16c689b6d"},
-    {file = "qa_testing_utils-0.0.7.tar.gz", hash = "sha256:aa957f8cbafecce73956c353e8fbb9a78d81364d6b60034846b1d64f52518a0c"},
+    {file = "qa_testing_utils-0.0.5-py3-none-any.whl", hash = "sha256:87aa090686de0c513c3240e7a6978d28799ecbf506fc2c1dc0a857063e72909c"},
+    {file = "qa_testing_utils-0.0.5.tar.gz", hash = "sha256:73d704a5fa879c6dddbddd34dac673433bdfae22fd620b6b70b0e1ef3159cda8"},
 ]
 
 [[package]]
@@ -269,6 +277,16 @@ groups = ["default"]
 files = [
     {file = "tenacity-9.1.2-py3-none-any.whl", hash = "sha256:f77bf36710d8b73a50b2dd155c97b870017ad21afe6ab300326b0371b3b05138"},
     {file = "tenacity-9.1.2.tar.gz", hash = "sha256:1169d376c297e7de388d18b4481760d478b0e99a777cad3a9c86e556f4b697cb"},
+]
+
+[[package]]
+name = "types-pika"
+version = "1.2.0b1"
+summary = "PEP-484 stubs for Pika"
+groups = ["default"]
+files = [
+    {file = "types-pika-1.2.0b1.tar.gz", hash = "sha256:338f56ced7cfe17bce5237764fb5561fb209be2ef7eb32712f58608f55b1dc5b"},
+    {file = "types_pika-1.2.0b1-py3-none-any.whl", hash = "sha256:d5522f5b17dbaf747e1a0e49dd0024c1656a5ffda890996daa40b43f824667bc"},
 ]
 
 [[package]]
