@@ -25,6 +25,16 @@ class SeleniumTests(
         AbstractTestsBase[TSteps, TConfiguration]):
     _web_driver: WebDriver  # not thread safe
 
+    @property
+    def web_driver(self) -> WebDriver:
+        '''
+        Returns the web driver instance.
+
+        Returns:
+            WebDriver: The web driver instance.
+        '''
+        return self._web_driver
+
     @override
     def setup_method(self):
         super().setup_method()

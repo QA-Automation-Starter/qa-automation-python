@@ -22,12 +22,12 @@ class CombinedTests(
 
     def should_run_combined_tests(self):
         random_pet = SwaggerPetstorePet.random()
-        random_user = random.choice(self._configuration.users)
+        random_user = random.choice(self.configuration.users)
 
         (self.steps
-            .given.swagger_petstore(self._rest_session)
+            .given.swagger_petstore(self.rest_session)
             .when.adding(random_pet)
             .then.the_available_pets(yields_item(traced(is_(random_pet))))
-            .given.terminalx(self._web_driver)
+            .given.terminalx(self.web_driver)
             .when.logging_in_with(random_user.credentials)
             .then.the_user_logged_in(is_(random_user.name)))
