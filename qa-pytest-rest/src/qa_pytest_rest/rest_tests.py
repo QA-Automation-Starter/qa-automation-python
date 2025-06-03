@@ -44,6 +44,16 @@ class RestTests(
     """
     _rest_session: requests.Session  # not thread safe
 
+    @property
+    def rest_session(self) -> requests.Session:
+        """
+        Returns the HTTP session used for making REST requests.
+
+        Returns:
+            requests.Session: The HTTP session instance.
+        """
+        return self._rest_session
+
     @override
     def setup_method(self):
         super().setup_method()

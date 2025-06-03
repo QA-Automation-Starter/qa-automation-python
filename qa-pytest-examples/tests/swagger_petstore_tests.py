@@ -21,6 +21,6 @@ class SwaggerPetstoreTests(
     def should_add(self):
         random_pet = SwaggerPetstorePet.random()
         (self.steps
-            .given.swagger_petstore(self._rest_session)
+            .given.swagger_petstore(self.rest_session)
             .when.adding(random_pet)
             .then.the_available_pets(yields_item(traced(is_(random_pet)))))

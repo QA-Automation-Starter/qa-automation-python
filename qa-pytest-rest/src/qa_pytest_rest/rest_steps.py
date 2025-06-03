@@ -24,8 +24,7 @@ class HttpMethod(str, Enum):
 
 
 class RestSteps[TConfiguration: RestConfiguration](
-    GenericSteps[TConfiguration]
-):
+        GenericSteps[TConfiguration]):
     _rest_session: requests.Session
 
     @final

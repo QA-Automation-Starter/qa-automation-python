@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import random
 from hamcrest import is_  # type: ignore
 import pytest
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
@@ -24,15 +23,15 @@ class TerminalXTests(
     def login_section(
             self, user: TerminalXUser) -> TerminalXSteps[TerminalXConfiguration]:
         return (self.steps
-                .given.terminalx(self._web_driver)
+                .given.terminalx(self.web_driver)
                 .when.logging_in_with(user.credentials)
                 .then.the_user_logged_in(is_(user.name)))
 
     def should_login(self):
-        self.login_section(random.choice(self._configuration.users))
+        self.login_section(self.configuration.random_user)
 
     def should_find(self):
-        (self.login_section(random.choice(self._configuration.users))
+        (self.login_section(self.configuration.random_user)
             .when.clicking_search())
 
         for word in ["hello", "kitty"]:

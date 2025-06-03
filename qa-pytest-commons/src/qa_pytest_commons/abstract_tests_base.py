@@ -41,6 +41,16 @@ class AbstractTestsBase[
     _steps_type: Type[TSteps]  # IMPORTANT: pytest classes must not __init__
     _configuration: TConfiguration
 
+    @property
+    def configuration(self) -> TConfiguration:
+        '''
+        Returns the configuration instance.
+
+        Returns:
+            TConfiguration: The configuration instance.
+        '''
+        return self._configuration
+
     @final
     @cached_property
     def steps(self) -> TSteps:
