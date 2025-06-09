@@ -35,6 +35,11 @@
     <a href="https://vscode.dev/github/QA-Automation-Starter/qa-automation-python">
         <img alt="Open in Dev Container" src="https://img.shields.io/badge/Open%20in-Dev%20Container-blue?logo=visualstudiocode">
     </a>
+    <!-- Test Report -->
+    <a href="https://qa-automation-starter.github.io/qa-automation-python/reports/index.html">
+        <img alt="Allure Report" src="https://img.shields.io/badge/Test%20Report-Allure-blueviolet">
+    </a>
+
 </p>
 
 **Modular Python packages for maintainable, BDD-style automated tests with [`pytest`](https://docs.pytest.org/), [`Hamcrest`](https://hamcrest.org/), [`Allure`](https://docs.qameta.io/allure/) reporting, and configurable logging.**
