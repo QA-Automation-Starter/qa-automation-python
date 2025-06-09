@@ -1,6 +1,8 @@
 name: build
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
     paths-ignore:
@@ -52,3 +54,44 @@ jobs:
 
       - name: Run tests
         run: pdm run pytest -n auto -m "not (flaky or selenium or external)"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          # NOTE: this directory is defined in pyproject.toml
+          name: allure-results
+          path: allure-results/
+
+  docs:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+
+      - name: Install Allure + MkDocs
+        run: |
+          npm install -g allure-commandline
+          pip install mkdocs mkdocs-material
+
+      - name: Generate Allure report
+        run: allure generate allure-results -o docs/reports --clean
+
+      - name: Copy README as index.md
+        run: cp README.md docs/index.md
+
+      - name: Build MkDocs site
+        run: mkdocs build --config-file ci/mkdocs.yml
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site

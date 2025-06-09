@@ -1,0 +1,7 @@
+site_name: QA Automation Starter for Python
+site_description: A starter project for QA Automation using pytest and Allure.
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Allure Report: reports/index.html
