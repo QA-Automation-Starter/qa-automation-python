@@ -1,0 +1,5 @@
+DEBUG    IterableReader:file_utils.py:40 buffered chunk with length=3
+DEBUG    IterableReader:file_utils.py:40 buffered chunk with length=3
+DEBUG    IterableReader:file_utils.py:40 buffered chunk with length=3
+DEBUG    IterableReader:file_utils.py:50 consumed 9 bytes
+DEBUG    IterableReader:file_utils.py:50 consumed 0 bytes

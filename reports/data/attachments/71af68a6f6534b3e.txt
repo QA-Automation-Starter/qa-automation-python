@@ -1,0 +1,10 @@
+ERROR    root:exception_utils.py:30 Exception occurred: fail!
+Traceback (most recent call last):
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-testing-utils/src/qa_testing_utils/exception_utils.py", line 27, in safely
+    result = supplier()
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-testing-utils/src/qa_testing_utils/exception_utils.py", line 48, in <lambda>
+    return safely(lambda: func(*args, **kwargs)).value_or(None)
+                          ~~~~^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-testing-utils/tests/exception_utils_tests.py", line 33, in fail
+    raise RuntimeError("fail!")
+RuntimeError: fail!

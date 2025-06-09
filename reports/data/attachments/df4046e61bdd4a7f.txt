@@ -1,0 +1,7 @@
+DEBUG    tests.string_utils_tests:string_utils_tests.py:43 >>>tests.string_utils_tests.Goo(
+    baz = tests.string_utils_tests.Baz(
+        bar = tests.string_utils_tests.Bar(name = 'bar')), 
+    name = 'goo', 
+    status = tests.string_utils_tests.Status(name = 'OK', value = 0), 
+    strings = ['abc', 'def']
+)

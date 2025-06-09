@@ -1,0 +1,20 @@
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:70 setup
+DEBUG    RabbitMqSelfConfiguration:base_configuration.py:77 reading configuration from /home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-examples/src/qa_pytest_examples/configurations/rabbitmq_self_configuration.ini
+DEBUG    RabbitMqSelfConfiguration:base_configuration.py:80 successfully read ['/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-examples/src/qa_pytest_examples/configurations/rabbitmq_self_configuration.ini']
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:63 initiating <class 'qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps'>
+DEBUG    RabbitMqSteps:before_sleep.py:65 Retrying qa_pytest_commons.generic_steps.GenericSteps.eventually_assert_that.<locals>.<lambda> in 1.0 seconds as it raised AssertionError: 
+Expected: a stream containing <qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)>
+     but: was <dict_valueiterator object at 0x7f0224e71d50>
+.
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:101 consumer set up with tag ctag1.284c11771ffe4348948bcc2945b4b97f
+DEBUG    QueueHandler:queue_handler.py:90 received 3715957751871471511
+DEBUG    TracingMatcher:matchers.py:27 Message(content='test_queue', properties=<BasicProperties>) -> True
+DEBUG    QueueHandler:queue_handler.py:112 consumer cancelled
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:76 teardown
