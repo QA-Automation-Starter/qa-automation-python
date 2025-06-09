@@ -22,7 +22,7 @@ dev = [
     "pytest==8.4.0",
     "pytest-cov==6.1.1",
     "pytest-html==4.1.1",
-    "allure-pytest==2.14.2",
+    "allure-pytest==2.14.3",
     "pytest-xdist==3.7.0",
     "autopep8",
     "isort",

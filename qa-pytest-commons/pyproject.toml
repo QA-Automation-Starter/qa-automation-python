@@ -18,7 +18,7 @@ dependencies = [
   "PyHamcrest==2.1.0",
   "pyfunctional==1.5.0",
   "ppretty==1.3",
-  "allure-pytest==2.14.2",
+  "allure-pytest==2.14.3",
   "more-itertools==10.7.0",
   "returns==0.25.0",
 ]
