@@ -1,0 +1,4 @@
+DEBUG    SelfTests:self_tests.py:22 before <bound method SelfTests.should_assert_true of <tests.self_tests.SelfTests object at 0x7f713609e210>>
+DEBUG    SelfTests:logger.py:130 >>> should_assert_true  
+DEBUG    SelfTests:logger.py:145 <<< should_assert_true None
+DEBUG    SelfTests:self_tests.py:25 after <bound method SelfTests.should_assert_true of <tests.self_tests.SelfTests object at 0x7f713609e210>>
