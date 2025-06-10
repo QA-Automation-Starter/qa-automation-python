@@ -274,6 +274,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -306,6 +308,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -314,9 +318,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example-tests" class="md-nav__link">
+  <a href="#ui-search-test" class="md-nav__link">
     <span class="md-ellipsis">
-      Example Tests
+      UI search test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-add-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      API add test
     </span>
   </a>
   
@@ -391,6 +404,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -399,9 +414,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example-tests" class="md-nav__link">
+  <a href="#ui-search-test" class="md-nav__link">
     <span class="md-ellipsis">
-      Example Tests
+      UI search test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-add-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      API add test
     </span>
   </a>
   
@@ -423,26 +447,26 @@
 
 
 
-  <h1>Example Tests</h1>
-
-<h2 id="example-tests">Example Tests</h2>
+<h1 id="example-tests">Example Tests</h1>
 <p>Below are example test cases demonstrating BDD-style usage with this framework:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Example: UI search test</span>
-<span class="c1"># (Assumes self.login_section and self._configuration.users are defined)</span>
-<span class="k">def</span> <span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">users</span><span class="p">))</span>
+<h2 id="ui-search-test">UI search test</h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
+
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;kitty&quot;</span><span class="p">]:</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span>
-                <span class="n">yields_item</span><span class="p">(</span><span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">))))</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span>
+                <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># Example: API add test</span>
-<span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<h2 id="api-add-test">API add test</h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+        <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
         <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">))))</span>
+        <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)))))</span>
 </code></pre></div>
 <hr />
 
