@@ -1,8 +1,11 @@
 site_name: QA Automation Starter for Python
 site_description: A starter project for QA Automation using pytest and Allure.
 site_url: https://qa-automation-starter.github.io/qa-automation-python/
+use_directory_urls: true
+
 theme:
   name: material
+
 nav:
   - Home: index.md
   - Kuku: kuku.md
