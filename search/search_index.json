@@ -1,1 +1,1 @@
-{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Home","text":"<p>TBD -- meanwhile, see https://github.com/QA-Automation-Starter/qa-automation-python?tab=readme-ov-file#readme</p>"}]}
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Home","text":"<p>TBD -- meanwhile, see https://github.com/QA-Automation-Starter/qa-automation-python?tab=readme-ov-file#readme</p>"},{"location":"kuku/","title":"Kuku","text":"<p>kuku</p>"}]}
