@@ -79,7 +79,7 @@ jobs:
       - name: Install Allure + MkDocs
         run: |
           npm install -g allure-commandline
-          pip install mkdocs mkdocs-material
+          pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
 
       - name: Generate Allure report
         run: allure generate allure-results -o docs/reports --clean

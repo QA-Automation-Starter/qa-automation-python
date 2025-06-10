@@ -6,7 +6,26 @@ use_directory_urls: true
 theme:
   name: material
 
+plugins:
+  - mermaid2
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:              # <<< missing bit
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.highlight
+  - codehilite:
+      guess_lang: false
+      use_pygments: true
+
 nav:
+  - Github Repo: https://github.com/QA-Automation-Starter/qa-automation-python?tab=readme-ov-file#readme
   - Home: index.md
-  - Kuku: kuku.md
+  - Getting Started: getting-started.md
+  - Project Structure: project-structure.md
+  - Architecture: architecture.md
+  - Example Tests: example-tests.md
+  - Local Report: local-report.md
   - Allure Report: reports/index.html
