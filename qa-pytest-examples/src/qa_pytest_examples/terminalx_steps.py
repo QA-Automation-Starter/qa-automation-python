@@ -14,6 +14,7 @@ from qa_testing_utils.matchers import adapted_iterator, adapted_object
 
 class TerminalXSteps[TConfiguration: TerminalXConfiguration](
         SeleniumSteps[TConfiguration]):
+    @traced
     def terminalx(self, driver: WebDriver) -> Self:
         self._web_driver = driver
         self._web_driver.get(self.configured.landing_page)

@@ -19,6 +19,7 @@ from qa_testing_utils.matchers import adapted_object
 class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](
         RestSteps[TConfiguration]):
 
+    @traced
     def swagger_petstore(self, client: requests.Session):
         self._rest_session = client
         return self
