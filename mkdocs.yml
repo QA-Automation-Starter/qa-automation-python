@@ -4,4 +4,5 @@ theme:
   name: material
 nav:
   - Home: index.md
+  - Kuku: kuku.md
   - Allure Report: reports/index.html
