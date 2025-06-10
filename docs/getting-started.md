@@ -1,4 +1,4 @@
-## 🚀 Quick Start (Locally with [PDM](https://pdm-project.org))
+# Getting Started
 
 Open in Codespace or Dev Container and everything will get installed and configured, otherwise:
 
