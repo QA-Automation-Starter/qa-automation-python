@@ -14,7 +14,7 @@ license = "Apache-2.0"
 dependencies = [
   "qa-testing-utils",
   "qa-pytest-commons",
-  "requests==2.32.3",
+  "requests==2.32.4",
   "tenacity==9.1.2",
   "pytest==8.4.0",
   "PyHamcrest==2.1.0",
