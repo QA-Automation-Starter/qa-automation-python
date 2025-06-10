@@ -1,0 +1,38 @@
+DEBUG    QueueHandlerTests:before_sleep.py:65 Retrying tests.queue_handler_tests.QueueHandlerTests.should_publish_and_retrieve.<locals>.<lambda> in 1.0 seconds as it raised AssertionError: 
+Expected: an object with length of <6>
+     but: was <{}> with length of <0>
+.
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'a', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'b', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'c', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:101 consumer set up with tag ctag1.29801728eb304b40b5de17d889b460fa
+DEBUG    QueueHandler:queue_handler.py:90 received a
+DEBUG    QueueHandler:queue_handler.py:90 received b
+DEBUG    QueueHandler:queue_handler.py:90 received c
+DEBUG    QueueHandler:queue_handler.py:112 consumer cancelled
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'd', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'e', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'f', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    QueueHandler:queue_handler.py:101 consumer set up with tag ctag1.917f707cfe4f4258b28c25e684000bb0
+DEBUG    QueueHandler:queue_handler.py:90 received d
+DEBUG    QueueHandler:queue_handler.py:90 received e
+DEBUG    QueueHandler:queue_handler.py:90 received f
+DEBUG    QueueHandler:queue_handler.py:112 consumer cancelled
