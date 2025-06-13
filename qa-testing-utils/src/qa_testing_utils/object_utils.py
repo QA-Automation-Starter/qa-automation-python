@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from typing import Callable, Any
 import threading
 from dataclasses import asdict, fields, is_dataclass, replace
 from enum import Enum
@@ -236,3 +237,11 @@ def require_not_none[T](
     if value is None:
         raise ValueError(message)
     return value
+
+
+class classproperty[T]:
+    def __init__(self, fget: Callable[[Any], T]) -> None:
+        self.fget = fget
+
+    def __get__(self, instance: Any, owner: Any) -> T:
+        return self.fget(owner)
