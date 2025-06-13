@@ -13,7 +13,7 @@ from tenacity import Retrying, stop_after_attempt, wait_exponential, retry_if_ex
 from typing import Callable
 from qa_testing_utils.exception_utils import safely
 
-from qa_testing_utils.logger import LoggerMixin, traced
+from qa_testing_utils.logger import LoggerMixin, traced, Context
 from qa_testing_utils.object_utils import Valid, valid
 from qa_pytest_commons.base_configuration import BaseConfiguration
 from qa_pytest_commons.bdd_keywords import BddKeywords
@@ -79,36 +79,36 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @final
     @property
     @override
-    @traced
     def given(self) -> Self:
+        Context.set(lambda m: f"Given {m}")
         return self
 
     @final
     @property
     @override
-    @traced
     def when(self) -> Self:
+        Context.set(lambda m: f"When {m}")
         return self
 
     @final
     @property
     @override
-    @traced
     def then(self) -> Self:
+        Context.set(lambda m: f"Then {m}")
         return self
 
     @final
     @property
     @override
-    @traced
     def and_(self) -> Self:
+        Context.set(lambda m: f"And {m}")
         return self
 
     @final
     @property
     @override
-    @traced
     def with_(self) -> Self:
+        Context.set(lambda m: f"With {m}")
         return self
 
     @final

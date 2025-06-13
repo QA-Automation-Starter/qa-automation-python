@@ -2,14 +2,29 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from dataclasses import dataclass
 import inspect
 import logging
 from functools import cached_property, wraps
-from typing import Callable, ParamSpec, TypeVar, cast, final
+from typing import Callable, ClassVar, ParamSpec, TypeVar, cast, final
 
 import allure
+from qa_testing_utils.object_utils import classproperty
 from qa_testing_utils.string_utils import EMPTY_STRING, LF
+from qa_testing_utils.thread_utils import ThreadLocal
 
+@dataclass
+class Context:
+    _local: ClassVar[ThreadLocal['Context']] = ThreadLocal()
+    fn: Callable[[str], str]
+
+    @classproperty
+    def apply(cls) -> Callable[[str], str]:
+        return Context._local.get().fn
+
+    @staticmethod
+    def set(context_fn: Callable[[str], str]) -> None:
+        return Context._local.set(Context(context_fn))
 
 def trace[T](value: T) -> T:
     """Logs at debug level using the invoking module name as the logger."""
@@ -135,8 +150,9 @@ def traced(func: Callable[P, R]) -> Callable[P, R]:
                     for key, value in kwargs.items()) if kwargs else EMPTY_STRING}")
 
             with allure.step(  # type: ignore
+                Context.apply(
                     f"{func.__name__} "
-                    f"{', '.join([str(arg) for arg in args[1:]])}"):
+                    f"{', '.join([str(arg) for arg in args[1:]])}")):
                 result = func(*args, **kwargs)
 
             if result == instance:
