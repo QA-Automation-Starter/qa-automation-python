@@ -79,35 +79,41 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @final
     @property
     @override
+    @traced
     def given(self) -> Self:
         return self
 
     @final
     @property
     @override
+    @traced
     def when(self) -> Self:
         return self
 
     @final
     @property
     @override
+    @traced
     def then(self) -> Self:
         return self
 
     @final
     @property
     @override
+    @traced
     def and_(self) -> Self:
         return self
 
     @final
     @property
     @override
+    @traced
     def with_(self) -> Self:
         return self
 
     @final
     @property
+    @traced
     def nothing(self) -> Self:
         """
         Intended to support self-testing which does not rely on outer world
