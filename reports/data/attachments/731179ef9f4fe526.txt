@@ -1,0 +1,2 @@
+DEBUG    SelfTests:self_tests.py:22 before <bound method SelfTests.should_assert_equality of <tests.self_tests.SelfTests object at 0x7f1af4f94770>>
+DEBUG    SelfTests:self_tests.py:25 after <bound method SelfTests.should_assert_equality of <tests.self_tests.SelfTests object at 0x7f1af4f94770>>
