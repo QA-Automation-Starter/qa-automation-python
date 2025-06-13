@@ -15,7 +15,7 @@ from qa_testing_utils.thread_utils import ThreadLocal
 
 @dataclass
 class Context:
-    _local: ClassVar[ThreadLocal['Context']] = ThreadLocal()
+    _local: ClassVar[ThreadLocal['Context']]
     fn: Callable[[str], str]
 
     @classproperty
@@ -25,6 +25,8 @@ class Context:
     @staticmethod
     def set(context_fn: Callable[[str], str]) -> None:
         return Context._local.set(Context(context_fn))
+
+Context._local = ThreadLocal(Context(lambda _: _)) # type: ignore
 
 def trace[T](value: T) -> T:
     """Logs at debug level using the invoking module name as the logger."""

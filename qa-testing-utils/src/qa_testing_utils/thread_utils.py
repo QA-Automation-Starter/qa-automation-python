@@ -21,8 +21,9 @@ def sleep_for(duration: timedelta):
 
 
 class ThreadLocal[T]:
-    def __init__(self):
+    def __init__(self, default: T):
         self._local = local()
+        self._local.value = default
 
     def set(self, value: T) -> None:
         self._local.value = value
