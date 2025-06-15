@@ -12,19 +12,19 @@ import requests
 from qa_pytest_examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
 from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
 from qa_pytest_rest.rest_steps import HttpMethod, RestSteps
-from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_object
 
 
 class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](
         RestSteps[TConfiguration]):
 
-    @traced
+    @Context.traced
     def swagger_petstore(self, client: requests.Session):
         self._rest_session = client
         return self
 
-    @traced
+    @Context.traced
     def adding(self, pet: SwaggerPetstorePet) -> Self:
         return self.invoking(Request(
             method=HttpMethod.POST,
@@ -32,7 +32,7 @@ class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](
             json=asdict(pet)
         ))
 
-    @traced
+    @Context.traced
     def the_available_pets(self, by_rule: Matcher
                            [Iterator[SwaggerPetstorePet]]) -> Self:
         return self.the_invocation(Request(

@@ -10,7 +10,7 @@ import attr
 from hamcrest import assert_that, is_  # type: ignore
 import pytest
 from tenacity import before_sleep_log, retry, retry_if_exception_type, stop_after_attempt, wait_fixed
-from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import Context
 from qa_testing_utils.logger import *
 from qa_testing_utils.exceptions import *
 from qa_testing_utils.thread_utils import *
@@ -28,7 +28,7 @@ class SelfTests(LoggerMixin):
         """Test that print statement works (placeholder/self-test)."""
         print("hello")
 
-    @traced
+    @Context.traced
     def should_assert_true(self):
         """Test that a traced assertion passes (decorator coverage)."""
         assert True

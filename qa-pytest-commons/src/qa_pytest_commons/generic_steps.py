@@ -13,7 +13,7 @@ from tenacity import Retrying, stop_after_attempt, wait_exponential, retry_if_ex
 from typing import Callable
 from qa_testing_utils.exception_utils import safely
 
-from qa_testing_utils.logger import LoggerMixin, traced, Context
+from qa_testing_utils.logger import LoggerMixin, Context
 from qa_testing_utils.object_utils import Valid, valid
 from qa_pytest_commons.base_configuration import BaseConfiguration
 from qa_pytest_commons.bdd_keywords import BddKeywords
@@ -113,7 +113,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
 
     @final
     @property
-    @traced
+    @Context.traced
     def nothing(self) -> Self:
         """
         Intended to support self-testing which does not rely on outer world
@@ -129,7 +129,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self
 
     # DELETEME
-    # # @traced -- nothing to trace here...
+    # # @Context.traced -- nothing to trace here...
     # def configuration(self, configuration: TConfiguration) -> Self:
     #     """
     #     Sets the configuration to use.
@@ -198,7 +198,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self
 
     @final
-    @traced
+    @Context.traced
     def waiting(self, duration: timedelta = timedelta(seconds=0)) -> Self:
         """
         Blocks current thread for specified duration.
@@ -215,7 +215,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self
 
     @final
-    @traced
+    @Context.traced
     def failing(self, exception: Exception) -> Self:
         """
         Intended to support self-testing of retrying and eventually_assert_that
@@ -233,7 +233,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         raise exception
 
     @final
-    @traced
+    @Context.traced
     def repeating(self, range: range, step: Callable[[int], Self]) -> Self:
         """
         Intended for stress testing -- repeats specified steps.
@@ -251,7 +251,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     # TODO parallel_repeating
 
     @final
-    @traced
+    @Context.traced
     def safely(self, step: Callable[[], Self]) -> Self:
         """
         Executes specified step, swallowing its exceptions.
@@ -269,7 +269,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     # This one would be:
     # @raises(tenacity.RetryError)
     @final
-    # @traced
+    # @Context.traced
     def retrying(self, step: Callable[[], Self]) -> Self:
         '''
         Retries specified step according to _retry_policy.
@@ -285,7 +285,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self._retrying(step)
 
     @final
-    # @traced
+    # @Context.traced
     def eventually_assert_that[T](
             self, supplier: Supplier[T],
             by_rule: Matcher[T]) -> Self:
@@ -307,7 +307,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self._retrying(lambda: self._assert_that(supplier(), by_rule))
 
     @final
-    @traced
+    @Context.traced
     def it_works(self, matcher: Matcher[bool]) -> Self:
         """
         Intended to support self-testing of reports.
@@ -323,7 +323,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         return self
 
     @final
-    # NOTE @traced here is redundant
+    # NOTE @Context.traced here is redundant
     def _assert_that[T](self, value: T, by_rule: Matcher[T]) -> Self:
         """
         Adapts PyHamcrest's assert_that to the BDD world by returning Self.

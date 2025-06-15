@@ -21,7 +21,7 @@ class RabbitMqSelfTests(
     def should_publish_and_consume(self) -> None:
         (self.steps
             .given.a_queue_handler(self._queue_handler)
-            .when.publishing(iter([Message("test_queue")]))
+            .when.publishing([Message("test_queue")])
             .and_.consuming()
             .then.the_received_messages(yields_item(
                 traced(is_(Message("test_queue"))))))
