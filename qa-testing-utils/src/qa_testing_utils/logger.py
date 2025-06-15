@@ -18,15 +18,17 @@ R = TypeVar('R')
 
 @dataclass
 class Context:
+    """Per-thread context for reporting and logging, allowing dynamic formatting of messages."""
     _local: ClassVar[ThreadLocal['Context']]
-    fn: Callable[[str], str]
+    _context_fn: Callable[[str], str]
 
     @classproperty
-    def apply(cls) -> Callable[[str], str]:
-        return Context._local.get().fn
+    def _apply(cls) -> Callable[[str], str]:
+        return Context._local.get()._context_fn
 
     @staticmethod
     def set(context_fn: Callable[[str], str]) -> None:
+        """Sets per-thread context function to be used for formatting report and log messages."""
         return Context._local.set(Context(context_fn))
     
     @staticmethod
@@ -61,7 +63,7 @@ class Context:
                 instance = args[0]
                 logger = logging.getLogger(f"{instance.__class__.__name__}")
                 logger.debug(f">>> "
-                    + Context.apply(
+                    + Context._apply(
                         f"{func.__name__} "
                         f"{", ".join([str(arg) for arg in args[1:]])} "
                         f"{LF.join(
@@ -69,15 +71,15 @@ class Context:
                             for key, value in kwargs.items()) if kwargs else EMPTY_STRING}"))
 
                 with allure.step(  # type: ignore
-                    Context.apply(
+                    Context._apply(
                         f"{func.__name__} "
                         f"{', '.join([str(arg) for arg in args[1:]])}")):
                     result = func(*args, **kwargs)
 
                 if result == instance:
-                    logger.debug(f"<<< " + Context.apply(f"{func.__name__}"))
+                    logger.debug(f"<<< " + Context._apply(f"{func.__name__}"))
                 else:
-                    logger.debug(f"<<< " + Context.apply(f"{func.__name__} {result}"))
+                    logger.debug(f"<<< " + Context._apply(f"{func.__name__} {result}"))
 
                 return result
             else:
@@ -90,6 +92,7 @@ class Context:
         return wrapper
 
 
+# NOTE: python does not support static initializers, so we init here.
 Context._local = ThreadLocal(Context(lambda _: _)) # type: ignore
 
 def trace[T](value: T) -> T:
