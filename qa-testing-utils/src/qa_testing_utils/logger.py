@@ -13,6 +13,9 @@ from qa_testing_utils.object_utils import classproperty
 from qa_testing_utils.string_utils import EMPTY_STRING, LF
 from qa_testing_utils.thread_utils import ThreadLocal
 
+P = ParamSpec('P')
+R = TypeVar('R')
+
 @dataclass
 class Context:
     _local: ClassVar[ThreadLocal['Context']]
@@ -25,6 +28,67 @@ class Context:
     @staticmethod
     def set(context_fn: Callable[[str], str]) -> None:
         return Context._local.set(Context(context_fn))
+    
+    @staticmethod
+    def traced(func: Callable[P, R]) -> Callable[P, R]:
+        """
+        Decorator to log function entry, arguments, and return value at DEBUG level.
+
+        Also adds an Allure step for reporting. Use on methods where tracing is useful
+        for debugging or reporting.
+
+        Example:
+            @Context.traced
+            def my_method(self, x):
+                ...
+
+        Args:
+            func (Callable[P, R]): The function to be decorated.
+            *args (Any): Positional arguments to be passed to the function.
+            **kwargs (Any): Keyword arguments to be passed to the function.
+
+        Returns:
+            Callable[P, R]: The result of the function call.
+        """
+        @wraps(func)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            # NOTE: each time a decorated function is called this logic will be
+            # re-evaluated.
+            signature = inspect.signature(func)
+            parameters = list(signature.parameters.keys())
+
+            if parameters and parameters[0] == 'self' and len(args) > 0:
+                instance = args[0]
+                logger = logging.getLogger(f"{instance.__class__.__name__}")
+                logger.debug(f">>> "
+                    + Context.apply(
+                        f"{func.__name__} "
+                        f"{", ".join([str(arg) for arg in args[1:]])} "
+                        f"{LF.join(
+                            f"{key}={str(value)}"
+                            for key, value in kwargs.items()) if kwargs else EMPTY_STRING}"))
+
+                with allure.step(  # type: ignore
+                    Context.apply(
+                        f"{func.__name__} "
+                        f"{', '.join([str(arg) for arg in args[1:]])}")):
+                    result = func(*args, **kwargs)
+
+                if result == instance:
+                    logger.debug(f"<<< " + Context.apply(f"{func.__name__}"))
+                else:
+                    logger.debug(f"<<< " + Context.apply(f"{func.__name__} {result}"))
+
+                return result
+            else:
+                logger = logging.getLogger(func.__name__)
+                logger.debug(f">>> {func.__name__} {args} {kwargs}")
+                result = func(*args, **kwargs)
+                logger.debug(f"<<< {func.__name__} {result}")
+                return result
+
+        return wrapper
+
 
 Context._local = ThreadLocal(Context(lambda _: _)) # type: ignore
 
@@ -108,66 +172,3 @@ class LoggerMixin:
         """
         self.log.debug(f"=== {value}")
         return value
-
-
-P = ParamSpec('P')
-R = TypeVar('R')
-
-
-def traced(func: Callable[P, R]) -> Callable[P, R]:
-    """
-    Decorator to log function entry, arguments, and return value at DEBUG level.
-
-    Also adds an Allure step for reporting. Use on methods where tracing is useful
-    for debugging or reporting.
-
-    Example:
-        @traced
-        def my_method(self, x):
-            ...
-
-    Args:
-        func (Callable[P, R]): The function to be decorated.
-        *args (Any): Positional arguments to be passed to the function.
-        **kwargs (Any): Keyword arguments to be passed to the function.
-
-    Returns:
-        Callable[P, R]: The result of the function call.
-    """
-    @wraps(func)
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        # NOTE: each time a decorated function is called this logic will be
-        # re-evaluated.
-        signature = inspect.signature(func)
-        parameters = list(signature.parameters.keys())
-
-        if parameters and parameters[0] == 'self' and len(args) > 0:
-            instance = args[0]
-            logger = logging.getLogger(f"{instance.__class__.__name__}")
-            logger.debug(
-                f">>> {func.__name__} "
-                f"{", ".join([str(arg) for arg in args[1:]])} "
-                f"{LF.join(
-                    f"{key}={str(value)}"
-                    for key, value in kwargs.items()) if kwargs else EMPTY_STRING}")
-
-            with allure.step(  # type: ignore
-                Context.apply(
-                    f"{func.__name__} "
-                    f"{', '.join([str(arg) for arg in args[1:]])}")):
-                result = func(*args, **kwargs)
-
-            if result == instance:
-                logger.debug(f"<<< {func.__name__}")
-            else:
-                logger.debug(f"<<< {func.__name__} {result}")
-
-            return result
-        else:
-            logger = logging.getLogger(func.__name__)
-            logger.debug(f">>> {func.__name__} {args} {kwargs}")
-            result = func(*args, **kwargs)
-            logger.debug(f"<<< {func.__name__} {result}")
-            return result
-
-    return wrapper

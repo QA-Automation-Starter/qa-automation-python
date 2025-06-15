@@ -17,7 +17,7 @@ def should_trace():
 
     @to_string()
     class Foo(LoggerMixin):
-        @traced
+        @Context.traced
         def run(self, message: Message) -> Self:
             self.log.debug(f"{message}")
             return self
@@ -85,7 +85,7 @@ def should_return_value_and_log_with_logger_mixin_trace():
 def should_log_entry_and_exit_with_traced_decorator():
     calls: list[tuple[int, int]] = []
 
-    @traced
+    @Context.traced
     def foo(x: int, y: int) -> int:
         calls.append((x, y))
         return x + y

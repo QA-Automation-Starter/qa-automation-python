@@ -11,7 +11,7 @@ from requests import Request, Response
 
 from qa_pytest_rest.rest_configuration import RestConfiguration
 from qa_pytest_commons.generic_steps import GenericSteps
-from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import Context
 from hamcrest.core.matcher import Matcher
 
 
@@ -32,7 +32,7 @@ class RestSteps[TConfiguration: RestConfiguration](
         return self._rest_session.send(
             self._rest_session.prepare_request(request))
 
-    @traced
+    @Context.traced
     @final
     def invoking(self, request: Request) -> Self:
         """
@@ -50,7 +50,7 @@ class RestSteps[TConfiguration: RestConfiguration](
         return self.eventually_assert_that(
             lambda: self._invoke(request).ok, is_(True))
 
-    @traced
+    @Context.traced
     @final
     def the_invocation(
             self, request: Request, by_rule: Matcher[Response]) -> Self:

@@ -23,7 +23,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
 from qa_pytest_commons.generic_steps import GenericSteps
-from qa_testing_utils.logger import traced
+from qa_testing_utils.logger import Context
 
 
 class SearchContext(Protocol):
@@ -87,7 +87,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
     _web_driver: WebDriver
 
     @final
-    @traced
+    @Context.traced
     def clicking_once(self, element_supplier: ElementSupplier) -> Self:
         element_supplier().click()
         return self
@@ -103,7 +103,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         return self.retrying(lambda: self.clicking_once(self._resolve(element)))
 
     @final
-    @traced
+    @Context.traced
     def typing_once(self, element_supplier: ElementSupplier, text: str) -> Self:
         element = element_supplier()
         element.clear()
@@ -129,14 +129,14 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         return self.eventually_assert_that(lambda: self._elements(locator, context), by_rule)
 
     @final
-    @traced
+    @Context.traced
     def _elements(
         self, locator: Locator, context: Optional[SearchContext] = None
     ) -> Iterator[WebElement]:
         return iter((context or self._web_driver).find_elements(*locator.as_tuple()))
 
     @final
-    @traced
+    @Context.traced
     def _element(
         self, locator: Locator, context: Optional[SearchContext] = None
     ) -> WebElement:
