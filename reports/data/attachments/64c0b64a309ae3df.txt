@@ -1,0 +1,2 @@
+DEBUG    foo:logger.py:85 >>> foo (2, 3) {}
+DEBUG    foo:logger.py:87 <<< foo 5

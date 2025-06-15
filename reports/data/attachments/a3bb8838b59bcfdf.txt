@@ -1,0 +1,25 @@
+DEBUG    BddScenarioTests:abstract_tests_base.py:70 setup
+DEBUG    BddScenarioTests:abstract_tests_base.py:63 initiating <class 'qa_pytest_commons.generic_steps.GenericSteps'>
+DEBUG    GenericSteps:logger.py:63 >>> Given nothing  
+DEBUG    GenericSteps:logger.py:78 <<< Given nothing
+DEBUG    GenericSteps:logger.py:63 >>> When safely <function BddScenarioTests.should_swallow_exception.<locals>.<lambda> at 0x7fcc77e963e0> 
+DEBUG    GenericSteps:logger.py:63 >>> When failing boom 
+ERROR    root:exception_utils.py:30 Exception occurred: boom
+Traceback (most recent call last):
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-testing-utils/src/qa_testing_utils/exception_utils.py", line 27, in safely
+    result = supplier()
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-commons/src/qa_pytest_commons/generic_steps.py", line 265, in <lambda>
+    return safely(lambda: step()).value_or(self)
+                          ~~~~^^
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-commons/tests/bdd_scenario_tests.py", line 38, in <lambda>
+    .when.safely(lambda: self.steps.when.failing(TestException("boom")))
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-testing-utils/src/qa_testing_utils/logger.py", line 75, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-commons/src/qa_pytest_commons/generic_steps.py", line 233, in failing
+    raise exception
+qa_testing_utils.exceptions.TestException: boom
+DEBUG    GenericSteps:logger.py:78 <<< When safely
+DEBUG    GenericSteps:logger.py:63 >>> Then it_works <True> 
+DEBUG    GenericSteps:logger.py:78 <<< Then it_works
+DEBUG    BddScenarioTests:abstract_tests_base.py:76 teardown
