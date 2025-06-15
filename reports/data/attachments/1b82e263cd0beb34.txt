@@ -1,0 +1,36 @@
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:70 setup
+DEBUG    RabbitMqSelfConfiguration:base_configuration.py:77 reading configuration from /home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-examples/src/qa_pytest_examples/configurations/rabbitmq_self_configuration.ini
+DEBUG    RabbitMqSelfConfiguration:base_configuration.py:80 successfully read ['/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-examples/src/qa_pytest_examples/configurations/rabbitmq_self_configuration.ini']
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:63 initiating <class 'qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps'>
+DEBUG    RabbitMqSteps:logger.py:65 >>> Given a_queue_handler qa_pytest_rabbitmq.queue_handler.QueueHandler(
+    channel = pika.adapters.blocking_connection.BlockingChannel(...), 
+    log = logging.Logger(...), 
+    queue_name = 'amq.gen-IQvBnW7E68x61OblrYOogA', 
+    received_messages = {...}
+) 
+DEBUG    RabbitMqSteps:logger.py:80 <<< Given a_queue_handler
+DEBUG    RabbitMqSteps:logger.py:65 >>> When publishing [Message(content='test_queue', properties=<BasicProperties>)] 
+DEBUG    RabbitMqSteps:logger.py:80 <<< When publishing
+DEBUG    RabbitMqSteps:logger.py:65 >>> And consuming  
+DEBUG    RabbitMqSteps:logger.py:80 <<< And consuming
+DEBUG    QueueHandler:queue_handler.py:126 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    RabbitMqSteps:logger.py:65 >>> Then the_received_messages a stream containing <qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)> 
+DEBUG    RabbitMqSteps:before_sleep.py:65 Retrying qa_pytest_commons.generic_steps.GenericSteps.eventually_assert_that.<locals>.<lambda> in 1.0 seconds as it raised AssertionError: 
+Expected: a stream containing <qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)>
+     but: was <dict_valueiterator object at 0x7f9600f5f650>
+.
+DEBUG    QueueHandler:queue_handler.py:101 consumer set up with tag ctag1.bb147617e1224aaca7ffb21587242ad8
+DEBUG    QueueHandler:queue_handler.py:90 received -4623405877890511853
+DEBUG    TracingMatcher:matchers.py:27 Message(content='test_queue', properties=<BasicProperties>) -> True
+DEBUG    RabbitMqSteps:logger.py:80 <<< Then the_received_messages
+DEBUG    QueueHandler:queue_handler.py:112 consumer cancelled
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:76 teardown
