@@ -64,6 +64,9 @@ markers = [
 clean-all = "git clean -fdX"
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
+install-deps = "pdm install"
+allure-generate = "allure generate allure-results -o docs/reports --clean"
+mkdocs-serve = "mkdocs serve"
 
 [tool.autopep8]
 max_line_length = 80

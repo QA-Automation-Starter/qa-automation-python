@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "clean-all",
+      "type": "shell",
+      "command": "pdm run clean-all",
+      "group": "build"
+    },
+    {
+      "label": "build-all",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "pdm run build-all"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "publish-all",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "pdm run publish-all"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "install-deps",
+      "type": "shell",
+      "command": "pdm run install-deps",
+      "group": "build"
+    },
+    {
+      "label": "allure-generate",
+      "type": "shell",
+      "command": "pdm run allure-generate",
+      "group": "test"
+    },
+    {
+      "label": "mkdocs-serve",
+      "type": "shell",
+      "command": "pdm run mkdocs-serve",
+      "group": "test",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Running at:",
+          "endsPattern": ".*Press CTRL\\+C to quit.*"
+        }
+      }
+    }
+  ]
+}
