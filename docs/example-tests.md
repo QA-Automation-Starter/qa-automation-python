@@ -16,7 +16,7 @@ def should_find(self):
                 contains_string_ignoring_case(word)))))
 ```
 
-## API add test
+## Swagger API add pet test
 
 ```python
 def should_add(self):

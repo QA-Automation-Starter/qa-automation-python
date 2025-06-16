@@ -1,14 +1,22 @@
-# QA Automation for Python
+# QA Automation Starter for Python
 
 
 **Modular Python packages for maintainable, BDD-style automated tests with [`pytest`](https://docs.pytest.org/), [`Hamcrest`](https://hamcrest.org/), [`Allure`](https://docs.qameta.io/allure/) reporting, and configurable logging.**
 
-Technology-agnostic; example REST and Selenium implementations included.
+Technology-agnostic; example REST, Selenium and RabbitMQ implementations included.
+
+![Allure BDD Example](images/allure-bdd-example.png)
+
+> see live [Example Allure Report](reports/index.html)
 
 ## Requirements
 
 - Python 3.13
-- Google Chrome for local Selenium testing
 - [PDM](https://pdm-project.org) (Python package manager)
+
+### Optional
+- Google Chrome for local Selenium testing
+- RabbitMQ for running local tests
+- Allure for generating a nice test dashboard like above
 
 ---

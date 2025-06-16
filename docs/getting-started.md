@@ -9,14 +9,32 @@ Open in Codespace or Dev Container and everything will get installed and configu
    pipx install pdm[all]
    ```
 
-2. Install dependencies:
+2. Fork/Clone demo project, e.g.:
    ```bash
-   pdm install
+   git clone https://github.com/QA-Automation-Starter/qa-automation-python-demo.git
    ```
 
-3. Run all tests from the root:
+3. Install dependencies:
+   ```bash
+   pdm run install-deps
+   ```
+
+4. Run all tests from the root:
    ```bash
    pdm run pytest
    ```
+   pytest html report is in `report.html`
+   > NOTE: Selenium tests require Google Chrome installed.
+
+5. Optional: Generate Allure reports
+    ```bash
+    pdm run allure-generate
+    ```
+    then open, `docs/reports/index.html` in a browser.
+    > NOTE: requires installation of [Allure server](https://docs.qameta.io/allure/)
+
+
+
+Customize for your needs :)
 
 ---

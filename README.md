@@ -1,4 +1,4 @@
-# QA Automation for Python
+# QA Automation Starter for Python
 
 <p align="center">
     <!-- Build and Release -->
@@ -42,8 +42,59 @@
 
 </p>
 
-Project documentation
+User documentation
 https://qa-automation-starter.github.io/qa-automation-python
+
+# Getting Started
+
+Open in Codespace or Dev Container and everything will get installed and configured, otherwise:
+
+0. Install Python 3.13 on your system
+
+1. Install [PDM](https://pdm-project.org):
+   ```bash
+   pipx install pdm[all]
+   ```
+
+2. Install dependencies:
+   ```bash
+   pdm run install-deps
+   ```
+   > NOTE: This must be run whenever new dependencies, or versions are changed.
+
+3. Run all tests from the root:
+   ```bash
+   pdm run pytest
+   ```
+
+4. Generate Allure reports
+    ```bash
+    pdm run allure-generate
+    ```
+
+5. Serve MkDocs site
+    ```bash
+    pdm run mkdocs-serve
+    ```
+    then open http://127.0.0.1:8000/qa-automation-python in a browser
+
+---
+
+# Project Structure
+
+```
+qa-automation-python/
+├── qa-testing-utils/        # Shared low-level utility functions
+├── qa-pytest-commons/       # Technology-agnostic test infrastructure
+├── qa-pytest-rest/          # REST-specific steps and config
+├── qa-pytest-webdriver/     # Selenium-specific implementation
+├── qa-pytest-template/      # TBD: Cookiecutter project template
+├── qa-pytest-examples/      # Usage examples for application test projects
+├── pyproject.toml           # Root environment definition for PDM
+└── .vscode/                 # Recommended settings for VSCode integration
+```
+
+---
 
 ## 🧪 Releasing
 
