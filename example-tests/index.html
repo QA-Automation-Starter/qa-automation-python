@@ -16,7 +16,7 @@
         <link rel="prev" href="../architecture/">
       
       
-        <link rel="next" href="../local-report/">
+        <link rel="next" href="../reports/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -224,28 +224,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../project-structure/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Project Structure
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../architecture/" class="md-nav__link">
         
   
@@ -327,9 +305,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-add-test" class="md-nav__link">
+  <a href="#swagger-api-add-pet-test" class="md-nav__link">
     <span class="md-ellipsis">
-      API add test
+      Swagger API add pet test
     </span>
   </a>
   
@@ -350,34 +328,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../local-report/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Local Report
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../reports/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Allure Report
+    Example Allure Report
     
   </span>
   
@@ -423,9 +379,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-add-test" class="md-nav__link">
+  <a href="#swagger-api-add-pet-test" class="md-nav__link">
     <span class="md-ellipsis">
-      API add test
+      Swagger API add pet test
     </span>
   </a>
   
@@ -460,7 +416,7 @@
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span>
                 <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
 </code></pre></div>
-<h2 id="api-add-test">API add test</h2>
+<h2 id="swagger-api-add-pet-test">Swagger API add pet test</h2>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>

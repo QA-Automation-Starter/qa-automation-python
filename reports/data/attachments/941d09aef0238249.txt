@@ -1,1 +1,0 @@
-DEBUG    QueueHandlerTests:logger.py:176 === amq.gen-MbPPex3vBRXtOwxpbetzsg

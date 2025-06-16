@@ -16,7 +16,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../project-structure/">
+        <link rel="next" href="../architecture/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -234,28 +234,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../project-structure/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Project Structure
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../architecture/" class="md-nav__link">
         
   
@@ -300,34 +278,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../local-report/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Local Report
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../reports/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Allure Report
+    Example Allure Report
     
   </span>
   
@@ -383,16 +339,33 @@
 </code></pre></div></p>
 </li>
 <li>
+<p>Fork/Clone demo project, e.g.:
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/QA-Automation-Starter/qa-automation-python-demo.git
+</code></pre></div></p>
+</li>
+<li>
 <p>Install dependencies:
-   <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>install
+   <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>install-deps
 </code></pre></div></p>
 </li>
 <li>
 <p>Run all tests from the root:
    <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>pytest
-</code></pre></div></p>
+</code></pre></div>
+   pytest html report is in <code>report.html</code></p>
+<blockquote>
+<p>NOTE: Selenium tests require Google Chrome installed.</p>
+</blockquote>
+</li>
+<li>
+<p>Optional: Generate Allure reports
+    <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>allure-generate
+</code></pre></div>
+    then open, <code>docs/reports/index.html</code> in a browser.
+    &gt; NOTE: requires installation of <a href="https://docs.qameta.io/allure/">Allure server</a></p>
 </li>
 </ol>
+<p>Customize for your needs :)</p>
 <hr />
 
 

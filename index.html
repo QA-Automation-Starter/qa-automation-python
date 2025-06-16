@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#qa-automation-for-python" class="md-skip">
+        <a href="#qa-automation-starter-for-python" class="md-skip">
           Skip to content
         </a>
       
@@ -234,6 +234,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -257,28 +272,6 @@
   
   <span class="md-ellipsis">
     Getting Started
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="project-structure/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Project Structure
     
   </span>
   
@@ -339,34 +332,12 @@
   
   
     <li class="md-nav__item">
-      <a href="local-report/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Local Report
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="reports/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Allure Report
+    Example Allure Report
     
   </span>
   
@@ -409,6 +380,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -427,14 +413,23 @@
 
 
 
-<h1 id="qa-automation-for-python">QA Automation for Python</h1>
+<h1 id="qa-automation-starter-for-python">QA Automation Starter for Python</h1>
 <p><strong>Modular Python packages for maintainable, BDD-style automated tests with <a href="https://docs.pytest.org/"><code>pytest</code></a>, <a href="https://hamcrest.org/"><code>Hamcrest</code></a>, <a href="https://docs.qameta.io/allure/"><code>Allure</code></a> reporting, and configurable logging.</strong></p>
-<p>Technology-agnostic; example REST and Selenium implementations included.</p>
+<p>Technology-agnostic; example REST, Selenium and RabbitMQ implementations included.</p>
+<p><img alt="Allure BDD Example" src="images/allure-bdd-example.png" /></p>
+<blockquote>
+<p>see live <a href="reports/">Example Allure Report</a></p>
+</blockquote>
 <h2 id="requirements">Requirements</h2>
 <ul>
 <li>Python 3.13</li>
-<li>Google Chrome for local Selenium testing</li>
 <li><a href="https://pdm-project.org">PDM</a> (Python package manager)</li>
+</ul>
+<h3 id="optional">Optional</h3>
+<ul>
+<li>Google Chrome for local Selenium testing</li>
+<li>RabbitMQ for running local tests</li>
+<li>Allure for generating a nice test dashboard like above</li>
 </ul>
 <hr />
 
