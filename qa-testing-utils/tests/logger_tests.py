@@ -5,8 +5,8 @@
 from functools import wraps
 from typing import Callable, ParamSpec, Self, TypeVar
 
+from qa_pytest_rabbitmq.queue_handler import to_string
 from qa_testing_utils.logger import *
-from qa_testing_utils.string_utils import *
 
 
 def should_trace():

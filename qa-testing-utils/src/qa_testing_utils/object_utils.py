@@ -159,6 +159,7 @@ class ToDictMixin:
         return flat_dict
 
 
+@final
 class SingletonMeta(type):
     """
     Thread-safe singleton metaclass.
@@ -239,6 +240,7 @@ def require_not_none[T](
     return value
 
 
+@final
 class classproperty[T]:
     def __init__(self, fget: Callable[[Any], T]) -> None:
         self.fget = fget

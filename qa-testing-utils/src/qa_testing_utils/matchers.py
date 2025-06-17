@@ -41,6 +41,7 @@ def traced[T](matcher: Matcher[T]) -> TracingMatcher[T]:
     return TracingMatcher(matcher)
 
 
+@final
 class ContainsStringIgnoringCase(BaseMatcher[str]):
     def __init__(self, substring: str) -> None:
         self.substring: str = substring.lower()
@@ -150,6 +151,7 @@ class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
 DateOrDateTime = Union[date, datetime]
 
 
+@final
 class IsWithinDates(BaseMatcher[DateOrDateTime]):
     def __init__(
             self, start_date: Optional[DateOrDateTime],

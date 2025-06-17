@@ -24,8 +24,7 @@ def safely[T](supplier: Supplier[T]) -> Maybe[T]:
         Maybe[T]: The result wrapped in Maybe, or Nothing if an exception occurs.
     """
     try:
-        result = supplier()
-        return Some(result)
+        return Some(supplier())
     except Exception as e:
         logging.exception(f"Exception occurred: {e}")
         return Nothing

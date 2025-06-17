@@ -13,9 +13,9 @@ from zlib import crc32
 from more_itertools import peekable
 from qa_testing_utils.logger import *
 from qa_testing_utils.object_utils import *
-from qa_testing_utils.string_utils import *
+from qa_testing_utils.string_utils import DOT, EMPTY_BYTES, SPACE, UTF_8
 
-LAUNCHING_DIR = Path.cwd()
+LAUNCHING_DIR: Final[Path] = Path.cwd()
 
 
 @final

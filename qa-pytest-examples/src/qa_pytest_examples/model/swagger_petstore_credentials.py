@@ -7,6 +7,6 @@ from dataclasses import dataclass
 from qa_pytest_examples.model.credentials import Credentials
 
 
-@dataclass
+@dataclass(frozen=True)
 class SwaggerPetstoreCredentials(Credentials):
     pass

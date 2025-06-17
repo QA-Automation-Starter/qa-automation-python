@@ -17,6 +17,7 @@ P = ParamSpec('P')
 R = TypeVar('R')
 
 @dataclass
+@final
 class Context:
     """Per-thread context for reporting and logging, allowing dynamic formatting of messages."""
     _THREAD_LOCAL: ClassVar[ThreadLocal['Context']]

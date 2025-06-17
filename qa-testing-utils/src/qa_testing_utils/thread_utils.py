@@ -6,9 +6,9 @@ import concurrent.futures
 from threading import local
 import time
 from datetime import timedelta
-from typing import cast
+from typing import Final, cast
 
-COMMON_EXECUTOR = concurrent.futures.ThreadPoolExecutor()
+COMMON_EXECUTOR: Final[concurrent.futures.ThreadPoolExecutor] = concurrent.futures.ThreadPoolExecutor()
 
 
 def sleep_for(duration: timedelta):
