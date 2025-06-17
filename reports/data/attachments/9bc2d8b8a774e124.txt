@@ -1,1 +1,0 @@
-DEBUG    tests.logger_tests:logger.py:108 === 123

@@ -1,3 +1,0 @@
-DEBUG    qa_testing_utils.file_utils:logger.py:108 === streaming 0 lines; leftover 6 chars
-DEBUG    qa_testing_utils.file_utils:logger.py:108 === streaming 1 lines; leftover 7 chars
-DEBUG    qa_testing_utils.file_utils:logger.py:108 === streaming 1 lines; leftover 3 chars
