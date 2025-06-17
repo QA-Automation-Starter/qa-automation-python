@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import inspect
 import logging
 from functools import cached_property, wraps
-from typing import Callable, ClassVar, ParamSpec, TypeVar, cast, final
+from typing import Callable, ClassVar, Final, ParamSpec, TypeVar, cast, final
 
 import allure
 from qa_testing_utils.object_utils import classproperty
@@ -19,20 +19,24 @@ R = TypeVar('R')
 @dataclass
 class Context:
     """Per-thread context for reporting and logging, allowing dynamic formatting of messages."""
-    _local: ClassVar[ThreadLocal['Context']]
-    _context_fn: Callable[[str], str]
+    _THREAD_LOCAL: ClassVar[ThreadLocal['Context']]
+    _formatter: Final[Callable[[str], str]]
+
+    @classmethod
+    def default(cls) -> "Context":
+        return cls(lambda _: _) # no formatter
 
     @classproperty
-    def _apply(cls) -> Callable[[str], str]:
-        return Context._local.get()._context_fn
+    def _format(cls) -> Callable[[str], str]:
+        return cls._THREAD_LOCAL.get()._formatter
 
-    @staticmethod
-    def set(context_fn: Callable[[str], str]) -> None:
+    @classmethod
+    def set(cls, context_fn: Callable[[str], str]) -> None:
         """Sets per-thread context function to be used for formatting report and log messages."""
-        return Context._local.set(Context(context_fn))
+        cls._THREAD_LOCAL.set(Context(context_fn))
     
-    @staticmethod
-    def traced(func: Callable[P, R]) -> Callable[P, R]:
+    @classmethod
+    def traced(cls, func: Callable[P, R]) -> Callable[P, R]:
         """
         Decorator to log function entry, arguments, and return value at DEBUG level.
 
@@ -63,7 +67,7 @@ class Context:
                 instance = args[0]
                 logger = logging.getLogger(f"{instance.__class__.__name__}")
                 logger.debug(f">>> "
-                    + Context._apply(
+                    + cls._format(
                         f"{func.__name__} "
                         f"{", ".join([str(arg) for arg in args[1:]])} "
                         f"{LF.join(
@@ -71,15 +75,15 @@ class Context:
                             for key, value in kwargs.items()) if kwargs else EMPTY_STRING}"))
 
                 with allure.step(  # type: ignore
-                    Context._apply(
+                    cls._format(
                         f"{func.__name__} "
                         f"{', '.join([str(arg) for arg in args[1:]])}")):
                     result = func(*args, **kwargs)
 
                 if result == instance:
-                    logger.debug(f"<<< " + Context._apply(f"{func.__name__}"))
+                    logger.debug(f"<<< " + cls._format(f"{func.__name__}"))
                 else:
-                    logger.debug(f"<<< " + Context._apply(f"{func.__name__} {result}"))
+                    logger.debug(f"<<< " + cls._format(f"{func.__name__} {result}"))
 
                 return result
             else:
@@ -93,7 +97,7 @@ class Context:
 
 
 # NOTE: python does not support static initializers, so we init here.
-Context._local = ThreadLocal(Context(lambda _: _)) # type: ignore
+Context._THREAD_LOCAL = ThreadLocal(Context.default()) # type: ignore
 
 def trace[T](value: T) -> T:
     """Logs at debug level using the invoking module name as the logger."""
