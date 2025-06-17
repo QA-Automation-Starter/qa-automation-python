@@ -2,16 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Callable, Type
+from typing import Callable, Final, Literal, Type
 
 from ppretty import ppretty  # type: ignore
 
-EMPTY_STRING = ""
-SPACE = " "
-DOT = "."
-LF = "\n"
-UTF_8 = "utf-8"
-EMPTY_BYTES = b''
+EMPTY_STRING: Final[str] = ""
+SPACE: Final[str] = " "
+DOT: Final[str] = "."
+LF: Final[str] = "\n"
+UTF_8: Final[str] = "utf-8"
+EMPTY_BYTES: Final[Literal[b'']] = b''
 
 
 def to_string[T](indent: str = '    ',

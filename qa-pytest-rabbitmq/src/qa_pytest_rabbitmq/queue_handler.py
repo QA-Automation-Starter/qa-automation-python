@@ -2,7 +2,7 @@
 
 import threading
 import queue
-from typing import Any, Callable, Iterator, Mapping, TypeVar, Generic
+from typing import Any, Callable, Final, Iterator, Mapping, TypeVar, Generic, final
 from dataclasses import dataclass, field
 from types import TracebackType
 from pika.adapters.blocking_connection import BlockingChannel
@@ -25,17 +25,19 @@ class Message(Generic[V]):
 
 @to_string()
 @dataclass
+@final
 class QueueHandler(Generic[K, V], LoggerMixin):
-    channel: BlockingChannel
-    queue_name: str
-    indexing_by: Callable[[Message[V]], K]
-    consuming_by: Callable[[bytes], V]
-    publishing_by: Callable[[V], bytes]
+    channel: Final[BlockingChannel]
+    queue_name: Final[str]
+    indexing_by: Final[Callable[[Message[V]], K]]
+    consuming_by: Final[Callable[[bytes], V]]
+    publishing_by: Final[Callable[[V], bytes]]
 
-    _received_messages: dict[K, Message[V]] = field(
+    _received_messages: Final[dict[K, Message[V]]] = field(
         default_factory=lambda: dict())
-    _command_queue: queue.Queue[Callable[[], None]] = field(
+    _command_queue: Final[queue.Queue[Callable[[], None]]] = field(
         default_factory=lambda: queue.Queue())
+
     _worker_thread: threading.Thread = field(init=False)
     _shutdown_event: threading.Event = field(
         default_factory=threading.Event, init=False)
@@ -44,8 +46,7 @@ class QueueHandler(Generic[K, V], LoggerMixin):
 
     def __post_init__(self) -> None:
         self._worker_thread = threading.Thread(
-            target=self._worker_loop, name="rabbitmq-handler", daemon=True
-        )
+            target=self._worker_loop, name="rabbitmq-handler", daemon=True)
         self._worker_thread.start()
 
     def __enter__(self) -> "QueueHandler[K, V]":

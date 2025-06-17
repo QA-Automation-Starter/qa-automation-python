@@ -14,7 +14,7 @@ from typing import Callable
 from qa_testing_utils.exception_utils import safely
 
 from qa_testing_utils.logger import LoggerMixin, Context
-from qa_testing_utils.object_utils import Valid, valid
+from qa_testing_utils.object_utils import ImmutableMixin, Valid, valid
 from qa_pytest_commons.base_configuration import BaseConfiguration
 from qa_pytest_commons.bdd_keywords import BddKeywords
 from qa_testing_utils.stream_utils import Supplier
@@ -23,7 +23,8 @@ from qa_testing_utils.thread_utils import sleep_for
 
 class GenericSteps[TConfiguration: BaseConfiguration](
         BddKeywords['GenericSteps'],
-        LoggerMixin):
+        LoggerMixin,
+        ImmutableMixin):
     """
     Generic steps beyond the BDD-keywords and diagnostics methods, most important:
     - retrying, for attempting a step that sporadically fails
