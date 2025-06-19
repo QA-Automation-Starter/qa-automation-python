@@ -1,0 +1,4839 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A starter project for QA Automation using pytest and Allure.">
+      
+      
+      
+        <link rel="canonical" href="https://qa-automation-starter.github.io/qa-automation-python/api/qa-pytest-commons/">
+      
+      
+        <link rel="prev" href="../qa-pytest-rabbitmq/">
+      
+      
+        <link rel="next" href="../qa-testing-utils/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Commons - QA Automation Starter for Python</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#qa_pytest_commons" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="QA Automation Starter for Python" class="md-header__button md-logo" aria-label="QA Automation Starter for Python" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            QA Automation Starter for Python
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Commons
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/QA-Automation-Starter/qa-automation-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="QA Automation Starter for Python" class="md-nav__button md-logo" aria-label="QA Automation Starter for Python" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    QA Automation Starter for Python
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/QA-Automation-Starter/qa-automation-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/QA-Automation-Starter/qa-automation-python?tab=readme-ov-file#readme" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Repo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example Tests
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example Allure Report
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-webdriver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebDriver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    REST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-rabbitmq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RabbitMQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Commons
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commons
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#qa_pytest_commons" class="md-nav__link">
+    <span class="md-ellipsis">
+      qa_pytest_commons
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="qa_pytest_commons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.__all__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __all__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.__version__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __version__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase" class="md-nav__link">
+    <span class="md-ellipsis">
+      AbstractTestsBase
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AbstractTestsBase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.setup_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      setup_method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.teardown_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      teardown_method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseConfiguration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseConfiguration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration.parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      parser
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      BddKeywords
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BddKeywords">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.and_" class="md-nav__link">
+    <span class="md-ellipsis">
+      and_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.given" class="md-nav__link">
+    <span class="md-ellipsis">
+      given
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.then" class="md-nav__link">
+    <span class="md-ellipsis">
+      then
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.with_" class="md-nav__link">
+    <span class="md-ellipsis">
+      with_
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.Configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps" class="md-nav__link">
+    <span class="md-ellipsis">
+      GenericSteps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GenericSteps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.and_" class="md-nav__link">
+    <span class="md-ellipsis">
+      and_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      configured
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.given" class="md-nav__link">
+    <span class="md-ellipsis">
+      given
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.nothing" class="md-nav__link">
+    <span class="md-ellipsis">
+      nothing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.retry_policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      retry_policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.then" class="md-nav__link">
+    <span class="md-ellipsis">
+      then
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.with_" class="md-nav__link">
+    <span class="md-ellipsis">
+      with_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.eventually_assert_that" class="md-nav__link">
+    <span class="md-ellipsis">
+      eventually_assert_that
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      failing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.it_works" class="md-nav__link">
+    <span class="md-ellipsis">
+      it_works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.repeating" class="md-nav__link">
+    <span class="md-ellipsis">
+      repeating
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.retrying" class="md-nav__link">
+    <span class="md-ellipsis">
+      retrying
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.safely" class="md-nav__link">
+    <span class="md-ellipsis">
+      safely
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.set" class="md-nav__link">
+    <span class="md-ellipsis">
+      set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      step
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      tracing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.waiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      waiting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-testing-utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#qa_pytest_commons" class="md-nav__link">
+    <span class="md-ellipsis">
+      qa_pytest_commons
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="qa_pytest_commons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.__all__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __all__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.__version__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __version__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase" class="md-nav__link">
+    <span class="md-ellipsis">
+      AbstractTestsBase
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AbstractTestsBase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.setup_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      setup_method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.AbstractTestsBase.teardown_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      teardown_method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseConfiguration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseConfiguration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration.parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      parser
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BaseConfiguration.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      BddKeywords
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BddKeywords">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.and_" class="md-nav__link">
+    <span class="md-ellipsis">
+      and_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.given" class="md-nav__link">
+    <span class="md-ellipsis">
+      given
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.then" class="md-nav__link">
+    <span class="md-ellipsis">
+      then
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.BddKeywords.with_" class="md-nav__link">
+    <span class="md-ellipsis">
+      with_
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.Configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps" class="md-nav__link">
+    <span class="md-ellipsis">
+      GenericSteps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GenericSteps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.and_" class="md-nav__link">
+    <span class="md-ellipsis">
+      and_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      configured
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.given" class="md-nav__link">
+    <span class="md-ellipsis">
+      given
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.nothing" class="md-nav__link">
+    <span class="md-ellipsis">
+      nothing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.retry_policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      retry_policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.then" class="md-nav__link">
+    <span class="md-ellipsis">
+      then
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.with_" class="md-nav__link">
+    <span class="md-ellipsis">
+      with_
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.eventually_assert_that" class="md-nav__link">
+    <span class="md-ellipsis">
+      eventually_assert_that
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      failing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.it_works" class="md-nav__link">
+    <span class="md-ellipsis">
+      it_works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.repeating" class="md-nav__link">
+    <span class="md-ellipsis">
+      repeating
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.retrying" class="md-nav__link">
+    <span class="md-ellipsis">
+      retrying
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.safely" class="md-nav__link">
+    <span class="md-ellipsis">
+      safely
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.set" class="md-nav__link">
+    <span class="md-ellipsis">
+      set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      step
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      tracing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa_pytest_commons.GenericSteps.waiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      waiting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Commons</h1>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="qa_pytest_commons" class="doc doc-heading">
+            <code>qa_pytest_commons</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="qa_pytest_commons.__all__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AbstractTestsBase&#39;</span><span class="p">,</span> <span class="s1">&#39;BaseConfiguration&#39;</span><span class="p">,</span> <span class="s1">&#39;BddKeywords&#39;</span><span class="p">,</span> <span class="s1">&#39;Configuration&#39;</span><span class="p">,</span> <span class="s1">&#39;GenericSteps&#39;</span><span class="p">]</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="qa_pytest_commons.__version__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.11.dev7+g9b1fb9b.d20250619&#39;</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="qa_pytest_commons.AbstractTestsBase" class="doc doc-heading">
+            <code>AbstractTestsBase</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code>, <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code>, <code><a class="autorefs autorefs-internal" title="ImmutableMixin (qa_testing_utils.object_utils.ImmutableMixin)" href="../qa-testing-utils/#qa_testing_utils.ImmutableMixin">ImmutableMixin</a></code></p>
+
+
+        <p>Basic test scenario implementation, holding some type of steps and a logger
+facility.</p>
+<p>Subtypes must set <code>_steps_type</code> to the actual type of steps implementation::</p>
+<div class="highlight"><pre><span></span><code>                    +---------------+
+                    |  BddKeyWords  |
+                    +---------------+
+                                    ^
+                                    |
+                                implements
+                                    |
++-------------------+               +--------------+
+| AbstractTestsBase |---contains---&gt;| GenericSteps |
+|                   |               +--------------+
+|                   |                       +---------------+
+|                   |---contains-----------&gt;| Configuration |
++-------------------+                       +---------------+
+</code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>TSteps</code>
+            </td>
+            <td>
+                  <code><span title="TSteps">TSteps</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>GenericSteps): The actual steps implementation, or partial implementation.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AbstractTestsBase</span><span class="p">[</span>
+        <span class="n">TSteps</span><span class="p">:</span> <span class="n">GenericSteps</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">Configuration</span><span class="p">](</span><span class="n">ABC</span><span class="p">,</span> <span class="n">LoggerMixin</span><span class="p">,</span> <span class="n">ImmutableMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic test scenario implementation, holding some type of steps and a logger</span>
+<span class="sd">    facility.</span>
+
+<span class="sd">    Subtypes must set `_steps_type` to the actual type of steps implementation::</span>
+
+<span class="sd">                            +---------------+</span>
+<span class="sd">                            |  BddKeyWords  |</span>
+<span class="sd">                            +---------------+</span>
+<span class="sd">                                            ^</span>
+<span class="sd">                                            |</span>
+<span class="sd">                                        implements</span>
+<span class="sd">                                            |</span>
+<span class="sd">        +-------------------+               +--------------+</span>
+<span class="sd">        | AbstractTestsBase |---contains---&gt;| GenericSteps |</span>
+<span class="sd">        |                   |               +--------------+</span>
+<span class="sd">        |                   |                       +---------------+</span>
+<span class="sd">        |                   |---contains-----------&gt;| Configuration |</span>
+<span class="sd">        +-------------------+                       +---------------+</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        TSteps (TSteps:GenericSteps): The actual steps implementation, or partial implementation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_steps_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TSteps</span><span class="p">]</span>  <span class="c1"># IMPORTANT: pytest classes must not __init__</span>
+    <span class="n">_configuration</span><span class="p">:</span> <span class="n">TConfiguration</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TConfiguration</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns the configuration instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TConfiguration: The configuration instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">steps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Lazily initializes and returns an instance of steps implementation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TSteps: The instance of steps implementation.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;initiating </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_steps_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Override in subtypes with specific setup, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;setup&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Override in subtypes with specific teardown, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;teardown&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.AbstractTestsBase.configuration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">configuration</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the configuration instance.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>TConfiguration</code></td>            <td>
+                  <code><span title="TConfiguration">TConfiguration</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The configuration instance.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.AbstractTestsBase.steps" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">steps</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-cached"><code>cached</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Lazily initializes and returns an instance of steps implementation.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>TSteps</code></td>            <td>
+                  <code><span title="TSteps">TSteps</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The instance of steps implementation.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.AbstractTestsBase.setup_method" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">setup_method</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Override in subtypes with specific setup, if any.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Override in subtypes with specific setup, if any.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;setup&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.AbstractTestsBase.teardown_method" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">teardown_method</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Override in subtypes with specific teardown, if any.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Override in subtypes with specific teardown, if any.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;teardown&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="qa_pytest_commons.BaseConfiguration" class="doc doc-heading">
+            <code>BaseConfiguration</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Configuration (qa_pytest_commons.base_configuration.Configuration)" href="#qa_pytest_commons.Configuration">Configuration</a></code>, <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code>, <code><a class="autorefs autorefs-internal" title="ImmutableMixin (qa_testing_utils.object_utils.ImmutableMixin)" href="../qa-testing-utils/#qa_testing_utils.ImmutableMixin">ImmutableMixin</a></code></p>
+
+
+        <p>Base class for all types of configurations, providing a parser for a
+pre-specified configuration file.</p>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">,</span> <span class="n">LoggerMixin</span><span class="p">,</span> <span class="n">ImmutableMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all types of configurations, providing a parser for a</span>
+<span class="sd">    pre-specified configuration file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_path</span><span class="p">:</span> <span class="n">Path</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the configuration by loading the associated `.ini` file.</span>
+
+<span class="sd">        If `path` is not provided, the file is inferred based on the module name</span>
+<span class="sd">        of the subclass and loaded from a structured configuration directory.</span>
+
+<span class="sd">        The default lookup path follows this structure:</span>
+<span class="sd">            &lt;module_dir&gt;/configurations/${TEST_ENVIRONMENT}/&lt;module_name&gt;.ini</span>
+
+<span class="sd">        Where:</span>
+<span class="sd">            - &lt;module_dir&gt; is the directory where the subclass&#39;s module is located</span>
+<span class="sd">            - ${TEST_ENVIRONMENT} is an optional environment variable that specifies</span>
+<span class="sd">            the subdirectory (e.g., &quot;dev&quot;, &quot;ci&quot;, &quot;prod&quot;). If unset, it defaults</span>
+<span class="sd">            to an empty string (i.e., no subdirectory)</span>
+<span class="sd">            - &lt;module_name&gt; is the name of the `.py` file defining the subclass</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (Path, optional): Explicit path to the configuration file. If provided,</span>
+<span class="sd">                                overrides automatic inference.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: If the resolved configuration file does not exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">module_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+            <span class="n">module_stem</span> <span class="o">=</span> <span class="n">module_file</span><span class="o">.</span><span class="n">stem</span>
+            <span class="n">resources_dir</span> <span class="o">=</span> <span class="n">module_file</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;configurations&quot;</span> <span class="o">/</span> \
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TEST_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="n">EMPTY_STRING</span><span class="p">)</span>
+            <span class="n">ini_file</span> <span class="o">=</span> <span class="n">resources_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module_stem</span><span class="si">}</span><span class="s2">.ini&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">ini_file</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;configuration file not found: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;using configuration from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># NOTE if properties cannot be cached, this is a red-flag</span>
+    <span class="c1"># configuration properties should be immutable.</span>
+    <span class="nd">@final</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">parser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parser that reads this configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reading configuration from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="n">config_files</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;successfully read </span><span class="si">{</span><span class="n">config_files</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parser</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BaseConfiguration.parser" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parser</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-cached"><code>cached</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parser that reads this configuration.</p>
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.BaseConfiguration.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initializes the configuration by loading the associated <code>.ini</code> file.</p>
+<p>If <code>path</code> is not provided, the file is inferred based on the module name
+of the subclass and loaded from a structured configuration directory.</p>
+
+
+<details class="the-default-lookup-path-follows-this-structure" open>
+  <summary>The default lookup path follows this structure</summary>
+  <p><module_dir>/configurations/${TEST_ENVIRONMENT}/<module_name>.ini</p>
+</details>
+
+<details class="where" open>
+  <summary>Where</summary>
+  <ul>
+<li><module_dir> is the directory where the subclass's module is located</li>
+<li>${TEST_ENVIRONMENT} is an optional environment variable that specifies
+the subdirectory (e.g., "dev", "ci", "prod"). If unset, it defaults
+to an empty string (i.e., no subdirectory)</li>
+<li><module_name> is the name of the <code>.py</code> file defining the subclass</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>path</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Explicit path to the configuration file. If provided,
+                overrides automatic inference.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the resolved configuration file does not exist.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes the configuration by loading the associated `.ini` file.</span>
+
+<span class="sd">    If `path` is not provided, the file is inferred based on the module name</span>
+<span class="sd">    of the subclass and loaded from a structured configuration directory.</span>
+
+<span class="sd">    The default lookup path follows this structure:</span>
+<span class="sd">        &lt;module_dir&gt;/configurations/${TEST_ENVIRONMENT}/&lt;module_name&gt;.ini</span>
+
+<span class="sd">    Where:</span>
+<span class="sd">        - &lt;module_dir&gt; is the directory where the subclass&#39;s module is located</span>
+<span class="sd">        - ${TEST_ENVIRONMENT} is an optional environment variable that specifies</span>
+<span class="sd">        the subdirectory (e.g., &quot;dev&quot;, &quot;ci&quot;, &quot;prod&quot;). If unset, it defaults</span>
+<span class="sd">        to an empty string (i.e., no subdirectory)</span>
+<span class="sd">        - &lt;module_name&gt; is the name of the `.py` file defining the subclass</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (Path, optional): Explicit path to the configuration file. If provided,</span>
+<span class="sd">                            overrides automatic inference.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If the resolved configuration file does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">module_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+        <span class="n">module_stem</span> <span class="o">=</span> <span class="n">module_file</span><span class="o">.</span><span class="n">stem</span>
+        <span class="n">resources_dir</span> <span class="o">=</span> <span class="n">module_file</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;configurations&quot;</span> <span class="o">/</span> \
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TEST_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="n">EMPTY_STRING</span><span class="p">)</span>
+        <span class="n">ini_file</span> <span class="o">=</span> <span class="n">resources_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module_stem</span><span class="si">}</span><span class="s2">.ini&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">ini_file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;configuration file not found: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;using configuration from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="qa_pytest_commons.BddKeywords" class="doc doc-heading">
+            <code>BddKeywords</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Base class for defining Behavior-Driven Development (BDD) keywords.</p>
+<p>This class provides a set of properties that represent the common BDD keywords
+such as <code>given</code>, <code>when</code>, <code>then</code>, <code>and_</code>, <code>with_</code>. Implementations might be
+of two types: step implementations (GenericSteps) or scenario implementations
+(AbstractTestsBase). In both cases, these properties must return an object
+that provides same step implementation, allowing a fluent-style coding::</p>
+<div class="highlight"><pre><span></span><code>given.something(...) 
+    .with.another_thing(...) 
+    .when.doing_this(...) 
+    .and.doing_that(...) 
+    ... and so on, and so on ...
+    ... eventually, expecting something ...
+    .then.the_other_thing(is like that and like...)
+</code></pre></div>
+<p>For more information on BDD, see the <code>Behavior-Driven Development
+&lt;https://en.wikipedia.org/wiki/Behavior-driven_development&gt;</code>_ Wikipedia article.</p>
+<p>This BDD implementation is an internal DSL, meaning it relies on the Python
+language, hence does not require a parser to read the scenarios from text
+files, nor additional tools to support IDE features for debugging, completion,
+refactoring, etc.</p>
+<p>Generic scenarios are available in BddScenarioTests, and basic PAM scenarios
+are available in FileScenarioTests.</p>
+<p>For more information on DSL, see the <code>Domain Specific Language
+&lt;https://en.wikipedia.org/wiki/Domain-specific_language&gt;</code>_ Wikipedia article.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>TSteps</code>
+            </td>
+            <td>
+                  <code><span title="TSteps">TSteps</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>BddKeywords): The actual steps implementation, or partial implementation.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/bdd_keywords.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BddKeywords</span><span class="p">[</span><span class="n">TSteps</span><span class="p">:</span><span class="n">BddKeywords</span><span class="p">](</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for defining Behavior-Driven Development (BDD) keywords.</span>
+
+<span class="sd">    This class provides a set of properties that represent the common BDD keywords</span>
+<span class="sd">    such as `given`, `when`, `then`, `and_`, `with_`. Implementations might be</span>
+<span class="sd">    of two types: step implementations (GenericSteps) or scenario implementations</span>
+<span class="sd">    (AbstractTestsBase). In both cases, these properties must return an object</span>
+<span class="sd">    that provides same step implementation, allowing a fluent-style coding::</span>
+
+<span class="sd">        given.something(...) \</span>
+
+<span class="sd">            .with.another_thing(...) \</span>
+
+<span class="sd">            .when.doing_this(...) \</span>
+
+<span class="sd">            .and.doing_that(...) \</span>
+
+<span class="sd">            ... and so on, and so on ...</span>
+<span class="sd">            ... eventually, expecting something ...</span>
+<span class="sd">            .then.the_other_thing(is like that and like...)</span>
+
+<span class="sd">    For more information on BDD, see the `Behavior-Driven Development</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Behavior-driven_development&gt;`_ Wikipedia article.</span>
+
+<span class="sd">    This BDD implementation is an internal DSL, meaning it relies on the Python</span>
+<span class="sd">    language, hence does not require a parser to read the scenarios from text</span>
+<span class="sd">    files, nor additional tools to support IDE features for debugging, completion,</span>
+<span class="sd">    refactoring, etc.</span>
+
+<span class="sd">    Generic scenarios are available in BddScenarioTests, and basic PAM scenarios</span>
+<span class="sd">    are available in FileScenarioTests.</span>
+
+<span class="sd">    For more information on DSL, see the `Domain Specific Language</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Domain-specific_language&gt;`_ Wikipedia article.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        TSteps (TSteps:BddKeywords): The actual steps implementation, or partial implementation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">given</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to start definition of given stage.</span>
+
+<span class="sd">        The given stage is the start-up point of a test.</span>
+
+<span class="sd">        This might be a network connection, a file, a database, anything that</span>
+<span class="sd">        is required for executing any further operations and verifications::</span>
+
+<span class="sd">            given.a_connection(...connection details...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">when</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to start definition of operations stage.</span>
+
+<span class="sd">        The operations stage is the part that triggers some behavior on the SUT.</span>
+
+<span class="sd">        This might be sending a command via a network connection, writing</span>
+<span class="sd">        something to a file, or anything that will cause the SUT to output</span>
+<span class="sd">        something verifiable::</span>
+
+<span class="sd">            when.doing_something(...parameters...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">then</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to start definition of verifications stage.</span>
+
+<span class="sd">        The verifications stage is the part that samples actual output of the</span>
+<span class="sd">        SUT and compares it against a predefined condition (a.k.a. rule).</span>
+
+<span class="sd">        This might be sampling a file, a network response, or anything that</span>
+<span class="sd">        can be asserted upon. For example, this might be a network response</span>
+<span class="sd">        containing information about some file, like its size, which we might</span>
+<span class="sd">        expected to be greater than 0 and lesser than something else::</span>
+
+<span class="sd">            then.the_file(...rule to assert upon...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">and_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to continue definition of previous stage::</span>
+
+<span class="sd">            given.a_connection(...whatever...) \</span>
+
+<span class="sd">            .and_.an_umbrella(...) \</span>
+
+<span class="sd">            .and_.some_thing_else....</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">with_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as `and_`, sometimes it just sounds better::</span>
+
+<span class="sd">            given.a_connection(...whatever...) \</span>
+
+<span class="sd">            .with_.authentication(...method details...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BddKeywords.and_" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">and_</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Use to continue definition of previous stage::</p>
+<div class="highlight"><pre><span></span><code>given.a_connection(...whatever...) 
+.and_.an_umbrella(...) 
+.and_.some_thing_else....
+</code></pre></div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BddKeywords.given" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">given</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Use to start definition of given stage.</p>
+<p>The given stage is the start-up point of a test.</p>
+<p>This might be a network connection, a file, a database, anything that
+is required for executing any further operations and verifications::</p>
+<div class="highlight"><pre><span></span><code>given.a_connection(...connection details...)
+</code></pre></div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BddKeywords.then" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">then</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Use to start definition of verifications stage.</p>
+<p>The verifications stage is the part that samples actual output of the
+SUT and compares it against a predefined condition (a.k.a. rule).</p>
+<p>This might be sampling a file, a network response, or anything that
+can be asserted upon. For example, this might be a network response
+containing information about some file, like its size, which we might
+expected to be greater than 0 and lesser than something else::</p>
+<div class="highlight"><pre><span></span><code>then.the_file(...rule to assert upon...)
+</code></pre></div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BddKeywords.when" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">when</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Use to start definition of operations stage.</p>
+<p>The operations stage is the part that triggers some behavior on the SUT.</p>
+<p>This might be sending a command via a network connection, writing
+something to a file, or anything that will cause the SUT to output
+something verifiable::</p>
+<div class="highlight"><pre><span></span><code>when.doing_something(...parameters...)
+</code></pre></div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.BddKeywords.with_" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">with_</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Same as <code>and_</code>, sometimes it just sounds better::</p>
+<div class="highlight"><pre><span></span><code>given.a_connection(...whatever...) 
+.with_.authentication(...method details...)
+</code></pre></div>
+
+    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="qa_pytest_commons.Configuration" class="doc doc-heading">
+            <code>Configuration</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Just to allow for empty configurations</p>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Configuration</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Just to allow for empty configurations&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="qa_pytest_commons.GenericSteps" class="doc doc-heading">
+            <code>GenericSteps</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BddKeywords (qa_pytest_commons.bdd_keywords.BddKeywords)" href="#qa_pytest_commons.BddKeywords">BddKeywords</a>[&#39;GenericSteps&#39;]</code>, <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code>, <code><a class="autorefs autorefs-internal" title="ImmutableMixin (qa_testing_utils.object_utils.ImmutableMixin)" href="../qa-testing-utils/#qa_testing_utils.ImmutableMixin">ImmutableMixin</a></code></p>
+
+
+        <p>Generic steps beyond the BDD-keywords and diagnostics methods, most important:
+- retrying, for attempting a step that sporadically fails
+- eventually_assert_that, for asserting on sporadically failing operations</p>
+<p>IMPORTANT: if parallel testing will be required, and supported by the SUT,
+then internal state must be either thread-safe, or protected by TLS vars.</p>
+<p>The state it holds is mutated by steps. In a scenario there might be an
+operation o1 reading some info to be used by o2, followed by o1 later on,
+effectively rewriting previous value.</p>
+<p>Subtypes, such as PamSteps, may provide real system steps, relying on these
+ones. As such, these types might choose to redefine the _retry_policy herein::</p>
+<div class="highlight"><pre><span></span><code>                    +---------------+
+                    |  BddKeyWords  |
+                    +---------------+
+                                    ^
+                                    |
+                                implements
+                                    |
++-------------------+               +--------------+
+| AbstractTestsBase |---contains---&gt;| GenericSteps |
++-------------------+               +--------------+
+</code></pre></div>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GenericSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">:</span> <span class="n">BaseConfiguration</span><span class="p">](</span>
+        <span class="n">BddKeywords</span><span class="p">[</span><span class="s1">&#39;GenericSteps&#39;</span><span class="p">],</span>
+        <span class="n">LoggerMixin</span><span class="p">,</span>
+        <span class="n">ImmutableMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic steps beyond the BDD-keywords and diagnostics methods, most important:</span>
+<span class="sd">    - retrying, for attempting a step that sporadically fails</span>
+<span class="sd">    - eventually_assert_that, for asserting on sporadically failing operations</span>
+
+<span class="sd">    IMPORTANT: if parallel testing will be required, and supported by the SUT,</span>
+<span class="sd">    then internal state must be either thread-safe, or protected by TLS vars.</span>
+
+<span class="sd">    The state it holds is mutated by steps. In a scenario there might be an</span>
+<span class="sd">    operation o1 reading some info to be used by o2, followed by o1 later on,</span>
+<span class="sd">    effectively rewriting previous value.</span>
+
+<span class="sd">    Subtypes, such as PamSteps, may provide real system steps, relying on these</span>
+<span class="sd">    ones. As such, these types might choose to redefine the _retry_policy herein::</span>
+
+<span class="sd">                            +---------------+</span>
+<span class="sd">                            |  BddKeyWords  |</span>
+<span class="sd">                            +---------------+</span>
+<span class="sd">                                            ^</span>
+<span class="sd">                                            |</span>
+<span class="sd">                                        implements</span>
+<span class="sd">                                            |</span>
+<span class="sd">        +-------------------+               +--------------+</span>
+<span class="sd">        | AbstractTestsBase |---contains---&gt;| GenericSteps |</span>
+<span class="sd">        +-------------------+               +--------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_retrying</span><span class="p">:</span> <span class="n">Retrying</span>
+    <span class="n">_configuration</span><span class="p">:</span> <span class="n">TConfiguration</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TConfiguration</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">configuration</span>
+        <span class="c1"># NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;</span>
+        <span class="c1"># see BddScenarioTests#should_retry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span> <span class="o">=</span> <span class="n">Retrying</span><span class="p">(</span>
+            <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+            <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+            <span class="n">retry</span><span class="o">=</span><span class="n">retry_if_exception_type</span><span class="p">(</span><span class="ne">Exception</span><span class="p">),</span>
+            <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">configured</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TConfiguration</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">retry_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Retrying</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">given</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">Context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Given </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">when</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">Context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;When </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">then</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">Context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Then </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">and_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">Context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;And </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">with_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">Context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;With </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">nothing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intended to support self-testing which does not rely on outer world</span>
+<span class="sd">        system::</span>
+
+<span class="sd">            given.nothing \</span>
+
+<span class="sd">            .when.... doing your stuff here...</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># DELETEME</span>
+    <span class="c1"># # @Context.traced -- nothing to trace here...</span>
+    <span class="c1"># def configuration(self, configuration: TConfiguration) -&gt; Self:</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Sets the configuration to use.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         configuration (TConfiguration): the configuration</span>
+
+    <span class="c1">#     Returns:</span>
+    <span class="c1">#         Self: these steps</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self._configuration = configuration</span>
+    <span class="c1">#     return self</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">[</span><span class="n">T</span><span class="p">:</span><span class="n">Valid</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets field to specified value</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_name (str): name of field; the field should be defined as annotation</span>
+<span class="sd">            field_value (T:Valid): value of field that can be validated</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: if the field is not defined</span>
+<span class="sd">            TypeError: if the object does not support the Valid protocol</span>
+<span class="sd">            InvalidValueException: if the object is invalid</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            _type_: the value of set field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> is not a valid attribute of &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">valid</span><span class="p">(</span><span class="n">field_value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">field_value</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Casts anything to a step.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">tracing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Logs value at DEBUG level using the logger of this steps class.</span>
+
+<span class="sd">        Use to trace something as a step, usually in a lambda expression::</span>
+
+<span class="sd">            when.retrying(lambda: self.trace(valid(...call some API...))) \</span>
+
+<span class="sd">                .and_....this can be further chained with other steps....</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Any): _description_</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">waiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Blocks current thread for specified duration.</span>
+
+<span class="sd">        Consider using retrying or eventually_assert_that instead of this.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            duration (timedelta, optional): Defaults to timedelta(seconds=0).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sleep_for</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">failing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intended to support self-testing of retrying and eventually_assert_that</span>
+<span class="sd">        steps below.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            exception (Exception): some exception</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            exception: that exception</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">exception</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">repeating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="nb">range</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intended for stress testing -- repeats specified steps.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            range (range): a range</span>
+<span class="sd">            step (Callable[[int], Self]): lambda of step to repeat with counter</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seq</span><span class="p">(</span><span class="nb">range</span><span class="p">)</span><span class="o">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># TODO parallel_repeating</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">safely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes specified step, swallowing its exceptions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            step (Callable[[], Self]): a lambda expression returning Self</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">safely</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">step</span><span class="p">())</span><span class="o">.</span><span class="n">value_or</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># TODO implement a raises decorator to mark method as raising some exception</span>
+    <span class="c1"># at run-time the decorator shall check if raised exception matches the declared list.</span>
+    <span class="c1"># This one would be:</span>
+    <span class="c1"># @raises(tenacity.RetryError)</span>
+    <span class="nd">@final</span>
+    <span class="c1"># @Context.traced</span>
+    <span class="k">def</span> <span class="nf">retrying</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Retries specified step according to _retry_policy.</span>
+
+<span class="sd">        The default _retry_policy can be overridden by sub-types.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            step (Callable[[], Self]): a lambda expression returning Self</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+
+    <span class="nd">@final</span>
+    <span class="c1"># @Context.traced</span>
+    <span class="k">def</span> <span class="nf">eventually_assert_that</span><span class="p">[</span><span class="n">T</span><span class="p">](</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+            <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Repeatedly applies specified rule on specified supplier, according to</span>
+<span class="sd">        _retry_policy.</span>
+
+<span class="sd">        The default _retry_policy can be overridden by sub-types.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            supplier (Callable[[], T]): a lambda expression returning T</span>
+<span class="sd">            by_rule (Matcher[T]): a Hamcrest Matcher on T; basically, this is \</span>
+<span class="sd">            just a predicate with a description, read more on \</span>
+<span class="sd">                https://github.com/hamcrest/PyHamcrest</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assert_that</span><span class="p">(</span><span class="n">supplier</span><span class="p">(),</span> <span class="n">by_rule</span><span class="p">))</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+    <span class="k">def</span> <span class="nf">it_works</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matcher</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intended to support self-testing of reports.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            matcher (Matcher[bool]): is_(True) will trigger a green report, \</span>
+<span class="sd">            while is_(False) will trigger a red report</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_that</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">matcher</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@final</span>
+    <span class="c1"># NOTE @Context.traced here is redundant</span>
+    <span class="k">def</span> <span class="nf">_assert_that</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adapts PyHamcrest&#39;s assert_that to the BDD world by returning Self.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (T): the value to assert upon</span>
+<span class="sd">            by_rule (Matcher[T]): the Hamcrest matcher to apply</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: these steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_that</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.and_" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">and_</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.configured" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">configured</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.given" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">given</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.nothing" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">nothing</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Intended to support self-testing which does not rely on outer world
+system::</p>
+<div class="highlight"><pre><span></span><code>given.nothing 
+.when.... doing your stuff here...
+</code></pre></div>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.retry_policy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">retry_policy</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.then" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">then</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.when" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">when</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="qa_pytest_commons.GenericSteps.with_" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">with_</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TConfiguration</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">configuration</span>
+    <span class="c1"># NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;</span>
+    <span class="c1"># see BddScenarioTests#should_retry</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span> <span class="o">=</span> <span class="n">Retrying</span><span class="p">(</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+        <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+        <span class="n">retry</span><span class="o">=</span><span class="n">retry_if_exception_type</span><span class="p">(</span><span class="ne">Exception</span><span class="p">),</span>
+        <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.eventually_assert_that" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">eventually_assert_that</span><span class="p">(</span><span class="n">supplier</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Repeatedly applies specified rule on specified supplier, according to
+_retry_policy.</p>
+<p>The default _retry_policy can be overridden by sub-types.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>supplier</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span>[[], <span title="T">T</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a lambda expression returning T</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>by_rule</code>
+            </td>
+            <td>
+                  <code><span title="hamcrest.core.matcher.Matcher">Matcher</span>[<span title="T">T</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a Hamcrest Matcher on T; basically, this is             just a predicate with a description, read more on                 https://github.com/hamcrest/PyHamcrest</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="c1"># @Context.traced</span>
+<span class="k">def</span> <span class="nf">eventually_assert_that</span><span class="p">[</span><span class="n">T</span><span class="p">](</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+        <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Repeatedly applies specified rule on specified supplier, according to</span>
+<span class="sd">    _retry_policy.</span>
+
+<span class="sd">    The default _retry_policy can be overridden by sub-types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        supplier (Callable[[], T]): a lambda expression returning T</span>
+<span class="sd">        by_rule (Matcher[T]): a Hamcrest Matcher on T; basically, this is \</span>
+<span class="sd">        just a predicate with a description, read more on \</span>
+<span class="sd">            https://github.com/hamcrest/PyHamcrest</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assert_that</span><span class="p">(</span><span class="n">supplier</span><span class="p">(),</span> <span class="n">by_rule</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.failing" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">failing</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Intended to support self-testing of retrying and eventually_assert_that
+steps below.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>exception</code>
+            </td>
+            <td>
+                  <code><span title="Exception">Exception</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>some exception</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="exception">exception</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>that exception</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+<span class="k">def</span> <span class="nf">failing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Intended to support self-testing of retrying and eventually_assert_that</span>
+<span class="sd">    steps below.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        exception (Exception): some exception</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        exception: that exception</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">exception</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.it_works" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">it_works</span><span class="p">(</span><span class="n">matcher</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Intended to support self-testing of reports.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>matcher</code>
+            </td>
+            <td>
+                  <code><span title="hamcrest.core.matcher.Matcher">Matcher</span>[<span title="bool">bool</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>is_(True) will trigger a green report,             while is_(False) will trigger a red report</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+<span class="k">def</span> <span class="nf">it_works</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matcher</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Intended to support self-testing of reports.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matcher (Matcher[bool]): is_(True) will trigger a green report, \</span>
+<span class="sd">        while is_(False) will trigger a red report</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">assert_that</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">matcher</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.repeating" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">repeating</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Intended for stress testing -- repeats specified steps.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>range</code>
+            </td>
+            <td>
+                  <code><span title="range">range</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>step</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span>[[<span title="int">int</span>], <span title="typing.Self">Self</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>lambda of step to repeat with counter</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+<span class="k">def</span> <span class="nf">repeating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="nb">range</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Intended for stress testing -- repeats specified steps.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        range (range): a range</span>
+<span class="sd">        step (Callable[[int], Self]): lambda of step to repeat with counter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seq</span><span class="p">(</span><span class="nb">range</span><span class="p">)</span><span class="o">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.retrying" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">retrying</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Retries specified step according to _retry_policy.</p>
+<p>The default _retry_policy can be overridden by sub-types.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>step</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span>[[], <span title="typing.Self">Self</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a lambda expression returning Self</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="c1"># @Context.traced</span>
+<span class="k">def</span> <span class="nf">retrying</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Retries specified step according to _retry_policy.</span>
+
+<span class="sd">    The default _retry_policy can be overridden by sub-types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        step (Callable[[], Self]): a lambda expression returning Self</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.safely" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">safely</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Executes specified step, swallowing its exceptions.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>step</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span>[[], <span title="typing.Self">Self</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a lambda expression returning Self</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+<span class="k">def</span> <span class="nf">safely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Executes specified step, swallowing its exceptions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        step (Callable[[], Self]): a lambda expression returning Self</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">safely</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">step</span><span class="p">())</span><span class="o">.</span><span class="n">value_or</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.set" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">set</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Sets field to specified value</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>field_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>name of field; the field should be defined as annotation</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>field_value</code>
+            </td>
+            <td>
+                  <code><span title="T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Valid): value of field that can be validated</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="AttributeError">AttributeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the field is not defined</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the object does not support the Valid protocol</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="InvalidValueException">InvalidValueException</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the object is invalid</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>_type_</code></td>            <td>
+                  <code><span title="T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the value of set field</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set</span><span class="p">[</span><span class="n">T</span><span class="p">:</span><span class="n">Valid</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets field to specified value</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        field_name (str): name of field; the field should be defined as annotation</span>
+<span class="sd">        field_value (T:Valid): value of field that can be validated</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AttributeError: if the field is not defined</span>
+<span class="sd">        TypeError: if the object does not support the Valid protocol</span>
+<span class="sd">        InvalidValueException: if the object is invalid</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: the value of set field</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> is not a valid attribute of &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">valid</span><span class="p">(</span><span class="n">field_value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">field_value</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.step" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">step</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Casts anything to a step.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Casts anything to a step.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.tracing" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">tracing</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Logs value at DEBUG level using the logger of this steps class.</p>
+<p>Use to trace something as a step, usually in a lambda expression::</p>
+<div class="highlight"><pre><span></span><code>when.retrying(lambda: self.trace(valid(...call some API...))) 
+    .and_....this can be further chained with other steps....
+</code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>value</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><em>description</em></p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="k">def</span> <span class="nf">tracing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logs value at DEBUG level using the logger of this steps class.</span>
+
+<span class="sd">    Use to trace something as a step, usually in a lambda expression::</span>
+
+<span class="sd">        when.retrying(lambda: self.trace(valid(...call some API...))) \</span>
+
+<span class="sd">            .and_....this can be further chained with other steps....</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        value (Any): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="qa_pytest_commons.GenericSteps.waiting" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">waiting</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Blocks current thread for specified duration.</p>
+<p>Consider using retrying or eventually_assert_that instead of this.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>duration</code>
+            </td>
+            <td>
+                  <code><span title="datetime.timedelta">timedelta</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Defaults to timedelta(seconds=0).</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="datetime.timedelta">timedelta</span>(seconds=0)</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>these steps</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+<span class="k">def</span> <span class="nf">waiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blocks current thread for specified duration.</span>
+
+<span class="sd">    Consider using retrying or eventually_assert_that instead of this.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        duration (timedelta, optional): Defaults to timedelta(seconds=0).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: these steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sleep_for</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
