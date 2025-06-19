@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Iterator
 from uuid import uuid4
 
-from requests import Response
-
 from qa_testing_utils.string_utils import to_string
+from requests import Response
 
 
 @dataclass(eq=True, frozen=True)

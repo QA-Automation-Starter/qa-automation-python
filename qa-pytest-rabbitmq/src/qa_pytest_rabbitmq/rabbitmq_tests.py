@@ -1,21 +1,21 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import pika
 from typing import Any, Generic, TypeVar, override
+
+import pika
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_rabbitmq.rabbitmq_configuration import RabbitMqConfiguration
 from qa_pytest_rabbitmq.rabbitmq_steps import RabbitMqSteps
 
-
-K = TypeVar("K")
-V = TypeVar("V")
-TConfiguration = TypeVar("TConfiguration", bound=RabbitMqConfiguration)
-TSteps = TypeVar("TSteps", bound=RabbitMqSteps[Any, Any, Any])
+_K = TypeVar("_K")
+_V = TypeVar("_V")
+_TConfiguration = TypeVar("_TConfiguration", bound=RabbitMqConfiguration)
+_TSteps = TypeVar("_TSteps", bound=RabbitMqSteps[Any, Any, Any])
 
 
 class RabbitMqTests(
-        Generic[K, V, TSteps, TConfiguration],
-        AbstractTestsBase[TSteps, TConfiguration]):
+        Generic[_K, _V, _TSteps, _TConfiguration],
+        AbstractTestsBase[_TSteps, _TConfiguration]):
     _connection: pika.BlockingConnection
 
     @override

@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Callable, Any
 import threading
 from dataclasses import asdict, fields, is_dataclass, replace
 from enum import Enum
-from typing import (Any, Dict, Optional, Protocol,
-                    final, runtime_checkable, ClassVar)
+from typing import (
+    Any,
+    Callable,
+    ClassVar,
+    Dict,
+    Optional,
+    Protocol,
+    final,
+    runtime_checkable,
+)
 
 
 @runtime_checkable

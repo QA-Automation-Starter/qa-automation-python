@@ -3,14 +3,24 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from datetime import date, datetime
-from typing import (Any, Callable, Iterable, Iterator, List, Optional, Sequence,
-                    Union, cast, final, override)
+from typing import (
+    Any,
+    Callable,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    Union,
+    cast,
+    final,
+    override,
+)
 
 from hamcrest.core.base_matcher import BaseMatcher
 from hamcrest.core.description import Description
 from hamcrest.core.helpers.wrap_matcher import wrap_matcher
 from hamcrest.core.matcher import Matcher
-
 from qa_testing_utils.logger import LoggerMixin
 
 

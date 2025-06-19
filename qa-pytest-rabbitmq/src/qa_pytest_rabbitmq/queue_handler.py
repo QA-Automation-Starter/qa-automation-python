@@ -1,24 +1,21 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import threading
 import queue
-from typing import Any, Callable, Final, Iterator, Mapping, TypeVar, Generic, final
+import threading
 from dataclasses import dataclass, field
 from types import TracebackType
+from typing import Any, Callable, Final, Iterator, Mapping, final
+
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import BasicProperties
-
 from qa_testing_utils.logger import LoggerMixin
 from qa_testing_utils.object_utils import require_not_none
 from qa_testing_utils.string_utils import EMPTY_STRING, to_string
 
-V = TypeVar("V")
-K = TypeVar("K")
-
 
 @to_string()
 @dataclass(frozen=True)
-class Message(Generic[V]):
+class Message[V]:
     content: V
     properties: BasicProperties = field(default_factory=BasicProperties)
 
@@ -26,7 +23,7 @@ class Message(Generic[V]):
 @to_string()
 @dataclass
 @final
-class QueueHandler(Generic[K, V], LoggerMixin):
+class QueueHandler[K, V](LoggerMixin):
     channel: Final[BlockingChannel]
     queue_name: Final[str]
     indexing_by: Final[Callable[[Message[V]], K]]

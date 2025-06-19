@@ -1,11 +1,12 @@
 # type: ignore
+import configparser
+import logging
 import random
 import time
-import logging
+
+import allure
 import pytest
 import requests
-import configparser
-import allure
 
 logger = logging.getLogger(__name__)
 

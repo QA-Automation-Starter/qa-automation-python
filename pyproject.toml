@@ -26,7 +26,16 @@ dev = [
     "pytest-xdist==3.7.0",
     "autopep8",
     "isort",
+    "mkinit",
+    "mkdocs==1.6.1",
+    "mkdocs-get-deps==0.2.0",
+    "mkdocs-material==9.6.14",
+    "mkdocs-material-extensions==1.3.1",
+    "mkdocs-mermaid2-plugin==1.2.1",
+    "mkdocstrings[python]==0.29.1",
+    "pymdown-extensions==10.15"
 ]
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
@@ -38,12 +47,12 @@ python_classes = "*Tests"
 python_functions = "should_*"
 # IMPORTANT these also must be present in .vscode/settings.json
 testpaths = [
-  "qa-testing-utils/tests",
-  "qa-pytest-commons/tests",
-  "qa-pytest-rest/tests",
-  "qa-pytest-rabbitmq/tests",
-  "qa-pytest-webdriver/tests",
-  "qa-pytest-examples/tests",
+  "qa-testing-utils/tests/qa_testing_utils",
+  "qa-pytest-commons/tests/qa_pytest_commons",
+  "qa-pytest-rest/tests/qa_pytest_rest",
+  "qa-pytest-rabbitmq/tests/qa_pytest_rabbitmq",
+  "qa-pytest-webdriver/tests/qa_pytest_webdriver",
+  "qa-pytest-examples/tests/qa_pytest_examples",
 ]
 pythonpath = [
   "qa-testing-utils/src",
@@ -62,6 +71,9 @@ markers = [
 
 [tool.pdm.scripts]
 clean-all = "git clean -fdX"
+format-all = { composite = ["isort .", "autopep8 . --in-place --recursive"] }
+# WARNING this overwrites all __init__.py files
+regenerate-init = "bash -c 'find qa-*/src/qa_* -type d -exec test -f {}/__init__.py \\; -exec mkinit {} -w --nomods \\;'"
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
 install-deps = "pdm install"
@@ -71,7 +83,6 @@ mkdocs-serve = "mkdocs serve"
 [tool.autopep8]
 max_line_length = 80
 ignore = []
-experimental = true
 
 [tool.isort]
 profile = "black"

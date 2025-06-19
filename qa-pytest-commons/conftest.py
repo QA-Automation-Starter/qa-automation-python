@@ -2,9 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from qa_testing_utils.conftest_helpers import *
-
 import pytest
+from qa_testing_utils.conftest_helpers import *
 
 
 @pytest.hookimpl(tryfirst=True)

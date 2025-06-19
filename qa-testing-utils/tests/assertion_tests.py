@@ -7,7 +7,13 @@ from random import randint
 from typing import Callable
 
 import pytest
-from tenacity import Retrying, before_sleep_log, retry_if_exception_type, stop_after_attempt, wait_exponential
+from tenacity import (
+    Retrying,
+    before_sleep_log,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 
 def unstable_function():

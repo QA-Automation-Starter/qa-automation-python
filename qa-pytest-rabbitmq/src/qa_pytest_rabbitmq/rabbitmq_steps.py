@@ -46,5 +46,6 @@ class RabbitMqSteps[K, V, TConfiguration: RabbitMqConfiguration](
     def the_message_by_key(
             self, key: K, by_rule: Matcher[Message[V]]) -> Self:
         return self.eventually_assert_that(
-            lambda: require_not_none(self._queue_handler.received_messages.get(key)),
+            lambda: require_not_none(
+                self._queue_handler.received_messages.get(key)),
             by_rule)

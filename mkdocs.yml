@@ -2,14 +2,41 @@ site_name: QA Automation Starter for Python
 site_description: A starter project for QA Automation using pytest and Allure.
 site_url: https://qa-automation-starter.github.io/qa-automation-python/
 use_directory_urls: true
+repo_url: https://github.com/QA-Automation-Starter/qa-automation-python
+repo_name: GitHub
 
 theme:
   name: material
 
 plugins:
+  - search
   - mermaid2
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_root_heading: true
+            show_source: true
+            show_if_no_docstring: true
+            merge_init_into_package: true
+            render_module_header: true
+            render_module_summary: true
+          paths:
+            - qa-pytest-commons/src
+            - qa-pytest-webdriver/src
+            - qa-pytest-rest/src
+            - qa-pytest-examples/src
+            - qa-pytest-rabbitmq/src
+            - qa-testing-utils/src
 
 markdown_extensions:
+  - pymdownx.snippets:
+      base_path:
+      - qa-pytest-commons/src
+      - qa-pytest-webdriver/src
+      - qa-pytest-rest/src
+      - qa-pytest-rabbitmq/src
+      - qa-pytest-examples/src
   - pymdownx.superfences:
       custom_fences:              # <<< missing bit
         - name: mermaid
@@ -27,5 +54,12 @@ nav:
   - Architecture: architecture.md
   - Example Tests: example-tests.md
   - Example Allure Report: reports/index.html
+  - API Reference:
+    - WebDriver: api/qa-pytest-webdriver.md
+    - REST: api/qa-pytest-rest.md
+    - RabbitMQ: api/qa-pytest-rabbitmq.md
+    - Commons: api/qa-pytest-commons.md
+    - Utils: api/qa-testing-utils.md
+    - Examples: api/qa-pytest-examples.md
 
 

@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+
 from qa_testing_utils.file_utils import *
 
 
@@ -70,8 +71,9 @@ def should_decompress_xz_stream():
 
 
 def should_extract_files_from_tar():
-    import tarfile
     import io
+    import tarfile
+
     # Create a tar archive in memory
     file_content = b"testdata"
     tar_bytes = io.BytesIO()

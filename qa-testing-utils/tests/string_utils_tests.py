@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from enum import Enum
 import logging
+from enum import Enum
 from typing import List
 
 from qa_testing_utils.string_utils import *

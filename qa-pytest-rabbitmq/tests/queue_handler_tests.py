@@ -2,12 +2,14 @@
 
 from contextlib import closing
 from typing import cast
+
 import pika
-from string_utils.generation import random_string
 from hamcrest import assert_that, equal_to, has_length
 from qa_pytest_rabbitmq.queue_handler import QueueHandler
 from qa_testing_utils.object_utils import require_not_none
 from qa_testing_utils.string_utils import EMPTY_STRING
+from string_utils.generation import random_string
+
 from .abstract_queue_handler_tests import AbstractQueueHandlerTests
 
 
@@ -42,7 +44,8 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
             with connection.channel() as channel:
                 with QueueHandler(
                         channel=channel,
-                        queue_name=require_not_none(channel.queue_declare(queue=EMPTY_STRING, exclusive=True).method.queue),
+                        queue_name=require_not_none(channel.queue_declare(
+                            queue=EMPTY_STRING, exclusive=True).method.queue),
                         indexing_by=lambda message: message.content,
                         consuming_by=lambda bytes: bytes.decode(),
                         publishing_by=lambda string: string.encode()) as queue_handler:

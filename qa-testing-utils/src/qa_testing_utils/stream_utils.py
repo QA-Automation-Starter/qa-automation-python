@@ -4,7 +4,6 @@
 
 from typing import Callable, Iterator
 
-
 """
 A generic callable type alias representing a supplier of values of type T.
 

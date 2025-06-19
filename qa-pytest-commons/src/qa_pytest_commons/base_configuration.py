@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import configparser
-from functools import cached_property
 import inspect
 import os
+from functools import cached_property
 from pathlib import Path
 from typing import final
 

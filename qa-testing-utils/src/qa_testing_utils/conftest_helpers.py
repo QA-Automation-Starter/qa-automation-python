@@ -4,8 +4,8 @@
 
 import inspect
 import logging.config
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import Callable, Optional
 
 import pytest
