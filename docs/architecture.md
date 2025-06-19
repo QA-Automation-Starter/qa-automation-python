@@ -97,16 +97,16 @@ classDiagram
 
 | Class | Description |
 |-------|-------------|
-| [`AbstractTestsBase`](api/qa-pytest-commons.md#qa_pytest_commons.abstract_tests_base.AbstractTestsBase) | Base for all test scenarios; holds steps and config |
-| [`GenericSteps`](api/qa-pytest-commons.md#qa_pytest_commons.generic_steps.GenericSteps) | Base for all step implementations; provides BDD keywords |
-| [`BaseConfiguration`](api/qa-pytest-commons.md#qa_pytest_commons.base_configuration.BaseConfiguration) | Base for all configuration objects |
-| [`RestTests`](api/qa-pytest-rest.md#qa_pytest_rest.rest_tests.RestTests) | REST-specific test base |
-| [`RestSteps`](api/qa-pytest-rest.md#qa_pytest_rest.rest_steps.RestSteps) | REST-specific steps |
-| [`RestConfiguration`](api/qa-pytest-rest.md#qa_pytest_rest.rest_configuration.RestConfiguration) | REST-specific configuration |
-| [`SeleniumTests`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.selenium_tests.SeleniumTests) | Selenium-specific test base |
-| [`SeleniumSteps`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.selenium_steps.SeleniumSteps) | Selenium-specific steps |
-| [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.selenium_configuration.SeleniumConfiguration) | Selenium-specific configuration |
-| [`TerminalXTests`](api/qa-pytest-examples.md#qa_pytest_examples.terminalx_tests.TerminalXTests) | Example: custom UI test base |
-| [`TerminalXSteps`](api/qa-pytest-examples.md#qa_pytest_examples.terminalx_steps.TerminalXSteps) | Example: custom UI steps |
-| [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.terminalx_configuration.TerminalXConfiguration) | Example: custom UI configuration |
+| [`AbstractTestsBase`](api/qa-pytest-commons.md#qa_pytest_commons.AbstractTestsBase) | Base for all test scenarios; holds steps and config |
+| [`GenericSteps`](api/qa-pytest-commons.md#qa_pytest_commons.GenericSteps) | Base for all step implementations; provides BDD keywords |
+| [`BaseConfiguration`](api/qa-pytest-commons.md#qa_pytest_commons.BaseConfiguration) | Base for all configuration objects |
+| [`RestTests`](api/qa-pytest-rest.md#qa_pytest_rest.RestTests) | REST-specific test base |
+| [`RestSteps`](api/qa-pytest-rest.md#qa_pytest_rest.RestSteps) | REST-specific steps |
+| [`RestConfiguration`](api/qa-pytest-rest.md#qa_pytest_rest.RestConfiguration) | REST-specific configuration |
+| [`SeleniumTests`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumTests) | Selenium-specific test base |
+| [`SeleniumSteps`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumSteps) | Selenium-specific steps |
+| [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumConfiguration) | Selenium-specific configuration |
+| [`TerminalXTests`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXTests) | Example: custom UI test base |
+| [`TerminalXSteps`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXSteps) | Example: custom UI steps |
+| [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXConfiguration) | Example: custom UI configuration |
 ---

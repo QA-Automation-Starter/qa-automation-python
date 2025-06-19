@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import concurrent.futures
-from threading import local
 import time
 from datetime import timedelta
+from threading import local
 from typing import Final, cast
 
 COMMON_EXECUTOR: Final[concurrent.futures.ThreadPoolExecutor] = concurrent.futures.ThreadPoolExecutor()

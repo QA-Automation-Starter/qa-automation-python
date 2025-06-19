@@ -5,15 +5,16 @@
 from dataclasses import asdict
 from typing import Iterator, Self
 
-from requests import Request
-from hamcrest.core.matcher import Matcher
 import requests
-
-from qa_pytest_examples.swagger_petstore_configuration import SwaggerPetstoreConfiguration
+from hamcrest.core.matcher import Matcher
 from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
+from qa_pytest_examples.swagger_petstore_configuration import (
+    SwaggerPetstoreConfiguration,
+)
 from qa_pytest_rest.rest_steps import HttpMethod, RestSteps
 from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_object
+from requests import Request
 
 
 class SwaggerPetstoreSteps[TConfiguration: SwaggerPetstoreConfiguration](

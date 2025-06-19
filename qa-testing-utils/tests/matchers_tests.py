@@ -8,11 +8,12 @@ from typing import Callable, Union
 import attr
 import pytest
 from functional import seq
-from hamcrest import all_of, assert_that, has_item, has_property, is_  # type: ignore -- seq
-from qa_testing_utils.string_utils import to_string
+from hamcrest import is_  # type: ignore
+from hamcrest import all_of, assert_that, has_item, has_property
 from qa_testing_utils.matchers import *
 from qa_testing_utils.object_utils import *
 from qa_testing_utils.string_utils import *
+from qa_testing_utils.string_utils import to_string
 
 
 @to_string()

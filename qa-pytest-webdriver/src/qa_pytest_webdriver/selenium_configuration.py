@@ -4,6 +4,7 @@
 
 from functools import cached_property
 from typing import final
+
 from qa_pytest_commons.base_configuration import BaseConfiguration
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager

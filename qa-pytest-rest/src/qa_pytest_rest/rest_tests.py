@@ -4,23 +4,23 @@
 
 from typing import Any, Generic, TypeVar, override
 
+import requests
+from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_rest.rest_configuration import RestConfiguration
 from qa_pytest_rest.rest_steps import RestSteps
-from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
-import requests
 
 # NOTE: python limitation; we cannot declare it such as:
 # class RestTests[TSteps:RestSteps[TConfiguration], TConfiguration: RestConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
-TConfiguration = TypeVar("TConfiguration", bound=RestConfiguration)
+_TConfiguration = TypeVar("_TConfiguration", bound=RestConfiguration)
 # TSteps can be any subclass of RestSteps, with any configuration type parameter.
 # However, Python's type system cannot enforce that the parameter to RestSteps is
 # itself a subclass of RestConfiguration; this is the closest we can get:
-TSteps = TypeVar("TSteps", bound=RestSteps[Any])
+_TSteps = TypeVar("_TSteps", bound=RestSteps[Any])
 
 
 class RestTests(
-        Generic[TSteps, TConfiguration],
-        AbstractTestsBase[TSteps, TConfiguration]):
+        Generic[_TSteps, _TConfiguration],
+        AbstractTestsBase[_TSteps, _TConfiguration]):
     """
     Base class for REST API test cases.
 

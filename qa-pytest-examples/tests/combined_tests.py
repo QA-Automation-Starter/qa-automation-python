@@ -1,15 +1,13 @@
 import random
 
 import pytest
-
 from hamcrest import is_  # type: ignore
-
 from qa_pytest_examples.combined_configuration import CombinedConfiguration
 from qa_pytest_examples.combined_steps import CombinedSteps
 from qa_pytest_examples.model.swagger_petstore_pet import SwaggerPetstorePet
 from qa_pytest_rest.rest_tests import RestTests
 from qa_pytest_webdriver.selenium_tests import SeleniumTests
-from qa_testing_utils.matchers import yields_item, traced
+from qa_testing_utils.matchers import traced, yields_item
 
 
 @pytest.mark.external

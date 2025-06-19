@@ -2,12 +2,19 @@
 """
 Abstract base for QueueHandler tests, ported from Java AbstractQueueHandlerTest.
 """
+import logging
 from abc import ABC
 from functools import cached_property
-import logging
+
 import pika
-from tenacity import Retrying, before_sleep_log, retry_if_exception_type, stop_after_attempt, wait_exponential
 from qa_testing_utils.logger import LoggerMixin
+from tenacity import (
+    Retrying,
+    before_sleep_log,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 
 class AbstractQueueHandlerTests(ABC, LoggerMixin):

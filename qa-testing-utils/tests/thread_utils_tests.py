@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from datetime import timedelta
-from qa_testing_utils.thread_utils import sleep_for
 import time
+from datetime import timedelta
+
+from qa_testing_utils.thread_utils import sleep_for
 
 
 def should_sleep_for_specified_duration():

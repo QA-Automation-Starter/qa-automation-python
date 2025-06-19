@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 from typing import override
+
 from hamcrest import is_  # type: ignore
-from qa_pytest_examples.rabbitmq_self_configuration import RabbitMqSelfConfiguration
+from qa_pytest_examples.rabbitmq_self_configuration import (
+    RabbitMqSelfConfiguration,
+)
 from qa_pytest_rabbitmq.queue_handler import Message, QueueHandler
 from qa_pytest_rabbitmq.rabbitmq_steps import RabbitMqSteps
 from qa_pytest_rabbitmq.rabbitmq_tests import RabbitMqTests

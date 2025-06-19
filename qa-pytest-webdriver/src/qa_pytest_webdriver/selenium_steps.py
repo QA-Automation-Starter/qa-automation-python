@@ -15,15 +15,14 @@ from typing import (
     final,
     overload,
 )
-from hamcrest.core.matcher import Matcher
 
+from hamcrest.core.matcher import Matcher
+from qa_pytest_commons.generic_steps import GenericSteps
+from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_testing_utils.logger import Context
 from selenium.webdriver.common.by import By as _By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
-from qa_pytest_commons.generic_steps import GenericSteps
-from qa_testing_utils.logger import Context
 
 
 class SearchContext(Protocol):
@@ -145,7 +144,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         )
 
     def _scroll_into_view(self, element: WebElement) -> WebElement:
-        self._web_driver.execute_script( # type: ignore
+        self._web_driver.execute_script(  # type: ignore
             "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
         return element
 

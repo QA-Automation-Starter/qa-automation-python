@@ -72,7 +72,7 @@ markers = [
 [tool.pdm.scripts]
 clean-all = "git clean -fdX"
 format-all = { composite = ["isort .", "autopep8 . --in-place --recursive"] }
-# NOTE this overwrites all __init__.py files
+# WARNING this overwrites all __init__.py files
 regenerate-init = "bash -c 'find qa-*/src/qa_* -type d -exec test -f {}/__init__.py \\; -exec mkinit {} -w --nomods \\;'"
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
