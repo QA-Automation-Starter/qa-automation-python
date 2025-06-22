@@ -209,16 +209,16 @@ class InvalidValueException(ValueError):
 
 def valid[T:Valid](value: T) -> T:
     """
-    Validates specified object, assuming that it supports the Valid protocol.
+    Validates the specified object, assuming it supports the Valid protocol.
 
     Args:
-        value (T:Valid): the object
+        value (T:Valid): The object to validate.
 
     Raises:
-        InvalidValueException: if the object is invalid
+        InvalidValueException: If the object is invalid (is_valid() returns False).
 
     Returns:
-        T:Valid: the validated object
+        T:Valid: The validated object if valid.
     """
     if value.is_valid():
         return value
@@ -236,11 +236,11 @@ def require_not_none[T](
         value (Optional[T]): The value to check for None.
         message (str, optional): The error message to use if value is None. Defaults to "Value must not be None".
 
-    Returns:
-        T: The value, guaranteed to be not None.
-
     Raises:
         ValueError: If value is None.
+
+    Returns:
+        T: The value, guaranteed to be not None.
     """
     if value is None:
         raise ValueError(message)
@@ -249,6 +249,16 @@ def require_not_none[T](
 
 @final
 class classproperty[T]:
+    """
+    Descriptor for defining class-level properties (like @property but for classes).
+
+    Example:
+        class MyClass:
+            @classproperty
+            def foo(cls):
+                return ...
+    """
+
     def __init__(self, fget: Callable[[Any], T]) -> None:
         self.fget = fget
 

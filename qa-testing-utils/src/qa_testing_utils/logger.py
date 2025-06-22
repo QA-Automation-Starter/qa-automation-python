@@ -26,6 +26,12 @@ class Context:
 
     @classmethod
     def default(cls) -> "Context":
+        """
+        Returns a default Context instance with a no-op formatter.
+
+        Returns:
+            Context: A Context instance with the identity formatter.
+        """
         return cls(lambda _: _)  # no formatter
 
     @classproperty
@@ -126,13 +132,16 @@ def trace[T](value: T) -> T:
 
 def logger[T:type](cls: T) -> T:
     """
-    Class decorator that injects a logger into annotated class.
+    Class decorator that injects a logger into the decorated class.
+
+    Adds a `log` property to the class, providing a logger named after the class.
+    Useful for adding logging to any class without boilerplate.
 
     Args:
-        cls (type): automatically provided by the runtime
+        cls (type): The class to decorate.
 
     Returns:
-        _type_: the decorated class
+        type: The decorated class with a `log` property.
     """
     cls._logger = logging.getLogger(cls.__name__)
 
@@ -160,6 +169,12 @@ class LoggerMixin:
     @final
     @cached_property
     def log(self) -> logging.Logger:
+        """
+        Returns a logger named after the class.
+
+        Returns:
+            logging.Logger: The logger instance for this class.
+        """
         return logging.getLogger(self.__class__.__name__)
 
     @final
@@ -172,14 +187,13 @@ class LoggerMixin:
             then.eventually_assert_that(
                 lambda: self.trace(...call some API...),
                 greater_that(0)) \
-
                 .and_....other verifications may follow...
 
         Args:
-            value (T): the value
+            value (T): The value to log.
 
         Returns:
-            T: the value
+            T: The value (unchanged).
         """
         self.log.debug(f"=== {value}")
         return value

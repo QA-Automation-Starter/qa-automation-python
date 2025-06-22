@@ -35,10 +35,17 @@ class AbstractTestsBase[
         |                   |---contains----------->| Configuration |
         +-------------------+                       +---------------+
 
-    Args:
+    IMPORTANT: pytest classes must not define an __init__ method.
+
+    Type Parameters:
         TSteps (TSteps:GenericSteps): The actual steps implementation, or partial implementation.
+        TConfiguration (TConfiguration:Configuration): The configuration type for the test scenario.
+
+    Attributes:
+        _steps_type (Type[TSteps]): The type of the steps implementation. Must be set by subtypes.
+        _configuration (TConfiguration): The configuration instance for the test scenario. Must be set by subtypes.
     """
-    _steps_type: Type[TSteps]  # IMPORTANT: pytest classes must not __init__
+    _steps_type: Type[TSteps]
     _configuration: TConfiguration
 
     @property

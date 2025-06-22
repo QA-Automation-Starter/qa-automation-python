@@ -6,4 +6,9 @@ from qa_pytest_examples.terminalx_steps import TerminalXSteps
 class CombinedSteps(
         SwaggerPetstoreSteps[CombinedConfiguration],
         TerminalXSteps[CombinedConfiguration]):
+    """
+    Combined steps implementation that inherits step definitions from both
+    SwaggerPetstoreSteps and TerminalXSteps, using CombinedConfiguration.
+    Useful for scenarios requiring both sets of step logic in a single test suite.
+    """
     pass

@@ -13,6 +13,7 @@ from qa_testing_utils.object_utils import require_not_none
 from qa_testing_utils.string_utils import EMPTY_STRING
 
 
+# --8<-- [start:class]
 class RabbitMqSelfTests(
     RabbitMqTests[int, str,
                   RabbitMqSteps[int, str, RabbitMqSelfConfiguration],
@@ -21,6 +22,7 @@ class RabbitMqSelfTests(
     _steps_type = RabbitMqSteps
     _configuration = RabbitMqSelfConfiguration()
 
+    # --8<-- [start:func]
     def should_publish_and_consume(self) -> None:
         (self.steps
             .given.a_queue_handler(self._queue_handler)
@@ -28,6 +30,7 @@ class RabbitMqSelfTests(
             .and_.consuming()
             .then.the_received_messages(yields_item(
                 traced(is_(Message("test_queue"))))))
+    # --8<-- [end:func]
 
     @override
     def setup_method(self) -> None:
@@ -47,3 +50,4 @@ class RabbitMqSelfTests(
             self._queue_handler.close()
         finally:
             super().teardown_method()
+# --8<-- [end:class]

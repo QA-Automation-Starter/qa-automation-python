@@ -27,6 +27,11 @@ from qa_testing_utils.logger import LoggerMixin
 class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
     """
     A matcher wrapper that adds debug logging around another matcher.
+
+    Logs the result of each match attempt using the class logger.
+
+    Args:
+        matcher (Matcher[T]): The matcher to wrap and trace.
     """
 
     def __init__(self, matcher: Matcher[T]) -> None:
@@ -43,16 +48,28 @@ class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
 
 def traced[T](matcher: Matcher[T]) -> TracingMatcher[T]:
     """
-    Wraps a matcher with TraceMatcher to enable debug logging.
+    Wraps a matcher with TracingMatcher to enable debug logging.
 
     Usage:
-        assert_that(actual, trace(contains_string("hello")))
+        assert_that(actual, traced(contains_string("hello")))
+
+    Args:
+        matcher (Matcher[T]): The matcher to wrap.
+    Returns:
+        TracingMatcher[T]: The wrapped matcher with tracing enabled.
     """
     return TracingMatcher(matcher)
 
 
 @final
 class ContainsStringIgnoringCase(BaseMatcher[str]):
+    """
+    Matcher that checks if a string contains a given substring, ignoring case.
+
+    Args:
+        substring (str): The substring to search for (case-insensitive).
+    """
+
     def __init__(self, substring: str) -> None:
         self.substring: str = substring.lower()
 
@@ -158,7 +175,7 @@ class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
             description.append_description_of(matcher)
 
 
-DateOrDateTime = Union[date, datetime]
+type DateOrDateTime = Union[date, datetime]
 
 
 @final
@@ -267,8 +284,7 @@ def yields_items[T](matches: Iterable[Union[Matcher[T],
     This matcher will iterate through the evaluated iterator and check if it yields
     at least one instance of each specified matcher or value.
     """
-    wrapped_matchers = [wrap_matcher(match) for match in matches]
-    return IsIteratorYieldingAll(wrapped_matchers)
+    return IsIteratorYieldingAll([wrap_matcher(match) for match in matches])
 
 
 def adapted_object[T, R](
