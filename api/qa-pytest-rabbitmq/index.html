@@ -1388,6 +1388,53 @@
     <div class="doc doc-contents ">
 
 
+        <p>Represents a message to be published or consumed from a RabbitMQ queue.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="content
+
+  
+      instance-attribute
+   (qa_pytest_rabbitmq.Message.content)" href="#qa_pytest_rabbitmq.Message.content">content</a></code></td>
+            <td>
+                  <code><span title="V">V</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The message payload.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="properties = field(default_factory=BasicProperties)
+
+  
+      class-attribute
+      instance-attribute
+   (qa_pytest_rabbitmq.Message.properties)" href="#qa_pytest_rabbitmq.Message.properties">properties</a></code></td>
+            <td>
+                  <code><span title="pika.spec.BasicProperties">BasicProperties</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional message properties for RabbitMQ.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
 
 
@@ -1400,9 +1447,23 @@
 <span class="normal">17</span>
 <span class="normal">18</span>
 <span class="normal">19</span>
-<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@to_string</span><span class="p">()</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@to_string</span><span class="p">()</span>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a message to be published or consumed from a RabbitMQ queue.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        content (V): The message payload.</span>
+<span class="sd">        properties (BasicProperties): Optional message properties for RabbitMQ.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">content</span><span class="p">:</span> <span class="n">V</span>
     <span class="n">properties</span><span class="p">:</span> <span class="n">BasicProperties</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">BasicProperties</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1505,6 +1566,103 @@
               Bases: <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code></p>
 
 
+        <p>Handles publishing and consuming messages from a RabbitMQ queue in a thread-safe, asynchronous manner.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>channel</code>
+            </td>
+            <td>
+                  <code><span title="pika.adapters.blocking_connection.BlockingChannel">BlockingChannel</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The RabbitMQ channel to use.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>queue_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The name of the queue to operate on.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indexing_by</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Function to extract a key from a message.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>consuming_by</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Function to deserialize message bytes.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>publishing_by</code>
+            </td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Function to serialize message content.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
 
 
@@ -1513,14 +1671,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -1628,10 +1779,83 @@
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@to_string</span><span class="p">()</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@to_string</span><span class="p">()</span>
 <span class="nd">@dataclass</span>
 <span class="nd">@final</span>
 <span class="k">class</span> <span class="nc">QueueHandler</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">](</span><span class="n">LoggerMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles publishing and consuming messages from a RabbitMQ queue in a thread-safe, asynchronous manner.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        channel (BlockingChannel): The RabbitMQ channel to use.</span>
+<span class="sd">        queue_name (str): The name of the queue to operate on.</span>
+<span class="sd">        indexing_by (Callable): Function to extract a key from a message.</span>
+<span class="sd">        consuming_by (Callable): Function to deserialize message bytes.</span>
+<span class="sd">        publishing_by (Callable): Function to serialize message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">channel</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">BlockingChannel</span><span class="p">]</span>
     <span class="n">queue_name</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">indexing_by</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]],</span> <span class="n">K</span><span class="p">]]</span>
@@ -1650,11 +1874,17 @@
     <span class="n">_lock</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the worker thread for handling asynchronous queue operations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
             <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_loop</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq-handler&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QueueHandler[K, V]&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Context manager entry. Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
@@ -1663,9 +1893,15 @@
         <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Context manager exit. Ensures the handler is closed and resources are released.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_worker_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal worker loop for processing commands and RabbitMQ events.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">process_data_events</span><span class="p">()</span>
@@ -1678,9 +1914,17 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unhandled error in worker thread: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Submits a callable to be executed by the worker thread.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">consume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts consuming messages from the queue asynchronously.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A placeholder consumer tag (actual tag is set internally).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">_consume</span><span class="p">():</span>
             <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="n">ch</span><span class="p">:</span> <span class="n">BlockingChannel</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
                            <span class="n">props</span><span class="p">:</span> <span class="n">BasicProperties</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1710,6 +1954,11 @@
         <span class="k">return</span> <span class="s2">&quot;pending-tag&quot;</span>
 
     <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cancels the active consumer, if any.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The previous consumer tag, or an empty string if none.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">_cancel</span><span class="p">():</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consumer_tag</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">add_callback_threadsafe</span><span class="p">(</span>
@@ -1720,6 +1969,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consumer_tag</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publishes an iterable of Message objects to the queue asynchronously.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            messages (Iterator[Message[V]]): The messages to publish.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">_publish</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
                 <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publishing_by</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
@@ -1733,15 +1988,30 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">_publish</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">publish_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publishes an iterable of values to the queue, wrapping each in a Message.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            values (Iterator[V]): The values to publish.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="p">((</span><span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gracefully shuts down the handler, cancels consumers, and joins the worker thread.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">received_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a snapshot of all received messages, indexed by key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mapping[K, Message[V]]: The received messages.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1873,6 +2143,36 @@
 
     <div class="doc doc-contents ">
 
+        <p>Returns a snapshot of all received messages, indexed by key.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="K">K</span>, <a class="autorefs autorefs-internal" title="Message
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Mapping[K, Message[V]]: The received messages.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
     </div>
 
 </div>
@@ -1890,11 +2190,19 @@
 
     <div class="doc doc-contents ">
 
+        <p>Context manager entry. Returns self.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QueueHandler[K, V]&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QueueHandler[K, V]&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context manager entry. Returns self.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1913,21 +2221,29 @@
 
     <div class="doc doc-contents ">
 
+        <p>Context manager exit. Ensures the handler is closed and resources are released.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context manager exit. Ensures the handler is closed and resources are released.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1962,13 +2278,21 @@
 
     <div class="doc doc-contents ">
 
+        <p>Starts the worker thread for handling asynchronous queue operations.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts the worker thread for handling asynchronous queue operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
         <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_loop</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rabbitmq-handler&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -1989,18 +2313,32 @@
 
     <div class="doc doc-contents ">
 
+        <p>Cancels the active consumer, if any.
+Returns:
+    str: The previous consumer tag, or an empty string if none.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cancels the active consumer, if any.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The previous consumer tag, or an empty string if none.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">_cancel</span><span class="p">():</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consumer_tag</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">add_callback_threadsafe</span><span class="p">(</span>
@@ -2026,13 +2364,21 @@
 
     <div class="doc doc-contents ">
 
+        <p>Gracefully shuts down the handler, cancels consumers, and joins the worker thread.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gracefully shuts down the handler, cancels consumers, and joins the worker thread.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_worker_thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
@@ -2053,37 +2399,51 @@
 
     <div class="doc doc-contents ">
 
+        <p>Starts consuming messages from the queue asynchronously.
+Returns:
+    str: A placeholder consumer tag (actual tag is set internally).</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts consuming messages from the queue asynchronously.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A placeholder consumer tag (actual tag is set internally).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">_consume</span><span class="p">():</span>
         <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="n">ch</span><span class="p">:</span> <span class="n">BlockingChannel</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
                        <span class="n">props</span><span class="p">:</span> <span class="n">BasicProperties</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2128,21 +2488,71 @@
 
     <div class="doc doc-contents ">
 
+        <p>Publishes an iterable of Message objects to the queue asynchronously.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>messages</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterator">Iterator</span>[<a class="autorefs autorefs-internal" title="Message
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The messages to publish.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Publishes an iterable of Message objects to the queue asynchronously.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        messages (Iterator[Message[V]]): The messages to publish.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">_publish</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publishing_by</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
@@ -2171,11 +2581,56 @@
 
     <div class="doc doc-contents ">
 
+        <p>Publishes an iterable of values to the queue, wrapping each in a Message.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>values</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterator">Iterator</span>[<span title="V">V</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The values to publish.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/queue_handler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">publish_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">publish_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Publishes an iterable of values to the queue, wrapping each in a Message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (Iterator[V]): The values to publish.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="p">((</span><span class="n">Message</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -2207,6 +2662,9 @@
               Bases: <code><a class="autorefs autorefs-internal" title="BaseConfiguration (qa_pytest_commons.base_configuration.BaseConfiguration)" href="../qa-pytest-commons/#qa_pytest_commons.BaseConfiguration">BaseConfiguration</a></code></p>
 
 
+        <p>RabbitMQ-specific test configuration.
+Provides access to the RabbitMQ connection URI from the configuration parser.</p>
+
 
 
 
@@ -2218,9 +2676,31 @@
                 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
-<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqConfiguration</span><span class="p">(</span><span class="n">BaseConfiguration</span><span class="p">):</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqConfiguration</span><span class="p">(</span><span class="n">BaseConfiguration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RabbitMQ-specific test configuration.</span>
+<span class="sd">    Provides access to the RabbitMQ connection URI from the configuration parser.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">connection_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pika</span><span class="o">.</span><span class="n">URLParameters</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the RabbitMQ connection URI as a pika.URLParameters object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pika.URLParameters: The connection URI for RabbitMQ.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pika</span><span class="o">.</span><span class="n">URLParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rabbitmq&quot;</span><span class="p">,</span> <span class="s2">&quot;connection_uri&quot;</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -2252,6 +2732,31 @@
 
     <div class="doc doc-contents ">
 
+        <p>Returns the RabbitMQ connection URI as a pika.URLParameters object.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="pika.URLParameters">URLParameters</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>pika.URLParameters: The connection URI for RabbitMQ.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
     </div>
 
 </div>
@@ -2282,6 +2787,15 @@
               Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="TConfiguration">TConfiguration</span>]</code></p>
 
 
+        <p>BDD-style step definitions for RabbitMQ queue operations.</p>
+
+
+<details class="type-parameters" open>
+  <summary>Type Parameters</summary>
+  <p>K: The type of the message key.
+V: The type of the message content.
+TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
+</details>
 
 
 
@@ -2327,25 +2841,102 @@
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqSteps</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RabbitMqConfiguration</span><span class="p">](</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqSteps</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RabbitMqConfiguration</span><span class="p">](</span>
         <span class="n">GenericSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BDD-style step definitions for RabbitMQ queue operations.</span>
+
+<span class="sd">    Type Parameters:</span>
+<span class="sd">        K: The type of the message key.</span>
+<span class="sd">        V: The type of the message content.</span>
+<span class="sd">        TConfiguration: The configuration type, must be a RabbitMqConfiguration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_queue_handler</span><span class="p">:</span> <span class="n">QueueHandler</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">]</span>
 
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">a_queue_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue_handler</span><span class="p">:</span> <span class="n">QueueHandler</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the queue handler to use for subsequent steps.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            queue_handler (QueueHandler[K, V]): The handler instance.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: The current step instance for chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span> <span class="o">=</span> <span class="n">queue_handler</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">publishing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publishes the provided messages to the queue.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            messages (Iterable[Message[V]]): The messages to publish.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: The current step instance for chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">messages</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">consuming</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts consuming messages from the queue.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: The current step instance for chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">consume</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -2353,6 +2944,14 @@
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">the_received_messages</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Iterator</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asserts that the received messages match the provided matcher rule.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            by_rule (Matcher[Iterator[Message[V]]]): Matcher for the received messages iterator.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: The current step instance for chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventually_assert_that</span><span class="p">(</span>
             <span class="k">lambda</span><span class="p">:</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">received_messages</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
             <span class="n">by_rule</span><span class="p">)</span>
@@ -2361,6 +2960,15 @@
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">the_message_by_key</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asserts that the message with the given key matches the provided matcher rule.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (K): The key to look up.</span>
+<span class="sd">            by_rule (Matcher[Message[V]]): Matcher for the message.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Self: The current step instance for chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventually_assert_that</span><span class="p">(</span>
             <span class="k">lambda</span><span class="p">:</span> <span class="n">require_not_none</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">received_messages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)),</span>
@@ -2391,16 +2999,72 @@
 
     <div class="doc doc-contents ">
 
+        <p>Sets the queue handler to use for subsequent steps.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>queue_handler</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="QueueHandler
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.QueueHandler)" href="#qa_pytest_rabbitmq.QueueHandler">QueueHandler</a>[<span title="K">K</span>, <span title="V">V</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The handler instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Self: The current step instance for chaining.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">a_queue_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue_handler</span><span class="p">:</span> <span class="n">QueueHandler</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets the queue handler to use for subsequent steps.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        queue_handler (QueueHandler[K, V]): The handler instance.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: The current step instance for chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span> <span class="o">=</span> <span class="n">queue_handler</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
@@ -2420,16 +3084,53 @@
 
     <div class="doc doc-contents ">
 
+        <p>Starts consuming messages from the queue.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Self</code></td>            <td>
+                  <code><span title="typing.Self">Self</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The current step instance for chaining.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">consuming</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts consuming messages from the queue.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: The current step instance for chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">consume</span><span class="p">()</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
@@ -2449,16 +3150,72 @@
 
     <div class="doc doc-contents ">
 
+        <p>Publishes the provided messages to the queue.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>messages</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="Message
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The messages to publish.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Self: The current step instance for chaining.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">publishing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Publishes the provided messages to the queue.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        messages (Iterable[Message[V]]): The messages to publish.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: The current step instance for chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">messages</span><span class="p">))</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
@@ -2478,20 +3235,94 @@
 
     <div class="doc doc-contents ">
 
+        <p>Asserts that the message with the given key matches the provided matcher rule.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="K">K</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The key to look up.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>by_rule</code>
+            </td>
+            <td>
+                  <code><span title="hamcrest.core.matcher.Matcher">Matcher</span>[<a class="autorefs autorefs-internal" title="Message
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Matcher for the message.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Self: The current step instance for chaining.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">the_message_by_key</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Asserts that the message with the given key matches the provided matcher rule.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (K): The key to look up.</span>
+<span class="sd">        by_rule (Matcher[Message[V]]): Matcher for the message.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: The current step instance for chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventually_assert_that</span><span class="p">(</span>
         <span class="k">lambda</span><span class="p">:</span> <span class="n">require_not_none</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">received_messages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)),</span>
@@ -2513,19 +3344,75 @@
 
     <div class="doc doc-contents ">
 
+        <p>Asserts that the received messages match the provided matcher rule.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>by_rule</code>
+            </td>
+            <td>
+                  <code><span title="hamcrest.core.matcher.Matcher">Matcher</span>[<span title="typing.Iterator">Iterator</span>[<a class="autorefs autorefs-internal" title="Message
+
+
+  
+      dataclass
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Matcher for the received messages iterator.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Self: The current step instance for chaining.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">the_received_messages</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Iterator</span><span class="p">[</span><span class="n">Message</span><span class="p">[</span><span class="n">V</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Asserts that the received messages match the provided matcher rule.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        by_rule (Matcher[Iterator[Message[V]]]): Matcher for the received messages iterator.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Self: The current step instance for chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventually_assert_that</span><span class="p">(</span>
         <span class="k">lambda</span><span class="p">:</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">received_messages</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
         <span class="n">by_rule</span><span class="p">)</span>
@@ -2556,9 +3443,20 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="typing.Generic">Generic</span>[<span title="qa_pytest_rabbitmq.rabbitmq_tests._K">_K</span>, <span title="qa_pytest_rabbitmq.rabbitmq_tests._V">_V</span>, <span title="qa_pytest_rabbitmq.rabbitmq_tests._TSteps">_TSteps</span>, <span title="qa_pytest_rabbitmq.rabbitmq_tests._TConfiguration">_TConfiguration</span>]</code>, <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="qa_pytest_rabbitmq.rabbitmq_tests._TSteps">_TSteps</span>, <span title="qa_pytest_rabbitmq.rabbitmq_tests._TConfiguration">_TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="TSteps">TSteps</span>, <span title="TConfiguration">TConfiguration</span>]</code></p>
 
 
+        <p>Base class for BDD-style RabbitMQ integration tests.
+Manages the lifecycle of a RabbitMQ connection for test scenarios.</p>
+
+
+<details class="type-args" open>
+  <summary>Type Args</summary>
+  <p>K: The type of the message key.
+V: The type of the message content.
+TSteps: The steps implementation type.
+TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
+</details>
 
 
 
@@ -2567,7 +3465,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_tests.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
 <span class="normal">19</span>
@@ -2583,22 +3486,57 @@
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
-<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqTests</span><span class="p">(</span>
-        <span class="n">Generic</span><span class="p">[</span><span class="n">_K</span><span class="p">,</span> <span class="n">_V</span><span class="p">,</span> <span class="n">_TSteps</span><span class="p">,</span> <span class="n">_TConfiguration</span><span class="p">],</span>
-        <span class="n">AbstractTestsBase</span><span class="p">[</span><span class="n">_TSteps</span><span class="p">,</span> <span class="n">_TConfiguration</span><span class="p">]):</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqTests</span><span class="p">[</span>
+    <span class="n">K</span><span class="p">,</span>
+    <span class="n">V</span><span class="p">,</span>
+    <span class="n">TSteps</span><span class="p">:</span> <span class="n">RabbitMqSteps</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RabbitMqConfiguration</span>
+<span class="p">](</span><span class="n">AbstractTestsBase</span><span class="p">[</span><span class="n">TSteps</span><span class="p">,</span> <span class="n">TConfiguration</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for BDD-style RabbitMQ integration tests.</span>
+<span class="sd">    Manages the lifecycle of a RabbitMQ connection for test scenarios.</span>
+
+<span class="sd">    Type Args:</span>
+<span class="sd">        K: The type of the message key.</span>
+<span class="sd">        V: The type of the message content.</span>
+<span class="sd">        TSteps: The steps implementation type.</span>
+<span class="sd">        TConfiguration: The configuration type, must be a RabbitMqConfiguration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_connection</span><span class="p">:</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span>
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets up the RabbitMQ connection before each test method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">connection_uri</span><span class="p">)</span>
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tears down the RabbitMQ connection after each test method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">finally</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -2626,15 +3564,23 @@
 
     <div class="doc doc-contents ">
 
+        <p>Sets up the RabbitMQ connection before each test method.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_tests.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
 <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets up the RabbitMQ connection before each test method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">connection_uri</span><span class="p">)</span>
@@ -2655,19 +3601,29 @@
 
     <div class="doc doc-contents ">
 
+        <p>Tears down the RabbitMQ connection after each test method.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rabbitmq/src/qa_pytest_rabbitmq/rabbitmq_tests.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
 <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tears down the RabbitMQ connection after each test method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>

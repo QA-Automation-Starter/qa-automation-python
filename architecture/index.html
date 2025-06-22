@@ -180,6 +180,45 @@
     </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#usage-examples">
+<span class="md-ellipsis">
+      Usage Examples
+    </span>
+</a>
+<nav aria-label="Usage Examples" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#terminalx-tests">
+<span class="md-ellipsis">
+      TerminalX Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#swagger-petstore-tests">
+<span class="md-ellipsis">
+      Swagger Petstore Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#combined-tests">
+<span class="md-ellipsis">
+      Combined Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rabbitmq-self-tests">
+<span class="md-ellipsis">
+      RabbitMQ Self Tests
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
 </ul>
 </nav>
 </li>
@@ -292,6 +331,45 @@
       Key Classes
     </span>
 </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#usage-examples">
+<span class="md-ellipsis">
+      Usage Examples
+    </span>
+</a>
+<nav aria-label="Usage Examples" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#terminalx-tests">
+<span class="md-ellipsis">
+      TerminalX Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#swagger-petstore-tests">
+<span class="md-ellipsis">
+      Swagger Petstore Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#combined-tests">
+<span class="md-ellipsis">
+      Combined Tests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rabbitmq-self-tests">
+<span class="md-ellipsis">
+      RabbitMQ Self Tests
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -436,10 +514,6 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <td>Selenium-specific configuration</td>
 </tr>
 <tr>
-<td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXTests"><code>TerminalXTests</code></a></td>
-<td>Example: custom UI test base</td>
-</tr>
-<tr>
 <td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXSteps"><code>TerminalXSteps</code></a></td>
 <td>Example: custom UI steps</td>
 </tr>
@@ -453,6 +527,109 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 </tr>
 </tbody>
 </table>
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="terminalx-tests">TerminalX Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">selenium</span>
+<span class="k">class</span> <span class="nc">TerminalXTests</span><span class="p">(</span>
+    <span class="n">SeleniumTests</span><span class="p">[</span><span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">],</span>
+                  <span class="n">TerminalXConfiguration</span><span class="p">]):</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">TerminalXSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">TerminalXConfiguration</span><span class="p">()</span>
+
+    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
+    <span class="k">def</span> <span class="nf">login_section</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">should_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"kitty"</span><span class="p">]:</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span>
+                 <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
+</code></pre></div>
+<h3 id="swagger-petstore-tests">Swagger Petstore Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
+<span class="k">class</span> <span class="nc">SwaggerPetstoreTests</span><span class="p">(</span>
+    <span class="n">RestTests</span><span class="p">[</span><span class="n">SwaggerPetstoreSteps</span><span class="p">[</span><span class="n">SwaggerPetstoreConfiguration</span><span class="p">],</span>
+              <span class="n">SwaggerPetstoreConfiguration</span><span class="p">]):</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">SwaggerPetstoreSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">SwaggerPetstoreConfiguration</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)))))</span>
+</code></pre></div>
+<h3 id="combined-tests">Combined Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">selenium</span>
+<span class="k">class</span> <span class="nc">CombinedTests</span><span class="p">(</span>
+        <span class="n">RestTests</span><span class="p">[</span><span class="n">CombinedSteps</span><span class="p">,</span> <span class="n">CombinedConfiguration</span><span class="p">],</span>
+        <span class="n">SeleniumTests</span><span class="p">[</span><span class="n">CombinedSteps</span><span class="p">,</span> <span class="n">CombinedConfiguration</span><span class="p">]):</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">CombinedSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">CombinedConfiguration</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">should_run_combined_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">random_user</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">users</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">))))</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+</code></pre></div>
+<h3 id="rabbitmq-self-tests">RabbitMQ Self Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RabbitMqSelfTests</span><span class="p">(</span>
+    <span class="n">RabbitMqTests</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span>
+                  <span class="n">RabbitMqSteps</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">RabbitMqSelfConfiguration</span><span class="p">],</span>
+                  <span class="n">RabbitMqSelfConfiguration</span><span class="p">]):</span>
+    <span class="n">_queue_handler</span><span class="p">:</span> <span class="n">QueueHandler</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">RabbitMqSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">RabbitMqSelfConfiguration</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">should_publish_and_consume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">a_queue_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">publishing</span><span class="p">([</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">)])</span>
+            <span class="o">.</span><span class="n">and_</span><span class="o">.</span><span class="n">consuming</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_received_messages</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span>
+                <span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">))))))</span>
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span> <span class="o">=</span> <span class="n">QueueHandler</span><span class="p">(</span>
+            <span class="n">channel</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">channel</span><span class="p">(),</span>
+            <span class="n">queue_name</span><span class="o">=</span><span class="n">require_not_none</span><span class="p">(</span>
+                <span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">(</span>
+                    <span class="n">queue</span><span class="o">=</span><span class="n">EMPTY_STRING</span><span class="p">,</span> <span class="n">exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">queue</span><span class="p">),</span>
+            <span class="n">indexing_by</span><span class="o">=</span><span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="nb">hash</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">),</span>
+            <span class="n">consuming_by</span><span class="o">=</span><span class="k">lambda</span> <span class="nb">bytes</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>
+            <span class="n">publishing_by</span><span class="o">=</span><span class="k">lambda</span> <span class="n">string</span><span class="p">:</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
+</code></pre></div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

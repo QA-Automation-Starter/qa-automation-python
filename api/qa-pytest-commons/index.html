@@ -1463,33 +1463,45 @@ facility.</p>
 |                   |---contains-----------&gt;| Configuration |
 +-------------------+                       +---------------+
 </code></pre></div>
+<p>IMPORTANT: pytest classes must not define an <strong>init</strong> method.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<details class="type-parameters" open>
+  <summary>Type Parameters</summary>
+  <p>TSteps (TSteps:GenericSteps): The actual steps implementation, or partial implementation.
+TConfiguration (TConfiguration:Configuration): The configuration type for the test scenario.</p>
+</details>
+
+<p><span class="doc-section-title">Attributes:</span></p>
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Type</th>
           <th>Description</th>
-          <th>Default</th>
         </tr>
       </thead>
       <tbody>
           <tr class="doc-section-item">
+            <td><code><span title="qa_pytest_commons.AbstractTestsBase._steps_type">_steps_type</span></code></td>
             <td>
-                <code>TSteps</code>
-            </td>
-            <td>
-                  <code><span title="TSteps">TSteps</span></code>
+                  <code><span title="typing.Type">Type</span>[<span title="TSteps">TSteps</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>GenericSteps): The actual steps implementation, or partial implementation.</p>
+                <p>The type of the steps implementation. Must be set by subtypes.</p>
               </div>
             </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="qa_pytest_commons.AbstractTestsBase._configuration">_configuration</span></code></td>
             <td>
-                <em>required</em>
+                  <code><span title="TConfiguration">TConfiguration</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The configuration instance for the test scenario. Must be set by subtypes.</p>
+              </div>
             </td>
           </tr>
       </tbody>
@@ -1564,7 +1576,14 @@ facility.</p>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AbstractTestsBase</span><span class="p">[</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AbstractTestsBase</span><span class="p">[</span>
         <span class="n">TSteps</span><span class="p">:</span> <span class="n">GenericSteps</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
         <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">Configuration</span><span class="p">](</span><span class="n">ABC</span><span class="p">,</span> <span class="n">LoggerMixin</span><span class="p">,</span> <span class="n">ImmutableMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1587,10 +1606,17 @@ facility.</p>
 <span class="sd">        |                   |---contains-----------&gt;| Configuration |</span>
 <span class="sd">        +-------------------+                       +---------------+</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    IMPORTANT: pytest classes must not define an __init__ method.</span>
+
+<span class="sd">    Type Parameters:</span>
 <span class="sd">        TSteps (TSteps:GenericSteps): The actual steps implementation, or partial implementation.</span>
+<span class="sd">        TConfiguration (TConfiguration:Configuration): The configuration type for the test scenario.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _steps_type (Type[TSteps]): The type of the steps implementation. Must be set by subtypes.</span>
+<span class="sd">        _configuration (TConfiguration): The configuration instance for the test scenario. Must be set by subtypes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_steps_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TSteps</span><span class="p">]</span>  <span class="c1"># IMPORTANT: pytest classes must not __init__</span>
+    <span class="n">_steps_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TSteps</span><span class="p">]</span>
     <span class="n">_configuration</span><span class="p">:</span> <span class="n">TConfiguration</span>
 
     <span class="nd">@property</span>
@@ -1748,11 +1774,11 @@ facility.</p>
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Override in subtypes with specific setup, if any.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1779,11 +1805,11 @@ facility.</p>
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/abstract_tests_base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Override in subtypes with specific teardown, if any.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1818,8 +1844,7 @@ facility.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="Configuration (qa_pytest_commons.base_configuration.Configuration)" href="#qa_pytest_commons.Configuration">Configuration</a></code>, <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code>, <code><a class="autorefs autorefs-internal" title="ImmutableMixin (qa_testing_utils.object_utils.ImmutableMixin)" href="../qa-testing-utils/#qa_testing_utils.ImmutableMixin">ImmutableMixin</a></code></p>
 
 
-        <p>Base class for all types of configurations, providing a parser for a
-pre-specified configuration file.</p>
+        <p>Base class for all types of configurations, providing a parser for a pre-specified configuration file.</p>
 
 
 
@@ -1829,9 +1854,7 @@ pre-specified configuration file.</p>
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
@@ -1888,10 +1911,10 @@ pre-specified configuration file.</p>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">,</span> <span class="n">LoggerMixin</span><span class="p">,</span> <span class="n">ImmutableMixin</span><span class="p">):</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseConfiguration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">,</span> <span class="n">LoggerMixin</span><span class="p">,</span> <span class="n">ImmutableMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for all types of configurations, providing a parser for a</span>
-<span class="sd">    pre-specified configuration file.</span>
+<span class="sd">    Base class for all types of configurations, providing a parser for a pre-specified configuration file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_path</span><span class="p">:</span> <span class="n">Path</span>
 
@@ -2075,8 +2098,7 @@ to an empty string (i.e., no subdirectory)</li>
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
@@ -2113,7 +2135,8 @@ to an empty string (i.e., no subdirectory)</li>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initializes the configuration by loading the associated `.ini` file.</span>
 
@@ -2187,57 +2210,13 @@ to an empty string (i.e., no subdirectory)</li>
 such as <code>given</code>, <code>when</code>, <code>then</code>, <code>and_</code>, <code>with_</code>. Implementations might be
 of two types: step implementations (GenericSteps) or scenario implementations
 (AbstractTestsBase). In both cases, these properties must return an object
-that provides same step implementation, allowing a fluent-style coding::</p>
-<div class="highlight"><pre><span></span><code>given.something(...) 
-    .with.another_thing(...) 
-    .when.doing_this(...) 
-    .and.doing_that(...) 
-    ... and so on, and so on ...
-    ... eventually, expecting something ...
-    .then.the_other_thing(is like that and like...)
-</code></pre></div>
-<p>For more information on BDD, see the <code>Behavior-Driven Development
-&lt;https://en.wikipedia.org/wiki/Behavior-driven_development&gt;</code>_ Wikipedia article.</p>
-<p>This BDD implementation is an internal DSL, meaning it relies on the Python
-language, hence does not require a parser to read the scenarios from text
-files, nor additional tools to support IDE features for debugging, completion,
-refactoring, etc.</p>
-<p>Generic scenarios are available in BddScenarioTests, and basic PAM scenarios
-are available in FileScenarioTests.</p>
-<p>For more information on DSL, see the <code>Domain Specific Language
-&lt;https://en.wikipedia.org/wiki/Domain-specific_language&gt;</code>_ Wikipedia article.</p>
+that provides same step implementation, allowing a fluent-style coding.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>TSteps</code>
-            </td>
-            <td>
-                  <code><span title="TSteps">TSteps</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>BddKeywords): The actual steps implementation, or partial implementation.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
+<details class="type-parameters" open>
+  <summary>Type Parameters</summary>
+  <p>TSteps (TSteps:BddKeywords): The actual steps implementation, or partial implementation.</p>
+</details>
 
 
 
@@ -2246,121 +2225,66 @@ are available in FileScenarioTests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/bdd_keywords.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  8</span>
-<span class="normal">  9</span>
-<span class="normal"> 10</span>
-<span class="normal"> 11</span>
-<span class="normal"> 12</span>
-<span class="normal"> 13</span>
-<span class="normal"> 14</span>
-<span class="normal"> 15</span>
-<span class="normal"> 16</span>
-<span class="normal"> 17</span>
-<span class="normal"> 18</span>
-<span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BddKeywords</span><span class="p">[</span><span class="n">TSteps</span><span class="p">:</span><span class="n">BddKeywords</span><span class="p">](</span><span class="n">ABC</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BddKeywords</span><span class="p">[</span><span class="n">TSteps</span><span class="p">:</span><span class="n">BddKeywords</span><span class="p">](</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for defining Behavior-Driven Development (BDD) keywords.</span>
 
@@ -2368,36 +2292,9 @@ are available in FileScenarioTests.</p>
 <span class="sd">    such as `given`, `when`, `then`, `and_`, `with_`. Implementations might be</span>
 <span class="sd">    of two types: step implementations (GenericSteps) or scenario implementations</span>
 <span class="sd">    (AbstractTestsBase). In both cases, these properties must return an object</span>
-<span class="sd">    that provides same step implementation, allowing a fluent-style coding::</span>
+<span class="sd">    that provides same step implementation, allowing a fluent-style coding.</span>
 
-<span class="sd">        given.something(...) \</span>
-
-<span class="sd">            .with.another_thing(...) \</span>
-
-<span class="sd">            .when.doing_this(...) \</span>
-
-<span class="sd">            .and.doing_that(...) \</span>
-
-<span class="sd">            ... and so on, and so on ...</span>
-<span class="sd">            ... eventually, expecting something ...</span>
-<span class="sd">            .then.the_other_thing(is like that and like...)</span>
-
-<span class="sd">    For more information on BDD, see the `Behavior-Driven Development</span>
-<span class="sd">    &lt;https://en.wikipedia.org/wiki/Behavior-driven_development&gt;`_ Wikipedia article.</span>
-
-<span class="sd">    This BDD implementation is an internal DSL, meaning it relies on the Python</span>
-<span class="sd">    language, hence does not require a parser to read the scenarios from text</span>
-<span class="sd">    files, nor additional tools to support IDE features for debugging, completion,</span>
-<span class="sd">    refactoring, etc.</span>
-
-<span class="sd">    Generic scenarios are available in BddScenarioTests, and basic PAM scenarios</span>
-<span class="sd">    are available in FileScenarioTests.</span>
-
-<span class="sd">    For more information on DSL, see the `Domain Specific Language</span>
-<span class="sd">    &lt;https://en.wikipedia.org/wiki/Domain-specific_language&gt;`_ Wikipedia article.</span>
-
-
-<span class="sd">    Args:</span>
+<span class="sd">    Type Parameters:</span>
 <span class="sd">        TSteps (TSteps:BddKeywords): The actual steps implementation, or partial implementation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -2408,11 +2305,6 @@ are available in FileScenarioTests.</p>
 <span class="sd">        Use to start definition of given stage.</span>
 
 <span class="sd">        The given stage is the start-up point of a test.</span>
-
-<span class="sd">        This might be a network connection, a file, a database, anything that</span>
-<span class="sd">        is required for executing any further operations and verifications::</span>
-
-<span class="sd">            given.a_connection(...connection details...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
@@ -2423,12 +2315,6 @@ are available in FileScenarioTests.</p>
 <span class="sd">        Use to start definition of operations stage.</span>
 
 <span class="sd">        The operations stage is the part that triggers some behavior on the SUT.</span>
-
-<span class="sd">        This might be sending a command via a network connection, writing</span>
-<span class="sd">        something to a file, or anything that will cause the SUT to output</span>
-<span class="sd">        something verifiable::</span>
-
-<span class="sd">            when.doing_something(...parameters...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
@@ -2440,13 +2326,6 @@ are available in FileScenarioTests.</p>
 
 <span class="sd">        The verifications stage is the part that samples actual output of the</span>
 <span class="sd">        SUT and compares it against a predefined condition (a.k.a. rule).</span>
-
-<span class="sd">        This might be sampling a file, a network response, or anything that</span>
-<span class="sd">        can be asserted upon. For example, this might be a network response</span>
-<span class="sd">        containing information about some file, like its size, which we might</span>
-<span class="sd">        expected to be greater than 0 and lesser than something else::</span>
-
-<span class="sd">            then.the_file(...rule to assert upon...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
@@ -2454,13 +2333,7 @@ are available in FileScenarioTests.</p>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">and_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Use to continue definition of previous stage::</span>
-
-<span class="sd">            given.a_connection(...whatever...) \</span>
-
-<span class="sd">            .and_.an_umbrella(...) \</span>
-
-<span class="sd">            .and_.some_thing_else....</span>
+<span class="sd">        Use to continue definition of previous stage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
@@ -2468,11 +2341,7 @@ are available in FileScenarioTests.</p>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">with_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSteps</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Same as `and_`, sometimes it just sounds better::</span>
-
-<span class="sd">            given.a_connection(...whatever...) \</span>
-
-<span class="sd">            .with_.authentication(...method details...)</span>
+<span class="sd">        Same as `and_`, sometimes it just sounds better.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </code></pre></div></td></tr></table></div>
@@ -2505,11 +2374,7 @@ are available in FileScenarioTests.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Use to continue definition of previous stage::</p>
-<div class="highlight"><pre><span></span><code>given.a_connection(...whatever...) 
-.and_.an_umbrella(...) 
-.and_.some_thing_else....
-</code></pre></div>
+        <p>Use to continue definition of previous stage.</p>
 
     </div>
 
@@ -2534,10 +2399,6 @@ are available in FileScenarioTests.</p>
 
         <p>Use to start definition of given stage.</p>
 <p>The given stage is the start-up point of a test.</p>
-<p>This might be a network connection, a file, a database, anything that
-is required for executing any further operations and verifications::</p>
-<div class="highlight"><pre><span></span><code>given.a_connection(...connection details...)
-</code></pre></div>
 
     </div>
 
@@ -2563,12 +2424,6 @@ is required for executing any further operations and verifications::</p>
         <p>Use to start definition of verifications stage.</p>
 <p>The verifications stage is the part that samples actual output of the
 SUT and compares it against a predefined condition (a.k.a. rule).</p>
-<p>This might be sampling a file, a network response, or anything that
-can be asserted upon. For example, this might be a network response
-containing information about some file, like its size, which we might
-expected to be greater than 0 and lesser than something else::</p>
-<div class="highlight"><pre><span></span><code>then.the_file(...rule to assert upon...)
-</code></pre></div>
 
     </div>
 
@@ -2593,11 +2448,6 @@ expected to be greater than 0 and lesser than something else::</p>
 
         <p>Use to start definition of operations stage.</p>
 <p>The operations stage is the part that triggers some behavior on the SUT.</p>
-<p>This might be sending a command via a network connection, writing
-something to a file, or anything that will cause the SUT to output
-something verifiable::</p>
-<div class="highlight"><pre><span></span><code>when.doing_something(...parameters...)
-</code></pre></div>
 
     </div>
 
@@ -2620,10 +2470,7 @@ something verifiable::</p>
 
     <div class="doc doc-contents ">
 
-        <p>Same as <code>and_</code>, sometimes it just sounds better::</p>
-<div class="highlight"><pre><span></span><code>given.a_connection(...whatever...) 
-.with_.authentication(...method details...)
-</code></pre></div>
+        <p>Same as <code>and_</code>, sometimes it just sounds better.</p>
 
     </div>
 
@@ -2653,7 +2500,7 @@ something verifiable::</p>
     <div class="doc doc-contents ">
 
 
-        <p>Just to allow for empty configurations</p>
+        <p>Empty configuration base class for scenarios that do not require configuration.</p>
 
 
 
@@ -2665,8 +2512,12 @@ something verifiable::</p>
                 <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/base_configuration.py</code></summary>
                 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
 <span class="normal">18</span>
-<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Configuration</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Just to allow for empty configurations&quot;&quot;&quot;</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Configuration</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Empty configuration base class for scenarios that do not require configuration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -2691,27 +2542,49 @@ something verifiable::</p>
               Bases: <code><a class="autorefs autorefs-internal" title="BddKeywords (qa_pytest_commons.bdd_keywords.BddKeywords)" href="#qa_pytest_commons.BddKeywords">BddKeywords</a>[&#39;GenericSteps&#39;]</code>, <code><a class="autorefs autorefs-internal" title="LoggerMixin (qa_testing_utils.logger.LoggerMixin)" href="../qa-testing-utils/#qa_testing_utils.LoggerMixin">LoggerMixin</a></code>, <code><a class="autorefs autorefs-internal" title="ImmutableMixin (qa_testing_utils.object_utils.ImmutableMixin)" href="../qa-testing-utils/#qa_testing_utils.ImmutableMixin">ImmutableMixin</a></code></p>
 
 
-        <p>Generic steps beyond the BDD-keywords and diagnostics methods, most important:
-- retrying, for attempting a step that sporadically fails
-- eventually_assert_that, for asserting on sporadically failing operations</p>
-<p>IMPORTANT: if parallel testing will be required, and supported by the SUT,
-then internal state must be either thread-safe, or protected by TLS vars.</p>
-<p>The state it holds is mutated by steps. In a scenario there might be an
-operation o1 reading some info to be used by o2, followed by o1 later on,
-effectively rewriting previous value.</p>
-<p>Subtypes, such as PamSteps, may provide real system steps, relying on these
-ones. As such, these types might choose to redefine the _retry_policy herein::</p>
-<div class="highlight"><pre><span></span><code>                    +---------------+
-                    |  BddKeyWords  |
-                    +---------------+
-                                    ^
-                                    |
-                                implements
-                                    |
-+-------------------+               +--------------+
-| AbstractTestsBase |---contains---&gt;| GenericSteps |
-+-------------------+               +--------------+
-</code></pre></div>
+        <p>Generic steps base class for BDD-style test implementations.
+Provides retrying, assertion, and step chaining utilities for all step types.</p>
+
+
+<details class="type-parameters" open>
+  <summary>Type Parameters</summary>
+  <p>TConfiguration: The configuration type for the steps implementation.</p>
+</details>
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="qa_pytest_commons.GenericSteps._retrying">_retrying</span></code></td>
+            <td>
+                  <code><span title="tenacity.Retrying">Retrying</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The tenacity.Retrying instance used for retry logic.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="qa_pytest_commons.GenericSteps._configuration">_configuration</span></code></td>
+            <td>
+                  <code><span title="TConfiguration">TConfiguration</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The configuration instance for these steps.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -3006,73 +2879,32 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="normal">310</span>
 <span class="normal">311</span>
 <span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GenericSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">:</span> <span class="n">BaseConfiguration</span><span class="p">](</span>
+<span class="normal">313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GenericSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">:</span> <span class="n">BaseConfiguration</span><span class="p">](</span>
         <span class="n">BddKeywords</span><span class="p">[</span><span class="s1">&#39;GenericSteps&#39;</span><span class="p">],</span>
         <span class="n">LoggerMixin</span><span class="p">,</span>
         <span class="n">ImmutableMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generic steps beyond the BDD-keywords and diagnostics methods, most important:</span>
-<span class="sd">    - retrying, for attempting a step that sporadically fails</span>
-<span class="sd">    - eventually_assert_that, for asserting on sporadically failing operations</span>
+<span class="sd">    Generic steps base class for BDD-style test implementations.</span>
+<span class="sd">    Provides retrying, assertion, and step chaining utilities for all step types.</span>
 
-<span class="sd">    IMPORTANT: if parallel testing will be required, and supported by the SUT,</span>
-<span class="sd">    then internal state must be either thread-safe, or protected by TLS vars.</span>
+<span class="sd">    Type Parameters:</span>
+<span class="sd">        TConfiguration: The configuration type for the steps implementation.</span>
 
-<span class="sd">    The state it holds is mutated by steps. In a scenario there might be an</span>
-<span class="sd">    operation o1 reading some info to be used by o2, followed by o1 later on,</span>
-<span class="sd">    effectively rewriting previous value.</span>
-
-<span class="sd">    Subtypes, such as PamSteps, may provide real system steps, relying on these</span>
-<span class="sd">    ones. As such, these types might choose to redefine the _retry_policy herein::</span>
-
-<span class="sd">                            +---------------+</span>
-<span class="sd">                            |  BddKeyWords  |</span>
-<span class="sd">                            +---------------+</span>
-<span class="sd">                                            ^</span>
-<span class="sd">                                            |</span>
-<span class="sd">                                        implements</span>
-<span class="sd">                                            |</span>
-<span class="sd">        +-------------------+               +--------------+</span>
-<span class="sd">        | AbstractTestsBase |---contains---&gt;| GenericSteps |</span>
-<span class="sd">        +-------------------+               +--------------+</span>
-
+<span class="sd">    Attributes:</span>
+<span class="sd">        _retrying (Retrying): The tenacity.Retrying instance used for retry logic.</span>
+<span class="sd">        _configuration (TConfiguration): The configuration instance for these steps.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_retrying</span><span class="p">:</span> <span class="n">Retrying</span>
     <span class="n">_configuration</span><span class="p">:</span> <span class="n">TConfiguration</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TConfiguration</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the steps with the given configuration and default retry policy.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            configuration (TConfiguration): The configuration instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">configuration</span>
         <span class="c1"># NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;</span>
         <span class="c1"># see BddScenarioTests#should_retry</span>
@@ -3086,11 +2918,23 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
     <span class="nd">@final</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configured</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TConfiguration</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the configuration instance for these steps.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TConfiguration: The configuration instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span>
 
     <span class="nd">@final</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">retry_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Retrying</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the retry policy used for retrying steps.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Retrying: The tenacity.Retrying instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span>
 
     <span class="nd">@final</span>
@@ -3133,12 +2977,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="k">def</span> <span class="nf">nothing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Intended to support self-testing which does not rely on outer world</span>
-<span class="sd">        system::</span>
-
-<span class="sd">            given.nothing \</span>
-
-<span class="sd">            .when.... doing your stuff here...</span>
+<span class="sd">        Intended to support self-testing which does not rely on outer world system.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
@@ -3162,7 +3001,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 
     <span class="k">def</span> <span class="nf">set</span><span class="p">[</span><span class="n">T</span><span class="p">:</span><span class="n">Valid</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets field to specified value</span>
+<span class="sd">        Sets field to specified value, validating it if possible.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            field_name (str): name of field; the field should be defined as annotation</span>
@@ -3174,7 +3013,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="sd">            InvalidValueException: if the object is invalid</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: the value of set field</span>
+<span class="sd">            T: the value of set field</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
@@ -3199,15 +3038,8 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Logs value at DEBUG level using the logger of this steps class.</span>
 
-<span class="sd">        Use to trace something as a step, usually in a lambda expression::</span>
-
-<span class="sd">            when.retrying(lambda: self.trace(valid(...call some API...))) \</span>
-
-<span class="sd">                .and_....this can be further chained with other steps....</span>
-
 <span class="sd">        Args:</span>
-<span class="sd">            value (Any): _description_</span>
-
+<span class="sd">            value (Any): The value to log.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3220,11 +3052,8 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Blocks current thread for specified duration.</span>
 
-<span class="sd">        Consider using retrying or eventually_assert_that instead of this.</span>
-
 <span class="sd">        Args:</span>
-<span class="sd">            duration (timedelta, optional): Defaults to timedelta(seconds=0).</span>
-
+<span class="sd">            duration (timedelta, optional): How long to wait. Defaults to 0 seconds.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3235,15 +3064,12 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="k">def</span> <span class="nf">failing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Intended to support self-testing of retrying and eventually_assert_that</span>
-<span class="sd">        steps below.</span>
+<span class="sd">        Raises the given exception, for self-testing of retrying and eventually_assert_that.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            exception (Exception): some exception</span>
-
+<span class="sd">            exception (Exception): The exception to raise.</span>
 <span class="sd">        Raises:</span>
-<span class="sd">            exception: that exception</span>
-
+<span class="sd">            exception: That exception.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3253,12 +3079,11 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
     <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
     <span class="k">def</span> <span class="nf">repeating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="nb">range</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Intended for stress testing -- repeats specified steps.</span>
+<span class="sd">        Repeats the specified step for each value in the range.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            range (range): a range</span>
-<span class="sd">            step (Callable[[int], Self]): lambda of step to repeat with counter</span>
-
+<span class="sd">            range (range): The range to iterate over.</span>
+<span class="sd">            step (Callable[[int], Self]): The step to repeat.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3274,8 +3099,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="sd">        Executes specified step, swallowing its exceptions.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            step (Callable[[], Self]): a lambda expression returning Self</span>
-
+<span class="sd">            step (Callable[[], Self]): The step to execute.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3291,33 +3115,23 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Retries specified step according to _retry_policy.</span>
 
-<span class="sd">        The default _retry_policy can be overridden by sub-types.</span>
-
 <span class="sd">        Args:</span>
-<span class="sd">            step (Callable[[], Self]): a lambda expression returning Self</span>
-
+<span class="sd">            step (Callable[[], Self]): The step to retry.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrying</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
 
     <span class="nd">@final</span>
-    <span class="c1"># @Context.traced</span>
     <span class="k">def</span> <span class="nf">eventually_assert_that</span><span class="p">[</span><span class="n">T</span><span class="p">](</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
             <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Repeatedly applies specified rule on specified supplier, according to</span>
-<span class="sd">        _retry_policy.</span>
-
-<span class="sd">        The default _retry_policy can be overridden by sub-types.</span>
+<span class="sd">        Repeatedly applies specified rule on specified supplier, according to _retry_policy.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            supplier (Callable[[], T]): a lambda expression returning T</span>
-<span class="sd">            by_rule (Matcher[T]): a Hamcrest Matcher on T; basically, this is \</span>
-<span class="sd">            just a predicate with a description, read more on \</span>
-<span class="sd">                https://github.com/hamcrest/PyHamcrest</span>
-
+<span class="sd">            supplier (Callable[[], T]): The value supplier.</span>
+<span class="sd">            by_rule (Matcher[T]): The matcher to apply.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -3330,9 +3144,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="sd">        Intended to support self-testing of reports.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            matcher (Matcher[bool]): is_(True) will trigger a green report, \</span>
-<span class="sd">            while is_(False) will trigger a red report</span>
-
+<span class="sd">            matcher (Matcher[bool]): Matcher for the boolean result.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3346,9 +3158,8 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 <span class="sd">        Adapts PyHamcrest&#39;s assert_that to the BDD world by returning Self.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value (T): the value to assert upon</span>
-<span class="sd">            by_rule (Matcher[T]): the Hamcrest matcher to apply</span>
-
+<span class="sd">            value (T): The value to assert upon.</span>
+<span class="sd">            by_rule (Matcher[T]): The matcher to apply.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: these steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3403,6 +3214,31 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 
     <div class="doc doc-contents ">
 
+        <p>Returns the configuration instance for these steps.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>TConfiguration</code></td>            <td>
+                  <code><span title="TConfiguration">TConfiguration</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The configuration instance.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
     </div>
 
 </div>
@@ -3443,11 +3279,7 @@ ones. As such, these types might choose to redefine the _retry_policy herein::</
 
     <div class="doc doc-contents ">
 
-        <p>Intended to support self-testing which does not rely on outer world
-system::</p>
-<div class="highlight"><pre><span></span><code>given.nothing 
-.when.... doing your stuff here...
-</code></pre></div>
+        <p>Intended to support self-testing which does not rely on outer world system.</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3491,6 +3323,31 @@ system::</p>
 
 
     <div class="doc doc-contents ">
+
+        <p>Returns the retry policy used for retrying steps.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Retrying</code></td>            <td>
+                  <code><span title="tenacity.Retrying">Retrying</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The tenacity.Retrying instance.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
     </div>
 
@@ -3569,19 +3426,64 @@ system::</p>
 
     <div class="doc doc-contents ">
 
+        <p>Initializes the steps with the given configuration and default retry policy.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>configuration</code>
+            </td>
+            <td>
+                  <code><span title="TConfiguration">TConfiguration</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The configuration instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TConfiguration</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TConfiguration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes the steps with the given configuration and default retry policy.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        configuration (TConfiguration): The configuration instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">configuration</span>
     <span class="c1"># NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;</span>
     <span class="c1"># see BddScenarioTests#should_retry</span>
@@ -3608,9 +3510,7 @@ system::</p>
 
     <div class="doc doc-contents ">
 
-        <p>Repeatedly applies specified rule on specified supplier, according to
-_retry_policy.</p>
-<p>The default _retry_policy can be overridden by sub-types.</p>
+        <p>Repeatedly applies specified rule on specified supplier, according to _retry_policy.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -3633,7 +3533,7 @@ _retry_policy.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>a lambda expression returning T</p>
+                <p>The value supplier.</p>
               </div>
             </td>
             <td>
@@ -3649,7 +3549,7 @@ _retry_policy.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>a Hamcrest Matcher on T; basically, this is             just a predicate with a description, read more on                 https://github.com/hamcrest/PyHamcrest</p>
+                <p>The matcher to apply.</p>
               </div>
             </td>
             <td>
@@ -3658,70 +3558,35 @@ _retry_policy.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
-<span class="c1"># @Context.traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">eventually_assert_that</span><span class="p">[</span><span class="n">T</span><span class="p">](</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
         <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Repeatedly applies specified rule on specified supplier, according to</span>
-<span class="sd">    _retry_policy.</span>
-
-<span class="sd">    The default _retry_policy can be overridden by sub-types.</span>
+<span class="sd">    Repeatedly applies specified rule on specified supplier, according to _retry_policy.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        supplier (Callable[[], T]): a lambda expression returning T</span>
-<span class="sd">        by_rule (Matcher[T]): a Hamcrest Matcher on T; basically, this is \</span>
-<span class="sd">        just a predicate with a description, read more on \</span>
-<span class="sd">            https://github.com/hamcrest/PyHamcrest</span>
-
+<span class="sd">        supplier (Callable[[], T]): The value supplier.</span>
+<span class="sd">        by_rule (Matcher[T]): The matcher to apply.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -3743,8 +3608,7 @@ _retry_policy.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Intended to support self-testing of retrying and eventually_assert_that
-steps below.</p>
+        <p>Raises the given exception, for self-testing of retrying and eventually_assert_that.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -3767,7 +3631,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>some exception</p>
+                <p>The exception to raise.</p>
               </div>
             </td>
             <td>
@@ -3776,85 +3640,37 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="exception">exception</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>that exception</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Raises:
+    exception: That exception.
+Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="k">def</span> <span class="nf">failing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Intended to support self-testing of retrying and eventually_assert_that</span>
-<span class="sd">    steps below.</span>
+<span class="sd">    Raises the given exception, for self-testing of retrying and eventually_assert_that.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        exception (Exception): some exception</span>
-
+<span class="sd">        exception (Exception): The exception to raise.</span>
 <span class="sd">    Raises:</span>
-<span class="sd">        exception: that exception</span>
-
+<span class="sd">        exception: That exception.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3899,7 +3715,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>is_(True) will trigger a green report,             while is_(False) will trigger a red report</p>
+                <p>Matcher for the boolean result.</p>
               </div>
             </td>
             <td>
@@ -3908,57 +3724,32 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="k">def</span> <span class="nf">it_works</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matcher</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Intended to support self-testing of reports.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        matcher (Matcher[bool]): is_(True) will trigger a green report, \</span>
-<span class="sd">        while is_(False) will trigger a red report</span>
-
+<span class="sd">        matcher (Matcher[bool]): Matcher for the boolean result.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3981,7 +3772,7 @@ steps below.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Intended for stress testing -- repeats specified steps.</p>
+        <p>Repeats the specified step for each value in the range.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4004,7 +3795,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>a range</p>
+                <p>The range to iterate over.</p>
               </div>
             </td>
             <td>
@@ -4020,7 +3811,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>lambda of step to repeat with counter</p>
+                <p>The step to repeat.</p>
               </div>
             </td>
             <td>
@@ -4029,57 +3820,34 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="k">def</span> <span class="nf">repeating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="nb">range</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Intended for stress testing -- repeats specified steps.</span>
+<span class="sd">    Repeats the specified step for each value in the range.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        range (range): a range</span>
-<span class="sd">        step (Callable[[int], Self]): lambda of step to repeat with counter</span>
-
+<span class="sd">        range (range): The range to iterate over.</span>
+<span class="sd">        step (Callable[[int], Self]): The step to repeat.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4103,7 +3871,6 @@ steps below.</p>
     <div class="doc doc-contents ">
 
         <p>Retries specified step according to _retry_policy.</p>
-<p>The default _retry_policy can be overridden by sub-types.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4126,7 +3893,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>a lambda expression returning Self</p>
+                <p>The step to retry.</p>
               </div>
             </td>
             <td>
@@ -4135,58 +3902,31 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="c1"># @Context.traced</span>
 <span class="k">def</span> <span class="nf">retrying</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Retries specified step according to _retry_policy.</span>
 
-<span class="sd">    The default _retry_policy can be overridden by sub-types.</span>
-
 <span class="sd">    Args:</span>
-<span class="sd">        step (Callable[[], Self]): a lambda expression returning Self</span>
-
+<span class="sd">        step (Callable[[], Self]): The step to retry.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -4231,7 +3971,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>a lambda expression returning Self</p>
+                <p>The step to execute.</p>
               </div>
             </td>
             <td>
@@ -4240,54 +3980,31 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="k">def</span> <span class="nf">safely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Executes specified step, swallowing its exceptions.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        step (Callable[[], Self]): a lambda expression returning Self</span>
-
+<span class="sd">        step (Callable[[], Self]): The step to execute.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4309,7 +4026,7 @@ steps below.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Sets field to specified value</p>
+        <p>Sets field to specified value, validating it if possible.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4412,7 +4129,7 @@ steps below.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-<td><code>_type_</code></td>            <td>
+<td><code>T</code></td>            <td>
                   <code><span title="T">T</span></code>
             </td>
             <td>
@@ -4427,7 +4144,10 @@ steps below.</p>
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
@@ -4446,12 +4166,9 @@ steps below.</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set</span><span class="p">[</span><span class="n">T</span><span class="p">:</span><span class="n">Valid</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set</span><span class="p">[</span><span class="n">T</span><span class="p">:</span><span class="n">Valid</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sets field to specified value</span>
+<span class="sd">    Sets field to specified value, validating it if possible.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        field_name (str): name of field; the field should be defined as annotation</span>
@@ -4463,7 +4180,7 @@ steps below.</p>
 <span class="sd">        InvalidValueException: if the object is invalid</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: the value of set field</span>
+<span class="sd">        T: the value of set field</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
@@ -4517,15 +4234,15 @@ steps below.</p>
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">175</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Casts anything to a step.</span>
@@ -4552,10 +4269,6 @@ steps below.</p>
     <div class="doc doc-contents ">
 
         <p>Logs value at DEBUG level using the logger of this steps class.</p>
-<p>Use to trace something as a step, usually in a lambda expression::</p>
-<div class="highlight"><pre><span></span><code>when.retrying(lambda: self.trace(valid(...call some API...))) 
-    .and_....this can be further chained with other steps....
-</code></pre></div>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4578,7 +4291,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>The value to log.</p>
               </div>
             </td>
             <td>
@@ -4587,34 +4300,16 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -4622,30 +4317,13 @@ steps below.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">tracing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs value at DEBUG level using the logger of this steps class.</span>
 
-<span class="sd">    Use to trace something as a step, usually in a lambda expression::</span>
-
-<span class="sd">        when.retrying(lambda: self.trace(valid(...call some API...))) \</span>
-
-<span class="sd">            .and_....this can be further chained with other steps....</span>
-
 <span class="sd">    Args:</span>
-<span class="sd">        value (Any): _description_</span>
-
+<span class="sd">        value (Any): The value to log.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4669,7 +4347,6 @@ steps below.</p>
     <div class="doc doc-contents ">
 
         <p>Blocks current thread for specified duration.</p>
-<p>Consider using retrying or eventually_assert_that instead of this.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4692,7 +4369,7 @@ steps below.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Defaults to timedelta(seconds=0).</p>
+                <p>How long to wait. Defaults to 0 seconds.</p>
               </div>
             </td>
             <td>
@@ -4701,59 +4378,32 @@ steps below.</p>
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>these steps</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: these steps</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-commons/src/qa_pytest_commons/generic_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
 <span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@final</span>
 <span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="k">def</span> <span class="nf">waiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Blocks current thread for specified duration.</span>
 
-<span class="sd">    Consider using retrying or eventually_assert_that instead of this.</span>
-
 <span class="sd">    Args:</span>
-<span class="sd">        duration (timedelta, optional): Defaults to timedelta(seconds=0).</span>
-
+<span class="sd">        duration (timedelta, optional): How long to wait. Defaults to 0 seconds.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: these steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>

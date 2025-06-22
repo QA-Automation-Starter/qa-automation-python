@@ -1104,6 +1104,8 @@
               Bases: <code><span title="str">str</span></code>, <code><span title="enum.Enum">Enum</span></code></p>
 
 
+        <p>Enum representing HTTP methods for REST requests.</p>
+
 
 
 
@@ -1117,7 +1119,13 @@
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HttpMethod</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HttpMethod</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enum representing HTTP methods for REST requests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">GET</span> <span class="o">=</span> <span class="s2">&quot;GET&quot;</span>
     <span class="n">POST</span> <span class="o">=</span> <span class="s2">&quot;POST&quot;</span>
     <span class="n">PUT</span> <span class="o">=</span> <span class="s2">&quot;PUT&quot;</span>
@@ -1326,7 +1334,7 @@
 <span class="sd">        Returns the base URL for the endpoint from the configuration parser.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: The base URL specified in the configuration under the &#39;rest/base&#39; key.</span>
+<span class="sd">            str: The base URL specified in the configuration under the &#39;rest/base_url&#39; key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s2">&quot;rest&quot;</span><span class="p">][</span><span class="s2">&quot;base_url&quot;</span><span class="p">]</span>
 
@@ -1335,7 +1343,7 @@
 <span class="sd">        Constructs and returns the full endpoint URL by joining the base endpoint URL with the specified path.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY.</span>
+<span class="sd">            path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY_STRING.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The complete URL formed by joining the base endpoint and the provided path.</span>
@@ -1389,7 +1397,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The base URL specified in the configuration under the 'rest/base' key.</p>
+                <p>The base URL specified in the configuration under the 'rest/base_url' key.</p>
               </div>
             </td>
           </tr>
@@ -1436,7 +1444,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The path to append to the base endpoint URL. Defaults to EMPTY.</p>
+                <p>The path to append to the base endpoint URL. Defaults to EMPTY_STRING.</p>
               </div>
             </td>
             <td>
@@ -1487,7 +1495,7 @@
 <span class="sd">    Constructs and returns the full endpoint URL by joining the base endpoint URL with the specified path.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY.</span>
+<span class="sd">        path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY_STRING.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: The complete URL formed by joining the base endpoint and the provided path.</span>
@@ -1523,6 +1531,38 @@
               Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="TConfiguration">TConfiguration</span>]</code></p>
 
 
+        <p>BDD-style step definitions for REST API operations.</p>
+
+
+<details class="type-parameters" open>
+  <summary>Type Parameters</summary>
+  <p>TConfiguration: The configuration type, must be a RestConfiguration.</p>
+</details>
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="qa_pytest_rest.RestSteps._rest_session">_rest_session</span></code></td>
+            <td>
+                  <code><span title="requests.Session">Session</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The HTTP session used for sending REST requests.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
 
 
@@ -1531,10 +1571,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_steps.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -1577,12 +1614,45 @@
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RestSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RestConfiguration</span><span class="p">](</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RestSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RestConfiguration</span><span class="p">](</span>
         <span class="n">GenericSteps</span><span class="p">[</span><span class="n">TConfiguration</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BDD-style step definitions for REST API operations.</span>
+
+<span class="sd">    Type Parameters:</span>
+<span class="sd">        TConfiguration: The configuration type, must be a RestConfiguration.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _rest_session (requests.Session): The HTTP session used for sending REST requests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_rest_session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span>
 
     <span class="nd">@final</span>
     <span class="k">def</span> <span class="nf">_invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends the given HTTP request using the configured session.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request (Request): The HTTP request to send.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Response: The HTTP response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
 
@@ -1594,10 +1664,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            request (Request): The HTTP request to send.</span>
-
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: Enables method chaining.</span>
-
 <span class="sd">        Raises:</span>
 <span class="sd">            AssertionError: If the response is not OK.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1609,15 +1677,13 @@
     <span class="k">def</span> <span class="nf">the_invocation</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Response</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Send a REST request and assert that the response matches.</span>
+<span class="sd">        Send a REST request and assert that the response matches the given matcher.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            request (Request): The HTTP request to send.</span>
-<span class="sd">            by_ruls (Matcher[Response]): The matcher to apply to the response.</span>
-
+<span class="sd">            by_rule (Matcher[Response]): The matcher to apply to the response.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Self: Enables method chaining.</span>
-
 <span class="sd">        Raises:</span>
 <span class="sd">            AssertionError: If the response does not match the rule.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1682,73 +1748,29 @@
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Enables method chaining.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="AssertionError">AssertionError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the response is not OK.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: Enables method chaining.
+Raises:
+    AssertionError: If the response is not OK.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">invoking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1756,10 +1778,8 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): The HTTP request to send.</span>
-
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: Enables method chaining.</span>
-
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If the response is not OK.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1782,7 +1802,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Send a REST request and assert that the response matches.</p>
+        <p>Send a REST request and assert that the response matches the given matcher.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1814,7 +1834,7 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>by_ruls</code>
+                <code>by_rule</code>
             </td>
             <td>
                   <code><span title="hamcrest.core.matcher.Matcher">Matcher</span>[<span title="requests.Response">Response</span>]</code>
@@ -1830,89 +1850,43 @@
           </tr>
       </tbody>
     </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>Self</code></td>            <td>
-                  <code><span title="typing.Self">Self</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Enables method chaining.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="AssertionError">AssertionError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the response does not match the rule.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Returns:
+    Self: Enables method chaining.
+Raises:
+    AssertionError: If the response does not match the rule.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_steps.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@Context</span><span class="o">.</span><span class="n">traced</span>
 <span class="nd">@final</span>
 <span class="k">def</span> <span class="nf">the_invocation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">by_rule</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">Response</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Send a REST request and assert that the response matches.</span>
+<span class="sd">    Send a REST request and assert that the response matches the given matcher.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): The HTTP request to send.</span>
-<span class="sd">        by_ruls (Matcher[Response]): The matcher to apply to the response.</span>
-
+<span class="sd">        by_rule (Matcher[Response]): The matcher to apply to the response.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        Self: Enables method chaining.</span>
-
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If the response does not match the rule.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1946,7 +1920,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="typing.Generic">Generic</span>[<span title="qa_pytest_rest.rest_tests._TSteps">_TSteps</span>, <span title="qa_pytest_rest.rest_tests._TConfiguration">_TConfiguration</span>]</code>, <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="qa_pytest_rest.rest_tests._TSteps">_TSteps</span>, <span title="qa_pytest_rest.rest_tests._TConfiguration">_TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="TSteps">TSteps</span>, <span title="TConfiguration">TConfiguration</span>]</code></p>
 
 
         <p>Base class for REST API test cases.</p>
@@ -1971,8 +1945,7 @@ for each test method. It is generic over the types of steps and configuration us
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The HTTP session used for making REST requests.
-Note: This session is not thread-safe.</p>
+                <p>The HTTP session used for making REST requests. Not thread-safe.</p>
               </div>
             </td>
           </tr>
@@ -1986,35 +1959,6 @@ Note: This session is not thread-safe.</p>
 TConfiguration: The type of the configuration class, typically derived from RestConfiguration.</p>
 </details>
 
-<p><span class="doc-section-title">Methods:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="setup_method() (qa_pytest_rest.RestTests.setup_method)" href="#qa_pytest_rest.RestTests.setup_method">setup_method</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Initializes a new requests.Session before each test method.</p>
-                </div>
-              </td>
-            </tr>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="teardown_method() (qa_pytest_rest.RestTests.teardown_method)" href="#qa_pytest_rest.RestTests.teardown_method">teardown_method</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Closes the requests.Session after each test method.</p>
-                </div>
-              </td>
-            </tr>
-      </tbody>
-    </table>
-
-
 
 
 
@@ -2022,7 +1966,15 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 
               <details class="quote">
                 <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_tests.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
@@ -2059,18 +2011,10 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RestTests</span><span class="p">(</span>
-        <span class="n">Generic</span><span class="p">[</span><span class="n">_TSteps</span><span class="p">,</span> <span class="n">_TConfiguration</span><span class="p">],</span>
-        <span class="n">AbstractTestsBase</span><span class="p">[</span><span class="n">_TSteps</span><span class="p">,</span> <span class="n">_TConfiguration</span><span class="p">]):</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RestTests</span><span class="p">[</span>
+    <span class="n">TSteps</span><span class="p">:</span> <span class="n">RestSteps</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="n">TConfiguration</span><span class="p">:</span> <span class="n">RestConfiguration</span>
+<span class="p">](</span><span class="n">AbstractTestsBase</span><span class="p">[</span><span class="n">TSteps</span><span class="p">,</span> <span class="n">TConfiguration</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for REST API test cases.</span>
 
@@ -2078,19 +2022,11 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 <span class="sd">    for each test method. It is generic over the types of steps and configuration used.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        _rest_session (requests.Session): The HTTP session used for making REST requests.</span>
-<span class="sd">            Note: This session is not thread-safe.</span>
+<span class="sd">        _rest_session (requests.Session): The HTTP session used for making REST requests. Not thread-safe.</span>
 
 <span class="sd">    Type Parameters:</span>
 <span class="sd">        TSteps: The type of the steps class, typically derived from RestSteps.</span>
 <span class="sd">        TConfiguration: The type of the configuration class, typically derived from RestConfiguration.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        setup_method(self):</span>
-<span class="sd">            Initializes a new requests.Session before each test method.</span>
-
-<span class="sd">        teardown_method(self):</span>
-<span class="sd">            Closes the requests.Session after each test method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_rest_session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span>  <span class="c1"># not thread safe</span>
 
@@ -2106,11 +2042,17 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a new requests.Session before each test method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the requests.Session after each test method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">finally</span><span class="p">:</span>
@@ -2186,14 +2128,22 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 
     <div class="doc doc-contents ">
 
+        <p>Initializes a new requests.Session before each test method.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_tests.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
 <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes a new requests.Session before each test method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
@@ -2213,16 +2163,24 @@ TConfiguration: The type of the configuration class, typically derived from Rest
 
     <div class="doc doc-contents ">
 
+        <p>Closes the requests.Session after each test method.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>qa-pytest-rest/src/qa_pytest_rest/rest_tests.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
 <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Closes the requests.Session after each test method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rest_session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">finally</span><span class="p">:</span>

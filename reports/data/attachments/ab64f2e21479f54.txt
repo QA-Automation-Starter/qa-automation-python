@@ -1,0 +1,6 @@
+DEBUG    BddScenarioTests:abstract_tests_base.py:77 setup
+DEBUG    BddScenarioTests:abstract_tests_base.py:70 initiating <class 'qa_pytest_commons.generic_steps.GenericSteps'>
+DEBUG    GenericSteps:logger.py:77 >>> Given nothing  
+DEBUG    GenericSteps:logger.py:92 <<< Given nothing
+DEBUG    GenericSteps:logger.py:77 >>> When failing just failing
+DEBUG    BddScenarioTests:abstract_tests_base.py:83 teardown
