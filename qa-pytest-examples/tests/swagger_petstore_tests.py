@@ -13,6 +13,7 @@ from qa_pytest_rest.rest_tests import RestTests
 from qa_testing_utils.matchers import traced, yields_item
 
 
+# --8<-- [start:class]
 @pytest.mark.external
 class SwaggerPetstoreTests(
     RestTests[SwaggerPetstoreSteps[SwaggerPetstoreConfiguration],
@@ -20,9 +21,13 @@ class SwaggerPetstoreTests(
     _steps_type = SwaggerPetstoreSteps
     _configuration = SwaggerPetstoreConfiguration()
 
+    # --8<-- [start:func]
     def should_add(self):
         random_pet = SwaggerPetstorePet.random()
         (self.steps
             .given.swagger_petstore(self.rest_session)
             .when.adding(random_pet)
             .then.the_available_pets(yields_item(traced(is_(random_pet)))))
+    # --8<-- [end:func]
+
+# --8<-- [end:class]

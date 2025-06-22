@@ -30,37 +30,27 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         LoggerMixin,
         ImmutableMixin):
     """
-    Generic steps beyond the BDD-keywords and diagnostics methods, most important:
-    - retrying, for attempting a step that sporadically fails
-    - eventually_assert_that, for asserting on sporadically failing operations
+    Generic steps base class for BDD-style test implementations.
+    Provides retrying, assertion, and step chaining utilities for all step types.
 
-    IMPORTANT: if parallel testing will be required, and supported by the SUT,
-    then internal state must be either thread-safe, or protected by TLS vars.
+    Type Parameters:
+        TConfiguration: The configuration type for the steps implementation.
 
-    The state it holds is mutated by steps. In a scenario there might be an
-    operation o1 reading some info to be used by o2, followed by o1 later on,
-    effectively rewriting previous value.
-
-    Subtypes, such as PamSteps, may provide real system steps, relying on these
-    ones. As such, these types might choose to redefine the _retry_policy herein::
-
-                            +---------------+
-                            |  BddKeyWords  |
-                            +---------------+
-                                            ^
-                                            |
-                                        implements
-                                            |
-        +-------------------+               +--------------+
-        | AbstractTestsBase |---contains--->| GenericSteps |
-        +-------------------+               +--------------+
-
+    Attributes:
+        _retrying (Retrying): The tenacity.Retrying instance used for retry logic.
+        _configuration (TConfiguration): The configuration instance for these steps.
     """
 
     _retrying: Retrying
     _configuration: TConfiguration
 
     def __init__(self, configuration: TConfiguration):
+        """
+        Initializes the steps with the given configuration and default retry policy.
+
+        Args:
+            configuration (TConfiguration): The configuration instance.
+        """
         self._configuration = configuration
         # NOTE: waits 1 sec after 1st failure, 2, 4, and 8 secs on subsequent;
         # see BddScenarioTests#should_retry
@@ -74,11 +64,23 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @final
     @property
     def configured(self) -> TConfiguration:
+        """
+        Returns the configuration instance for these steps.
+
+        Returns:
+            TConfiguration: The configuration instance.
+        """
         return self._configuration
 
     @final
     @property
     def retry_policy(self) -> Retrying:
+        """
+        Returns the retry policy used for retrying steps.
+
+        Returns:
+            Retrying: The tenacity.Retrying instance.
+        """
         return self._retrying
 
     @final
@@ -121,12 +123,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @Context.traced
     def nothing(self) -> Self:
         """
-        Intended to support self-testing which does not rely on outer world
-        system::
-
-            given.nothing \
-
-            .when.... doing your stuff here...
+        Intended to support self-testing which does not rely on outer world system.
 
         Returns:
             Self: these steps
@@ -150,7 +147,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
 
     def set[T:Valid](self, field_name: str, field_value: T) -> T:
         """
-        Sets field to specified value
+        Sets field to specified value, validating it if possible.
 
         Args:
             field_name (str): name of field; the field should be defined as annotation
@@ -162,7 +159,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
             InvalidValueException: if the object is invalid
 
         Returns:
-            _type_: the value of set field
+            T: the value of set field
         """
         if field_name not in self.__class__.__annotations__:
             raise AttributeError(
@@ -187,15 +184,8 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         """
         Logs value at DEBUG level using the logger of this steps class.
 
-        Use to trace something as a step, usually in a lambda expression::
-
-            when.retrying(lambda: self.trace(valid(...call some API...))) \
-
-                .and_....this can be further chained with other steps....
-
         Args:
-            value (Any): _description_
-
+            value (Any): The value to log.
         Returns:
             Self: these steps
         """
@@ -208,11 +198,8 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         """
         Blocks current thread for specified duration.
 
-        Consider using retrying or eventually_assert_that instead of this.
-
         Args:
-            duration (timedelta, optional): Defaults to timedelta(seconds=0).
-
+            duration (timedelta, optional): How long to wait. Defaults to 0 seconds.
         Returns:
             Self: these steps
         """
@@ -223,15 +210,12 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @Context.traced
     def failing(self, exception: Exception) -> Self:
         """
-        Intended to support self-testing of retrying and eventually_assert_that
-        steps below.
+        Raises the given exception, for self-testing of retrying and eventually_assert_that.
 
         Args:
-            exception (Exception): some exception
-
+            exception (Exception): The exception to raise.
         Raises:
-            exception: that exception
-
+            exception: That exception.
         Returns:
             Self: these steps
         """
@@ -241,12 +225,11 @@ class GenericSteps[TConfiguration: BaseConfiguration](
     @Context.traced
     def repeating(self, range: range, step: Callable[[int], Self]) -> Self:
         """
-        Intended for stress testing -- repeats specified steps.
+        Repeats the specified step for each value in the range.
 
         Args:
-            range (range): a range
-            step (Callable[[int], Self]): lambda of step to repeat with counter
-
+            range (range): The range to iterate over.
+            step (Callable[[int], Self]): The step to repeat.
         Returns:
             Self: these steps
         """
@@ -262,8 +245,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         Executes specified step, swallowing its exceptions.
 
         Args:
-            step (Callable[[], Self]): a lambda expression returning Self
-
+            step (Callable[[], Self]): The step to execute.
         Returns:
             Self: these steps
         """
@@ -279,33 +261,23 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         '''
         Retries specified step according to _retry_policy.
 
-        The default _retry_policy can be overridden by sub-types.
-
         Args:
-            step (Callable[[], Self]): a lambda expression returning Self
-
+            step (Callable[[], Self]): The step to retry.
         Returns:
             Self: these steps
         '''
         return self._retrying(step)
 
     @final
-    # @Context.traced
     def eventually_assert_that[T](
             self, supplier: Supplier[T],
             by_rule: Matcher[T]) -> Self:
         '''
-        Repeatedly applies specified rule on specified supplier, according to
-        _retry_policy.
-
-        The default _retry_policy can be overridden by sub-types.
+        Repeatedly applies specified rule on specified supplier, according to _retry_policy.
 
         Args:
-            supplier (Callable[[], T]): a lambda expression returning T
-            by_rule (Matcher[T]): a Hamcrest Matcher on T; basically, this is \
-            just a predicate with a description, read more on \
-                https://github.com/hamcrest/PyHamcrest
-
+            supplier (Callable[[], T]): The value supplier.
+            by_rule (Matcher[T]): The matcher to apply.
         Returns:
             Self: these steps
         '''
@@ -318,9 +290,7 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         Intended to support self-testing of reports.
 
         Args:
-            matcher (Matcher[bool]): is_(True) will trigger a green report, \
-            while is_(False) will trigger a red report
-
+            matcher (Matcher[bool]): Matcher for the boolean result.
         Returns:
             Self: these steps
         """
@@ -334,9 +304,8 @@ class GenericSteps[TConfiguration: BaseConfiguration](
         Adapts PyHamcrest's assert_that to the BDD world by returning Self.
 
         Args:
-            value (T): the value to assert upon
-            by_rule (Matcher[T]): the Hamcrest matcher to apply
-
+            value (T): The value to assert upon.
+            by_rule (Matcher[T]): The matcher to apply.
         Returns:
             Self: these steps
         """

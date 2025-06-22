@@ -14,9 +14,16 @@ from .abstract_queue_handler_tests import AbstractQueueHandlerTests
 
 
 class QueueHandlerTests(AbstractQueueHandlerTests):
+    """
+    Integration tests for the QueueHandler class, verifying publish and consume operations with RabbitMQ.
+    """
+
     # NOTE: sudo rabbitmqctl status -- ensure RabbitMQ is running
     # otherwise, sudo rabbitmq-server -detached
     def should_have_a_working_rabbitmq(self) -> None:
+        """
+        Verifies that RabbitMQ is running and can publish/consume a message directly using pika.
+        """
         some_text = random_string(10)
         with closing(pika.BlockingConnection(self.local_rabbit_mq)) as connection:
             with closing(connection.channel()) as channel:
@@ -40,6 +47,9 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
                 assert_that(cast(bytes, body).decode(), equal_to(some_text))
 
     def should_publish_and_retrieve(self) -> None:
+        """
+        Tests publishing and consuming messages using QueueHandler, ensuring all messages are received.
+        """
         with pika.BlockingConnection(self.local_rabbit_mq) as connection:
             with connection.channel() as channel:
                 with QueueHandler(

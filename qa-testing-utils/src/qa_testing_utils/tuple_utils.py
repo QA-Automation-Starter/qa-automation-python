@@ -8,13 +8,28 @@ from typing import Any, Self, Tuple, Type
 
 class FromTupleMixin:
     """
-    Class decorator adding a `from_tuple` method allowing instantiation from
-    a tuple matching the order of decorated class fields.
+    Mixin that adds a `from_tuple` class method for instantiating objects from a tuple.
 
-    Works with frozen dataclasses too.
+    Allows creating an instance of a class (dataclass or regular class) by passing a tuple
+    whose values match the order of the class fields. Works with frozen dataclasses as well.
+
+    Example:
+        @dataclass(frozen=True)
+        class Point(FromTupleMixin):
+            x: int
+            y: int
+        p = Point.from_tuple((1, 2))
     """
     @classmethod
     def from_tuple(cls: Type[Self], data: Tuple[Any, ...]) -> Self:
+        """
+        Instantiates the class from a tuple of values, matching the order of class fields.
+
+        Args:
+            data (Tuple[Any, ...]): Tuple of values corresponding to the class fields.
+        Returns:
+            Self: An instance of the class with fields set from the tuple.
+        """
         if is_dataclass(cls):
             # Retrieve all fields, including inherited ones
             cls_fields = [f.name for f in fields(cls)]

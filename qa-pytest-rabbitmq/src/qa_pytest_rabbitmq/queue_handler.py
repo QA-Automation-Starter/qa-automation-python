@@ -16,6 +16,13 @@ from qa_testing_utils.string_utils import EMPTY_STRING, to_string
 @to_string()
 @dataclass(frozen=True)
 class Message[V]:
+    """
+    Represents a message to be published or consumed from a RabbitMQ queue.
+
+    Attributes:
+        content (V): The message payload.
+        properties (BasicProperties): Optional message properties for RabbitMQ.
+    """
     content: V
     properties: BasicProperties = field(default_factory=BasicProperties)
 
@@ -24,6 +31,16 @@ class Message[V]:
 @dataclass
 @final
 class QueueHandler[K, V](LoggerMixin):
+    """
+    Handles publishing and consuming messages from a RabbitMQ queue in a thread-safe, asynchronous manner.
+
+    Args:
+        channel (BlockingChannel): The RabbitMQ channel to use.
+        queue_name (str): The name of the queue to operate on.
+        indexing_by (Callable): Function to extract a key from a message.
+        consuming_by (Callable): Function to deserialize message bytes.
+        publishing_by (Callable): Function to serialize message content.
+    """
     channel: Final[BlockingChannel]
     queue_name: Final[str]
     indexing_by: Final[Callable[[Message[V]], K]]
@@ -42,11 +59,17 @@ class QueueHandler[K, V](LoggerMixin):
     _lock: threading.RLock = field(default_factory=threading.RLock, init=False)
 
     def __post_init__(self) -> None:
+        """
+        Starts the worker thread for handling asynchronous queue operations.
+        """
         self._worker_thread = threading.Thread(
             target=self._worker_loop, name="rabbitmq-handler", daemon=True)
         self._worker_thread.start()
 
     def __enter__(self) -> "QueueHandler[K, V]":
+        """
+        Context manager entry. Returns self.
+        """
         return self
 
     def __exit__(
@@ -55,9 +78,15 @@ class QueueHandler[K, V](LoggerMixin):
         exc_value: BaseException | None,
         traceback: TracebackType | None
     ) -> None:
+        """
+        Context manager exit. Ensures the handler is closed and resources are released.
+        """
         self.close()
 
     def _worker_loop(self) -> None:
+        """
+        Internal worker loop for processing commands and RabbitMQ events.
+        """
         while not self._shutdown_event.is_set():
             try:
                 self.channel.connection.process_data_events()
@@ -70,9 +99,17 @@ class QueueHandler[K, V](LoggerMixin):
                 self.log.error(f"Unhandled error in worker thread: {e}")
 
     def _submit(self, fn: Callable[[], None]) -> None:
+        """
+        Submits a callable to be executed by the worker thread.
+        """
         self._command_queue.put(fn)
 
     def consume(self) -> str:
+        """
+        Starts consuming messages from the queue asynchronously.
+        Returns:
+            str: A placeholder consumer tag (actual tag is set internally).
+        """
         def _consume():
             def on_message(ch: BlockingChannel, method: Any,
                            props: BasicProperties, body: bytes) -> None:
@@ -102,6 +139,11 @@ class QueueHandler[K, V](LoggerMixin):
         return "pending-tag"
 
     def cancel(self) -> str:
+        """
+        Cancels the active consumer, if any.
+        Returns:
+            str: The previous consumer tag, or an empty string if none.
+        """
         def _cancel():
             if self._consumer_tag:
                 self.channel.connection.add_callback_threadsafe(
@@ -112,6 +154,12 @@ class QueueHandler[K, V](LoggerMixin):
         return self._consumer_tag or ""
 
     def publish(self, messages: Iterator[Message[V]]) -> None:
+        """
+        Publishes an iterable of Message objects to the queue asynchronously.
+
+        Args:
+            messages (Iterator[Message[V]]): The messages to publish.
+        """
         def _publish():
             for message in messages:
                 body = self.publishing_by(message.content)
@@ -125,14 +173,29 @@ class QueueHandler[K, V](LoggerMixin):
         self._submit(_publish)
 
     def publish_values(self, values: Iterator[V]) -> None:
+        """
+        Publishes an iterable of values to the queue, wrapping each in a Message.
+
+        Args:
+            values (Iterator[V]): The values to publish.
+        """
         self.publish((Message(content=value) for value in values))
 
     def close(self) -> None:
+        """
+        Gracefully shuts down the handler, cancels consumers, and joins the worker thread.
+        """
         self.cancel()
         self._shutdown_event.set()
         self._worker_thread.join(timeout=5.0)
 
     @property
     def received_messages(self) -> Mapping[K, Message[V]]:
+        """
+        Returns a snapshot of all received messages, indexed by key.
+
+        Returns:
+            Mapping[K, Message[V]]: The received messages.
+        """
         with self._lock:
             return dict(self._received_messages)

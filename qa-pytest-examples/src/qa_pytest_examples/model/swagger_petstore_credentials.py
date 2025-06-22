@@ -9,4 +9,8 @@ from qa_pytest_examples.model.credentials import Credentials
 
 @dataclass(frozen=True)
 class SwaggerPetstoreCredentials(Credentials):
+    """
+    Credentials for Swagger Petstore users.
+    Inherits from Credentials.
+    """
     pass

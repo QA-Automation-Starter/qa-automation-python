@@ -15,14 +15,15 @@ from qa_testing_utils.string_utils import EMPTY_STRING
 
 
 class Configuration():
-    """Just to allow for empty configurations"""
+    """
+    Empty configuration base class for scenarios that do not require configuration.
+    """
     pass
 
 
 class BaseConfiguration(Configuration, LoggerMixin, ImmutableMixin):
     """
-    Base class for all types of configurations, providing a parser for a
-    pre-specified configuration file.
+    Base class for all types of configurations, providing a parser for a pre-specified configuration file.
     """
     _path: Path
 

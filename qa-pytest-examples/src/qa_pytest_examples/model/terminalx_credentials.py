@@ -9,4 +9,8 @@ from qa_pytest_examples.model.credentials import Credentials
 
 @dataclass(frozen=True)
 class TerminalXCredentials(Credentials):
+    """
+    Credentials for TerminalX users.
+    Inherits from Credentials.
+    """
     pass

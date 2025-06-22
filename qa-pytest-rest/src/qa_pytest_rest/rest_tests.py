@@ -2,25 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Any, Generic, TypeVar, override
+from typing import Any, override
 
 import requests
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_rest.rest_configuration import RestConfiguration
 from qa_pytest_rest.rest_steps import RestSteps
 
-# NOTE: python limitation; we cannot declare it such as:
-# class RestTests[TSteps:RestSteps[TConfiguration], TConfiguration: RestConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
-_TConfiguration = TypeVar("_TConfiguration", bound=RestConfiguration)
-# TSteps can be any subclass of RestSteps, with any configuration type parameter.
-# However, Python's type system cannot enforce that the parameter to RestSteps is
-# itself a subclass of RestConfiguration; this is the closest we can get:
-_TSteps = TypeVar("_TSteps", bound=RestSteps[Any])
 
-
-class RestTests(
-        Generic[_TSteps, _TConfiguration],
-        AbstractTestsBase[_TSteps, _TConfiguration]):
+class RestTests[
+    TSteps: RestSteps[Any],
+    TConfiguration: RestConfiguration
+](AbstractTestsBase[TSteps, TConfiguration]):
     """
     Base class for REST API test cases.
 
@@ -28,19 +21,11 @@ class RestTests(
     for each test method. It is generic over the types of steps and configuration used.
 
     Attributes:
-        _rest_session (requests.Session): The HTTP session used for making REST requests.
-            Note: This session is not thread-safe.
+        _rest_session (requests.Session): The HTTP session used for making REST requests. Not thread-safe.
 
     Type Parameters:
         TSteps: The type of the steps class, typically derived from RestSteps.
         TConfiguration: The type of the configuration class, typically derived from RestConfiguration.
-
-    Methods:
-        setup_method(self):
-            Initializes a new requests.Session before each test method.
-
-        teardown_method(self):
-            Closes the requests.Session after each test method.
     """
     _rest_session: requests.Session  # not thread safe
 
@@ -56,11 +41,17 @@ class RestTests(
 
     @override
     def setup_method(self):
+        """
+        Initializes a new requests.Session before each test method.
+        """
         super().setup_method()
         self._rest_session = requests.Session()
 
     @override
     def teardown_method(self):
+        """
+        Closes the requests.Session after each test method.
+        """
         try:
             self._rest_session.close()
         finally:

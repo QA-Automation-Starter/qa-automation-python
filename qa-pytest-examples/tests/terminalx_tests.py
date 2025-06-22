@@ -15,6 +15,7 @@ from qa_testing_utils.matchers import (
 )
 
 
+# --8<-- [start:class]
 @pytest.mark.external
 @pytest.mark.selenium
 class TerminalXTests(
@@ -23,6 +24,7 @@ class TerminalXTests(
     _steps_type = TerminalXSteps
     _configuration = TerminalXConfiguration()
 
+    # --8<-- [start:func]
     # NOTE sections may be further collected in superclasses and reused across tests
     def login_section(
             self, user: TerminalXUser) -> TerminalXSteps[TerminalXConfiguration]:
@@ -43,3 +45,6 @@ class TerminalXTests(
              .when.searching_for(word)
              .then.the_search_hints(yields_item(traced(
                  contains_string_ignoring_case(word)))))
+    # --8<-- [end:func]
+
+# --8<-- [end:class]

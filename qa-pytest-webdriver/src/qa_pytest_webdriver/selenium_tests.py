@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Any, Generic, TypeVar, override
+from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
@@ -11,18 +11,24 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
 
-# NOTE: python limitation; we cannot declare it such as:
-# class SeleniumTests[TSteps:SeleniumSteps[TConfiguration], TConfiguration: SeleniumConfiguration](AbstractTestsBase[TSteps, TConfiguration]):
-_TConfiguration = TypeVar("_TConfiguration", bound=SeleniumConfiguration)
-# TSteps can be any subclass of SeleniumSteps, with any configuration type parameter.
-# However, Python's type system cannot enforce that the parameter to SeleniumSteps is
-# itself a subclass of SeleniumConfiguration; this is the closest we can get:
-_TSteps = TypeVar("_TSteps", bound=SeleniumSteps[Any])
 
+class SeleniumTests[
+    TSteps: SeleniumSteps[Any],
+    TConfiguration: SeleniumConfiguration
+](AbstractTestsBase[TSteps, TConfiguration]):
+    """
+    Base class for Selenium-based UI test cases.
 
-class SeleniumTests(
-        Generic[_TSteps, _TConfiguration],
-        AbstractTestsBase[_TSteps, _TConfiguration]):
+    This class manages the lifecycle of a Selenium WebDriver for each test method.
+    It is generic over the types of steps and configuration used.
+
+    Attributes:
+        _web_driver (WebDriver): The Selenium WebDriver instance (not thread safe).
+
+    Type Parameters:
+        TSteps: The type of the steps class, typically derived from SeleniumSteps.
+        TConfiguration: The type of the configuration class, typically derived from SeleniumConfiguration.
+    """
     _web_driver: WebDriver  # not thread safe
 
     @property
@@ -37,6 +43,9 @@ class SeleniumTests(
 
     @override
     def setup_method(self):
+        '''
+        Initializes the Selenium WebDriver before each test method.
+        '''
         super().setup_method()
 
         options = Options()
@@ -47,6 +56,9 @@ class SeleniumTests(
 
     @override
     def teardown_method(self):
+        '''
+        Quits the Selenium WebDriver after each test method.
+        '''
         try:
             self._web_driver.quit()
         finally:

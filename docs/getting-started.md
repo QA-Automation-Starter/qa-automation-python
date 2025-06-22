@@ -31,6 +31,7 @@ Open in Codespace or Dev Container and everything will get installed and configu
     pdm run allure-generate
     ```
     then open, `docs/reports/index.html` in a browser.
+    
     > NOTE: requires installation of [Allure server](https://docs.qameta.io/allure/)
 
 

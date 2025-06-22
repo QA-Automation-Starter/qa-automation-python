@@ -2,29 +2,16 @@
 
 Below are example test cases demonstrating BDD-style usage with this framework:
 
-## UI search test
-
-```python
-def should_find(self):
-    (self.login_section(self.configuration.random_user)
-        .when.clicking_search())
-
-    for word in ["hello", "kitty"]:
-        (self.steps
-            .when.searching_for(word)
-            .then.the_search_hints(yields_item(traced(
-                contains_string_ignoring_case(word)))))
-```
-
 ## Swagger API add pet test
 
 ```python
-def should_add(self):
-    random_pet = SwaggerPetstorePet.random()
-    (self.steps
-        .given.swagger_petstore(self.rest_session)
-        .when.adding(random_pet)
-        .then.the_available_pets(yields_item(traced(is_(random_pet)))))
+--8<-- "swagger_petstore_tests.py:func"
+```
+
+## TerminalX (UI) search test
+
+```python
+--8<-- "terminalx_tests.py:func"
 ```
 
 ---

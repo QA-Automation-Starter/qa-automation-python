@@ -10,6 +10,7 @@ from qa_pytest_webdriver.selenium_tests import SeleniumTests
 from qa_testing_utils.matchers import traced, yields_item
 
 
+# --8<-- [start:class]
 @pytest.mark.external
 @pytest.mark.selenium
 class CombinedTests(
@@ -29,3 +30,4 @@ class CombinedTests(
             .given.terminalx(self.web_driver)
             .when.logging_in_with(random_user.credentials)
             .then.the_user_logged_in(is_(random_user.name)))
+# --8<-- [end:class]

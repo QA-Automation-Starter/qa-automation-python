@@ -106,7 +106,33 @@ classDiagram
 | [`SeleniumTests`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumTests) | Selenium-specific test base |
 | [`SeleniumSteps`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumSteps) | Selenium-specific steps |
 | [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumConfiguration) | Selenium-specific configuration |
-| [`TerminalXTests`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXTests) | Example: custom UI test base |
 | [`TerminalXSteps`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXSteps) | Example: custom UI steps |
 | [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXConfiguration) | Example: custom UI configuration |
 ---
+
+## Usage Examples
+
+### TerminalX Tests
+
+```python
+--8<-- "terminalx_tests.py:class"
+```
+
+### Swagger Petstore Tests
+
+```python
+--8<-- "swagger_petstore_tests.py:class"
+```
+
+### Combined Tests
+
+```python
+--8<-- "combined_tests.py:class"
+```
+
+### RabbitMQ Self Tests
+
+```python
+--8<-- "rabbitmq_self_tests.py:class"
+```
+

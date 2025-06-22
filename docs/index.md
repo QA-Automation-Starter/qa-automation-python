@@ -5,9 +5,15 @@
 
 Technology-agnostic; example REST, Selenium and RabbitMQ implementations included.
 
+## Example Allure Report
 ![Allure BDD Example](images/allure-bdd-example.png)
 
 > see live [Example Allure Report](reports/index.html)
+
+## Example Code
+```python
+--8<-- "rabbitmq_self_tests.py:func"
+```
 
 ## Requirements
 

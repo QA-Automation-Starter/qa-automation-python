@@ -25,7 +25,7 @@ class RestConfiguration(BaseConfiguration):
         Returns the base URL for the endpoint from the configuration parser.
 
         Returns:
-            str: The base URL specified in the configuration under the 'rest/base' key.
+            str: The base URL specified in the configuration under the 'rest/base_url' key.
         """
         return self.parser["rest"]["base_url"]
 
@@ -34,7 +34,7 @@ class RestConfiguration(BaseConfiguration):
         Constructs and returns the full endpoint URL by joining the base endpoint URL with the specified path.
 
         Args:
-            path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY.
+            path (str, optional): The path to append to the base endpoint URL. Defaults to EMPTY_STRING.
 
         Returns:
             str: The complete URL formed by joining the base endpoint and the provided path.
