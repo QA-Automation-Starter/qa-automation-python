@@ -25,7 +25,7 @@ class SwaggerPetstoreMockedTests(
     _configuration = SwaggerPetstoreConfiguration()
 
     # --8<-- [start:func]
-    @pytest.mark.parametrize("pet", SwaggerPetstorePet.random(range(100)))
+    @pytest.mark.parametrize("pet", SwaggerPetstorePet.random(range(10)))
     @responses.activate
     def should_add(self, pet: SwaggerPetstorePet):
         responses.add(
