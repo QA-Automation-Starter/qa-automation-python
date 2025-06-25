@@ -50,7 +50,7 @@ jobs:
         run: pdm config install.cache true
 
       - name: Install dependencies
-        run: pdm install --no-editable --no-lock
+        run: pdm run install-all
 
       - name: Run tests
         run: pdm run pytest -n auto -m "not (flaky or selenium or external)"
