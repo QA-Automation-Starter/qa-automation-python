@@ -32,14 +32,12 @@ class SwaggerPetstoreMockedTests(
             responses.POST,
             self.configuration.resource_uri(path="pet"),
             json=EMPTY_STRING,
-            status=200
-        )
+            status=200)
         responses.add(
             responses.GET,
             self.configuration.resource_uri(path="pet/findByStatus"),
             json=[asdict(pet)],
-            status=200
-        )
+            status=200)
         (self.steps
             .given.swagger_petstore(self.rest_session)
             .when.adding(pet)
