@@ -1,5 +1,4 @@
-__version__ = '0.0.11.dev7+g9b1fb9b.d20250619'
-
+__version__ = '0.0.11.dev14+g0ba2701.d20250625'
 from qa_pytest_rest.rest_configuration import (
     RestConfiguration,
 )

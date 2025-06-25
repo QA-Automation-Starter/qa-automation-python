@@ -34,9 +34,9 @@
       "group": "build"
     },
     {
-      "label": "install-deps",
+      "label": "install-all",
       "type": "shell",
-      "command": "pdm run install-deps",
+      "command": "pdm run install-all",
       "group": "build"
     },
     {

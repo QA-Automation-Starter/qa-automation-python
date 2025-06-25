@@ -23,6 +23,7 @@ dependencies = [
   "PyHamcrest==2.1.0",
   "pyfunctional==1.5.0",
   "more-itertools==10.7.0",
+  "responses==0.25.7",
 ]
 
 [tool.pdm.version]

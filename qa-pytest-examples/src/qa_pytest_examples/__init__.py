@@ -1,6 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Adrian Herscu
-#
-# SPDX-License-Identifier: Apache-2.0
+__version__ = '0.0.11.dev14+g0ba2701.d20250625'
 from qa_pytest_examples.combined_configuration import (
     CombinedConfiguration,
 )

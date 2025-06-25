@@ -58,7 +58,7 @@ Open in Codespace or Dev Container and everything will get installed and configu
 
 2. Install dependencies:
    ```bash
-   pdm run install-deps
+   pdm run install-all
    ```
    > NOTE: This must be run whenever new dependencies, or versions are changed.
 

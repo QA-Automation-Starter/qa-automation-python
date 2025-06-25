@@ -1,12 +1,16 @@
-__version__ = '0.0.11.dev7+g9b1fb9b.d20250619'
-
+__version__ = '0.0.11.dev14+g0ba2701.d20250625'
 from qa_testing_utils.conftest_helpers import (
     configure,
     get_test_body,
     makereport,
 )
-from qa_testing_utils.exception_utils import safely, swallow
-from qa_testing_utils.exceptions import TestException
+from qa_testing_utils.exception_utils import (
+    safely,
+    swallow,
+)
+from qa_testing_utils.exceptions import (
+    TestException,
+)
 from qa_testing_utils.file_utils import (
     IterableReader,
     crc32_of,
@@ -16,10 +20,14 @@ from qa_testing_utils.file_utils import (
     stream_file,
     write_csv,
 )
-from qa_testing_utils.logger import Context, LoggerMixin, logger, trace
+from qa_testing_utils.logger import (
+    Context,
+    LoggerMixin,
+    logger,
+    trace,
+)
 from qa_testing_utils.matchers import (
     ContainsStringIgnoringCase,
-    DateOrDateTime,
     IsIteratorYielding,
     IsIteratorYieldingAll,
     IsStreamContainingEvery,
@@ -48,18 +56,26 @@ from qa_testing_utils.object_utils import (
     require_not_none,
     valid,
 )
-from qa_testing_utils.stream_utils import process_next
-from qa_testing_utils.string_utils import to_string
-from qa_testing_utils.thread_utils import ThreadLocal, sleep_for
-from qa_testing_utils.tuple_utils import FromTupleMixin
+from qa_testing_utils.stream_utils import (
+    process_next,
+)
+from qa_testing_utils.string_utils import (
+    to_string,
+)
+from qa_testing_utils.thread_utils import (
+    ThreadLocal,
+    sleep_for,
+)
+from qa_testing_utils.tuple_utils import (
+    FromTupleMixin,
+)
 
-__all__ = ['ContainsStringIgnoringCase', 'Context', 'DateOrDateTime',
-           'FromTupleMixin', 'ImmutableMixin', 'InvalidValueException',
-           'IsIteratorYielding', 'IsIteratorYieldingAll',
-           'IsStreamContainingEvery', 'IsWithinDates', 'IterableReader',
-           'LoggerMixin', 'SingletonBase', 'SingletonMeta', 'TestException',
-           'ThreadLocal', 'ToDictMixin', 'TracingMatcher', 'Valid',
-           'WithMixin', 'adapted_iterator', 'adapted_object',
+__all__ = ['ContainsStringIgnoringCase', 'Context', 'FromTupleMixin',
+           'ImmutableMixin', 'InvalidValueException', 'IsIteratorYielding',
+           'IsIteratorYieldingAll', 'IsStreamContainingEvery', 'IsWithinDates',
+           'IterableReader', 'LoggerMixin', 'SingletonBase', 'SingletonMeta',
+           'TestException', 'ThreadLocal', 'ToDictMixin', 'TracingMatcher',
+           'Valid', 'WithMixin', 'adapted_iterator', 'adapted_object',
            'adapted_sequence', 'classproperty', 'configure',
            'contains_string_ignoring_case', 'crc32_of', 'decompress_xz_stream',
            'extract_files_from_tar', 'get_test_body', 'logger', 'makereport',
