@@ -1,0 +1,3 @@
+DEBUG    Foo:logger.py:77 >>> Then run tests.logger_tests.Message(id = 0, value = 'hello') 
+DEBUG    Foo:logger_tests.py:22 tests.logger_tests.Message(id = 0, value = 'hello')
+DEBUG    Foo:logger.py:92 <<< Then run

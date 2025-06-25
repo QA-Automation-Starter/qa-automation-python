@@ -555,7 +555,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"kitty"</span><span class="p">]:</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
              <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span>
+             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
                  <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
 </code></pre></div>
 <h3 id="swagger-petstore-tests">Swagger Petstore Tests</h3>
@@ -566,12 +566,12 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
     <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">SwaggerPetstoreSteps</span>
     <span class="n">_configuration</span> <span class="o">=</span> <span class="n">SwaggerPetstoreConfiguration</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">"pet"</span><span class="p">,</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+    <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet</span><span class="p">:</span> <span class="n">SwaggerPetstorePet</span><span class="p">):</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
             <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)))))</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">pet</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
 </code></pre></div>
 <h3 id="combined-tests">Combined Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
@@ -583,13 +583,13 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
     <span class="n">_configuration</span> <span class="o">=</span> <span class="n">CombinedConfiguration</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">should_run_combined_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">random_pet</span> <span class="o">=</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">random_pet</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
         <span class="n">random_user</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">users</span><span class="p">)</span>
 
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
             <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">))))</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">))))</span>
             <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
@@ -609,7 +609,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">publishing</span><span class="p">([</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">)])</span>
             <span class="o">.</span><span class="n">and_</span><span class="o">.</span><span class="n">consuming</span><span class="p">()</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_received_messages</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span>
-                <span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">))))))</span>
+                <span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">))))))</span>
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

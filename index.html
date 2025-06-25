@@ -716,7 +716,7 @@
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">publishing</span><span class="p">([</span><span class="n">Message</span><span class="p">(</span><span class="s2">&quot;test_queue&quot;</span><span class="p">)])</span>
             <span class="o">.</span><span class="n">and_</span><span class="o">.</span><span class="n">consuming</span><span class="p">()</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_received_messages</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span>
-                <span class="n">traced</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">&quot;test_queue&quot;</span><span class="p">))))))</span>
+                <span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">&quot;test_queue&quot;</span><span class="p">))))))</span>
 </code></pre></div>
 <h2 id="requirements">Requirements</h2>
 <ul>

@@ -1393,9 +1393,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qa_testing_utils.traced" class="md-nav__link">
+  <a href="#qa_testing_utils.tracing" class="md-nav__link">
     <span class="md-ellipsis">
-      traced
+      tracing
     </span>
   </a>
   
@@ -2383,9 +2383,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qa_testing_utils.traced" class="md-nav__link">
+  <a href="#qa_testing_utils.tracing" class="md-nav__link">
     <span class="md-ellipsis">
-      traced
+      tracing
     </span>
   </a>
   
@@ -2504,7 +2504,7 @@
 
 
 <h3 id="qa_testing_utils.__all__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ContainsStringIgnoringCase&#39;</span><span class="p">,</span> <span class="s1">&#39;Context&#39;</span><span class="p">,</span> <span class="s1">&#39;DateOrDateTime&#39;</span><span class="p">,</span> <span class="s1">&#39;FromTupleMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;ImmutableMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;InvalidValueException&#39;</span><span class="p">,</span> <span class="s1">&#39;IsIteratorYielding&#39;</span><span class="p">,</span> <span class="s1">&#39;IsIteratorYieldingAll&#39;</span><span class="p">,</span> <span class="s1">&#39;IsStreamContainingEvery&#39;</span><span class="p">,</span> <span class="s1">&#39;IsWithinDates&#39;</span><span class="p">,</span> <span class="s1">&#39;IterableReader&#39;</span><span class="p">,</span> <span class="s1">&#39;LoggerMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;SingletonBase&#39;</span><span class="p">,</span> <span class="s1">&#39;SingletonMeta&#39;</span><span class="p">,</span> <span class="s1">&#39;TestException&#39;</span><span class="p">,</span> <span class="s1">&#39;ThreadLocal&#39;</span><span class="p">,</span> <span class="s1">&#39;ToDictMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;TracingMatcher&#39;</span><span class="p">,</span> <span class="s1">&#39;Valid&#39;</span><span class="p">,</span> <span class="s1">&#39;WithMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_iterator&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_object&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;classproperty&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span> <span class="s1">&#39;contains_string_ignoring_case&#39;</span><span class="p">,</span> <span class="s1">&#39;crc32_of&#39;</span><span class="p">,</span> <span class="s1">&#39;decompress_xz_stream&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_files_from_tar&#39;</span><span class="p">,</span> <span class="s1">&#39;get_test_body&#39;</span><span class="p">,</span> <span class="s1">&#39;logger&#39;</span><span class="p">,</span> <span class="s1">&#39;makereport&#39;</span><span class="p">,</span> <span class="s1">&#39;match_as&#39;</span><span class="p">,</span> <span class="s1">&#39;process_next&#39;</span><span class="p">,</span> <span class="s1">&#39;read_lines&#39;</span><span class="p">,</span> <span class="s1">&#39;require_not_none&#39;</span><span class="p">,</span> <span class="s1">&#39;safely&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_for&#39;</span><span class="p">,</span> <span class="s1">&#39;stream_file&#39;</span><span class="p">,</span> <span class="s1">&#39;swallow&#39;</span><span class="p">,</span> <span class="s1">&#39;to_string&#39;</span><span class="p">,</span> <span class="s1">&#39;trace&#39;</span><span class="p">,</span> <span class="s1">&#39;traced&#39;</span><span class="p">,</span> <span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="s1">&#39;within_dates&#39;</span><span class="p">,</span> <span class="s1">&#39;write_csv&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_every&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_item&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_items&#39;</span><span class="p">]</span></code>
+            <code class="highlight language-python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ContainsStringIgnoringCase&#39;</span><span class="p">,</span> <span class="s1">&#39;Context&#39;</span><span class="p">,</span> <span class="s1">&#39;FromTupleMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;ImmutableMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;InvalidValueException&#39;</span><span class="p">,</span> <span class="s1">&#39;IsIteratorYielding&#39;</span><span class="p">,</span> <span class="s1">&#39;IsIteratorYieldingAll&#39;</span><span class="p">,</span> <span class="s1">&#39;IsStreamContainingEvery&#39;</span><span class="p">,</span> <span class="s1">&#39;IsWithinDates&#39;</span><span class="p">,</span> <span class="s1">&#39;IterableReader&#39;</span><span class="p">,</span> <span class="s1">&#39;LoggerMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;SingletonBase&#39;</span><span class="p">,</span> <span class="s1">&#39;SingletonMeta&#39;</span><span class="p">,</span> <span class="s1">&#39;TestException&#39;</span><span class="p">,</span> <span class="s1">&#39;ThreadLocal&#39;</span><span class="p">,</span> <span class="s1">&#39;ToDictMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;TracingMatcher&#39;</span><span class="p">,</span> <span class="s1">&#39;Valid&#39;</span><span class="p">,</span> <span class="s1">&#39;WithMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_iterator&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_object&#39;</span><span class="p">,</span> <span class="s1">&#39;adapted_sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;classproperty&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span> <span class="s1">&#39;contains_string_ignoring_case&#39;</span><span class="p">,</span> <span class="s1">&#39;crc32_of&#39;</span><span class="p">,</span> <span class="s1">&#39;decompress_xz_stream&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_files_from_tar&#39;</span><span class="p">,</span> <span class="s1">&#39;get_test_body&#39;</span><span class="p">,</span> <span class="s1">&#39;logger&#39;</span><span class="p">,</span> <span class="s1">&#39;makereport&#39;</span><span class="p">,</span> <span class="s1">&#39;match_as&#39;</span><span class="p">,</span> <span class="s1">&#39;process_next&#39;</span><span class="p">,</span> <span class="s1">&#39;read_lines&#39;</span><span class="p">,</span> <span class="s1">&#39;require_not_none&#39;</span><span class="p">,</span> <span class="s1">&#39;safely&#39;</span><span class="p">,</span> <span class="s1">&#39;sleep_for&#39;</span><span class="p">,</span> <span class="s1">&#39;stream_file&#39;</span><span class="p">,</span> <span class="s1">&#39;swallow&#39;</span><span class="p">,</span> <span class="s1">&#39;to_string&#39;</span><span class="p">,</span> <span class="s1">&#39;trace&#39;</span><span class="p">,</span> <span class="s1">&#39;tracing&#39;</span><span class="p">,</span> <span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="s1">&#39;within_dates&#39;</span><span class="p">,</span> <span class="s1">&#39;write_csv&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_every&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_item&#39;</span><span class="p">,</span> <span class="s1">&#39;yields_items&#39;</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -2524,7 +2524,7 @@
 
 
 <h3 id="qa_testing_utils.__version__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.11.dev7+g9b1fb9b.d20250619&#39;</span></code>
+            <code class="highlight language-python"><span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.11.dev14+g0ba2701.d20250625&#39;</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -4330,7 +4330,7 @@ obj.foo = 2  # Raises AttributeError</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="hamcrest.core.base_matcher.BaseMatcher">BaseMatcher</span>[<span title="qa_testing_utils.matchers.DateOrDateTime">DateOrDateTime</span>]</code></p>
+              Bases: <code><span title="hamcrest.core.base_matcher.BaseMatcher">BaseMatcher</span>[<span title="DateOrDateTime">DateOrDateTime</span>]</code></p>
 
 
 
@@ -5505,12 +5505,12 @@ not found, etc. The former might be handled via a retry mechanism.</p>
 <span class="sd">    Provides per-thread storage for a value of type T, initialized with a default.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the thread-local storage with a default value.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            default (T): The default value for each thread.</span>
+<span class="sd">            default (Optional[T]): The default value for each thread, None if not specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">local</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">default</span>
@@ -5551,7 +5551,7 @@ not found, etc. The former might be handled via a retry mechanism.</p>
 
 
 <h4 id="qa_testing_utils.ThreadLocal.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">default</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h4>
 
@@ -5577,15 +5577,15 @@ not found, etc. The former might be handled via a retry mechanism.</p>
                 <code>default</code>
             </td>
             <td>
-                  <code><span title="T">T</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The default value for each thread.</p>
+                <p>The default value for each thread, None if not specified.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -5602,12 +5602,12 @@ not found, etc. The former might be handled via a retry mechanism.</p>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
-<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initializes the thread-local storage with a default value.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        default (T): The default value for each thread.</span>
+<span class="sd">        default (Optional[T]): The default value for each thread, None if not specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">local</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">default</span>
@@ -9314,8 +9314,8 @@ provide such readable <strong>str</strong>.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qa_testing_utils.traced" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">traced</span><span class="p">(</span><span class="n">matcher</span><span class="p">)</span></code>
+<h3 id="qa_testing_utils.tracing" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">tracing</span><span class="p">(</span><span class="n">matcher</span><span class="p">)</span></code>
 
 </h3>
 
@@ -9377,7 +9377,7 @@ provide such readable <strong>str</strong>.</p>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">traced</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">matcher</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TracingMatcher</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">tracing</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">matcher</span><span class="p">:</span> <span class="n">Matcher</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TracingMatcher</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wraps a matcher with TracingMatcher to enable debug logging.</span>
 
@@ -9558,7 +9558,7 @@ provide such readable <strong>str</strong>.</p>
                 <code>start_date</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="qa_testing_utils.matchers.DateOrDateTime">DateOrDateTime</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="DateOrDateTime">DateOrDateTime</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -9574,7 +9574,7 @@ provide such readable <strong>str</strong>.</p>
                 <code>end_date</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="qa_testing_utils.matchers.DateOrDateTime">DateOrDateTime</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="DateOrDateTime">DateOrDateTime</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
