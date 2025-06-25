@@ -31,6 +31,7 @@ class SearchContext(Protocol):
 
     Provides methods to find single or multiple elements using Selenium's locator strategy.
     """
+
     def find_element(self, by: str, value: Optional[str]) -> WebElement: ...
 
     def find_elements(

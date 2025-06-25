@@ -22,14 +22,15 @@ class SwaggerPetstorePet:
     status: str
 
     @staticmethod
-    def random() -> 'SwaggerPetstorePet':
+    def random(range: range = range(1)) -> Iterator['SwaggerPetstorePet']:
         """
         Generates a random SwaggerPetstorePet with a unique name and 'available' status.
 
         Returns:
             SwaggerPetstorePet: The generated pet.
         """
-        return SwaggerPetstorePet(name=str(uuid4()), status="available")
+        for _ in range:
+            yield SwaggerPetstorePet(name=str(uuid4()), status="available")
 
     @staticmethod
     def from_(response: Response) -> Iterator['SwaggerPetstorePet']:

@@ -16,7 +16,7 @@ Open in Codespace or Dev Container and everything will get installed and configu
 
 3. Install dependencies:
    ```bash
-   pdm run install-deps
+   pdm run install-all
    ```
 
 4. Run all tests from the root:

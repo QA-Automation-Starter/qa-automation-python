@@ -10,7 +10,7 @@ from qa_pytest_examples.terminalx_steps import TerminalXSteps
 from qa_pytest_webdriver.selenium_tests import SeleniumTests
 from qa_testing_utils.matchers import (
     contains_string_ignoring_case,
-    traced,
+    tracing,
     yields_item,
 )
 
@@ -43,7 +43,7 @@ class TerminalXTests(
         for word in ["hello", "kitty"]:
             (self.steps
              .when.searching_for(word)
-             .then.the_search_hints(yields_item(traced(
+             .then.the_search_hints(yields_item(tracing(
                  contains_string_ignoring_case(word)))))
     # --8<-- [end:func]
 

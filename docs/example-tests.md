@@ -14,4 +14,9 @@ Below are example test cases demonstrating BDD-style usage with this framework:
 --8<-- "terminalx_tests.py:func"
 ```
 
+## Mocked Swagger API add pet test
+
+```python
+--8<-- "swagger_petstore_mocked_tests.py:func"
+```
 ---

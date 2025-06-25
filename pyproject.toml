@@ -76,7 +76,7 @@ format-all = { composite = ["isort .", "autopep8 . --in-place --recursive"] }
 regenerate-init = "bash -c 'find qa-*/src/qa_* -type d -exec test -f {}/__init__.py \\; -exec mkinit {} -w --nomods \\;'"
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
-install-deps = "pdm install"
+install-all = "bash -c 'pdm install && for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm install); done'"
 allure-generate = "allure generate allure-results -o docs/reports --clean"
 mkdocs-serve = "mkdocs serve"
 

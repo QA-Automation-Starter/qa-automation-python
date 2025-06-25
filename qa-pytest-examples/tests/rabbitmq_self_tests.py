@@ -8,7 +8,7 @@ from qa_pytest_examples.rabbitmq_self_configuration import (
 from qa_pytest_rabbitmq.queue_handler import Message, QueueHandler
 from qa_pytest_rabbitmq.rabbitmq_steps import RabbitMqSteps
 from qa_pytest_rabbitmq.rabbitmq_tests import RabbitMqTests
-from qa_testing_utils.matchers import traced, yields_item
+from qa_testing_utils.matchers import tracing, yields_item
 from qa_testing_utils.object_utils import require_not_none
 from qa_testing_utils.string_utils import EMPTY_STRING
 
@@ -29,7 +29,7 @@ class RabbitMqSelfTests(
             .when.publishing([Message("test_queue")])
             .and_.consuming()
             .then.the_received_messages(yields_item(
-                traced(is_(Message("test_queue"))))))
+                tracing(is_(Message("test_queue"))))))
     # --8<-- [end:func]
 
     @override
