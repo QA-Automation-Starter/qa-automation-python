@@ -46,7 +46,7 @@ class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
         self._matcher.describe_to(description)
 
 
-def traced[T](matcher: Matcher[T]) -> TracingMatcher[T]:
+def tracing[T](matcher: Matcher[T]) -> TracingMatcher[T]:
     """
     Wraps a matcher with TracingMatcher to enable debug logging.
 

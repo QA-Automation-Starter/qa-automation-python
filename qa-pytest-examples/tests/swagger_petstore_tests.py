@@ -10,7 +10,7 @@ from qa_pytest_examples.swagger_petstore_configuration import (
 )
 from qa_pytest_examples.swagger_petstore_steps import SwaggerPetstoreSteps
 from qa_pytest_rest.rest_tests import RestTests
-from qa_testing_utils.matchers import traced, yields_item
+from qa_testing_utils.matchers import tracing, yields_item
 
 
 # --8<-- [start:class]
@@ -22,12 +22,12 @@ class SwaggerPetstoreTests(
     _configuration = SwaggerPetstoreConfiguration()
 
     # --8<-- [start:func]
-    def should_add(self):
-        random_pet = SwaggerPetstorePet.random()
+    @pytest.mark.parametrize("pet", SwaggerPetstorePet.random(range(4)))
+    def should_add(self, pet: SwaggerPetstorePet):
         (self.steps
             .given.swagger_petstore(self.rest_session)
-            .when.adding(random_pet)
-            .then.the_available_pets(yields_item(traced(is_(random_pet)))))
+            .when.adding(pet)
+            .then.the_available_pets(yields_item(tracing(is_(pet)))))
     # --8<-- [end:func]
 
 # --8<-- [end:class]

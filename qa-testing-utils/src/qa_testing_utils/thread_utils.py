@@ -6,7 +6,7 @@ import concurrent.futures
 import time
 from datetime import timedelta
 from threading import local
-from typing import Final, cast
+from typing import Final, Optional, cast
 
 COMMON_EXECUTOR: Final[concurrent.futures.ThreadPoolExecutor] = concurrent.futures.ThreadPoolExecutor()
 """
@@ -31,12 +31,12 @@ class ThreadLocal[T]:
     Provides per-thread storage for a value of type T, initialized with a default.
     """
 
-    def __init__(self, default: T):
+    def __init__(self, default: Optional[T] = None):
         """
         Initializes the thread-local storage with a default value.
 
         Args:
-            default (T): The default value for each thread.
+            default (Optional[T]): The default value for each thread, None if not specified.
         """
         self._local = local()
         self._local.value = default
