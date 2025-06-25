@@ -371,15 +371,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      TerminalX (UI) search test
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#mocked-swagger-api-add-pet-test" class="md-nav__link">
     <span class="md-ellipsis">
       Mocked Swagger API add pet test
@@ -389,9 +380,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pytestmarkparametrizepet-swaggerpetstorepetrandomrange100-responsesactivate-def-should_addself-pet-swaggerpetstorepet-responsesadd-responsespost-selfconfigurationresource_uripathpet-jsonempty_string-status200-responsesadd-responsesget-selfconfigurationresource_uripathpetfindbystatus-jsonasdictpet-status200-selfsteps-givenswagger_petstoreselfrest_session-whenaddingpet-thenthe_available_petsyields_itemtracingis_pet" class="md-nav__link">
+  <a href="#terminalx-ui-search-test" class="md-nav__link">
     <span class="md-ellipsis">
-      @pytest.mark.parametrize(&quot;pet&quot;, SwaggerPetstorePet.random(range(100))) @responses.activate def should_add(self, pet: SwaggerPetstorePet): responses.add( responses.POST, self.configuration.resource_uri(path=&quot;pet&quot;), json=EMPTY_STRING, status=200) responses.add( responses.GET, self.configuration.resource_uri(path=&quot;pet/findByStatus&quot;), json=[asdict(pet)], status=200) (self.steps .given.swagger_petstore(self.rest_session) .when.adding(pet) .then.the_available_pets(yields_item(tracing(is_(pet)))))
+      TerminalX (UI) search test
     </span>
   </a>
   
@@ -646,15 +637,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      TerminalX (UI) search test
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#mocked-swagger-api-add-pet-test" class="md-nav__link">
     <span class="md-ellipsis">
       Mocked Swagger API add pet test
@@ -664,9 +646,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pytestmarkparametrizepet-swaggerpetstorepetrandomrange100-responsesactivate-def-should_addself-pet-swaggerpetstorepet-responsesadd-responsespost-selfconfigurationresource_uripathpet-jsonempty_string-status200-responsesadd-responsesget-selfconfigurationresource_uripathpetfindbystatus-jsonasdictpet-status200-selfsteps-givenswagger_petstoreselfrest_session-whenaddingpet-thenthe_available_petsyields_itemtracingis_pet" class="md-nav__link">
+  <a href="#terminalx-ui-search-test" class="md-nav__link">
     <span class="md-ellipsis">
-      @pytest.mark.parametrize(&quot;pet&quot;, SwaggerPetstorePet.random(range(100))) @responses.activate def should_add(self, pet: SwaggerPetstorePet): responses.add( responses.POST, self.configuration.resource_uri(path=&quot;pet&quot;), json=EMPTY_STRING, status=200) responses.add( responses.GET, self.configuration.resource_uri(path=&quot;pet/findByStatus&quot;), json=[asdict(pet)], status=200) (self.steps .given.swagger_petstore(self.rest_session) .when.adding(pet) .then.the_available_pets(yields_item(tracing(is_(pet)))))
+      TerminalX (UI) search test
     </span>
   </a>
   
@@ -694,14 +676,37 @@
 <h1 id="example-tests">Example Tests</h1>
 <p>Below are example test cases demonstrating BDD-style usage with this framework:</p>
 <h2 id="swagger-api-add-pet-test">Swagger API add pet test</h2>
+<p>Uses a dataprovider with 4 random pets.</p>
+<p>Requires live Swagger API at https://petstore.swagger.io/v2/
 <div class="highlight"><pre><span></span><code>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;pet&quot;</span><span class="p">,</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
     <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet</span><span class="p">:</span> <span class="n">SwaggerPetstorePet</span><span class="p">):</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
             <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">pet</span><span class="p">)</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
-</code></pre></div>
+</code></pre></div></p>
+<h2 id="mocked-swagger-api-add-pet-test">Mocked Swagger API add pet test</h2>
+<p>Defines expected requests and then same test flow as above.
+<div class="highlight"><pre><span></span><code>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;pet&quot;</span><span class="p">,</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+    <span class="nd">@responses</span><span class="o">.</span><span class="n">activate</span>
+    <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet</span><span class="p">:</span> <span class="n">SwaggerPetstorePet</span><span class="p">):</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">responses</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">resource_uri</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;pet&quot;</span><span class="p">),</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">EMPTY_STRING</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">resource_uri</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;pet/findByStatus&quot;</span><span class="p">),</span>
+            <span class="n">json</span><span class="o">=</span><span class="p">[</span><span class="n">asdict</span><span class="p">(</span><span class="n">pet</span><span class="p">)],</span>
+            <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">pet</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
+</code></pre></div></p>
 <h2 id="terminalx-ui-search-test">TerminalX (UI) search test</h2>
+<p>Requires live https://www.terminalx.com
 <div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
     <span class="k">def</span> <span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
@@ -722,26 +727,8 @@
              <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
              <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
                  <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
-</code></pre></div>
-<h2 id="mocked-swagger-api-add-pet-test">Mocked Swagger API add pet test</h2>
-<h2 id="pytestmarkparametrizepet-swaggerpetstorepetrandomrange100-responsesactivate-def-should_addself-pet-swaggerpetstorepet-responsesadd-responsespost-selfconfigurationresource_uripathpet-jsonempty_string-status200-responsesadd-responsesget-selfconfigurationresource_uripathpetfindbystatus-jsonasdictpet-status200-selfsteps-givenswagger_petstoreselfrest_session-whenaddingpet-thenthe_available_petsyields_itemtracingis_pet"><div class="highlight"><pre><span></span><code>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;pet&quot;</span><span class="p">,</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)))</span>
-    <span class="nd">@responses</span><span class="o">.</span><span class="n">activate</span>
-    <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet</span><span class="p">:</span> <span class="n">SwaggerPetstorePet</span><span class="p">):</span>
-        <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">responses</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">resource_uri</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;pet&quot;</span><span class="p">),</span>
-            <span class="n">json</span><span class="o">=</span><span class="n">EMPTY_STRING</span><span class="p">,</span>
-            <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-        <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">resource_uri</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;pet/findByStatus&quot;</span><span class="p">),</span>
-            <span class="n">json</span><span class="o">=</span><span class="p">[</span><span class="n">asdict</span><span class="p">(</span><span class="n">pet</span><span class="p">)],</span>
-            <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">pet</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
-</code></pre></div></h2>
+</code></pre></div></p>
+<hr />
 
 
 
