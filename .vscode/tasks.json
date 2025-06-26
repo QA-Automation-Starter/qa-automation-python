@@ -14,23 +14,21 @@
       "group": "build"
     },
     {
+      "label": "regenerate-init",
+      "type": "shell",
+      "command": "pdm run regenerate-init",
+      "group": "build"
+    },
+    {
       "label": "build-all",
       "type": "shell",
-      "command": "bash",
-      "args": [
-        "-c",
-        "pdm run build-all"
-      ],
+      "command": "pdm run build-all",
       "group": "build"
     },
     {
       "label": "publish-all",
       "type": "shell",
-      "command": "bash",
-      "args": [
-        "-c",
-        "pdm run publish-all"
-      ],
+      "command": "pdm run publish-all",
       "group": "build"
     },
     {

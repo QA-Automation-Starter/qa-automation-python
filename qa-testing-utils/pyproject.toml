@@ -27,6 +27,6 @@ dependencies = [
 
 [tool.pdm.version]
 source = "scm"
-write_to = "qa_testing_utils/__init__.py"
+write_to = "qa_testing_utils/_version.py"
 write_template = "__version__ = '{}'"
 fallback_version = "0.0.0"

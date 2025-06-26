@@ -28,6 +28,6 @@ dependencies = [
 
 [tool.pdm.version]
 source = "scm"
-write_to = "qa_pytest_examples/__init__.py"
+write_to = "qa_pytest_examples/_version.py"
 write_template = "__version__ = '{}'"
 fallback_version = "0.0.0"

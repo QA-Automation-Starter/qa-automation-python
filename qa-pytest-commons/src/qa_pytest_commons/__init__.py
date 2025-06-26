@@ -1,4 +1,7 @@
-__version__ = '0.0.11.dev14+g0ba2701.d20250625'
+# mkinit: start preserve
+from ._version import __version__  # isort: skip
+# mkinit: end preserve
+
 from qa_pytest_commons.abstract_tests_base import (
     AbstractTestsBase,
 )
