@@ -8,7 +8,7 @@ from typing import List, final
 
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_pytest_webdriver import *
 
 
 class TerminalXConfiguration(SeleniumConfiguration):

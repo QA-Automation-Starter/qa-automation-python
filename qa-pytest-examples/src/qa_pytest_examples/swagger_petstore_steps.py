@@ -12,8 +12,7 @@ from qa_pytest_examples.swagger_petstore_configuration import (
     SwaggerPetstoreConfiguration,
 )
 from qa_pytest_rest.rest_steps import HttpMethod, RestSteps
-from qa_testing_utils.logger import Context
-from qa_testing_utils.matchers import adapted_object
+from qa_testing_utils import *
 from requests import Request
 
 

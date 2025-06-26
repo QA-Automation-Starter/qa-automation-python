@@ -11,7 +11,7 @@ import tenacity
 from hamcrest import is_  # type: ignore
 from qa_pytest_commons.abstract_tests_base import *
 from qa_pytest_commons.generic_steps import *
-from qa_testing_utils.exceptions import *
+from qa_testing_utils import *
 
 
 @final

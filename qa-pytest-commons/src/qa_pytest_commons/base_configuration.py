@@ -9,8 +9,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import final
 
-from qa_testing_utils.logger import LoggerMixin
-from qa_testing_utils.object_utils import ImmutableMixin
+from qa_testing_utils import *
 from qa_testing_utils.string_utils import EMPTY_STRING
 
 

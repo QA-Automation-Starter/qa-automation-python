@@ -7,12 +7,8 @@ from hamcrest import is_  # type: ignore
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
 from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
 from qa_pytest_examples.terminalx_steps import TerminalXSteps
-from qa_pytest_webdriver.selenium_tests import SeleniumTests
-from qa_testing_utils.matchers import (
-    contains_string_ignoring_case,
-    tracing,
-    yields_item,
-)
+from qa_pytest_webdriver import *
+from qa_testing_utils import *
 
 
 # --8<-- [start:class]

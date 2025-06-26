@@ -6,7 +6,7 @@ from functools import cached_property
 from typing import final
 from urllib.parse import urljoin
 
-from qa_pytest_commons.base_configuration import BaseConfiguration
+from qa_pytest_commons import *
 from qa_testing_utils.string_utils import EMPTY_STRING
 
 

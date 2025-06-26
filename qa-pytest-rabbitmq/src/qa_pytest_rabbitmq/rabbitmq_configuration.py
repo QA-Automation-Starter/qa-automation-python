@@ -3,7 +3,7 @@
 from functools import cached_property
 
 import pika
-from qa_pytest_commons.base_configuration import BaseConfiguration
+from qa_pytest_commons import *
 
 
 class RabbitMqConfiguration(BaseConfiguration):

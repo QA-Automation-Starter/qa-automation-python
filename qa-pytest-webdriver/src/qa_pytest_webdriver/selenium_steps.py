@@ -17,9 +17,9 @@ from typing import (
 )
 
 from hamcrest.core.matcher import Matcher
-from qa_pytest_commons.generic_steps import GenericSteps
+from qa_pytest_commons import *
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
-from qa_testing_utils.logger import Context
+from qa_testing_utils import *
 from selenium.webdriver.common.by import By as _By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement

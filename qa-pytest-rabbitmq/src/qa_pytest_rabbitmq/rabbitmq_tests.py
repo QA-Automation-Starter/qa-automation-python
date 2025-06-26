@@ -3,9 +3,8 @@
 from typing import Any, override
 
 import pika
-from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
-from qa_pytest_rabbitmq.rabbitmq_configuration import RabbitMqConfiguration
-from qa_pytest_rabbitmq.rabbitmq_steps import RabbitMqSteps
+from qa_pytest_commons import *
+from qa_pytest_rabbitmq import *
 
 
 class RabbitMqTests[

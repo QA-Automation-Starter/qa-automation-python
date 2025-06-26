@@ -8,8 +8,7 @@ from typing import Any, Type, final
 
 from qa_pytest_commons.base_configuration import Configuration
 from qa_pytest_commons.generic_steps import GenericSteps
-from qa_testing_utils.logger import LoggerMixin
-from qa_testing_utils.object_utils import ImmutableMixin
+from qa_testing_utils import *
 
 
 class AbstractTestsBase[

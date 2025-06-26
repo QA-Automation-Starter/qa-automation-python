@@ -5,7 +5,7 @@
 from typing import Any, override
 
 import requests
-from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+from qa_pytest_commons import *
 from qa_pytest_rest.rest_configuration import RestConfiguration
 from qa_pytest_rest.rest_steps import RestSteps
 

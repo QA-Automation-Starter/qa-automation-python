@@ -7,7 +7,7 @@ from abc import ABC
 from functools import cached_property
 
 import pika
-from qa_testing_utils.logger import LoggerMixin
+from qa_testing_utils import *
 from tenacity import (
     Retrying,
     before_sleep_log,

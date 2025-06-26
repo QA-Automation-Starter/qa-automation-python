@@ -9,8 +9,8 @@ from qa_pytest_examples.swagger_petstore_configuration import (
     SwaggerPetstoreConfiguration,
 )
 from qa_pytest_examples.swagger_petstore_steps import SwaggerPetstoreSteps
-from qa_pytest_rest.rest_tests import RestTests
-from qa_testing_utils.matchers import tracing, yields_item
+from qa_pytest_rest import *
+from qa_testing_utils import *
 
 
 # --8<-- [start:class]

@@ -5,8 +5,8 @@ from typing import cast
 
 import pika
 from hamcrest import assert_that, equal_to, has_length
-from qa_pytest_rabbitmq.queue_handler import QueueHandler
-from qa_testing_utils.object_utils import require_not_none
+from qa_pytest_rabbitmq import *
+from qa_testing_utils import *
 from qa_testing_utils.string_utils import EMPTY_STRING
 from string_utils.generation import random_string
 

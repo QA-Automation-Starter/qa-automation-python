@@ -8,9 +8,9 @@ from typing import Self, final
 import requests
 from hamcrest import is_  # type: ignore
 from hamcrest.core.matcher import Matcher
-from qa_pytest_commons.generic_steps import GenericSteps
+from qa_pytest_commons import *
 from qa_pytest_rest.rest_configuration import RestConfiguration
-from qa_testing_utils.logger import Context
+from qa_testing_utils import *
 from requests import Request, Response
 
 

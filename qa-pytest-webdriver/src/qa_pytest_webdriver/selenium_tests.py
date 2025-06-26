@@ -4,7 +4,7 @@
 
 from typing import Any, override
 
-from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+from qa_pytest_commons import *
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
 from qa_pytest_webdriver.selenium_steps import SeleniumSteps
 from selenium.webdriver import Chrome
