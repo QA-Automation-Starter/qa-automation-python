@@ -96,7 +96,7 @@ qa-automation-python/
 
 ---
 
-## 🧪 Releasing
+# Releasing
 
 1. branch
 2. commit changes
@@ -122,7 +122,24 @@ qa-automation-python/
 
 ---
 
-## 🏗 Adding a New Package
+# Adding Exportable Symbols
+
+Whenever adding a new global symbol (class/method/constant), these might need
+to be exported, thus listed in the `__init__.py` of the respective module.
+
+Can be done automatically with `mkinit`:
+```bash
+pdm run regenerate-init
+```
+
+# Formatting and Sorting Imports
+
+Before committing:
+```bash
+pdm run format-all
+```
+
+# Adding a New Package
 
 ```bash
 cd qa-automation-python
@@ -134,17 +151,6 @@ Then edit `pyproject.toml` accordingly.
 
 ---
 
-<details>
-<summary>TODO</summary>
-
-- Add browser matrix support (Firefox, Safari, Edge)
-- Make the BDD intro words appear in Allure report
-- Extend test examples (API + UI)
-
-</details>
-
----
-
-## ✅ License
+# License
 
 This project is licensed under the Apache 2.0 License.
