@@ -43,7 +43,7 @@
 </p>
 
 User documentation
-https://qa-automation-starter.github.io/qa-automation-python
+https://python.qa-automation-starter.github.io
 
 # Getting Started
 
