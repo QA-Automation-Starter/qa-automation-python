@@ -1,0 +1,35 @@
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:77 setup
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:70 initiating <class 'qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps'>
+DEBUG    RabbitMqSteps:logger.py:77 >>> Given a_queue_handler qa_pytest_rabbitmq.queue_handler.QueueHandler(
+    channel = pika.adapters.blocking_connection.BlockingChannel(...), 
+    log = logging.Logger(...), 
+    queue_name = 'amq.gen-L5S5nTd6ZRysyyNCfftDHg', 
+    received_messages = {...}
+) 
+DEBUG    RabbitMqSteps:logger.py:92 <<< Given a_queue_handler
+DEBUG    RabbitMqSteps:logger.py:77 >>> When publishing [Message(content='test_queue', properties=<BasicProperties>)] 
+DEBUG    RabbitMqSteps:logger.py:92 <<< When publishing
+DEBUG    RabbitMqSteps:logger.py:77 >>> And consuming  
+DEBUG    RabbitMqSteps:logger.py:92 <<< And consuming
+DEBUG    RabbitMqSteps:logger.py:77 >>> Then the_received_messages a stream containing <qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)> 
+DEBUG    QueueHandler:queue_handler.py:172 published qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)
+DEBUG    RabbitMqSteps:before_sleep.py:65 Retrying qa_pytest_commons.generic_steps.GenericSteps.eventually_assert_that.<locals>.<lambda> in 1.0 seconds as it raised AssertionError: 
+Expected: a stream containing <qa_pytest_rabbitmq.queue_handler.Message(
+    content = 'test_queue', 
+    properties = pika.spec.BasicProperties(...)
+)>
+     but: was <dict_valueiterator object at 0x7f7c70d4b2e0>
+.
+DEBUG    QueueHandler:queue_handler.py:136 consumer set up with tag ctag1.d5561d68e7144d339e9efb1078acce02
+DEBUG    QueueHandler:queue_handler.py:125 received 4683060333992379847
+DEBUG    TracingMatcher:matchers.py:42 Message(content='test_queue', properties=<BasicProperties>) -> True
+DEBUG    RabbitMqSteps:logger.py:92 <<< Then the_received_messages
+DEBUG    QueueHandler:queue_handler.py:152 consumer cancelled
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:83 teardown
+DEBUG    RabbitMqSelfTests:abstract_tests_base.py:83 teardown
