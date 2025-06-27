@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://python.qa-automation-starter.aherscu.dev/sitemap.xml

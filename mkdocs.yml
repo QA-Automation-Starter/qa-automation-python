@@ -10,6 +10,7 @@ theme:
 
 extra_templates:
   - CNAME
+  - robots.txt
 
 plugins:
   - search
