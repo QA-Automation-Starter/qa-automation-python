@@ -8,6 +8,9 @@ repo_name: GitHub
 theme:
   name: material
 
+extra_templates:
+  - CNAME
+
 plugins:
   - search
   - mermaid2
