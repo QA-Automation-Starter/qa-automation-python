@@ -44,4 +44,3 @@ class RabbitMqTests[
             self._connection.close()
         finally:
             super().teardown_method()
-            super().teardown_method()
