@@ -1,5 +1,8 @@
 [tool.pdm]
 
+[tool.pdm.build]
+package-dir = "src"
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"

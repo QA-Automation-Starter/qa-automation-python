@@ -48,6 +48,8 @@ class SeleniumTests[
         '''
         super().setup_method()
 
+        # TODO allow selection of browser type
+        # via command line argumnent, environment variable, configuration...
         options = Options()
         options.add_argument("--start-maximized")  # type: ignore
         self._web_driver = Chrome(

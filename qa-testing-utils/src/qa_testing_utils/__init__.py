@@ -2,11 +2,6 @@
 from ._version import __version__  # isort: skip
 # mkinit: end preserve
 
-from qa_testing_utils.conftest_helpers import (
-    configure,
-    get_test_body,
-    makereport,
-)
 from qa_testing_utils.exception_utils import (
     safely,
     swallow,
@@ -59,6 +54,11 @@ from qa_testing_utils.object_utils import (
     require_not_none,
     valid,
 )
+from qa_testing_utils.pytest_plugin import (
+    pytest_addoption,
+    pytest_configure,
+    pytest_runtest_makereport,
+)
 from qa_testing_utils.stream_utils import (
     process_next,
 )
@@ -79,10 +79,11 @@ __all__ = ['ContainsStringIgnoringCase', 'Context', 'FromTupleMixin',
            'IterableReader', 'LoggerMixin', 'SingletonBase', 'SingletonMeta',
            'TestException', 'ThreadLocal', 'ToDictMixin', 'TracingMatcher',
            'Valid', 'WithMixin', 'adapted_iterator', 'adapted_object',
-           'adapted_sequence', 'classproperty', 'configure',
+           'adapted_sequence', 'classproperty',
            'contains_string_ignoring_case', 'crc32_of', 'decompress_xz_stream',
-           'extract_files_from_tar', 'get_test_body', 'logger', 'makereport',
-           'match_as', 'process_next', 'read_lines', 'require_not_none',
-           'safely', 'sleep_for', 'stream_file', 'swallow', 'to_string',
-           'trace', 'tracing', 'valid', 'within_dates', 'write_csv',
-           'yields_every', 'yields_item', 'yields_items']
+           'extract_files_from_tar', 'logger', 'match_as', 'process_next',
+           'pytest_addoption', 'pytest_configure', 'pytest_runtest_makereport',
+           'read_lines', 'require_not_none', 'safely', 'sleep_for',
+           'stream_file', 'swallow', 'to_string', 'trace', 'tracing', 'valid',
+           'within_dates', 'write_csv', 'yields_every', 'yields_item',
+           'yields_items']
