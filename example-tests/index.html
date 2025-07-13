@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
@@ -386,6 +386,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="TerminalX (UI) search test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-of-overriding-the-default-setup_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example of overriding the default setup_method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -652,6 +667,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="TerminalX (UI) search test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-of-overriding-the-default-setup_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example of overriding the default setup_method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -677,7 +707,7 @@
 <p>Below are example test cases demonstrating BDD-style usage with this framework:</p>
 <h2 id="swagger-api-add-pet-test">Swagger API add pet test</h2>
 <p>Uses a dataprovider with 4 random pets.</p>
-<p>Requires live Swagger API at https://petstore.swagger.io/v2/
+<p>Requires live Swagger API at <a href="https://petstore.swagger.io/v2/">https://petstore.swagger.io/v2/</a>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;pet&quot;</span><span class="p">,</span> <span class="n">SwaggerPetstorePet</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
     <span class="k">def</span> <span class="nf">should_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet</span><span class="p">:</span> <span class="n">SwaggerPetstorePet</span><span class="p">):</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
@@ -706,7 +736,7 @@
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
 </code></pre></div></p>
 <h2 id="terminalx-ui-search-test">TerminalX (UI) search test</h2>
-<p>Requires live https://www.terminalx.com
+<p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
 <div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
     <span class="k">def</span> <span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
@@ -728,6 +758,26 @@
              <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
                  <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
 </code></pre></div></p>
+<h3 id="example-of-overriding-the-default-setup_method">Example of overriding the default <code>setup_method</code></h3>
+<p><div class="highlight"><pre><span></span><code>    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="kn">import</span> <span class="n">Firefox</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver.firefox.options</span> <span class="kn">import</span> <span class="n">Options</span> <span class="k">as</span> <span class="n">FirefoxOptions</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver.firefox.service</span> <span class="kn">import</span> <span class="n">Service</span> <span class="k">as</span> <span class="n">FirefoxService</span>
+        <span class="kn">from</span> <span class="nn">webdriver_manager.firefox</span> <span class="kn">import</span> <span class="n">GeckoDriverManager</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s2">&quot;selenium&quot;</span><span class="p">][</span><span class="s2">&quot;browser_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;firefox&quot;</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="n">FirefoxOptions</span><span class="p">()</span>
+            <span class="n">service</span> <span class="o">=</span> <span class="n">FirefoxService</span><span class="p">(</span><span class="n">GeckoDriverManager</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_web_driver</span> <span class="o">=</span> <span class="n">Firefox</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_web_driver</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
+</code></pre></div>
+In this case, it checks if <code>browser_type</code> is firefox. This can be set
+temporarily via command line, like:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--config<span class="w"> </span>selenium:browser_type<span class="o">=</span>firefox<span class="w"> </span>qa-pytest-examples/tests/terminalx_tests.py::TerminalXTests
+</code></pre></div></p>
+<p>More details in <a href="../architecture/#the-configuration">Architecture TerminalX Configuration</a> section.</p>
 <hr />
 
 
@@ -780,7 +830,7 @@
       <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

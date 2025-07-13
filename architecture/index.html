@@ -10,7 +10,7 @@
 <link href="../getting-started/" rel="prev"/>
 <link href="../example-tests/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.15" name="generator"/>
 <title>Architecture - QA Automation Starter for Python</title>
 <link href="../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -194,6 +194,24 @@
       TerminalX Tests
     </span>
 </a>
+<nav aria-label="TerminalX Tests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-setup-method">
+<span class="md-ellipsis">
+      The Setup Method
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-configuration">
+<span class="md-ellipsis">
+      The Configuration
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#swagger-petstore-tests">
@@ -213,6 +231,70 @@
 <a class="md-nav__link" href="#rabbitmq-self-tests">
 <span class="md-ellipsis">
       RabbitMQ Self Tests
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin">
+<span class="md-ellipsis">
+      pytest_plugin
+    </span>
+</a>
+<nav aria-label="pytest_plugin" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--qa-testing-utils-pytest-plugin">
+<span class="md-ellipsis">
+      QA Testing Utils – Pytest Plugin
+    </span>
+</a>
+<nav aria-label="QA Testing Utils – Pytest Plugin" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--features">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--usage">
+<span class="md-ellipsis">
+      Usage
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.get_config_overrides">
+<span class="md-ellipsis">
+      get_config_overrides
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_addoption">
+<span class="md-ellipsis">
+      pytest_addoption
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_configure">
+<span class="md-ellipsis">
+      pytest_configure
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_runtest_makereport">
+<span class="md-ellipsis">
+      pytest_runtest_makereport
     </span>
 </a>
 </li>
@@ -346,6 +428,24 @@
       TerminalX Tests
     </span>
 </a>
+<nav aria-label="TerminalX Tests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-setup-method">
+<span class="md-ellipsis">
+      The Setup Method
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-configuration">
+<span class="md-ellipsis">
+      The Configuration
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#swagger-petstore-tests">
@@ -365,6 +465,70 @@
 <a class="md-nav__link" href="#rabbitmq-self-tests">
 <span class="md-ellipsis">
       RabbitMQ Self Tests
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin">
+<span class="md-ellipsis">
+      pytest_plugin
+    </span>
+</a>
+<nav aria-label="pytest_plugin" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--qa-testing-utils-pytest-plugin">
+<span class="md-ellipsis">
+      QA Testing Utils – Pytest Plugin
+    </span>
+</a>
+<nav aria-label="QA Testing Utils – Pytest Plugin" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--features">
+<span class="md-ellipsis">
+      Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin--usage">
+<span class="md-ellipsis">
+      Usage
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.get_config_overrides">
+<span class="md-ellipsis">
+      get_config_overrides
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_addoption">
+<span class="md-ellipsis">
+      pytest_addoption
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_configure">
+<span class="md-ellipsis">
+      pytest_configure
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qa_testing_utils.pytest_plugin.pytest_runtest_makereport">
+<span class="md-ellipsis">
+      pytest_runtest_makereport
     </span>
 </a>
 </li>
@@ -468,6 +632,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
     %% You can add new technologies by subclassing the three core abstractions:
     %% AbstractTestsBase, GenericSteps, and BaseConfiguration.
 </abstract></abstract></abstract></code></pre>
+<hr/>
 <h2 id="key-classes">Key Classes</h2>
 <table>
 <thead>
@@ -521,12 +686,9 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXConfiguration"><code>TerminalXConfiguration</code></a></td>
 <td>Example: custom UI configuration</td>
 </tr>
-<tr>
-<td>---</td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<hr/>
 <h2 id="usage-examples">Usage Examples</h2>
 <h3 id="terminalx-tests">TerminalX Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
@@ -557,7 +719,42 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
              <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
              <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
                  <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="kn">import</span> <span class="n">Firefox</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver.firefox.options</span> <span class="kn">import</span> <span class="n">Options</span> <span class="k">as</span> <span class="n">FirefoxOptions</span>
+        <span class="kn">from</span> <span class="nn">selenium.webdriver.firefox.service</span> <span class="kn">import</span> <span class="n">Service</span> <span class="k">as</span> <span class="n">FirefoxService</span>
+        <span class="kn">from</span> <span class="nn">webdriver_manager.firefox</span> <span class="kn">import</span> <span class="n">GeckoDriverManager</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s2">"selenium"</span><span class="p">][</span><span class="s2">"browser_type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"firefox"</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="n">FirefoxOptions</span><span class="p">()</span>
+            <span class="n">service</span> <span class="o">=</span> <span class="n">FirefoxService</span><span class="p">(</span><span class="n">GeckoDriverManager</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_web_driver</span> <span class="o">=</span> <span class="n">Firefox</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_web_driver</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
 </code></pre></div>
+<h4 id="the-setup-method">The Setup Method</h4>
+<p>The <code>setup_method</code> demonstrates how default setup behavior can be overriden.
+In real world it would be pulled into a superclass that extends <code>SeleniumTests</code>.</p>
+<h4 id="the-configuration">The Configuration</h4>
+<p>Furthermore, the <code>self._configuration.parser["selenium"]["browser_type"]</code> could
+be defined as a method on the <code>TerminalXConfiguration</code> class, or a superclass of
+it.</p>
+<p>The configuration is loaded from two sources, in this example:</p>
+<ol>
+<li><code>TerminalXConfiguration</code> class looks for a matching
+<code>terminalx_configuration.ini</code> file under <code>configurations/</code>.</li>
+<li>pytest could be launched with a <code>--config</code> parameter to override
+this or add properties:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--config<span class="w"> </span>selenium:browser_type<span class="o">=</span>firefox<span class="w"> </span>qa-pytest-examples/tests/terminalx_tests.py::TerminalXTests
+</code></pre></div></li>
+</ol>
+<p>Any subclass of <a href="../api/qa-pytest-commons/#qa_pytest_commons.BaseConfiguration"><code>BaseConfiguration</code></a>
+looks for a matching <code>ini</code> file, this way multiple configurations can be used.</p>
+<p>If there is a <code>TEST_ENVIRONMENT</code> environment variable its value will be chained
+to the path of <code>ini</code> file, this way one can select which configuration set
+shall be used at runtime.</p>
 <h3 id="swagger-petstore-tests">Swagger Petstore Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
 <span class="k">class</span> <span class="nc">SwaggerPetstoreTests</span><span class="p">(</span>
@@ -630,6 +827,211 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
         <span class="k">finally</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">teardown_method</span><span class="p">()</span>
 </code></pre></div>
+<div class="doc doc-object doc-module">
+<h2 class="doc doc-heading" id="qa_testing_utils.pytest_plugin">
+<code>qa_testing_utils.pytest_plugin</code>
+</h2>
+<div class="doc doc-contents first">
+<h3 id="qa_testing_utils.pytest_plugin--qa-testing-utils-pytest-plugin">QA Testing Utils – Pytest Plugin</h3>
+<p>This pytest plugin provides shared testing infrastructure for Python monorepos
+or standalone projects using the <code>qa-testing-utils</code> module.</p>
+<h4 id="qa_testing_utils.pytest_plugin--features">Features</h4>
+<ol>
+<li><strong>Per-module logging configuration</strong>:</li>
+<li>During test session startup, the plugin searches for a <code>logging.ini</code> file:<ul>
+<li>First under <code>tests/**/logging.ini</code></li>
+<li>Then under <code>src/**/logging.ini</code></li>
+<li>Falls back to <code>qa-testing-utils/src/qa_testing_utils/logging.ini</code></li>
+</ul>
+</li>
+<li>
+<p>This enables consistent, per-module logging without requiring repeated boilerplate.</p>
+</li>
+<li>
+<p><strong>Source code inclusion in test reports</strong>:</p>
+</li>
+<li>
+<p>Adds a <code>body</code> section to each test report with the source code of the test function
+     (via <code>inspect.getsource()</code>), useful for HTML/Allure/custom reporting.</p>
+</li>
+<li>
+<p><strong>Command-line config overrides</strong> (parsed but not yet consumed):</p>
+</li>
+<li>Adds a <code>--config</code> option that accepts <code>section:key=value,...</code> strings.</li>
+<li>Intended for runtime configuration injection (e.g., overriding .ini files or test settings).</li>
+</ol>
+<h4 id="qa_testing_utils.pytest_plugin--usage">Usage</h4>
+<ol>
+<li>
+<p>Declare the plugin in your module's <code>pytest_plugins</code> (if not auto-loaded via PDM entry point):
+   pytest_plugins = ["qa_testing_utils.pytest_plugin"]</p>
+</li>
+<li>
+<p>Place a logging.ini file under your module's tests/ or src/ directory.
+   If none is found, the fallback from qa-testing-utils will be used.</p>
+</li>
+<li>
+<p>Run your tests, optionally with runtime overrides:</p>
+</li>
+</ol>
+<p>pytest --config my_section:key1=val1,key2=val2</p>
+<p>Notes:
+This plugin is designed to be generic and reusable across any module
+consuming qa-testing-utils.</p>
+<p>Compatible with VSCode gutter test launching and monorepo test execution.</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="qa_testing_utils.pytest_plugin.get_config_overrides">
+<code class="highlight language-python"><span class="n">get_config_overrides</span><span class="p">()</span></code>
+</h3>
+<div class="doc doc-contents">
+<p>Returns parsed <code>--config</code> overrides passed to pytest.
+Safe to call from anywhere (e.g., BaseConfiguration).</p>
+<details class="quote">
+<summary>Source code in <code>qa-testing-utils/src/qa_testing_utils/pytest_plugin.py</code></summary>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_config_overrides</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Returns parsed `--config` overrides passed to pytest.</span>
+<span class="sd">    Safe to call from anywhere (e.g., BaseConfiguration).</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_config_overrides</span>
+</code></pre></div></td></tr></table></div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="qa_testing_utils.pytest_plugin.pytest_addoption">
+<code class="highlight language-python"><span class="n">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span></code>
+</h3>
+<div class="doc doc-contents">
+<p>Adds the <code>--config</code> command-line option for runtime config overrides.</p>
+<details class="quote">
+<summary>Source code in <code>qa-testing-utils/src/qa_testing_utils/pytest_plugin.py</code></summary>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Adds the `--config` command-line option for runtime config overrides."""</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">"--config"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Override config values using section:key=value format, comma-separated"</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="qa_testing_utils.pytest_plugin.pytest_configure">
+<code class="highlight language-python"><span class="n">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></code>
+</h3>
+<div class="doc doc-contents">
+<p>Configures the pytest session, loading logging.ini and parsing config overrides.</p>
+<details class="quote">
+<summary>Source code in <code>qa-testing-utils/src/qa_testing_utils/pytest_plugin.py</code></summary>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Configures the pytest session, loading logging.ini and parsing config overrides."""</span>
+    <span class="kn">from</span> <span class="nn">qa_testing_utils</span> <span class="kn">import</span> <span class="vm">__file__</span> <span class="k">as</span> <span class="n">utils_ini</span>
+
+    <span class="n">test_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"::"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                 <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">args</span> <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"::"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">is_file</span><span class="p">()]</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">test_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">test_args</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+
+    <span class="c1"># Collect all logging.ini files under tests/ and src/</span>
+    <span class="n">logging_inis</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"tests/**/logging.ini"</span><span class="p">))</span>
+        <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"src/**/logging.ini"</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">logging_inis</span><span class="p">:</span>
+        <span class="c1"># Prefer the one under tests/ if it exists</span>
+        <span class="n">selected_ini</span> <span class="o">=</span> <span class="n">logging_inis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fileConfig</span><span class="p">(</span><span class="n">selected_ini</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"loaded logging.ini from </span><span class="si">{</span><span class="n">selected_ini</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fallback_ini</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">utils_ini</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"logging.ini"</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fileConfig</span><span class="p">(</span><span class="n">fallback_ini</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"loaded fallback logging.ini from </span><span class="si">{</span><span class="n">fallback_ini</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">config_arg</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">"--config"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config_arg</span><span class="p">:</span>
+        <span class="n">_parse_config_overrides</span><span class="p">(</span><span class="n">config_arg</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="qa_testing_utils.pytest_plugin.pytest_runtest_makereport">
+<code class="highlight language-python"><span class="n">pytest_runtest_makereport</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">call</span><span class="p">)</span></code>
+</h3>
+<div class="doc doc-contents">
+<p>Generates a test report with the source code of the test function.</p>
+<details class="quote">
+<summary>Source code in <code>qa-testing-utils/src/qa_testing_utils/pytest_plugin.py</code></summary>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pytest_runtest_makereport</span><span class="p">(</span>
+    <span class="n">item</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span> <span class="n">call</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">CallInfo</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pytest</span><span class="o">.</span><span class="n">TestReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Generates a test report with the source code of the test function."""</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">TestReport</span><span class="o">.</span><span class="n">from_item_and_call</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">call</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">call</span><span class="o">.</span><span class="n">when</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">'body'</span><span class="p">,</span> <span class="n">_get_test_body</span><span class="p">(</span><span class="n">item</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">report</span>
+</code></pre></div></td></tr></table></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
@@ -654,7 +1056,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <div class="md-dialog__inner md-typeset"></div>
 </div>
 <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+<script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
 <script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
 window.mermaidConfig = {default: {
     startOnLoad: false
