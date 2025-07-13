@@ -10,6 +10,9 @@ EMPTY_STRING: Final[str] = ""
 SPACE: Final[str] = " "
 DOT: Final[str] = "."
 LF: Final[str] = "\n"
+COMMA: Final[str] = ","
+EQUAL: Final[str] = "="
+COLON: Final[str] = ":"
 UTF_8: Final[str] = "utf-8"
 EMPTY_BYTES: Final[Literal[b'']] = b''
 

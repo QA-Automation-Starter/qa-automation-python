@@ -11,6 +11,7 @@ from typing import final
 
 from qa_testing_utils.logger import LoggerMixin
 from qa_testing_utils.object_utils import ImmutableMixin
+from qa_testing_utils.pytest_plugin import get_config_overrides
 from qa_testing_utils.string_utils import EMPTY_STRING
 
 
@@ -79,4 +80,12 @@ class BaseConfiguration(Configuration, LoggerMixin, ImmutableMixin):
         parser = configparser.ConfigParser()
         config_files = parser.read(self._path)
         self.log.debug(f"successfully read {config_files}")
+
+        for section, pairs in get_config_overrides().items():
+            if not parser.has_section(section):
+                parser.add_section(section)
+            for key, value in pairs.items():
+                self.log.debug(f"overriding [{section}] {key} = {value}")
+                parser.set(section, key, value)
+
         return parser

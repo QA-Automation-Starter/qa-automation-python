@@ -1,6 +1,9 @@
 [tool.pdm]
 distribution = true
 
+[tool.pdm.build]
+package-dir = "src"
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
@@ -30,3 +33,6 @@ source = "scm"
 write_to = "qa_testing_utils/_version.py"
 write_template = "__version__ = '{}'"
 fallback_version = "0.0.0"
+
+[project.entry-points.pytest11]
+qa-testing-utils = "qa_testing_utils.pytest_plugin"
