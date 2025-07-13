@@ -93,6 +93,8 @@ classDiagram
     %% AbstractTestsBase, GenericSteps, and BaseConfiguration.
 ```
 
+---
+
 ## Key Classes
 
 | Class | Description |
@@ -108,6 +110,7 @@ classDiagram
 | [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumConfiguration) | Selenium-specific configuration |
 | [`TerminalXSteps`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXSteps) | Example: custom UI steps |
 | [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXConfiguration) | Example: custom UI configuration |
+
 ---
 
 ## Usage Examples
@@ -117,6 +120,32 @@ classDiagram
 ```python
 --8<-- "terminalx_tests.py:class"
 ```
+
+#### The Setup Method
+The `setup_method` demonstrates how default setup behavior can be overriden.
+In real world it would be pulled into a superclass that extends `SeleniumTests`.
+
+#### The Configuration
+Furthermore, the `self._configuration.parser["selenium"]["browser_type"]` could
+be defined as a method on the `TerminalXConfiguration` class, or a superclass of
+it.
+
+The configuration is loaded from two sources, in this example:
+
+1. `TerminalXConfiguration` class looks for a matching
+`terminalx_configuration.ini` file under `configurations/`.
+2. pytest could be launched with a `--config` parameter to override
+this or add properties:
+```bash
+pytest --config selenium:browser_type=firefox qa-pytest-examples/tests/terminalx_tests.py::TerminalXTests
+```
+
+Any subclass of [`BaseConfiguration`](api/qa-pytest-commons.md#qa_pytest_commons.BaseConfiguration)
+looks for a matching `ini` file, this way multiple configurations can be used.
+
+If there is a `TEST_ENVIRONMENT` environment variable its value will be chained
+to the path of `ini` file, this way one can select which configuration set
+shall be used at runtime.
 
 ### Swagger Petstore Tests
 
@@ -135,4 +164,9 @@ classDiagram
 ```python
 --8<-- "rabbitmq_self_tests.py:class"
 ```
+
+
+::: qa_testing_utils.pytest_plugin
+    options:
+      show_source: true
 

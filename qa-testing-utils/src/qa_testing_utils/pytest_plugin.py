@@ -9,7 +9,7 @@ QA Testing Utils – Pytest Plugin
 This pytest plugin provides shared testing infrastructure for Python monorepos
 or standalone projects using the `qa-testing-utils` module.
 
-Features:
+Features
 ---------
 
 1. **Per-module logging configuration**:
@@ -27,7 +27,7 @@ Features:
    - Adds a `--config` option that accepts `section:key=value,...` strings.
    - Intended for runtime configuration injection (e.g., overriding .ini files or test settings).
 
-Usage:
+Usage
 ------
 
 1. Declare the plugin in your module's `pytest_plugins` (if not auto-loaded via PDM entry point):
@@ -59,6 +59,7 @@ _config_overrides: Final[dict[str, dict[str, str]]] = {}
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
+    """Adds the `--config` command-line option for runtime config overrides."""
     parser.addoption(
         "--config",
         action="append",
@@ -69,6 +70,7 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config) -> None:
+    """Configures the pytest session, loading logging.ini and parsing config overrides."""
     from qa_testing_utils import __file__ as utils_ini
 
     test_args = [Path(arg.split("::")[0])
@@ -99,6 +101,7 @@ def pytest_configure(config: pytest.Config) -> None:
 def pytest_runtest_makereport(
     item: pytest.Item, call: pytest.CallInfo[None]
 ) -> pytest.TestReport:
+    """Generates a test report with the source code of the test function."""
     report = pytest.TestReport.from_item_and_call(item, call)
 
     if call.when == "call":
@@ -109,7 +112,7 @@ def pytest_runtest_makereport(
 
 def get_config_overrides() -> dict[str, dict[str, str]]:
     """
-    Returns parsed --config overrides passed to pytest.
+    Returns parsed `--config` overrides passed to pytest.
     Safe to call from anywhere (e.g., BaseConfiguration).
     """
     return _config_overrides

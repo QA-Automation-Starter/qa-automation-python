@@ -6,7 +6,7 @@ Below are example test cases demonstrating BDD-style usage with this framework:
 
 Uses a dataprovider with 4 random pets.
 
-Requires live Swagger API at https://petstore.swagger.io/v2/
+Requires live Swagger API at <https://petstore.swagger.io/v2/>
 ```python
 --8<-- "swagger_petstore_tests.py:func"
 ```
@@ -20,8 +20,21 @@ Defines expected requests and then same test flow as above.
 
 ## TerminalX (UI) search test
 
-Requires live https://www.terminalx.com
+Requires live <https://www.terminalx.com>
 ```python
 --8<-- "terminalx_tests.py:func"
 ```
+
+### Example of overriding the default `setup_method`
+```python
+--8<-- "terminalx_tests.py:setup_method"
+```
+In this case, it checks if `browser_type` is firefox. This can be set
+temporarily via command line, like:
+```bash
+pytest --config selenium:browser_type=firefox qa-pytest-examples/tests/terminalx_tests.py::TerminalXTests
+```
+
+More details in [Architecture TerminalX Configuration](architecture.md#the-configuration) section.
+
 ---

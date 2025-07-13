@@ -44,12 +44,12 @@ class SeleniumTests[
     @override
     def setup_method(self):
         '''
-        Initializes the Selenium WebDriver before each test method.
+        Initializes a local Chrome WebDriver before each test method.
+
+        If you need to customize or use other driver, override this method in your test class.
         '''
         super().setup_method()
 
-        # TODO allow selection of browser type
-        # via command line argumnent, environment variable, configuration...
         options = Options()
         options.add_argument("--start-maximized")  # type: ignore
         self._web_driver = Chrome(

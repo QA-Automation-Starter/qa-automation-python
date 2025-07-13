@@ -55,6 +55,7 @@ from qa_testing_utils.object_utils import (
     valid,
 )
 from qa_testing_utils.pytest_plugin import (
+    get_config_overrides,
     pytest_addoption,
     pytest_configure,
     pytest_runtest_makereport,
@@ -81,9 +82,9 @@ __all__ = ['ContainsStringIgnoringCase', 'Context', 'FromTupleMixin',
            'Valid', 'WithMixin', 'adapted_iterator', 'adapted_object',
            'adapted_sequence', 'classproperty',
            'contains_string_ignoring_case', 'crc32_of', 'decompress_xz_stream',
-           'extract_files_from_tar', 'logger', 'match_as', 'process_next',
-           'pytest_addoption', 'pytest_configure', 'pytest_runtest_makereport',
-           'read_lines', 'require_not_none', 'safely', 'sleep_for',
-           'stream_file', 'swallow', 'to_string', 'trace', 'tracing', 'valid',
-           'within_dates', 'write_csv', 'yields_every', 'yields_item',
-           'yields_items']
+           'extract_files_from_tar', 'get_config_overrides', 'logger',
+           'match_as', 'process_next', 'pytest_addoption', 'pytest_configure',
+           'pytest_runtest_makereport', 'read_lines', 'require_not_none',
+           'safely', 'sleep_for', 'stream_file', 'swallow', 'to_string',
+           'trace', 'tracing', 'valid', 'within_dates', 'write_csv',
+           'yields_every', 'yields_item', 'yields_items']
