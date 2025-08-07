@@ -56,7 +56,8 @@ class TerminalXTests(
         from selenium.webdriver.firefox.options import Options as FirefoxOptions
         from selenium.webdriver.firefox.service import Service as FirefoxService
         from webdriver_manager.firefox import GeckoDriverManager
-        if self._configuration.parser["selenium"]["browser_type"] == "firefox":
+        if self._configuration.parser.has_option("selenium", "browser_type") \
+                and self._configuration.parser["selenium"]["browser_type"] == "firefox":
             options = FirefoxOptions()
             service = FirefoxService(GeckoDriverManager().install())
             self._web_driver = Firefox(options=options, service=service)
