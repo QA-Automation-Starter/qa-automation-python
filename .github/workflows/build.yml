@@ -33,7 +33,7 @@ jobs:
       - name: Setup PDM
         uses: pdm-project/setup-pdm@v4
         with:
-          version: "2.24.1"
+          version: "2.25.9"
           python-version: "3.13"
 
       - name: Cache PDM
