@@ -1,0 +1,58 @@
+[project]
+name = "{{ cookiecutter.project_slug }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.description }}"
+authors = [
+    { name = "{{ cookiecutter.author }}" }
+]
+readme = "README.md"
+requires-python = ">=3.13"
+# NOTE: run pdm install upon changing these dependencies
+dependencies = [
+  "PyHamcrest==2.1.0",
+  "qa-testing-utils==0.0.12",
+  "qa-pytest-rest==0.0.12",
+  "qa-pytest-webdriver==0.0.12",
+  "qa-pytest-commons==0.0.12"
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+  "pytest",
+  "pytest-html",
+  "allure-pytest",
+  "autopep8",
+  "isort",
+]
+
+[tool.pytest.ini_options]
+addopts = "-s --import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
+testpaths = ["tests"]
+pythonpath = ["src"]
+python_files = "*.py"
+python_classes = "*Tests"
+python_functions = "should_*"
+
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.scripts]
+clean-all = "git clean -fdX"
+test-all = "pytest"
+install-deps = "pdm install"
+allure-generate = "allure generate allure-results -o docs/reports --clean"
+
+[tool.autopep8]
+max_line_length = 80
+ignore = []
+experimental = true
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true

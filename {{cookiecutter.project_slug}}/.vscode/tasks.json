@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "clean-all",
+      "type": "shell",
+      "command": "pdm run clean-all",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "test-all",
+      "type": "shell",
+      "command": "pdm run test-all",
+      "group": "test",
+      "problemMatcher": ["$pytest"]
+    },
+    {
+      "label": "install-deps",
+      "type": "shell",
+      "command": "pdm run install-deps",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "allure-generate",
+      "type": "shell",
+      "command": "pdm run allure-generate",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

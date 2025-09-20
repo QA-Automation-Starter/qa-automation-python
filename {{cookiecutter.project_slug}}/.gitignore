@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Python environments
+.venv/
+
+# Distribution / packaging
+dist/
+.pdm-build
+.pdm-python
+.python-version
+
+# Installer logs
+
+# Unit test / coverage reports
+.pytest_cache/
+
+# Mypy
+
+# Pyre / Pytype
+
+# Ruff
+
+# Debugging & development
+*.log
+
+# Notebook / IPython
+
+# JupyterLite / Sphinx / docs
+
+# Cython
+
+# Other tools & IDEs
+
+# JetBrains / PyCharm (optional - uncomment to ignore everything)
+#.idea/
+
+# Miscellaneous
+allure-results
+report.html
+docs/reports/
+*.zip

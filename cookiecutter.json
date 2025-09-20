@@ -1,0 +1,8 @@
+{
+  "project_name": "My Project",
+  "project_slug": "my-project",
+  "package_name": "my_project",
+  "version": "0.0.1",
+  "description": "BDD automation project",
+  "author": "Your Name"
+}
