@@ -9,7 +9,14 @@ Open in Codespace or Dev Container and everything will get installed and configu
    pipx install pdm[all]
    ```
 
-2. Fork/Clone [demo project](https://github.com/QA-Automation-Starter/qa-automation-python-demo), e.g.:
+2. Generate from template:
+   ```bash
+   cookiecutter gh:QA-Automation-Starter/qa-automation-python
+   ```
+   
+   or
+   
+   Fork/Clone [demo project](https://github.com/QA-Automation-Starter/qa-automation-python-demo), e.g.:
    ```bash
    git clone https://github.com/QA-Automation-Starter/qa-automation-python-demo.git
    ```

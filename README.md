@@ -61,6 +61,7 @@ Open in Codespace or Dev Container and everything will get installed and configu
    pdm run install-all
    ```
    > NOTE: This must be run whenever new dependencies, or versions are changed.
+   > NOTE: in VSCode may need to reload the window in order to refresh
 
 3. Run all tests from the root:
    ```bash

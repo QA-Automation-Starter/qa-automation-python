@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "alphabotsec.vscode-eclipse-keybindings",
+        "bierner.markdown-mermaid",
+        "ms-python.autopep8",
+        "ms-python.debugpy",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "spmeesseman.vscode-taskexplorer",
+        "tamasfe.even-better-toml",
+    ]
+}
