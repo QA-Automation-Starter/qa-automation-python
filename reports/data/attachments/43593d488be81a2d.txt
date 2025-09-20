@@ -1,0 +1,2 @@
+DEBUG    SelfTests:self_tests.py:28 before <bound method SelfTests.should_retry of <tests.self_tests.SelfTests object at 0x7fe409c48f30>>
+DEBUG    SelfTests:self_tests.py:31 after <bound method SelfTests.should_retry of <tests.self_tests.SelfTests object at 0x7fe409c48f30>>
