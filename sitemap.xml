@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/architecture/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/example-tests/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/getting-started/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-commons/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-examples/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-rabbitmq/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-rest/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-webdriver/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
     <url>
          <loc>https://python.qa-automation-starter.aherscu.dev/api/qa-testing-utils/</loc>
-         <lastmod>2025-09-20</lastmod>
+         <lastmod>2025-09-22</lastmod>
     </url>
 </urlset>
