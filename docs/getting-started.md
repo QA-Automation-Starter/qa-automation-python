@@ -10,13 +10,12 @@ Open in Codespace or Dev Container and everything will get installed and configu
    ```
 
 2. Generate from template:
+   - via [cookiecutter](https://www.cookiecutter.io/)
    ```bash
    cookiecutter gh:QA-Automation-Starter/qa-automation-python
    ```
-   
-   or
-   
-   Fork/Clone [demo project](https://github.com/QA-Automation-Starter/qa-automation-python-demo), e.g.:
+    
+   - or fork/clone [demo project](https://github.com/QA-Automation-Starter/qa-automation-python-demo)
    ```bash
    git clone https://github.com/QA-Automation-Starter/qa-automation-python-demo.git
    ```
