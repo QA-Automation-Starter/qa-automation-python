@@ -5,18 +5,19 @@ on:
     branches: [ main ]
     paths-ignore:
       - '.devcontainer/**'
-      - '*.md'
+      - '**.md'
       - '.idea/**'
       - '.*'
-      - '**/.*'
+      - '/*/.*'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '.devcontainer/**'
-      - '*.md'
+      - '**.md'
       - '.idea/**'
       - '.*'
-      - '**/.*'
+      - '/*/.*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
