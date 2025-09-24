@@ -1,16 +1,19 @@
 name: build
 
+paths-ignore-def: &paths-ignore
+  - '.devcontainer/**'
+  - '**/*.md'
+  - '.idea/**'
+  - '.*'
+  - '**/.*'
+
 on:
   push:
     branches: [ main ]
+    paths-ignore: *paths-ignore
   pull_request:
     branches: [ main ]
-    paths-ignore:
-      - '.devcontainer/**'
-      - '**.md'
-      - '.idea/**'
-      - '.*'
-      - '/*/.*'
+    paths-ignore: *paths-ignore
 
 jobs:
   build:
