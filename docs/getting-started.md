@@ -10,7 +10,7 @@ Open in Codespace or Dev Container and everything will get installed and configu
    ```
 
 2. Generate from template:
-    - via [cookiecutter](https://www.cookiecutter.io/)
+    - via [cookiecutter](https://github.com/cookiecutter/cookiecutter?tab=readme-ov-file#installation)
     ```bash
     cookiecutter gh:QA-Automation-Starter/qa-automation-python
     ```
