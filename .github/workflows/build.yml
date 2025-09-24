@@ -1,20 +1,22 @@
 name: build
 
-paths-ignore-def: &paths-ignore
-  - '.devcontainer/**'
-  - '**/*.md'
-  - '.idea/**'
-  - '.*'
-  - '**/.*'
-
 on:
   push:
     branches: [ main ]
-    paths-ignore: *paths-ignore
+    paths-ignore:
+      - '.devcontainer/**'
+      - '**/*.md'
+      - '.idea/**'
+      - '.*'
+      - '**/.*'
   pull_request:
     branches: [ main ]
-    paths-ignore: *paths-ignore
-
+    paths-ignore:
+      - '.devcontainer/**'
+      - '**/*.md'
+      - '.idea/**'
+      - '.*'
+      - '**/.*'
 jobs:
   build:
     runs-on: ubuntu-latest
