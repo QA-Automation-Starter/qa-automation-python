@@ -30,6 +30,7 @@ plugins:
           paths:
             - qa-pytest-commons/src
             - qa-pytest-webdriver/src
+            - qa-pytest-playwright/src
             - qa-pytest-rest/src
             - qa-pytest-examples/src
             - qa-pytest-rabbitmq/src

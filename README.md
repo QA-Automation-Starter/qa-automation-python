@@ -22,6 +22,9 @@
     <a href="https://pypi.org/project/qa-pytest-webdriver/">
         <img alt="webdriver" src="https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver">
     </a>
+    <a href="https://pypi.org/project/qa-pytest-playwright/">
+        <img alt="playwright" src="https://img.shields.io/pypi/v/qa-pytest-playwright.svg?label=playwright">
+    </a>
     <br>
     <!-- License -->
     <a href="LICENSE">

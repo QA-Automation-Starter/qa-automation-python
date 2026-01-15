@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:c091567df68b3407779009465a6d62651a77612fdbf99e7a8b65b7cd3383c713"
+content_hash = "sha256:d71468f1ac675b5ea84b6c34db0b84f2a9160a7a1fb1351d597dbc74209d7532"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -165,7 +165,7 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.4.0"
+version = "8.4.1"
 requires_python = ">=3.9"
 summary = "pytest: simple powerful testing with Python"
 groups = ["default"]
@@ -179,28 +179,27 @@ dependencies = [
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.4.0-py3-none-any.whl", hash = "sha256:f40f825768ad76c0977cbacdf1fd37c6f7a468e460ea6a0636078f8972d4517e"},
-    {file = "pytest-8.4.0.tar.gz", hash = "sha256:14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6"},
+    {file = "pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7"},
+    {file = "pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c"},
 ]
 
 [[package]]
 name = "qa-testing-utils"
-version = "0.0.10"
+version = "0.0.3"
 requires_python = ">=3.13"
 summary = "QA testing utilities"
 groups = ["default"]
 dependencies = [
-    "PyHamcrest==2.1.0",
-    "allure-pytest==2.14.3",
-    "more-itertools==10.7.0",
-    "ppretty==1.3",
-    "pyfunctional==1.5.0",
-    "pytest==8.4.0",
-    "returns==0.25.0",
+    "PyHamcrest",
+    "allure-pytest",
+    "more-itertools",
+    "ppretty",
+    "pyfunctional",
+    "returns",
 ]
 files = [
-    {file = "qa_testing_utils-0.0.10-py3-none-any.whl", hash = "sha256:9fbf24cfab66698bffd58a3bb43edd3c2f8ef0aa5a80428711c2fcf67aedaa23"},
-    {file = "qa_testing_utils-0.0.10.tar.gz", hash = "sha256:b398259630513b03e663e4c9b468ee02ac396849784e7e9c358ad2190f87a795"},
+    {file = "qa_testing_utils-0.0.3-py3-none-any.whl", hash = "sha256:8fde4a70837618feab0d3562fd10207a400f9768262f8a3e507e11cbc1028f11"},
+    {file = "qa_testing_utils-0.0.3.tar.gz", hash = "sha256:7324747ff1673d37ff05d5c1e7962f9bcd6d5c33fa1cb0bcfdd1b3d85423b865"},
 ]
 
 [[package]]

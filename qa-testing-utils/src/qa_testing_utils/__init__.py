@@ -2,77 +2,35 @@
 from ._version import __version__  # isort: skip
 # mkinit: end preserve
 
-from qa_testing_utils.exception_utils import (
-    safely,
-    swallow,
-)
-from qa_testing_utils.exceptions import (
-    TestException,
-)
-from qa_testing_utils.file_utils import (
-    IterableReader,
-    crc32_of,
-    decompress_xz_stream,
-    extract_files_from_tar,
-    read_lines,
-    stream_file,
-    write_csv,
-)
-from qa_testing_utils.logger import (
-    Context,
-    LoggerMixin,
-    logger,
-    trace,
-)
-from qa_testing_utils.matchers import (
-    ContainsStringIgnoringCase,
-    IsIteratorYielding,
-    IsIteratorYieldingAll,
-    IsStreamContainingEvery,
-    IsWithinDates,
-    TracingMatcher,
-    adapted_iterator,
-    adapted_object,
-    adapted_sequence,
-    contains_string_ignoring_case,
-    match_as,
-    tracing,
-    within_dates,
-    yields_every,
-    yields_item,
-    yields_items,
-)
-from qa_testing_utils.object_utils import (
-    ImmutableMixin,
-    InvalidValueException,
-    SingletonBase,
-    SingletonMeta,
-    ToDictMixin,
-    Valid,
-    WithMixin,
-    classproperty,
-    require_not_none,
-    valid,
-)
-from qa_testing_utils.pytest_plugin import (
-    get_config_overrides,
-    pytest_addoption,
-    pytest_configure,
-    pytest_runtest_makereport,
-)
-from qa_testing_utils.stream_utils import (
-    process_next,
-)
-from qa_testing_utils.string_utils import (
-    to_string,
-)
-from qa_testing_utils.thread_utils import (
-    ThreadLocal,
-    sleep_for,
-)
-from qa_testing_utils.tuple_utils import (
-    FromTupleMixin,
-)
+from qa_testing_utils.exception_utils import (safely, swallow,)
+from qa_testing_utils.exceptions import (TestException,)
+from qa_testing_utils.file_utils import (IterableReader, crc32_of,
+                                         decompress_xz_stream,
+                                         extract_files_from_tar, read_lines,
+                                         stream_file, write_csv,)
+from qa_testing_utils.logger import (Context, LoggerMixin, logger, trace,)
+from qa_testing_utils.matchers import (ContainsStringIgnoringCase,
+                                       IsIteratorYielding,
+                                       IsIteratorYieldingAll,
+                                       IsStreamContainingEvery, IsWithinDates,
+                                       TracingMatcher, adapted_iterator,
+                                       adapted_object, adapted_sequence,
+                                       contains_string_ignoring_case, match_as,
+                                       tracing, within_dates, yields_every,
+                                       yields_item, yields_items,)
+from qa_testing_utils.object_utils import (ImmutableMixin,
+                                           InvalidValueException,
+                                           SingletonBase, SingletonMeta,
+                                           ToDictMixin, Valid, WithMixin,
+                                           classproperty, require_not_none,
+                                           valid,)
+from qa_testing_utils.pytest_plugin import (get_config_overrides,
+                                            pytest_addoption, pytest_configure,
+                                            pytest_runtest_makereport,)
+from qa_testing_utils.stream_utils import (process_next,)
+from qa_testing_utils.string_utils import (to_string,)
+from qa_testing_utils.thread_utils import (ThreadLocal, sleep_for,)
+from qa_testing_utils.tuple_utils import (FromTupleMixin,)
 
 __all__ = ['ContainsStringIgnoringCase', 'Context', 'FromTupleMixin',
            'ImmutableMixin', 'InvalidValueException', 'IsIteratorYielding',

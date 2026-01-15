@@ -41,6 +41,7 @@
     "qa-pytest-commons/tests",
     "qa-pytest-rest/tests",
     "qa-pytest-webdriver/tests",
+    "qa-pytest-playwright/tests",
     "qa-pytest-rabbitmq/tests",
     "qa-pytest-examples/tests",
   ],
@@ -49,6 +50,7 @@
     "qa-pytest-commons/src",
     "qa-pytest-rest/src",
     "qa-pytest-webdriver/src",
+    "qa-pytest-playwright/src",
     "qa-pytest-rabbitmq/src",
     "qa-pytest-examples/src",
   ]

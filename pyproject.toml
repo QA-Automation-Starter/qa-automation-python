@@ -16,6 +16,7 @@ dev = [
     "-e qa-testing-utils @ file:///${PROJECT_ROOT}/qa-testing-utils",
     "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
     "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
+    "-e qa-pytest-playwright @ file:///${PROJECT_ROOT}/qa-pytest-playwright",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
     "-e qa-pytest-rabbitmq @ file:///${PROJECT_ROOT}/qa-pytest-rabbitmq",
     "types-pika==1.2.0b1",

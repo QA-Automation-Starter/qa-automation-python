@@ -5,28 +5,28 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:5dc1f897448d37d04142a101c14fdc3536644753922a914f5c69eb6ff16c599d"
+content_hash = "sha256:e6ca6248cba482fce59db9ff68b15fda947f34bc46dbbb2de374163ade234573"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
 
 [[package]]
 name = "allure-pytest"
-version = "2.14.3"
+version = "2.14.2"
 summary = "Allure pytest integration"
 groups = ["default"]
 dependencies = [
-    "allure-python-commons==2.14.3",
+    "allure-python-commons==2.14.2",
     "pytest>=4.5.0",
 ]
 files = [
-    {file = "allure_pytest-2.14.3-py3-none-any.whl", hash = "sha256:9704dea12f98991bc9e13be4ce9f90fe703beaff90e4741d67ae64c9815336c5"},
-    {file = "allure_pytest-2.14.3.tar.gz", hash = "sha256:6d02a129867c7ef8b6943721d2be3141e3d1c3551741aff17b6afee64cd92b60"},
+    {file = "allure_pytest-2.14.2-py3-none-any.whl", hash = "sha256:18f3baa9ebd1b6148223cfa898bacfc2794bb9446221adac1be71deeb26ed79a"},
+    {file = "allure_pytest-2.14.2.tar.gz", hash = "sha256:d387492178d27805863d95350bdc38b7feca3ed7165841997630fd4073cc9101"},
 ]
 
 [[package]]
 name = "allure-python-commons"
-version = "2.14.3"
+version = "2.14.2"
 requires_python = ">=3.6"
 summary = "Contains the API for end users as well as helper functions and classes to build Allure adapters for Python test frameworks"
 groups = ["default"]
@@ -35,8 +35,8 @@ dependencies = [
     "pluggy>=0.4.0",
 ]
 files = [
-    {file = "allure_python_commons-2.14.3-py3-none-any.whl", hash = "sha256:7bcf6a2eff69e6f0eacd8681e923f0a9dfbdd86cb8e20d8f93288057f9fb7cb1"},
-    {file = "allure_python_commons-2.14.3.tar.gz", hash = "sha256:2dcaa87dd6b0b41902f60fe17e2653d3762788f3998ca4cf721dabfa8342aa07"},
+    {file = "allure_python_commons-2.14.2-py3-none-any.whl", hash = "sha256:ad50385a4c601ec31c86eed773d8ccfdcc687fecbb6535c9768af3bf03b50a19"},
+    {file = "allure_python_commons-2.14.2.tar.gz", hash = "sha256:7acdc4fe3efbe709604895e2393f082b2659d8e5653e77ff6367682e6e4a41bc"},
 ]
 
 [[package]]
@@ -211,7 +211,7 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.4.0"
+version = "8.4.1"
 requires_python = ">=3.9"
 summary = "pytest: simple powerful testing with Python"
 groups = ["default"]
@@ -225,50 +225,46 @@ dependencies = [
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.4.0-py3-none-any.whl", hash = "sha256:f40f825768ad76c0977cbacdf1fd37c6f7a468e460ea6a0636078f8972d4517e"},
-    {file = "pytest-8.4.0.tar.gz", hash = "sha256:14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6"},
+    {file = "pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7"},
+    {file = "pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c"},
 ]
 
 [[package]]
 name = "qa-pytest-commons"
-version = "0.0.10"
+version = "0.0.3"
 requires_python = ">=3.13"
 summary = ""
 groups = ["default"]
 dependencies = [
-    "PyHamcrest==2.1.0",
-    "allure-pytest==2.14.3",
-    "more-itertools==10.7.0",
-    "ppretty==1.3",
-    "pyfunctional==1.5.0",
-    "pytest==8.4.0",
+    "PyHamcrest",
+    "more-itertools",
+    "pyfunctional",
+    "pytest",
     "qa-testing-utils",
-    "returns==0.25.0",
-    "tenacity==9.1.2",
+    "tenacity",
 ]
 files = [
-    {file = "qa_pytest_commons-0.0.10-py3-none-any.whl", hash = "sha256:225928bf1d89b9c0fd27f56770ce7d4dbd49f359b344dd092db3e41e014b7aa1"},
-    {file = "qa_pytest_commons-0.0.10.tar.gz", hash = "sha256:27cd841b01c7599850ca063b793f312fc4ddb5941358c8d5db063a51eed56f56"},
+    {file = "qa_pytest_commons-0.0.3-py3-none-any.whl", hash = "sha256:b2888694ccfd6519e0afc8330ccba206bbaccb14f92808481ab51d6058662367"},
+    {file = "qa_pytest_commons-0.0.3.tar.gz", hash = "sha256:106ed3c7d65c94fe5a859797dd967f67ff44e34e321f7e4caeb2d4bd985d0f4f"},
 ]
 
 [[package]]
 name = "qa-testing-utils"
-version = "0.0.10"
+version = "0.0.5"
 requires_python = ">=3.13"
 summary = "QA testing utilities"
 groups = ["default"]
 dependencies = [
     "PyHamcrest==2.1.0",
-    "allure-pytest==2.14.3",
+    "allure-pytest==2.14.2",
     "more-itertools==10.7.0",
     "ppretty==1.3",
     "pyfunctional==1.5.0",
-    "pytest==8.4.0",
     "returns==0.25.0",
 ]
 files = [
-    {file = "qa_testing_utils-0.0.10-py3-none-any.whl", hash = "sha256:9fbf24cfab66698bffd58a3bb43edd3c2f8ef0aa5a80428711c2fcf67aedaa23"},
-    {file = "qa_testing_utils-0.0.10.tar.gz", hash = "sha256:b398259630513b03e663e4c9b468ee02ac396849784e7e9c358ad2190f87a795"},
+    {file = "qa_testing_utils-0.0.5-py3-none-any.whl", hash = "sha256:87aa090686de0c513c3240e7a6978d28799ecbf506fc2c1dc0a857063e72909c"},
+    {file = "qa_testing_utils-0.0.5.tar.gz", hash = "sha256:73d704a5fa879c6dddbddd34dac673433bdfae22fd620b6b70b0e1ef3159cda8"},
 ]
 
 [[package]]
