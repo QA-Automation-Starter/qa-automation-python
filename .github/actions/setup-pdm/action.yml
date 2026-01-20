@@ -1,0 +1,25 @@
+name: Setup PDM
+description: Setup PDM with caching and environment configuration
+
+runs:
+  using: composite
+  steps:
+    - name: Setup PDM
+      uses: pdm-project/setup-pdm@v4
+      with:
+        version: "2.25.9"
+        python-version: "3.13"
+
+    - name: Cache PDM
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pdm
+          .venv/
+        key: pdm-${{ runner.os }}-${{ hashFiles('pdm.lock') }}
+        restore-keys: |
+          pdm-${{ runner.os }}-
+
+    - name: Enable PDM install cache
+      run: pdm config install.cache true
+      shell: bash
