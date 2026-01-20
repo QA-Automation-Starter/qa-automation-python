@@ -18,6 +18,7 @@ dev = [
     "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
     "-e qa-pytest-rabbitmq @ file:///${PROJECT_ROOT}/qa-pytest-rabbitmq",
+    "-e qa-pytest-examples @ file:///${PROJECT_ROOT}/qa-pytest-examples",
     "types-pika==1.2.0b1",
     "pytest==8.4.1",
     "pytest-cov==6.2.1",

@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:4d22bc4df0cf1920479961b1500c5f068b2c9e2cc5ab05cfdba454715bf6a220"
+content_hash = "sha256:b7447496955397b2d30cdf0f7a7887f415d5b292ca0bd9b6bc0ae5646eabb79e"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -985,6 +985,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "qa-pytest-examples"
+version = "0.0.13.dev15"
+requires_python = ">=3.13"
+editable = true
+path = "./qa-pytest-examples"
+summary = "PyTest examples"
+groups = ["dev"]
+dependencies = [
+    "PyHamcrest==2.1.0",
+    "more-itertools==10.7.0",
+    "pyfunctional==1.5.0",
+    "pytest==8.4.1",
+    "qa-pytest-commons",
+    "qa-pytest-rabbitmq",
+    "qa-pytest-rest",
+    "qa-pytest-webdriver",
+    "qa-testing-utils",
+    "responses==0.25.7",
+    "tenacity==9.1.2",
+]
+
+[[package]]
 name = "qa-pytest-rabbitmq"
 version = "0.0.8.dev38"
 requires_python = ">=3.13"
@@ -1080,6 +1102,22 @@ dependencies = [
 files = [
     {file = "requests-2.32.4-py3-none-any.whl", hash = "sha256:27babd3cda2a6d50b30443204ee89830707d396671944c998b5975b031ac2b2c"},
     {file = "requests-2.32.4.tar.gz", hash = "sha256:27d0316682c8a29834d3264820024b62a36942083d52caf2f14c0591336d3422"},
+]
+
+[[package]]
+name = "responses"
+version = "0.25.7"
+requires_python = ">=3.8"
+summary = "A utility library for mocking out the `requests` Python library."
+groups = ["dev"]
+dependencies = [
+    "pyyaml",
+    "requests<3.0,>=2.30.0",
+    "urllib3<3.0,>=1.25.10",
+]
+files = [
+    {file = "responses-0.25.7-py3-none-any.whl", hash = "sha256:92ca17416c90fe6b35921f52179bff29332076bb32694c0df02dcac2c6bc043c"},
+    {file = "responses-0.25.7.tar.gz", hash = "sha256:8ebae11405d7a5df79ab6fd54277f6f2bc29b2d002d0dd2d5c632594d1ddcedb"},
 ]
 
 [[package]]
