@@ -3,18 +3,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from functools import cached_property
-from typing import final
+from typing import Callable, final
 
+from playwright.sync_api import Browser
 from qa_pytest_commons.base_configuration import BaseConfiguration
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 
-class SeleniumConfiguration(BaseConfiguration):
+class PlaywrightConfiguration(BaseConfiguration):
     """
-    SeleniumConfiguration extends BaseConfiguration to provide Selenium-specific configuration options.
+    PlaywrightConfiguration extends BaseConfiguration to provide Playwright-specific configuration options.
 
-    This class exposes properties for retrieving the UI URL and initializing the Selenium WebDriver Service,
+    This class exposes properties for retrieving the UI URL and initializing the Playwright Service,
     leveraging configuration values and dynamic driver management.
     """
 
@@ -32,21 +31,26 @@ class SeleniumConfiguration(BaseConfiguration):
         """
         return self.parser["selenium"]["landing_page"]
 
-    # FIXME Service here is imported from selenium.webdriver.chrome.service
-    # which makes this method specific to ChromeDriver.
+    # TODO configure browser launch options based on configuration
     @cached_property
     @final
-    def service(self) -> Service:
+    def service(self) -> Callable[[], Browser]:
         """
-        Creates and returns a Selenium WebDriver Service instance using the ChromeDriverManager.
+        Creates and returns a callable that launches a Playwright browser instance using the sync API.
 
         Returns:
-            Service: An instance of Selenium's Service class, initialized with the path to the ChromeDriver executable
-            installed by ChromeDriverManager.
+            Callable[[], Browser]: A callable that returns a Playwright Browser instance when invoked.
+                The browser will be launched with default Chromium configuration.
 
         Note:
-            This method currently supports only ChromeDriver, but may be extended to support different services
-            based on configuration in the future.
+            This method currently launches Chromium by default but may be extended to support
+            different browser engines based on configuration in the future.
         """
-        # NOTE may add support for providing different services per configuration
-        return Service(ChromeDriverManager().install())
+        from playwright.sync_api import sync_playwright
+
+        def launch_browser() -> Browser:
+            """Launch and return a Playwright browser instance."""
+            playwright = sync_playwright().start()
+            return playwright.chromium.launch()
+
+        return launch_browser

@@ -3,10 +3,12 @@ from ._version import __version__  # isort: skip
 # mkinit: end preserve
 
 from qa_pytest_playwright.playwright_configuration import (
-    SeleniumConfiguration,)
-from qa_pytest_playwright.playwright_steps import (By, Locator, SearchContext,
-                                                  SeleniumSteps,)
-from qa_pytest_playwright.playwright_tests import (SeleniumTests,)
+    PlaywrightConfiguration,
+)
+from qa_pytest_playwright.playwright_steps import PlaywrightSteps
+from qa_pytest_playwright.playwright_tests import PlaywrightTests
 
-__all__ = ['By', 'Locator', 'SearchContext', 'SeleniumConfiguration',
-           'SeleniumSteps', 'SeleniumTests']
+# from qa_pytest_playwright.playwright_steps import By, Locator, SearchContext
+
+__all__ = ['PlaywrightConfiguration',
+           'PlaywrightSteps', 'PlaywrightTests']

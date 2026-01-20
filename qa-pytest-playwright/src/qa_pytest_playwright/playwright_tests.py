@@ -5,41 +5,41 @@
 from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
-from qa_pytest_webdriver.selenium_steps import SeleniumSteps
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.remote.webdriver import WebDriver
+from qa_pytest_playwright.playwright_configuration import (
+    PlaywrightConfiguration,
+)
+from qa_pytest_playwright.playwright_steps import PlaywrightSteps
 
 
-class SeleniumTests[
-    TSteps: SeleniumSteps[Any],
-    TConfiguration: SeleniumConfiguration
+class PlaywrightTests[
+    TSteps: PlaywrightSteps[Any],
+    TConfiguration: PlaywrightConfiguration
 ](AbstractTestsBase[TSteps, TConfiguration]):
     """
-    Base class for Selenium-based UI test cases.
+    Base class for Playwright-based UI test cases.
 
-    This class manages the lifecycle of a Selenium WebDriver for each test method.
+    This class manages the lifecycle of a Playwright WebDriver for each test method.
     It is generic over the types of steps and configuration used.
 
     Attributes:
-        _web_driver (WebDriver): The Selenium WebDriver instance (not thread safe).
-
+        _web_driver (WebDriver): The Playwright WebDriver instance (not thread safe).
     Type Parameters:
-        TSteps: The type of the steps class, typically derived from SeleniumSteps.
-        TConfiguration: The type of the configuration class, typically derived from SeleniumConfiguration.
+        TSteps: The type of the steps class, typically derived from PlaywrightSteps.
+        TConfiguration: The type of the configuration class, typically derived from PlaywrightConfiguration.
     """
-    _web_driver: WebDriver  # not thread safe
+    # TODO not sure how the playwright interface is called and what its methods are
+    # the initialization below should be adjusted accordingly
+    # _web_driver: WebDriver  # not thread safe
 
-    @property
-    def web_driver(self) -> WebDriver:
-        '''
-        Returns the web driver instance.
+    # @property
+    # def web_driver(self) -> WebDriver:
+    #     '''
+    #     Returns the web driver instance.
 
-        Returns:
-            WebDriver: The web driver instance.
-        '''
-        return self._web_driver
+    #     Returns:
+    #         WebDriver: The web driver instance.
+    #     '''
+    #     return self._web_driver
 
     @override
     def setup_method(self):
@@ -50,18 +50,18 @@ class SeleniumTests[
         '''
         super().setup_method()
 
-        options = Options()
-        options.add_argument("--start-maximized")  # type: ignore
-        self._web_driver = Chrome(
-            options,
-            self._configuration.service)
+        # options = Options()
+        # options.add_argument("--start-maximized")  # type: ignore
+        # self._web_driver = Chrome(
+        #     options,
+        #     self._configuration.service)
 
     @override
     def teardown_method(self):
         '''
-        Quits the Selenium WebDriver after each test method.
+        Quits the Playwright WebDriver after each test method.
         '''
-        try:
-            self._web_driver.quit()
-        finally:
-            super().teardown_method()
+        # try:
+        #     # self._web_driver.quit()
+        # finally:
+        #     super().teardown_method()
