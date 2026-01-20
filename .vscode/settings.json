@@ -43,7 +43,7 @@
     "qa-pytest-webdriver/tests",
     "qa-pytest-playwright/tests",
     "qa-pytest-rabbitmq/tests",
-    "qa-pytest-examples/tests",
+    "qa-pytest-examples/tests"
   ],
   "python.analysis.extraPaths": [
     "qa-testing-utils/src",
@@ -52,6 +52,7 @@
     "qa-pytest-webdriver/src",
     "qa-pytest-playwright/src",
     "qa-pytest-rabbitmq/src",
-    "qa-pytest-examples/src",
-  ]
+    "qa-pytest-examples/src"
+  ],
+  "yaml.validate": true
 }

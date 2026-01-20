@@ -19,6 +19,7 @@ dev = [
     "-e qa-pytest-playwright @ file:///${PROJECT_ROOT}/qa-pytest-playwright",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
     "-e qa-pytest-rabbitmq @ file:///${PROJECT_ROOT}/qa-pytest-rabbitmq",
+    "-e qa-pytest-examples @ file:///${PROJECT_ROOT}/qa-pytest-examples",
     "types-pika==1.2.0b1",
     "pytest==8.4.1",
     "pytest-cov==6.2.1",
@@ -79,7 +80,7 @@ build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm bu
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
 install-all = "bash -c 'pdm install && for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm install); done'"
 allure-generate = "allure generate allure-results -o docs/reports --clean"
-mkdocs-serve = "mkdocs serve"
+mkdocs-serve = "pdm run mkdocs serve"
 
 [tool.autopep8]
 max_line_length = 80

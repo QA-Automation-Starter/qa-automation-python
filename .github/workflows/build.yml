@@ -36,24 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
-        with:
-          version: "2.25.9"
-          python-version: "3.13"
-
-      - name: Cache PDM
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pdm
-            .venv/
-          key: pdm-${{ runner.os }}-${{ hashFiles('**/pdm.lock') }}
-          restore-keys: |
-            pdm-${{ runner.os }}-
-
-      - name: Enable PDM install cache
-        run: pdm config install.cache true
+      - uses: ./.github/actions/setup-pdm
 
       - name: Install dependencies
         run: pdm run install-all
@@ -76,22 +59,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: ./.github/actions/setup-pdm
+
       - name: Download test results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results/
 
-      - name: Install Allure + MkDocs
-        run: |
-          npm install -g allure-commandline
-          pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin mkdocstrings[python]
+      - name: Install dependencies
+        run: pdm run install-all
 
       - name: Generate Allure report
-        run: allure generate allure-results -o docs/reports --clean
+        run: |
+          npm install -g allure-commandline
+          allure generate allure-results -o docs/reports --clean
 
       - name: Build MkDocs site
-        run: mkdocs build
+        run: pdm run mkdocs build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
