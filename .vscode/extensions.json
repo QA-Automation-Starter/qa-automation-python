@@ -8,5 +8,6 @@
         "ms-python.vscode-pylance",
         "spmeesseman.vscode-taskexplorer",
         "tamasfe.even-better-toml",
+        "redhat.vscode-yaml"
     ]
 }
