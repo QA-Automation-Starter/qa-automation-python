@@ -3,7 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from dataclasses import dataclass
-from typing import Callable, Iterator, Optional, Tuple, Union, final, overload
+from typing import (
+    Callable,
+    Iterator,
+    Optional,
+    Self,
+    Tuple,
+    Union,
+    final,
+    overload,
+)
 
 from hamcrest.core.matcher import Matcher
 from playwright.sync_api import Locator as PlaywrightLocator
@@ -163,7 +172,7 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @final
     @Context.traced
-    def clicking_once(self, element_supplier: ElementSupplier) -> "PlaywrightSteps[TConfiguration]":
+    def clicking_once(self, element_supplier: ElementSupplier) -> Self:
         """
         Clicks the element supplied by the given callable.
 
@@ -177,14 +186,14 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @overload
     def clicking(
-        self, element: Locator) -> "PlaywrightSteps[TConfiguration]": ...
+        self, element: Locator) -> Self: ...
 
     @overload
     def clicking(
-        self, element: ElementSupplier) -> "PlaywrightSteps[TConfiguration]": ...
+        self, element: ElementSupplier) -> Self: ...
 
     @final
-    def clicking(self, element: LocatorOrSupplier) -> "PlaywrightSteps[TConfiguration]":
+    def clicking(self, element: LocatorOrSupplier) -> Self:
         """
         Clicks the element specified by a locator or supplier, with retry logic.
 
@@ -197,7 +206,7 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @final
     @Context.traced
-    def typing_once(self, element_supplier: ElementSupplier, text: str) -> "PlaywrightSteps[TConfiguration]":
+    def typing_once(self, element_supplier: ElementSupplier, text: str) -> Self:
         """
         Types the given text into the element supplied by the callable.
 
@@ -214,14 +223,14 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @overload
     def typing(self, element: Locator,
-               text: str) -> "PlaywrightSteps[TConfiguration]": ...
+               text: str) -> Self: ...
 
     @overload
     def typing(self, element: ElementSupplier,
-               text: str) -> "PlaywrightSteps[TConfiguration]": ...
+               text: str) -> Self: ...
 
     @final
-    def typing(self, element: LocatorOrSupplier, text: str) -> "PlaywrightSteps[TConfiguration]":
+    def typing(self, element: LocatorOrSupplier, text: str) -> Self:
         """
         Types the given text into the element specified by a locator or supplier, with retry logic.
 
@@ -238,7 +247,7 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
     @final
     def the_element(
             self, locator: Locator, by_rule: Matcher[PlaywrightLocator],
-            context: Optional[Page] = None) -> "PlaywrightSteps[TConfiguration]":
+            context: Optional[Page] = None) -> Self:
         """
         Asserts that the element found by the locator matches the given matcher.
 
@@ -257,7 +266,7 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
     def the_elements(
             self, locator: Locator, by_rule:
             Matcher[Iterator[PlaywrightLocator]],
-            context: Optional[Page] = None) -> "PlaywrightSteps[TConfiguration]":
+            context: Optional[Page] = None) -> Self:
         """
         Asserts that the elements found by the locator match the given matcher.
 

@@ -8,7 +8,9 @@ from typing import List, final
 
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
-from qa_pytest_playwright.playwright_configuration import PlaywrightConfiguration
+from qa_pytest_playwright.playwright_configuration import (
+    PlaywrightConfiguration,
+)
 
 
 class PwTerminalXConfiguration(PlaywrightConfiguration):

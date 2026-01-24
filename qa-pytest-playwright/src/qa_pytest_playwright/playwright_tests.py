@@ -4,6 +4,7 @@
 
 from typing import Any, override
 
+from playwright.sync_api import Browser, Page, Playwright
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_playwright.playwright_configuration import (
     PlaywrightConfiguration,
@@ -18,50 +19,68 @@ class PlaywrightTests[
     """
     Base class for Playwright-based UI test cases.
 
-    This class manages the lifecycle of a Playwright WebDriver for each test method.
+    This class manages the lifecycle of a Playwright browser and page for each test method.
     It is generic over the types of steps and configuration used.
 
     Attributes:
-        _web_driver (WebDriver): The Playwright WebDriver instance (not thread safe).
+        _playwright (Playwright): The Playwright instance.
+        _browser (Browser): The Playwright browser instance (not thread safe).
+        _page (Page): The Playwright page instance (not thread safe).
     Type Parameters:
         TSteps: The type of the steps class, typically derived from PlaywrightSteps.
         TConfiguration: The type of the configuration class, typically derived from PlaywrightConfiguration.
     """
-    # TODO not sure how the playwright interface is called and what its methods are
-    # the initialization below should be adjusted accordingly
-    # _web_driver: WebDriver  # not thread safe
+    _playwright: Playwright  # not thread safe
+    _browser: Browser  # not thread safe
+    _page: Page  # not thread safe
 
-    # @property
-    # def web_driver(self) -> WebDriver:
-    #     '''
-    #     Returns the web driver instance.
+    @property
+    def browser(self) -> Browser:
+        """
+        Returns the Playwright browser instance.
 
-    #     Returns:
-    #         WebDriver: The web driver instance.
-    #     '''
-    #     return self._web_driver
+        Returns:
+            Browser: The Playwright browser instance.
+        """
+        return self._browser
+
+    @property
+    def page(self) -> Page:
+        """
+        Returns the Playwright page instance.
+
+        Returns:
+            Page: The Playwright page instance.
+        """
+        return self._page
 
     @override
     def setup_method(self):
-        '''
-        Initializes a local Chrome WebDriver before each test method.
+        """
+        Initializes Playwright browser and page before each test method.
 
-        If you need to customize or use other driver, override this method in your test class.
-        '''
+        If you need to customize browser options or use a different browser,
+        override this method in your test class.
+        """
         super().setup_method()
 
-        # options = Options()
-        # options.add_argument("--start-maximized")  # type: ignore
-        # self._web_driver = Chrome(
-        #     options,
-        #     self._configuration.service)
+        from playwright.sync_api import sync_playwright
+        self._playwright = sync_playwright().start()
+        self._browser = self._configuration.service(self._playwright)
+        self._page = self._browser.new_page()
 
     @override
     def teardown_method(self):
-        '''
-        Quits the Playwright WebDriver after each test method.
-        '''
-        # try:
-        #     # self._web_driver.quit()
-        # finally:
-        #     super().teardown_method()
+        """
+        Closes the Playwright page, browser, and context after each test method.
+        """
+        try:
+            try:
+                self._page.close()
+            finally:
+                try:
+                    self._browser.close()
+                finally:
+                    self._playwright.stop()
+        finally:
+            super().teardown_method()

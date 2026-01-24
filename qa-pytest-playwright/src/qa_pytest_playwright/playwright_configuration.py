@@ -5,7 +5,7 @@
 from functools import cached_property
 from typing import Callable, final
 
-from playwright.sync_api import Browser
+from playwright.sync_api import Browser, Playwright
 from qa_pytest_commons.base_configuration import BaseConfiguration
 
 
@@ -13,8 +13,8 @@ class PlaywrightConfiguration(BaseConfiguration):
     """
     PlaywrightConfiguration extends BaseConfiguration to provide Playwright-specific configuration options.
 
-    This class exposes properties for retrieving the UI URL and initializing the Playwright Service,
-    leveraging configuration values and dynamic driver management.
+    This class exposes properties for retrieving the UI URL and initializing the Playwright browser launcher,
+    leveraging configuration values and dynamic browser management.
     """
 
     @cached_property
@@ -24,33 +24,32 @@ class PlaywrightConfiguration(BaseConfiguration):
         Returns the UI URL from the configuration parser.
 
         Returns:
-            str: The URL string specified under the "selenium/base" in the configuration.
+            str: The URL string specified under the "playwright/landing_page" in the configuration.
 
         Raises:
-            KeyError: If the "selenium" section or "base" key is not present in the configuration parser.
+            KeyError: If the "playwright" section or "landing_page" key is not present in the configuration parser.
         """
-        return self.parser["selenium"]["landing_page"]
+        return self.parser["playwright"]["landing_page"]
 
-    # TODO configure browser launch options based on configuration
+    # FIXME Browser launcher here is currently specific to Chromium.
+    # This method should be extended to support different browsers based on configuration.
     @cached_property
     @final
-    def service(self) -> Callable[[], Browser]:
+    def service(self) -> Callable[[Playwright], Browser]:
         """
-        Creates and returns a callable that launches a Playwright browser instance using the sync API.
+        Creates and returns a browser launcher function.
 
         Returns:
-            Callable[[], Browser]: A callable that returns a Playwright Browser instance when invoked.
-                The browser will be launched with default Chromium configuration.
+            Callable[[Playwright], Browser]: A function that takes a Playwright instance and returns a Browser.
+                Currently launches Chromium with headless=False and GPU disabled.
 
         Note:
-            This method currently launches Chromium by default but may be extended to support
-            different browser engines based on configuration in the future.
+            This method currently supports only Chromium, but may be extended to support different browsers
+            (Firefox, WebKit) based on configuration in the future.
         """
-        from playwright.sync_api import sync_playwright
-
-        def launch_browser() -> Browser:
-            """Launch and return a Playwright browser instance."""
-            playwright = sync_playwright().start()
-            return playwright.chromium.launch()
-
+        # NOTE may add support for providing different browser launchers per configuration
+        def launch_browser(playwright: Playwright) -> Browser:
+            return playwright.chromium.launch(
+                headless=False, args=["--disable-gpu"]
+            )
         return launch_browser

@@ -5,10 +5,17 @@ from ._version import __version__  # isort: skip
 from qa_pytest_playwright.playwright_configuration import (
     PlaywrightConfiguration,
 )
-from qa_pytest_playwright.playwright_steps import PlaywrightSteps
-from qa_pytest_playwright.playwright_tests import PlaywrightTests
+from qa_pytest_playwright.playwright_steps import (
+    By,
+    Locator,
+    PlaywrightSteps,
+)
+from qa_pytest_playwright.playwright_tests import (
+    PlaywrightTests,
+)
 
 # from qa_pytest_playwright.playwright_steps import By, Locator, SearchContext
 
-__all__ = ['PlaywrightConfiguration',
-           'PlaywrightSteps', 'PlaywrightTests']
+
+__all__ = ['By', 'Locator', 'PlaywrightConfiguration', 'PlaywrightSteps',
+           'PlaywrightTests']
