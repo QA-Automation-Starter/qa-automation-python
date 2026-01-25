@@ -4,6 +4,7 @@
 
 from dataclasses import dataclass
 from typing import (
+    Any,
     Callable,
     Iterator,
     Optional,
@@ -24,24 +25,63 @@ from qa_pytest_playwright.playwright_configuration import (
 from qa_testing_utils.logger import Context
 
 
-@dataclass(frozen=True)
-class Locator:
+class LocatorWrapper:
     """
-    Represents a Selenium locator as a (by, value) pair.
+    Wrapper around Playwright Locator to provide Selenium-like .text property.
+
+    This class wraps a Playwright Locator and delegates all method calls and attribute
+    access to it, while providing an additional .text property for compatibility with
+    Selenium-style code.
+    """
+
+    _locator: PlaywrightLocator
+
+    def __init__(self, locator: PlaywrightLocator) -> None:
+        object.__setattr__(self, '_locator', locator)
+
+    @property
+    def text(self) -> str:
+        """Get element text content, returning empty string if None (matches Selenium behavior)."""
+        return self._locator.text_content() or ""
+
+    def __getattr__(self, name: str) -> Any:
+        """Delegate all other attribute access to the wrapped Playwright Locator."""
+        return getattr(self._locator, name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Delegate attribute setting to the wrapped Playwright Locator."""
+        if name == '_locator':
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._locator, name, value)
+
+    def __repr__(self) -> str:
+        """Return string representation delegating to wrapped Locator."""
+        return repr(self._locator)
+
+    def __str__(self) -> str:
+        """Return string conversion delegating to wrapped Locator."""
+        return str(self._locator)
+
+
+@dataclass(frozen=True)
+class Selector:
+    """
+    Represents an element selector as a (by, value) pair.
 
     Attributes:
-        by (str): The Selenium locator strategy (e.g., By.ID, By.XPATH).
-        value (str): The locator value.
+        by (str): The locator strategy (e.g., By.ID, By.XPATH).
+        value (str): The selector value.
     """
     by: str
     value: str
 
     def as_tuple(self) -> Tuple[str, str]:
         """
-        Returns the locator as a tuple (by, value), suitable for Selenium APIs.
+        Returns the selector as a tuple (by, value), suitable for Selenium APIs.
 
         Returns:
-            Tuple[str, str]: The locator as a tuple.
+            Tuple[str, str]: The selector as a tuple.
         """
         return (self.by, self.value)
 
@@ -49,110 +89,110 @@ class Locator:
 # Playwright locator strategies
 class By:
     """
-    Factory for Playwright locators, matching Playwright's locator API.
+    Factory for element selectors, matching Playwright's locator API.
 
-    Provides static methods to create Locator objects for each Playwright locator strategy.
+    Provides static methods to create Selector objects for each locator strategy.
     """
 
     @staticmethod
-    def id(value: str) -> Locator:
+    def id(value: str) -> Selector:
         """
-        Creates a locator for elements with the given id attribute.
+        Creates a selector for elements with the given id attribute.
 
         Args:
             value (str): The id value.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("id", value)
+        return Selector("id", value)
 
     @staticmethod
-    def xpath(value: str) -> Locator:
+    def xpath(value: str) -> Selector:
         """
-        Creates a locator for elements matching the given XPath expression.
+        Creates a selector for elements matching the given XPath expression.
 
         Args:
             value (str): The XPath expression.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("xpath", value)
+        return Selector("xpath", value)
 
     @staticmethod
-    def link_text(value: str) -> Locator:
+    def link_text(value: str) -> Selector:
         """
-        Creates a locator for elements with the given link text.
+        Creates a selector for elements with the given link text.
 
         Args:
             value (str): The link text.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("text", value)
+        return Selector("text", value)
 
     @staticmethod
-    def partial_link_text(value: str) -> Locator:
+    def partial_link_text(value: str) -> Selector:
         """
-        Creates a locator for elements with the given partial link text.
+        Creates a selector for elements with the given partial link text.
 
         Args:
             value (str): The partial link text.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("text", value)
+        return Selector("text", value)
 
     @staticmethod
-    def name(value: str) -> Locator:
+    def name(value: str) -> Selector:
         """
-        Creates a locator for elements with the given name attribute.
+        Creates a selector for elements with the given name attribute.
 
         Args:
             value (str): The name value.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("xpath", f"//input[@name='{value}']")
+        return Selector("xpath", f"//input[@name='{value}']")
 
     @staticmethod
-    def tag_name(value: str) -> Locator:
+    def tag_name(value: str) -> Selector:
         """
-        Creates a locator for elements with the given tag name.
+        Creates a selector for elements with the given tag name.
 
         Args:
             value (str): The tag name.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("xpath", f"//{value}")
+        return Selector("xpath", f"//{value}")
 
     @staticmethod
-    def class_name(value: str) -> Locator:
+    def class_name(value: str) -> Selector:
         """
-        Creates a locator for elements with the given class name.
+        Creates a selector for elements with the given class name.
 
         Args:
             value (str): The class name.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("xpath", f"//*[contains(@class, '{value}')]")
+        return Selector("xpath", f"//*[contains(@class, '{value}')]")
 
     @staticmethod
-    def css_selector(value: str) -> Locator:
+    def css_selector(value: str) -> Selector:
         """
-        Creates a locator for elements matching the given CSS selector.
+        Creates a selector for elements matching the given CSS selector.
 
         Args:
             value (str): The CSS selector.
         Returns:
-            Locator: The locator object.
+            Selector: The selector object.
         """
-        return Locator("css", value)
+        return Selector("css", value)
 
 
-type ElementSupplier = Callable[[], PlaywrightLocator]
-type LocatorOrSupplier = Union[Locator, ElementSupplier]
+type ElementSupplier = Callable[[], LocatorWrapper]
+type SelectorOrSupplier = Union[Selector, ElementSupplier]
 
 
 class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
@@ -172,6 +212,37 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @final
     @Context.traced
+    def a_page(self, page: Page) -> Self:
+        """
+        Sets the Playwright Page instance.
+
+        Args:
+            page (Page): The Playwright Page instance.
+        Returns:
+            Self: The current step instance for chaining.
+        """
+        self._page = page
+        return self
+
+    @final
+    @Context.traced
+    def at(self, url: str) -> Self:
+        """
+        Navigates to the specified URL with retry logic.
+
+        Args:
+            url (str): The URL to navigate to.
+        Returns:
+            Self: The current step instance for chaining.
+        """
+        def _navigate() -> Self:
+            self._page.goto(url)
+            return self
+
+        return self.retrying(_navigate)
+
+    @final
+    @Context.traced
     def clicking_once(self, element_supplier: ElementSupplier) -> Self:
         """
         Clicks the element supplied by the given callable.
@@ -186,19 +257,19 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @overload
     def clicking(
-        self, element: Locator) -> Self: ...
+        self, element: Selector) -> Self: ...
 
     @overload
     def clicking(
         self, element: ElementSupplier) -> Self: ...
 
     @final
-    def clicking(self, element: LocatorOrSupplier) -> Self:
+    def clicking(self, element: SelectorOrSupplier) -> Self:
         """
-        Clicks the element specified by a locator or supplier, with retry logic.
+        Clicks the element specified by a selector or supplier, with retry logic.
 
         Args:
-            element (LocatorOrSupplier): Locator or callable returning a Playwright Locator.
+            element (SelectorOrSupplier): Selector or callable returning a Playwright Locator.
         Returns:
             Self: The current step instance for chaining.
         """
@@ -222,7 +293,7 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
         return self
 
     @overload
-    def typing(self, element: Locator,
+    def typing(self, element: Selector,
                text: str) -> Self: ...
 
     @overload
@@ -230,12 +301,12 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
                text: str) -> Self: ...
 
     @final
-    def typing(self, element: LocatorOrSupplier, text: str) -> Self:
+    def typing(self, element: SelectorOrSupplier, text: str) -> Self:
         """
-        Types the given text into the element specified by a locator or supplier, with retry logic.
+        Types the given text into the element specified by a selector or supplier, with retry logic.
 
         Args:
-            element (LocatorOrSupplier): Locator or callable returning a Playwright Locator.
+            element (SelectorOrSupplier): Selector or callable returning a Playwright Locator.
             text (str): The text to type.
         Returns:
             Self: The current step instance for chaining.
@@ -246,58 +317,58 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
 
     @final
     def the_element(
-            self, locator: Locator, by_rule: Matcher[PlaywrightLocator],
+            self, selector: Selector, by_rule: Matcher[LocatorWrapper],
             context: Optional[Page] = None) -> Self:
         """
-        Asserts that the element found by the locator matches the given matcher.
+        Asserts that the element found by the selector matches the given matcher.
 
         Args:
-            locator (Locator): The locator to find the element.
-            by_rule (Matcher[PlaywrightLocator]): Matcher for the element.
+            selector (Selector): The selector to find the element.
+            by_rule (Matcher[LocatorWrapper]): Matcher for the element.
             context (Optional[Page]): Optional page context (defaults to _page).
         Returns:
             Self: The current step instance for chaining.
         """
         return self.eventually_assert_that(
-            lambda: self._element(locator, context),
+            lambda: self._element(selector, context),
             by_rule)
 
     @final
     def the_elements(
-            self, locator: Locator, by_rule:
-            Matcher[Iterator[PlaywrightLocator]],
+            self, selector: Selector, by_rule:
+            Matcher[Iterator[LocatorWrapper]],
             context: Optional[Page] = None) -> Self:
         """
-        Asserts that the elements found by the locator match the given matcher.
+        Asserts that the elements found by the selector match the given matcher.
 
         Args:
-            locator (Locator): The locator to find the elements.
-            by_rule (Matcher[Iterator[PlaywrightLocator]]): Matcher for the elements iterator.
+            selector (Selector): The selector to find the elements.
+            by_rule (Matcher[Iterator[LocatorWrapper]]): Matcher for the elements iterator.
             context (Optional[Page]): Optional page context (defaults to _page).
         Returns:
             Self: The current step instance for chaining.
         """
         return self.eventually_assert_that(
-            lambda: self._elements(locator, context),
+            lambda: self._elements(selector, context),
             by_rule)
 
     @final
     @Context.traced
     def _elements(
-        self, locator: Locator, context: Optional[Page] = None
-    ) -> Iterator[PlaywrightLocator]:
+        self, selector: Selector, context: Optional[Page] = None
+    ) -> Iterator[LocatorWrapper]:
         page = context or self._page
-        return iter(page.locator(self._build_playwright_selector(locator)).all())
+        return (LocatorWrapper(loc) for loc in page.locator(self._build_playwright_selector(selector)).all())
 
     @final
     @Context.traced
     def _element(
-        self, locator: Locator, context: Optional[Page] = None
-    ) -> PlaywrightLocator:
+        self, selector: Selector, context: Optional[Page] = None
+    ) -> LocatorWrapper:
         page = context or self._page
-        element = page.locator(self._build_playwright_selector(locator))
+        element = page.locator(self._build_playwright_selector(selector))
         self._scroll_into_view(element)
-        return element
+        return LocatorWrapper(element)
 
     def _scroll_into_view(
             self, element: PlaywrightLocator) -> PlaywrightLocator:
@@ -305,28 +376,28 @@ class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
         return element
 
     @final
-    def _resolve(self, element: LocatorOrSupplier) -> ElementSupplier:
-        if isinstance(element, Locator):
+    def _resolve(self, element: SelectorOrSupplier) -> ElementSupplier:
+        if isinstance(element, Selector):
             return lambda: self._element(element)
         return element
 
     @staticmethod
-    def _build_playwright_selector(locator: Locator) -> str:
+    def _build_playwright_selector(selector: Selector) -> str:
         """
-        Converts a Locator object to a Playwright selector string.
+        Converts a Selector object to a Playwright selector string.
 
         Args:
-            locator (Locator): The locator with strategy and value.
+            selector (Selector): The selector with strategy and value.
         Returns:
             str: The Playwright selector string.
         """
-        if locator.by == "id":
-            return f"#{locator.value}"
-        elif locator.by == "xpath":
-            return locator.value
-        elif locator.by == "css":
-            return locator.value
-        elif locator.by == "text":
-            return f"text={locator.value}"
+        if selector.by == "id":
+            return f"#{selector.value}"
+        elif selector.by == "xpath":
+            return selector.value
+        elif selector.by == "css":
+            return selector.value
+        elif selector.by == "text":
+            return f"text={selector.value}"
         else:
-            return locator.value
+            return selector.value

@@ -10,7 +10,7 @@ from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
 from qa_pytest_examples.pw_terminalx_configuration import (
     PwTerminalXConfiguration,
 )
-from qa_pytest_playwright import PlaywrightSteps
+from qa_pytest_playwright import By, PlaywrightSteps
 from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_iterator, adapted_object
 
@@ -18,7 +18,7 @@ from qa_testing_utils.matchers import adapted_iterator, adapted_object
 class PwTerminalXSteps[TConfiguration: PwTerminalXConfiguration](
         PlaywrightSteps[TConfiguration]):
     """
-    BDD-style step definitions for TerminalX UI operations using Selenium.
+    BDD-style step definitions for TerminalX UI operations using Playwright.
 
     Type Parameters:
         TConfiguration: The configuration type, must be a TerminalXConfiguration.
@@ -26,16 +26,14 @@ class PwTerminalXSteps[TConfiguration: PwTerminalXConfiguration](
     @Context.traced
     def terminalx(self, page: Page) -> Self:
         """
-        Sets the Selenium WebDriver and navigates to the landing page.
+        Sets the Playwright Page and navigates to the landing page.
 
         Args:
-            driver (WebDriver): The Selenium WebDriver instance.
+            page (Page): The Playwright Page instance.
         Returns:
             Self: The current step instance for chaining.
         """
-        self._page = page
-        self._page.goto(self.configured.landing_page)
-        return self
+        return self.a_page(page).at(self.configured.landing_page)
 
     def clicking_login(self) -> Self:
         """

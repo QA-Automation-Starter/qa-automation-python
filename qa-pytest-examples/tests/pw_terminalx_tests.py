@@ -21,7 +21,7 @@ from qa_testing_utils.matchers import (
 
 # --8<-- [start:class]
 @pytest.mark.external
-@pytest.mark.selenium
+@pytest.mark.playwright
 class PwTerminalXTests(
     PlaywrightTests[PwTerminalXSteps[PwTerminalXConfiguration],
                     PwTerminalXConfiguration]):
@@ -33,7 +33,7 @@ class PwTerminalXTests(
     def login_section(
             self, user: TerminalXUser) -> PwTerminalXSteps[PwTerminalXConfiguration]:
         return (self.steps
-                .given.terminalx(self.web_driver)
+                .given.terminalx(self.page)
                 .when.logging_in_with(user.credentials)
                 .then.the_user_logged_in(is_(user.name)))
 
@@ -54,16 +54,13 @@ class PwTerminalXTests(
     # --8<-- [start:setup_method]
     @override
     def setup_method(self) -> None:
-        from selenium.webdriver import Firefox
-        from selenium.webdriver.firefox.options import Options as FirefoxOptions
-        from selenium.webdriver.firefox.service import Service as FirefoxService
-        from webdriver_manager.firefox import GeckoDriverManager
-        if self._configuration.parser.has_option("selenium", "browser_type") \
-                and self._configuration.parser["selenium"]["browser_type"] == "firefox":
-            options = FirefoxOptions()
-            service = FirefoxService(GeckoDriverManager().install())
-            self._web_driver = Firefox(options=options, service=service)
-            self._web_driver.set_window_size(1920, 1080)  # type: ignore
+        from playwright.sync_api import sync_playwright
+        if self._configuration.parser.has_option("playwright", "browser_type") \
+                and self._configuration.parser["playwright"]["browser_type"] == "firefox":
+            self._playwright = sync_playwright().start()
+            self._browser = self._playwright.firefox.launch()
+            self._page = self._browser.new_page(
+                viewport={"width": 1920, "height": 1080})
         else:
             super().setup_method()
     # --8<-- [end:setup_method]

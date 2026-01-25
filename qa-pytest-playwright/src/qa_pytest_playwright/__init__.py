@@ -7,15 +7,14 @@ from qa_pytest_playwright.playwright_configuration import (
 )
 from qa_pytest_playwright.playwright_steps import (
     By,
-    Locator,
+    LocatorWrapper,
     PlaywrightSteps,
+    Selector,
 )
-from qa_pytest_playwright.playwright_tests import (
-    PlaywrightTests,
-)
+from qa_pytest_playwright.playwright_tests import PlaywrightTests
 
 # from qa_pytest_playwright.playwright_steps import By, Locator, SearchContext
 
 
-__all__ = ['By', 'Locator', 'PlaywrightConfiguration', 'PlaywrightSteps',
-           'PlaywrightTests']
+__all__ = ['By', 'Selector', 'LocatorWrapper',
+           'PlaywrightConfiguration', 'PlaywrightSteps', 'PlaywrightTests']

@@ -52,6 +52,7 @@ class SeleniumTests[
 
         options = Options()
         options.add_argument("--start-maximized")  # type: ignore
+        options.add_argument("--disable-gpu")
         self._web_driver = Chrome(
             options,
             self._configuration.service)

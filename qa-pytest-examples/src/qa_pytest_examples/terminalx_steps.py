@@ -31,9 +31,7 @@ class TerminalXSteps[TConfiguration: TerminalXConfiguration](
         Returns:
             Self: The current step instance for chaining.
         """
-        self._web_driver = driver
-        self._web_driver.get(self.configured.landing_page)
-        return self
+        return self.a_web_driver(driver).at(self.configured.landing_page)
 
     def clicking_login(self) -> Self:
         """
