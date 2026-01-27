@@ -42,7 +42,7 @@ jobs:
         run: pdm run install-all
 
       - name: Run tests
-        run: pdm run pytest -n auto -m "not (flaky or selenium or external)"
+        run: pdm run pytest -n auto -m "not (flaky or ui or external)"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4

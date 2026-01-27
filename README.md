@@ -22,6 +22,9 @@
     <a href="https://pypi.org/project/qa-pytest-webdriver/">
         <img alt="webdriver" src="https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver">
     </a>
+    <a href="https://pypi.org/project/qa-pytest-playwright/">
+        <img alt="playwright" src="https://img.shields.io/pypi/v/qa-pytest-playwright.svg?label=playwright">
+    </a>
     <br>
     <!-- License -->
     <a href="LICENSE">
@@ -89,6 +92,7 @@ qa-automation-python/
 ├── qa-pytest-commons/       # Technology-agnostic test infrastructure
 ├── qa-pytest-rest/          # REST-specific steps and config
 ├── qa-pytest-webdriver/     # Selenium-specific implementation
+├── qa-pytest-playwright/    # Playwright-specific implementation
 ├── qa-pytest-template/      # TBD: Cookiecutter project template
 ├── qa-pytest-examples/      # Usage examples for application test projects
 ├── pyproject.toml           # Root environment definition for PDM

@@ -5,6 +5,7 @@
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers-extra/features/pdm:2": {}
   },
+  // TODO install playwright browsers and deps
   "postCreateCommand": "pdm install",
   "customizations": {
     "vscode": {

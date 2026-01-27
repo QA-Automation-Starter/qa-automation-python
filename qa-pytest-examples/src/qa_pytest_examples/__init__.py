@@ -15,6 +15,12 @@ from qa_pytest_examples.model import (
     TerminalXCredentials,
     TerminalXUser,
 )
+from qa_pytest_examples.pw_terminalx_configuration import (
+    PwTerminalXConfiguration,
+)
+from qa_pytest_examples.pw_terminalx_steps import (
+    PwTerminalXSteps,
+)
 from qa_pytest_examples.rabbitmq_self_configuration import (
     RabbitMqSelfConfiguration,
 )
@@ -32,6 +38,7 @@ from qa_pytest_examples.terminalx_steps import (
 )
 
 __all__ = ['CombinedConfiguration', 'CombinedSteps', 'Credentials',
+           'PwTerminalXConfiguration', 'PwTerminalXSteps',
            'RabbitMqSelfConfiguration', 'SwaggerPetstoreConfiguration',
            'SwaggerPetstoreCredentials', 'SwaggerPetstorePet',
            'SwaggerPetstoreSteps', 'TerminalXConfiguration',

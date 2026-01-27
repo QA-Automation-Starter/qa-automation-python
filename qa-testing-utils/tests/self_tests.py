@@ -24,6 +24,16 @@ from tenacity import (
 
 @final
 class SelfTests(LoggerMixin):
+    @classmethod
+    def setup_class(cls):
+        logging.getLogger(cls.__name__).debug(
+            "setup_class: called once before all tests in this class")
+
+    @classmethod
+    def teardown_class(cls):
+        logging.getLogger(cls.__name__).debug(
+            "teardown_class: called once after all tests in this class")
+
     def setup_method(self, method: str):
         self.log.debug(f"before {method}")
 

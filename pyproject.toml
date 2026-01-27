@@ -16,6 +16,7 @@ dev = [
     "-e qa-testing-utils @ file:///${PROJECT_ROOT}/qa-testing-utils",
     "-e qa-pytest-commons @ file:///${PROJECT_ROOT}/qa-pytest-commons",
     "-e qa-pytest-webdriver @ file:///${PROJECT_ROOT}/qa-pytest-webdriver",
+    "-e qa-pytest-playwright @ file:///${PROJECT_ROOT}/qa-pytest-playwright",
     "-e qa-pytest-rest @ file:///${PROJECT_ROOT}/qa-pytest-rest",
     "-e qa-pytest-rabbitmq @ file:///${PROJECT_ROOT}/qa-pytest-rabbitmq",
     "-e qa-pytest-examples @ file:///${PROJECT_ROOT}/qa-pytest-examples",
@@ -53,6 +54,7 @@ testpaths = [
   "qa-pytest-rest/tests/qa_pytest_rest",
   "qa-pytest-rabbitmq/tests/qa_pytest_rabbitmq",
   "qa-pytest-webdriver/tests/qa_pytest_webdriver",
+  "qa-pytest-webdriver/tests/qa_pytest_playwright",
   "qa-pytest-examples/tests/qa_pytest_examples",
 ]
 pythonpath = [
@@ -61,11 +63,12 @@ pythonpath = [
   "qa-pytest-rest/src",
   "qa-pytest-rabbitmq/src",
   "qa-pytest-webdriver/src",
+  "qa-pytest-playwright/src",
   "qa-pytest-examples/src",
 ]
 
 markers = [
-  "selenium: marks selenium tests",
+  "ui: marks ui tests",
   "flaky: marks flaky tests",
   "external: marks tests depending on external system"
 ]
@@ -78,6 +81,7 @@ regenerate-init = "bash -c 'find qa-*/src/qa_* -type d -exec test -f {}/__init__
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
 install-all = "bash -c 'pdm install && for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm install); done'"
+playwright-install = "playwright install"
 allure-generate = "allure generate allure-results -o docs/reports --clean"
 mkdocs-serve = "pdm run mkdocs serve"
 

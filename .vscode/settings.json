@@ -33,7 +33,9 @@
     "--max-line-length=80",
     "--experimental"
   ],
-  "python.defaultInterpreterPath": ".venv/bin/python",
+  "autopep8.interpreter": ["${workspaceFolder}/.venv/bin/python"],
+  "isort.interpreter": ["${workspaceFolder}/.venv/bin/python"],
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": [
@@ -41,6 +43,7 @@
     "qa-pytest-commons/tests",
     "qa-pytest-rest/tests",
     "qa-pytest-webdriver/tests",
+    "qa-pytest-playwright/tests",
     "qa-pytest-rabbitmq/tests",
     "qa-pytest-examples/tests"
   ],
@@ -49,6 +52,7 @@
     "qa-pytest-commons/src",
     "qa-pytest-rest/src",
     "qa-pytest-webdriver/src",
+    "qa-pytest-playwright/src",
     "qa-pytest-rabbitmq/src",
     "qa-pytest-examples/src"
   ],
