@@ -1,3 +1,7 @@
+import pytest
+
+
+@pytest.mark.ui
 def should_open_browser():
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options

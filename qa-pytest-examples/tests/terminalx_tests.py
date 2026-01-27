@@ -19,7 +19,7 @@ from qa_testing_utils.matchers import (
 
 # --8<-- [start:class]
 @pytest.mark.external
-@pytest.mark.selenium
+@pytest.mark.ui
 class TerminalXTests(
     SeleniumTests[TerminalXSteps[TerminalXConfiguration],
                   TerminalXConfiguration]):

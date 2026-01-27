@@ -21,7 +21,7 @@ from qa_testing_utils.matchers import (
 
 # --8<-- [start:class]
 @pytest.mark.external
-@pytest.mark.playwright
+@pytest.mark.ui
 class PwTerminalXTests(
     PlaywrightTests[PwTerminalXSteps[PwTerminalXConfiguration],
                     PwTerminalXConfiguration]):

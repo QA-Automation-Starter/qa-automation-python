@@ -1,3 +1,7 @@
+import pytest
+
+
+@pytest.mark.ui
 def should_open_browser():
     from playwright.sync_api import sync_playwright
 

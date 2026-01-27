@@ -68,8 +68,7 @@ pythonpath = [
 ]
 
 markers = [
-  "selenium: marks selenium tests",
-  "playwright: marks playwright tests",
+  "ui: marks ui tests",
   "flaky: marks flaky tests",
   "external: marks tests depending on external system"
 ]
