@@ -32,7 +32,8 @@ class TerminalXUsersConfigurationMixin:
         """
         users_section = self.parser["users"]
         return tuple(
-            TerminalXUser(TerminalXCredentials.from_(username_password), name=key)
+            TerminalXUser(TerminalXCredentials.from_(
+                username_password), name=key)
             for key, username_password in users_section.items()
         )
 

@@ -55,7 +55,7 @@ class PlaywrightTests[
             Page: The Playwright page instance.
         """
         return self._page
-    
+
     @property
     def ui_context(self) -> UiContext[UiElement]:
         return PlaywrightUiContext(self._page)

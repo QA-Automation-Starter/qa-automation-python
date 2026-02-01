@@ -5,13 +5,13 @@
 from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
-from qa_pytest_webdriver.selenium_ui_adapter import SeleniumUiContext
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
 from qa_pytest_webdriver.selenium_steps import (
     SeleniumSteps,
     UiContext,
     UiElement,
 )
+from qa_pytest_webdriver.selenium_ui_adapter import SeleniumUiContext
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
