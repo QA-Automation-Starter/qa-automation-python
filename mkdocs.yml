@@ -46,7 +46,11 @@ markdown_extensions:
       - qa-pytest-rabbitmq/src
       - qa-pytest-examples/src
       - qa-pytest-examples/tests
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:              # <<< missing bit
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
   - pymdownx.highlight
   - codehilite:
       guess_lang: false
