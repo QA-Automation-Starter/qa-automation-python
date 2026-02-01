@@ -65,6 +65,11 @@ Open in Codespace or Dev Container and everything will get installed and configu
    ```
    > NOTE: This must be run whenever new dependencies, or versions are changed.
    > NOTE: in VSCode, you need to ensure that selected interpreter is from root's venv directory
+   
+   For Playwright tests, also install browsers:
+   ```bash
+   pdm run playwright-install
+   ```
 
 3. Run all tests from the root:
    ```bash

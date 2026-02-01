@@ -60,6 +60,7 @@ nav:
   - Github Repo: https://github.com/QA-Automation-Starter/qa-automation-python?tab=readme-ov-file#readme
   - Home: index.md
   - Getting Started: getting-started.md
+  - Switching Selenium to Playwright: switching-selenium-to-playwright.md
   - Architecture: architecture.md
   - Example Tests: example-tests.md
   - Example Allure Report: reports/index.html

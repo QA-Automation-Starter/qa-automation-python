@@ -23,6 +23,11 @@ Open in Codespace or Dev Container and everything will get installed and configu
    ```bash
    pdm run install-all
    ```
+   
+   For Playwright tests, also run:
+   ```bash
+   pdm run playwright-install
+   ```
 
 4. Run all tests from the root:
    ```bash
@@ -39,7 +44,24 @@ Open in Codespace or Dev Container and everything will get installed and configu
     
     > NOTE: requires installation of [Allure server](https://docs.qameta.io/allure/)
 
+---
 
+## Available PDM Scripts
+
+The project includes several convenience scripts in `pyproject.toml`:
+
+| Script | Description |
+|--------|-------------|
+| `pdm run install-all` | Installs all dependencies for the monorepo and sub-packages |
+| `pdm run playwright-install` | Installs Playwright browsers (Chrome, Firefox, WebKit) |
+| `pdm run clean-all` | Removes all generated files (`.pyc`, `__pycache__`, build artifacts) |
+| `pdm run format-all` | Formats all code with `isort` and `autopep8` |
+| `pdm run build-all` | Builds all sub-packages |
+| `pdm run publish-all` | Publishes all sub-packages to PyPI |
+| `pdm run allure-generate` | Generates Allure HTML report from test results |
+| `pdm run mkdocs-serve` | Starts local documentation server at http://localhost:8000 |
+
+---
 
 Customize for your needs :)
 
