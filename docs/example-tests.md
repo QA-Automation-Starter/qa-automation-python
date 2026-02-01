@@ -25,6 +25,15 @@ Requires live <https://www.terminalx.com>
 --8<-- "terminalx_tests.py:func"
 ```
 
+## TerminalX (UI) search test with Playwright
+
+Same test flow as above, using Playwright instead of Selenium.
+
+Requires live <https://www.terminalx.com>
+```python
+--8<-- "pw_terminalx_tests.py:func"
+```
+
 ### Example of overriding the default `setup_method`
 ```python
 --8<-- "terminalx_tests.py:setup_method"

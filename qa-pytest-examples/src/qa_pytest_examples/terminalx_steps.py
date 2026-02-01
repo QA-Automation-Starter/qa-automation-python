@@ -5,12 +5,13 @@
 from typing import Iterator, Self
 
 from hamcrest.core.matcher import Matcher
+from qa_pytest_commons.selector import By
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
 from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
-from qa_pytest_webdriver.selenium_steps import By, SeleniumSteps
+from qa_pytest_webdriver.selenium_steps import SeleniumSteps
+from qa_pytest_webdriver.selenium_ui_adapter import UiContext, UiElement
 from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_iterator, adapted_object
-from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class TerminalXSteps[TConfiguration: TerminalXConfiguration](
@@ -22,16 +23,16 @@ class TerminalXSteps[TConfiguration: TerminalXConfiguration](
         TConfiguration: The configuration type, must be a TerminalXConfiguration.
     """
     @Context.traced
-    def terminalx(self, driver: WebDriver) -> Self:
+    def terminalx(self, driver: UiContext[UiElement]) -> Self:
         """
         Sets the Selenium WebDriver and navigates to the landing page.
 
         Args:
-            driver (WebDriver): The Selenium WebDriver instance.
+            driver (UiContext[UiElement]): The UI context instance.
         Returns:
             Self: The current step instance for chaining.
         """
-        return self.a_web_driver(driver).at(self.configured.landing_page)
+        return self.ui_context(driver).at(self.configured.entry_point)
 
     def clicking_login(self) -> Self:
         """

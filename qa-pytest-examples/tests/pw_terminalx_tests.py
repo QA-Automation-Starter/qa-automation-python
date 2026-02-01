@@ -33,7 +33,7 @@ class PwTerminalXTests(
     def login_section(
             self, user: TerminalXUser) -> PwTerminalXSteps[PwTerminalXConfiguration]:
         return (self.steps
-                .given.terminalx(self.page)
+                .given.terminalx(self.ui_context)
                 .when.logging_in_with(user.credentials)
                 .then.the_user_logged_in(is_(user.name)))
 
@@ -65,5 +65,4 @@ class PwTerminalXTests(
             super().setup_method()
     # --8<-- [end:setup_method]
 
-# --8<-- [end:class]
 # --8<-- [end:class]

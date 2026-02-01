@@ -41,15 +41,12 @@ markdown_extensions:
       base_path:
       - qa-pytest-commons/src
       - qa-pytest-webdriver/src
+      - qa-pytest-playwright/src
       - qa-pytest-rest/src
       - qa-pytest-rabbitmq/src
       - qa-pytest-examples/src
       - qa-pytest-examples/tests
-  - pymdownx.superfences:
-      custom_fences:              # <<< missing bit
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.superfences
   - pymdownx.highlight
   - codehilite:
       guess_lang: false
@@ -64,6 +61,7 @@ nav:
   - Example Allure Report: reports/index.html
   - API Reference:
     - WebDriver: api/qa-pytest-webdriver.md
+    - Playwright: api/qa-pytest-playwright.md
     - REST: api/qa-pytest-rest.md
     - RabbitMQ: api/qa-pytest-rabbitmq.md
     - Commons: api/qa-pytest-commons.md

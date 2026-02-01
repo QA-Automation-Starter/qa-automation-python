@@ -13,7 +13,7 @@ dependencies = [
   "qa-testing-utils==0.0.12",
   "qa-pytest-rest==0.0.12",
   "qa-pytest-webdriver==0.0.12",
-  "qa-pytest-playwright==0.0.12",
+  # or "qa-pytest-playwright==0.0.12",
   "qa-pytest-commons==0.0.12"
 ]
 

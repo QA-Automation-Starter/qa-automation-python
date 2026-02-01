@@ -31,7 +31,7 @@ class TerminalXTests(
     def login_section(
             self, user: TerminalXUser) -> TerminalXSteps[TerminalXConfiguration]:
         return (self.steps
-                .given.terminalx(self.web_driver)
+                .given.terminalx(self.ui_context)
                 .when.logging_in_with(user.credentials)
                 .then.the_user_logged_in(is_(user.name)))
 
@@ -66,5 +66,4 @@ class TerminalXTests(
             super().setup_method()
     # --8<-- [end:setup_method]
 
-# --8<-- [end:class]
 # --8<-- [end:class]

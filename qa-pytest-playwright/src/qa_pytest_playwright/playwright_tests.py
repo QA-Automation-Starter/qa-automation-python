@@ -6,10 +6,12 @@ from typing import Any, override
 
 from playwright.sync_api import Browser, Page, Playwright
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+from qa_pytest_commons.ui_protocols import UiContext, UiElement
 from qa_pytest_playwright.playwright_configuration import (
     PlaywrightConfiguration,
 )
 from qa_pytest_playwright.playwright_steps import PlaywrightSteps
+from qa_pytest_playwright.playwright_ui_adapter import PlaywrightUiContext
 
 
 class PlaywrightTests[
@@ -53,6 +55,10 @@ class PlaywrightTests[
             Page: The Playwright page instance.
         """
         return self._page
+    
+    @property
+    def ui_context(self) -> UiContext[UiElement]:
+        return PlaywrightUiContext(self._page)
 
     @override
     def setup_method(self):
