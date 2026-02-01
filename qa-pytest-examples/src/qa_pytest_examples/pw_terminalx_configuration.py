@@ -5,13 +5,16 @@
 from qa_pytest_examples.terminalx_users_configuration import (
     TerminalXUsersConfigurationMixin,
 )
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_pytest_playwright.playwright_configuration import (
+    PlaywrightConfiguration,
+)
 
 
-class TerminalXConfiguration(SeleniumConfiguration,
-                             TerminalXUsersConfigurationMixin):
+class PwTerminalXConfiguration(
+        PlaywrightConfiguration, TerminalXUsersConfigurationMixin):
     """
-    Configuration for TerminalX Selenium-based tests.
+    Configuration for TerminalX Playwright-based tests.
     Provides access to users and random user selection.
     """
+
     pass

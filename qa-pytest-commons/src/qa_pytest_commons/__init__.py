@@ -15,6 +15,19 @@ from qa_pytest_commons.bdd_keywords import (
 from qa_pytest_commons.generic_steps import (
     GenericSteps,
 )
+from qa_pytest_commons.selector import (
+    By,
+    Selector,
+)
+from qa_pytest_commons.ui_configuration import (
+    UiConfiguration,
+)
+from qa_pytest_commons.ui_protocols import (
+    TElement,
+    UiContext,
+    UiElement,
+)
 
-__all__ = ['AbstractTestsBase', 'BaseConfiguration', 'BddKeywords',
-           'Configuration', 'GenericSteps']
+__all__ = ['AbstractTestsBase', 'BaseConfiguration', 'BddKeywords', 'By',
+           'Configuration', 'GenericSteps', 'Selector', 'TElement',
+           'UiConfiguration', 'UiContext', 'UiElement']

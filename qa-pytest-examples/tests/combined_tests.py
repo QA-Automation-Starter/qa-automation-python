@@ -12,7 +12,7 @@ from qa_testing_utils.matchers import tracing, yields_item
 
 # --8<-- [start:class]
 @pytest.mark.external
-@pytest.mark.selenium
+@pytest.mark.ui
 class CombinedTests(
         RestTests[CombinedSteps, CombinedConfiguration],
         SeleniumTests[CombinedSteps, CombinedConfiguration]):
@@ -27,7 +27,7 @@ class CombinedTests(
             .given.swagger_petstore(self.rest_session)
             .when.adding(random_pet)
             .then.the_available_pets(yields_item(tracing(is_(random_pet))))
-            .given.terminalx(self.web_driver)
+            .given.terminalx(self.ui_context)
             .when.logging_in_with(random_user.credentials)
             .then.the_user_logged_in(is_(random_user.name)))
 # --8<-- [end:class]

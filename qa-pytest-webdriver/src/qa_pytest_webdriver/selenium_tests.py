@@ -6,7 +6,12 @@ from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
-from qa_pytest_webdriver.selenium_steps import SeleniumSteps
+from qa_pytest_webdriver.selenium_steps import (
+    SeleniumSteps,
+    UiContext,
+    UiElement,
+)
+from qa_pytest_webdriver.selenium_ui_adapter import SeleniumUiContext
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -32,14 +37,14 @@ class SeleniumTests[
     _web_driver: WebDriver  # not thread safe
 
     @property
-    def web_driver(self) -> WebDriver:
+    def ui_context(self) -> UiContext[UiElement]:
         '''
         Returns the web driver instance.
 
         Returns:
-            WebDriver: The web driver instance.
+            UiContext[UiElement]: The web driver instance.
         '''
-        return self._web_driver
+        return SeleniumUiContext(self._web_driver)
 
     @override
     def setup_method(self):
@@ -52,6 +57,7 @@ class SeleniumTests[
 
         options = Options()
         options.add_argument("--start-maximized")  # type: ignore
+        options.add_argument("--disable-gpu")
         self._web_driver = Chrome(
             options,
             self._configuration.service)

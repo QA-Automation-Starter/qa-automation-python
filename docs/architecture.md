@@ -1,6 +1,6 @@
 #   Architecture
 
-> Support for additional technologies, e.g. ElasticSearch, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.
+> Support for additional technologies, e.g. Playwright, ElasticSearch, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.
 
 ```mermaid
 flowchart TD
@@ -108,7 +108,9 @@ classDiagram
 | [`SeleniumTests`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumTests) | Selenium-specific test base |
 | [`SeleniumSteps`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumSteps) | Selenium-specific steps |
 | [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumConfiguration) | Selenium-specific configuration |
-| [`TerminalXSteps`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXSteps) | Example: custom UI steps |
+| [`PlaywrightTests`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightTests) | Playwright-specific test base |
+| [`PlaywrightSteps`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightSteps) | Playwright-specific steps |
+| [`PlaywrightConfiguration`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightConfiguration) | Playwright-specific configuration |
 | [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXConfiguration) | Example: custom UI configuration |
 
 ---

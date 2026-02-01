@@ -7,32 +7,34 @@ from typing import Iterator, Self
 from hamcrest.core.matcher import Matcher
 from qa_pytest_commons.selector import By
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
-from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
-from qa_pytest_webdriver.selenium_steps import SeleniumSteps
+from qa_pytest_examples.pw_terminalx_configuration import (
+    PwTerminalXConfiguration,
+)
+from qa_pytest_playwright import PlaywrightSteps
 from qa_pytest_webdriver.selenium_ui_adapter import UiContext, UiElement
 from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_iterator, adapted_object
 
 
-class TerminalXSteps[TConfiguration: TerminalXConfiguration](
-        SeleniumSteps[TConfiguration]):
+class PwTerminalXSteps[TConfiguration: PwTerminalXConfiguration](
+        PlaywrightSteps[TConfiguration]):
     """
-    BDD-style step definitions for TerminalX UI operations using Selenium.
+    BDD-style step definitions for TerminalX UI operations using Playwright.
 
     Type Parameters:
-        TConfiguration: The configuration type, must be a TerminalXConfiguration.
+        TConfiguration: The configuration type, must be a PwTerminalXConfiguration.
     """
     @Context.traced
-    def terminalx(self, driver: UiContext[UiElement]) -> Self:
+    def terminalx(self, page: UiContext[UiElement]) -> Self:
         """
-        Sets the Selenium WebDriver and navigates to the landing page.
+        Sets the Playwright Page and navigates to the landing page.
 
         Args:
-            driver (UiContext[UiElement]): The UI context instance.
+            page (UiContext[UiElement]): The Playwright Page instance.
         Returns:
             Self: The current step instance for chaining.
         """
-        return self.ui_context(driver).at(self.configured.entry_point)
+        return self.ui_context(page).at(self.configured.entry_point)
 
     def clicking_login(self) -> Self:
         """

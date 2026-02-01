@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-
 from typing import Iterator, Optional, Self, final, overload
 
 from hamcrest.core.matcher import Matcher
@@ -14,36 +13,39 @@ from qa_pytest_commons.ui_protocols import (
     UiContext,
     UiElement,
 )
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
+from qa_pytest_playwright.playwright_configuration import (
+    PlaywrightConfiguration,
+)
 from qa_testing_utils.logger import Context
 
 
-class SeleniumSteps[TConfiguration: SeleniumConfiguration](
+class PlaywrightSteps[TConfiguration: PlaywrightConfiguration](
     GenericSteps[TConfiguration]
 ):
     """
-    BDD-style step definitions for Selenium-based UI operations.
+    BDD-style step definitions for Playwright-based UI operations.
 
     Type Parameters:
-        TConfiguration: The configuration type, must be a SeleniumConfiguration.
+        TConfiguration: The configuration type, must be a PlaywrightConfiguration.
 
     Attributes:
-        _ui_context (UiContext[UiElement]): The UI context instance used for browser automation.
+        _ui_context (UiContext[UiElement]): The Playwright UI context used for browser automation.
     """
+
     _ui_context: UiContext[UiElement]
 
     @final
     @Context.traced
-    def ui_context(self, context: UiContext[UiElement]) -> Self:
+    def ui_context(self, ui_context: UiContext[UiElement]) -> Self:
         """
-        Sets the UI context instance (backend-agnostic).
+        Sets the Playwright Page instance.
 
         Args:
-            context (UiContext[UiElement]): The UI context instance.
+            ui_context (UiContext[UiElement]): The Playwright Page instance.
         Returns:
             Self: The current step instance for chaining.
         """
-        self._ui_context = context
+        self._ui_context = ui_context
         return self
 
     @final
@@ -70,7 +72,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         Clicks the element supplied by the given callable.
 
         Args:
-            element_supplier (ElementSupplier): Callable returning a WebElement.
+            element_supplier (ElementSupplier): Callable returning a Playwright Locator.
         Returns:
             Self: The current step instance for chaining.
         """
@@ -78,10 +80,12 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         return self
 
     @overload
-    def clicking(self, element: Selector) -> Self: ...
+    def clicking(
+        self, element: Selector) -> Self: ...
 
     @overload
-    def clicking(self, element: ElementSupplier) -> Self: ...
+    def clicking(
+        self, element: ElementSupplier) -> Self: ...
 
     @final
     def clicking(self, element: SelectorOrSupplier) -> Self:
@@ -89,7 +93,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         Clicks the element specified by a selector or supplier, with retry logic.
 
         Args:
-            element (SelectorOrSupplier): Selector or callable returning a WebElement.
+            element (SelectorOrSupplier): Selector or callable returning a Playwright Locator.
         Returns:
             Self: The current step instance for chaining.
         """
@@ -102,21 +106,23 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         Types the given text into the element supplied by the callable.
 
         Args:
-            element_supplier (ElementSupplier): Callable returning a WebElement.
+            element_supplier (ElementSupplier): Callable returning a Playwright Locator.
             text (str): The text to type.
         Returns:
             Self: The current step instance for chaining.
         """
         element = element_supplier()
         element.clear()
-        element.send_keys(text)
+        element.type(text)
         return self
 
     @overload
-    def typing(self, element: Selector, text: str) -> Self: ...
+    def typing(self, element: Selector,
+               text: str) -> Self: ...
 
     @overload
-    def typing(self, element: ElementSupplier, text: str) -> Self: ...
+    def typing(self, element: ElementSupplier,
+               text: str) -> Self: ...
 
     @final
     def typing(self, element: SelectorOrSupplier, text: str) -> Self:
@@ -124,7 +130,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
         Types the given text into the element specified by a selector or supplier, with retry logic.
 
         Args:
-            element (SelectorOrSupplier): Selector or callable returning a WebElement.
+            element (SelectorOrSupplier): Selector or callable returning a Playwright Locator.
             text (str): The text to type.
         Returns:
             Self: The current step instance for chaining.
@@ -135,18 +141,15 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
 
     @final
     def the_element(
-        self,
-        selector: Selector,
-        by_rule: Matcher[UiElement],
-        context: Optional[UiContext[UiElement]] = None
-    ) -> Self:
+            self, selector: Selector, by_rule: Matcher[UiElement],
+            context: Optional[UiContext[UiElement]] = None) -> Self:
         """
         Asserts that the element found by the selector matches the given matcher.
 
         Args:
             selector (Selector): The selector to find the element.
             by_rule (Matcher[UiElement]): Matcher for the element.
-            context (Optional[UiContext[UiElement]]): Optional Selenium context.
+            context (Optional[UiContext[UiElement]]): Optional page context (defaults to _page).
         Returns:
             Self: The current step instance for chaining.
         """
@@ -156,18 +159,16 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
 
     @final
     def the_elements(
-        self,
-        selector: Selector,
-        by_rule: Matcher[Iterator[UiElement]],
-        context: Optional[UiContext[UiElement]] = None
-    ) -> Self:
+            self, selector: Selector, by_rule:
+            Matcher[Iterator[UiElement]],
+            context: Optional[UiContext[UiElement]] = None) -> Self:
         """
         Asserts that the elements found by the selector match the given matcher.
 
         Args:
             selector (Selector): The selector to find the elements.
-            by_rule (Matcher[Iterator[UiElement]]): Matcher for the elements iterator.
-            context (Optional[UiContext[UiElement]]): Optional Selenium context.
+            by_rule (Matcher[Iterator[LocatorWrapper]]): Matcher for the elements iterator.
+            context (Optional[Page]): Optional page context (defaults to _page).
         Returns:
             Self: The current step instance for chaining.
         """
@@ -178,9 +179,7 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
     @final
     @Context.traced
     def _elements(
-        self,
-        selector: Selector,
-        context: Optional[UiContext[UiElement]] = None
+        self, selector: Selector, context: Optional[UiContext[UiElement]] = None
     ) -> Iterator[UiElement]:
         search_ctx = context or self._ui_context
         return search_ctx.find_elements(*selector.as_tuple())
@@ -188,18 +187,17 @@ class SeleniumSteps[TConfiguration: SeleniumConfiguration](
     @final
     @Context.traced
     def _element(
-        self,
-        selector: Selector,
-        context: Optional[UiContext[UiElement]] = None
-    ) -> UiElement:  # type: ignore[override]
-        return self._scroll_into_view(
-            (context or self._ui_context)
-            .find_element(*selector.as_tuple()))
+        self, selector: Selector, context: Optional[UiContext[UiElement]] = None
+    ) -> UiElement:
+        element = (
+            context or self._ui_context).find_element(
+            *selector.as_tuple())
+        return self._scroll_into_view(element)
 
     def _scroll_into_view(self, element: UiElement) -> UiElement:
-        self._ui_context.execute_script(
-            "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
-            element)
+        # Use hasattr to check for Playwright-specific method
+        if hasattr(element, 'scroll_into_view_if_needed'):
+            element.scroll_into_view_if_needed()  # type: ignore[attr-defined]
         return element
 
     @final

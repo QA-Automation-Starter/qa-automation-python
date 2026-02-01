@@ -22,6 +22,9 @@
     <a href="https://pypi.org/project/qa-pytest-webdriver/">
         <img alt="webdriver" src="https://img.shields.io/pypi/v/qa-pytest-webdriver.svg?label=webdriver">
     </a>
+    <a href="https://pypi.org/project/qa-pytest-playwright/">
+        <img alt="playwright" src="https://img.shields.io/pypi/v/qa-pytest-playwright.svg?label=playwright">
+    </a>
     <br>
     <!-- License -->
     <a href="LICENSE">
@@ -62,6 +65,11 @@ Open in Codespace or Dev Container and everything will get installed and configu
    ```
    > NOTE: This must be run whenever new dependencies, or versions are changed.
    > NOTE: in VSCode, you need to ensure that selected interpreter is from root's venv directory
+   
+   For Playwright tests, also install browsers:
+   ```bash
+   pdm run playwright-install
+   ```
 
 3. Run all tests from the root:
    ```bash
@@ -89,6 +97,7 @@ qa-automation-python/
 ├── qa-pytest-commons/       # Technology-agnostic test infrastructure
 ├── qa-pytest-rest/          # REST-specific steps and config
 ├── qa-pytest-webdriver/     # Selenium-specific implementation
+├── qa-pytest-playwright/    # Playwright-specific implementation
 ├── qa-pytest-template/      # TBD: Cookiecutter project template
 ├── qa-pytest-examples/      # Usage examples for application test projects
 ├── pyproject.toml           # Root environment definition for PDM

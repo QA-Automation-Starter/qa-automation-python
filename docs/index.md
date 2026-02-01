@@ -3,7 +3,7 @@
 
 **Modular Python packages for maintainable, BDD-style automated tests with [`pytest`](https://docs.pytest.org/), [`Hamcrest`](https://hamcrest.org/), [`Allure`](https://docs.qameta.io/allure/) reporting, and configurable logging.**
 
-Technology-agnostic; example REST, Selenium and RabbitMQ implementations included.
+Technology-agnostic; example REST, Selenium, Playwright, and RabbitMQ implementations included.
 
 ## Example Allure Report
 ![Allure BDD Example](images/allure-bdd-example.png)
