@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="A starter project for QA Automation using pytest and Allure." name="description"/>
 <link href="https://python.qa-automation-starter.aherscu.dev/architecture/" rel="canonical"/>
-<link href="../getting-started/" rel="prev"/>
+<link href="../switching-selenium-to-playwright/" rel="prev"/>
 <link href="../example-tests/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
@@ -141,6 +141,14 @@
 <a class="md-nav__link" href="../getting-started/">
 <span class="md-ellipsis">
     Getting Started
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../switching-selenium-to-playwright/">
+<span class="md-ellipsis">
+    Switching Selenium to Playwright
     
   </span>
 </a>
@@ -321,16 +329,16 @@
 </a>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
-<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
 <span class="md-ellipsis">
     API Reference
     
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_7">
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
             API Reference
           </label>
@@ -339,6 +347,14 @@
 <a class="md-nav__link" href="../api/qa-pytest-webdriver/">
 <span class="md-ellipsis">
     WebDriver
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api/qa-pytest-playwright/">
+<span class="md-ellipsis">
+    Playwright
     
   </span>
 </a>
@@ -544,7 +560,7 @@
 <article class="md-content__inner md-typeset">
 <h1 id="architecture">Architecture</h1>
 <blockquote>
-<p>Support for additional technologies, e.g. ElasticSearch, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.</p>
+<p>Support for additional technologies, e.g. Playwright, ElasticSearch, can be added by sub-classing these classes and adding specific steps, setup/teardown, and configuration. This allows reusing the basic configuration, reporting, logging, and retrying mechanisms. Further, application tests, steps, and configurations reuse by subclassing from technologies.</p>
 </blockquote>
 <pre class="mermaid"><code>flowchart TD
     A[Tests: Define BDD scenarios as series of steps, also define specific setup and teardown] --&gt; |contains| B[Steps: encapsulate UI or API operations and verifications, and may be composed of other steps]
@@ -679,8 +695,16 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <td>Selenium-specific configuration</td>
 </tr>
 <tr>
-<td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXSteps"><code>TerminalXSteps</code></a></td>
-<td>Example: custom UI steps</td>
+<td><a href="../api/qa-pytest-playwright/#qa_pytest_playwright.PlaywrightTests"><code>PlaywrightTests</code></a></td>
+<td>Playwright-specific test base</td>
+</tr>
+<tr>
+<td><a href="../api/qa-pytest-playwright/#qa_pytest_playwright.PlaywrightSteps"><code>PlaywrightSteps</code></a></td>
+<td>Playwright-specific steps</td>
+</tr>
+<tr>
+<td><a href="../api/qa-pytest-playwright/#qa_pytest_playwright.PlaywrightConfiguration"><code>PlaywrightConfiguration</code></a></td>
+<td>Playwright-specific configuration</td>
 </tr>
 <tr>
 <td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXConfiguration"><code>TerminalXConfiguration</code></a></td>
@@ -692,7 +716,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <h2 id="usage-examples">Usage Examples</h2>
 <h3 id="terminalx-tests">TerminalX Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">selenium</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ui</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TerminalXTests</span><span class="p">(</span>
     <span class="n">SeleniumTests</span><span class="p">[</span><span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">],</span>
                   <span class="n">TerminalXConfiguration</span><span class="p">]):</span>
@@ -703,7 +727,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
     <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
 
@@ -773,7 +797,7 @@ shall be used at runtime.</p>
 </code></pre></div>
 <h3 id="combined-tests">Combined Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">selenium</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ui</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CombinedTests</span><span class="p">(</span>
         <span class="n">RestTests</span><span class="p">[</span><span class="n">CombinedSteps</span><span class="p">,</span> <span class="n">CombinedConfiguration</span><span class="p">],</span>
         <span class="n">SeleniumTests</span><span class="p">[</span><span class="n">CombinedSteps</span><span class="p">,</span> <span class="n">CombinedConfiguration</span><span class="p">]):</span>
@@ -788,7 +812,7 @@ shall be used at runtime.</p>
             <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">swagger_petstore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rest_session</span><span class="p">)</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">random_pet</span><span class="p">)</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_pet</span><span class="p">))))</span>
-            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">random_user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
 </code></pre></div>

@@ -290,6 +290,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../switching-selenium-to-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Switching Selenium to Playwright
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../architecture/" class="md-nav__link">
         
   
@@ -386,7 +408,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="TerminalX (UI) search test">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terminalx-ui-search-test-with-playwright" class="md-nav__link">
+    <span class="md-ellipsis">
+      TerminalX (UI) search test with Playwright
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TerminalX (UI) search test with Playwright">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -448,10 +479,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -464,8 +495,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             API Reference
           </label>
@@ -484,6 +515,29 @@
   
   <span class="md-ellipsis">
     WebDriver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/qa-pytest-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playwright
     
   </span>
   
@@ -667,7 +721,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="TerminalX (UI) search test">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terminalx-ui-search-test-with-playwright" class="md-nav__link">
+    <span class="md-ellipsis">
+      TerminalX (UI) search test with Playwright
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TerminalX (UI) search test with Playwright">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -741,7 +804,31 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_driver</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">should_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;kitty&quot;</span><span class="p">]:</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
+                 <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
+</code></pre></div></p>
+<h2 id="terminalx-ui-search-test-with-playwright">TerminalX (UI) search test with Playwright</h2>
+<p>Same test flow as above, using Playwright instead of Selenium.</p>
+<p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
+<div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PwTerminalXSteps</span><span class="p">[</span><span class="n">PwTerminalXConfiguration</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
 

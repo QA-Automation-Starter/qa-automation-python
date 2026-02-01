@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://python.qa-automation-starter.aherscu.dev/api/qa-pytest-rest/">
       
       
-        <link rel="prev" href="../qa-pytest-webdriver/">
+        <link rel="prev" href="../qa-pytest-playwright/">
       
       
         <link rel="next" href="../qa-pytest-rabbitmq/">
@@ -290,6 +290,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../../switching-selenium-to-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Switching Selenium to Playwright
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/" class="md-nav__link">
         
   
@@ -366,10 +388,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -382,8 +404,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             API Reference
           </label>
@@ -402,6 +424,29 @@
   
   <span class="md-ellipsis">
     WebDriver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playwright
     
   </span>
   
@@ -1410,7 +1455,11 @@
               </div>
             </td>
             <td>
-                  <code><span title="qa_testing_utils.string_utils.EMPTY_STRING">EMPTY_STRING</span></code>
+                  <code><a class="autorefs autorefs-internal" title="EMPTY_STRING = ''
+
+  
+      module-attribute
+   (qa_testing_utils.string_utils.EMPTY_STRING)" href="../qa-testing-utils/#qa_testing_utils.EMPTY_STRING">EMPTY_STRING</a></code>
             </td>
           </tr>
       </tbody>
@@ -1490,16 +1539,11 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="TConfiguration">TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="qa_pytest_rest.rest_steps.RestSteps[TConfiguration]">RestSteps[TConfiguration]</span>]</code></p>
 
 
         <p>BDD-style step definitions for REST API operations.</p>
 
-
-<details class="type-parameters" open>
-  <summary>Type Parameters</summary>
-  <p>TConfiguration: The configuration type, must be a RestConfiguration.</p>
-</details>
 
 <p><span class="doc-section-title">Attributes:</span></p>
     <table>
@@ -1882,7 +1926,7 @@ Raises:
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="TSteps">TSteps</span>, <span title="TConfiguration">TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="qa_pytest_rest.rest_tests.RestTests[TSteps]">RestTests[TSteps]</span>, <span title="qa_pytest_rest.rest_tests.RestTests[TConfiguration]">RestTests[TConfiguration]</span>]</code></p>
 
 
         <p>Base class for REST API test cases.</p>
@@ -1914,12 +1958,6 @@ for each test method. It is generic over the types of steps and configuration us
       </tbody>
     </table>
 
-
-<details class="type-parameters" open>
-  <summary>Type Parameters</summary>
-  <p>TSteps: The type of the steps class, typically derived from RestSteps.
-TConfiguration: The type of the configuration class, typically derived from RestConfiguration.</p>
-</details>
 
 
 

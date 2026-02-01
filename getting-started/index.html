@@ -16,7 +16,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../architecture/">
+        <link rel="next" href="../switching-selenium-to-playwright/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -277,6 +277,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -289,6 +302,56 @@
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#available-pdm-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available PDM Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../switching-selenium-to-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Switching Selenium to Playwright
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -374,10 +437,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -390,8 +453,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             API Reference
           </label>
@@ -410,6 +473,29 @@
   
   <span class="md-ellipsis">
     WebDriver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/qa-pytest-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playwright
     
   </span>
   
@@ -562,6 +648,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#available-pdm-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available PDM Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -606,6 +709,11 @@
    <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>install-all
 </code></pre></div></p>
 </li>
+</ol>
+<p>For Playwright tests, also run:
+   <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>playwright-install
+</code></pre></div></p>
+<ol>
 <li>
 <p>Run all tests from the root:
    <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>pytest
@@ -625,6 +733,52 @@
 </blockquote>
 </li>
 </ol>
+<hr />
+<h2 id="available-pdm-scripts">Available PDM Scripts</h2>
+<p>The project includes several convenience scripts in <code>pyproject.toml</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pdm run install-all</code></td>
+<td>Installs all dependencies for the monorepo and sub-packages</td>
+</tr>
+<tr>
+<td><code>pdm run playwright-install</code></td>
+<td>Installs Playwright browsers (Chrome, Firefox, WebKit)</td>
+</tr>
+<tr>
+<td><code>pdm run clean-all</code></td>
+<td>Removes all generated files (<code>.pyc</code>, <code>__pycache__</code>, build artifacts)</td>
+</tr>
+<tr>
+<td><code>pdm run format-all</code></td>
+<td>Formats all code with <code>isort</code> and <code>autopep8</code></td>
+</tr>
+<tr>
+<td><code>pdm run build-all</code></td>
+<td>Builds all sub-packages</td>
+</tr>
+<tr>
+<td><code>pdm run publish-all</code></td>
+<td>Publishes all sub-packages to PyPI</td>
+</tr>
+<tr>
+<td><code>pdm run allure-generate</code></td>
+<td>Generates Allure HTML report from test results</td>
+</tr>
+<tr>
+<td><code>pdm run mkdocs-serve</code></td>
+<td>Starts local documentation server at http://localhost:8000</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <p>Customize for your needs :)</p>
 <hr />
 

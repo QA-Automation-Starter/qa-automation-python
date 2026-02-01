@@ -290,6 +290,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../../switching-selenium-to-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Switching Selenium to Playwright
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/" class="md-nav__link">
         
   
@@ -366,10 +388,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -382,8 +404,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             API Reference
           </label>
@@ -402,6 +424,29 @@
   
   <span class="md-ellipsis">
     WebDriver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-pytest-playwright/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playwright
     
   </span>
   
@@ -1370,7 +1415,7 @@
       instance-attribute
    (qa_pytest_rabbitmq.Message.content)" href="#qa_pytest_rabbitmq.Message.content">content</a></code></td>
             <td>
-                  <code><span title="V">V</span></code>
+                  <code><span title="qa_pytest_rabbitmq.queue_handler.Message[V]">Message[V]</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2119,12 +2164,12 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Mapping">Mapping</span>[<span title="K">K</span>, <a class="autorefs autorefs-internal" title="Message
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="qa_pytest_rabbitmq.queue_handler.QueueHandler[K]">QueueHandler[K]</span>, <a class="autorefs autorefs-internal" title="Message
 
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="qa_pytest_rabbitmq.queue_handler.QueueHandler[V]">QueueHandler[V]</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2217,7 +2262,7 @@
 
 
 <h4 id="qa_pytest_rabbitmq.QueueHandler.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">queue_name</span><span class="p">,</span> <span class="n">indexing_by</span><span class="p">,</span> <span class="n">consuming_by</span><span class="p">,</span> <span class="n">publishing_by</span><span class="p">,</span> <span class="n">_received_messages</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()(),</span> <span class="n">_command_queue</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()())</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">queue_name</span><span class="p">,</span> <span class="n">indexing_by</span><span class="p">,</span> <span class="n">consuming_by</span><span class="p">,</span> <span class="n">publishing_by</span><span class="p">,</span> <span class="n">_received_messages</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">dict</span><span class="p">())(),</span> <span class="n">_command_queue</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">())())</span></code>
 
 </h4>
 
@@ -2474,7 +2519,7 @@ Returns:
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="qa_pytest_rabbitmq.queue_handler.QueueHandler[V]">QueueHandler[V]</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2562,7 +2607,7 @@ Returns:
                 <code>values</code>
             </td>
             <td>
-                  <code><span title="typing.Iterator">Iterator</span>[<span title="V">V</span>]</code>
+                  <code><span title="typing.Iterator">Iterator</span>[<span title="qa_pytest_rabbitmq.queue_handler.QueueHandler[V]">QueueHandler[V]</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2746,18 +2791,11 @@ Provides access to the RabbitMQ connection URI from the configuration parser.</p
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="TConfiguration">TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="GenericSteps (qa_pytest_commons.generic_steps.GenericSteps)" href="../qa-pytest-commons/#qa_pytest_commons.GenericSteps">GenericSteps</a>[<span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[TConfiguration]">RabbitMqSteps[TConfiguration]</span>]</code></p>
 
 
         <p>BDD-style step definitions for RabbitMQ queue operations.</p>
 
-
-<details class="type-parameters" open>
-  <summary>Type Parameters</summary>
-  <p>K: The type of the message key.
-V: The type of the message content.
-TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
-</details>
 
 
 
@@ -2985,7 +3023,7 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.QueueHandler)" href="#qa_pytest_rabbitmq.QueueHandler">QueueHandler</a>[<span title="K">K</span>, <span title="V">V</span>]</code>
+   (qa_pytest_rabbitmq.queue_handler.QueueHandler)" href="#qa_pytest_rabbitmq.QueueHandler">QueueHandler</a>[<span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[K]">RabbitMqSteps[K]</span>, <span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[V]">RabbitMqSteps[V]</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3136,7 +3174,7 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[V]">RabbitMqSteps[V]</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3216,7 +3254,7 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
                 <code>key</code>
             </td>
             <td>
-                  <code><span title="K">K</span></code>
+                  <code><span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[K]">RabbitMqSteps[K]</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3237,7 +3275,7 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]</code>
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[V]">RabbitMqSteps[V]</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3330,7 +3368,7 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
 
   
       dataclass
-   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="V">V</span>]]]</code>
+   (qa_pytest_rabbitmq.queue_handler.Message)" href="#qa_pytest_rabbitmq.Message">Message</a>[<span title="qa_pytest_rabbitmq.rabbitmq_steps.RabbitMqSteps[V]">RabbitMqSteps[V]</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3405,20 +3443,12 @@ TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="TSteps">TSteps</span>, <span title="TConfiguration">TConfiguration</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="AbstractTestsBase (qa_pytest_commons.abstract_tests_base.AbstractTestsBase)" href="../qa-pytest-commons/#qa_pytest_commons.AbstractTestsBase">AbstractTestsBase</a>[<span title="qa_pytest_rabbitmq.rabbitmq_tests.RabbitMqTests[TSteps]">RabbitMqTests[TSteps]</span>, <span title="qa_pytest_rabbitmq.rabbitmq_tests.RabbitMqTests[TConfiguration]">RabbitMqTests[TConfiguration]</span>]</code></p>
 
 
         <p>Base class for BDD-style RabbitMQ integration tests.
 Manages the lifecycle of a RabbitMQ connection for test scenarios.</p>
 
-
-<details class="type-args" open>
-  <summary>Type Args</summary>
-  <p>K: The type of the message key.
-V: The type of the message content.
-TSteps: The steps implementation type.
-TConfiguration: The configuration type, must be a RabbitMqConfiguration.</p>
-</details>
 
 
 
