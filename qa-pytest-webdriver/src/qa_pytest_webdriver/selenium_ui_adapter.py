@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Adrian Herscu
 #
 # SPDX-License-Identifier: Apache-2.0
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Iterator, Optional
 
 from qa_pytest_commons.ui_protocols import UiContext, UiElement
@@ -19,7 +20,55 @@ if TYPE_CHECKING:
 
 """
 Selenium adapter for backend-agnostic UiElement and UiContext protocols.
+Supports cross-platform browsers: Chrome/Chromium, Firefox
 """
+
+
+@dataclass
+class SeleniumConfig:
+    """Configuration for Selenium WebDriver creation."""
+    browser: str
+    headless: bool
+    maximize: bool
+    window_width: int
+    window_height: int
+    chrome_arguments: list[str]
+    firefox_arguments: list[str]
+
+    @classmethod
+    def from_parser(cls, parser: Any) -> "SeleniumConfig":
+        """Parse Selenium configuration from INI parser."""
+        selenium_section = parser["selenium"] if parser.has_section(
+            "selenium") else {}
+
+        browser = selenium_section.get("browser", "chromium").lower()
+        headless = parser.getboolean("selenium", "headless", fallback=False)
+        maximize = parser.getboolean("selenium", "maximize", fallback=False)
+        window_width = parser.getint("selenium", "window_width", fallback=1920)
+        window_height = parser.getint(
+            "selenium", "window_height", fallback=1080)
+
+        chrome_args = []
+        if "chrome_arguments" in selenium_section:
+            chrome_args = [
+                arg.strip()
+                for arg in selenium_section["chrome_arguments"].split(",")]
+
+        firefox_args = []
+        if "firefox_arguments" in selenium_section:
+            firefox_args = [
+                arg.strip()
+                for arg in selenium_section["firefox_arguments"].split(",")]
+
+        return cls(
+            browser=browser,
+            headless=headless,
+            maximize=maximize,
+            window_width=window_width,
+            window_height=window_height,
+            chrome_arguments=chrome_args,
+            firefox_arguments=firefox_args,
+        )
 
 
 class SeleniumUiElement(WebElement, UiElement):
@@ -61,20 +110,59 @@ class SeleniumUiContext(UiContext[SeleniumUiElement]):
         return self._driver.execute_script(script, *args)  # type: ignore
 
     @staticmethod
+    def _create_chrome(config: SeleniumConfig) -> WebDriver:
+        """Create Chrome/Chromium WebDriver."""
+        options = ChromeOptions()
+        if config.headless:
+            options.add_argument("--headless=new")
+        for arg in config.chrome_arguments:
+            options.add_argument(arg)
+
+        service = ChromeService(ChromeDriverManager().install())
+        driver = Chrome(options=options, service=service)
+        return driver
+
+    @staticmethod
+    def _create_firefox(config: SeleniumConfig) -> WebDriver:
+        """Create Firefox WebDriver."""
+        options = FirefoxOptions()
+        if config.headless:
+            options.add_argument("-headless")
+        for arg in config.firefox_arguments:
+            options.add_argument(arg)
+
+        service = FirefoxService(GeckoDriverManager().install())
+        driver = Firefox(options=options, service=service)
+        return driver
+
+    @staticmethod
+    def _apply_window_settings(
+            driver: WebDriver, config: SeleniumConfig) -> None:
+        """Apply window size or maximize settings."""
+        if config.maximize:
+            driver.maximize_window()
+        else:
+            driver.set_window_size(config.window_width, config.window_height)
+
+    @staticmethod
     def create_driver(configuration: "UiConfiguration") -> WebDriver:
         """
         Creates and returns a fully configured Selenium WebDriver.
 
         Reads configuration from [selenium] section in the configuration parser.
-        Supported settings:
-        - browser: "chrome", "chromium" (default), or "firefox"
-        - headless: true/false (default: false)
-        - maximize: true/false (default: false) - if true, ignores window_width/height
+
+        Supported browsers (cross-platform):
+        - chromium, chrome (default)
+        - firefox
+
+        Configuration options:
+        - browser: str (default: chromium)
+        - headless: bool (default: false)
+        - maximize: bool (default: false)
         - window_width: int (default: 1920)
         - window_height: int (default: 1080)
-        - Additional browser-specific arguments can be specified as:
-          - chrome_arguments: comma-separated list
-          - firefox_arguments: comma-separated list
+        - chrome_arguments: comma-separated string (optional)
+        - firefox_arguments: comma-separated string (optional)
 
         Args:
             configuration: UiConfiguration instance with parser access.
@@ -85,49 +173,17 @@ class SeleniumUiContext(UiContext[SeleniumUiElement]):
         Raises:
             ValueError: If an unsupported browser type is specified.
         """
-        parser = configuration.parser
-        selenium_section = parser["selenium"] if parser.has_section(
-            "selenium") else {}
+        config = SeleniumConfig.from_parser(configuration.parser)
 
-        browser = selenium_section.get("browser", "chromium").lower()
-        headless = parser.getboolean("selenium", "headless", fallback=False)
-        maximize = parser.getboolean("selenium", "maximize", fallback=False)
-        window_width = parser.getint("selenium", "window_width", fallback=1920)
-        window_height = parser.getint(
-            "selenium", "window_height", fallback=1080)
-
-        if browser == "firefox":
-            options = FirefoxOptions()
-            if headless:
-                options.add_argument("-headless")
-
-            # Add custom Firefox arguments if specified
-            if "firefox_arguments" in selenium_section:
-                for arg in selenium_section["firefox_arguments"].split(","):
-                    options.add_argument(arg.strip())
-
-            service = FirefoxService(GeckoDriverManager().install())
-            driver = Firefox(options=options, service=service)
-        elif browser in ("chromium", "chrome"):
-            options = ChromeOptions()
-            if headless:
-                options.add_argument("--headless=new")
-
-            # Add custom Chrome arguments if specified
-            if "chrome_arguments" in selenium_section:
-                for arg in selenium_section["chrome_arguments"].split(","):
-                    options.add_argument(arg.strip())
-
-            service = ChromeService(ChromeDriverManager().install())
-            driver = Chrome(options=options, service=service)
+        if config.browser in ("chromium", "chrome"):
+            driver = SeleniumUiContext._create_chrome(config)
+        elif config.browser == "firefox":
+            driver = SeleniumUiContext._create_firefox(config)
         else:
             raise ValueError(
-                f"Unsupported browser type: {browser}. "
+                f"Unsupported browser type: {config.browser}. "
                 f"Supported: chromium, chrome, firefox"
             )
 
-        if maximize:
-            driver.maximize_window()
-        else:
-            driver.set_window_size(window_width, window_height)
+        SeleniumUiContext._apply_window_settings(driver, config)
         return driver
