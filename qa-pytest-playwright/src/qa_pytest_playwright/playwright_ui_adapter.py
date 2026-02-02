@@ -35,8 +35,8 @@ class PlaywrightUiElement(UiElement):
     def clear(self) -> None:
         self._locator.clear()
 
-    def send_keys(self, *value: str) -> None:
-        self._locator.fill(''.join(value))
+    def scroll_into_view(self) -> None:
+        self._locator.scroll_into_view_if_needed()
 
     def execute_script(self, script: str, *args: object) -> object:
         """Execute script on this element using the page's evaluate method."""
@@ -46,10 +46,6 @@ class PlaywrightUiElement(UiElement):
     def text(self) -> str:
         """Get element text content, returning empty string if None."""
         return self._locator.text_content() or ""
-
-    def scroll_into_view_if_needed(self) -> None:
-        """Playwright-specific method for scrolling."""
-        self._locator.scroll_into_view_if_needed()
 
     def __getattr__(self, name: str) -> Any:
         """Delegate all other attribute access to the wrapped Playwright Locator."""

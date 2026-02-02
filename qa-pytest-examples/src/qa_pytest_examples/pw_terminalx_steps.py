@@ -6,12 +6,12 @@ from typing import Iterator, Self
 
 from hamcrest.core.matcher import Matcher
 from qa_pytest_commons.selector import By
+from qa_pytest_commons.ui_protocols import UiContext, UiElement
 from qa_pytest_examples.model.terminalx_credentials import TerminalXCredentials
 from qa_pytest_examples.pw_terminalx_configuration import (
     PwTerminalXConfiguration,
 )
 from qa_pytest_playwright import PlaywrightSteps
-from qa_pytest_webdriver.selenium_ui_adapter import UiContext, UiElement
 from qa_testing_utils.logger import Context
 from qa_testing_utils.matchers import adapted_iterator, adapted_object
 
