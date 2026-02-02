@@ -3,18 +3,18 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
+from qa_pytest_commons.ui_configuration import UiConfiguration
 from qa_pytest_commons.ui_steps import UiSteps
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
 
 
-class SeleniumSteps[TConfiguration: SeleniumConfiguration](
+class SeleniumSteps[TConfiguration: UiConfiguration](
     UiSteps[TConfiguration]
 ):
     """
     BDD-style step definitions for Selenium-based UI operations.
 
     Type Parameters:
-        TConfiguration: The configuration type, must be a SeleniumConfiguration.
+        TConfiguration: The configuration type, must be a UiConfiguration.
 
     Attributes:
         _ui_context (UiContext[UiElement]): The UI context instance used for browser automation.

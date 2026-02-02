@@ -5,18 +5,16 @@
 from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+from qa_pytest_commons.ui_configuration import UiConfiguration
 from qa_pytest_commons.ui_protocols import UiContext, UiElement
-from qa_pytest_webdriver.selenium_configuration import SeleniumConfiguration
 from qa_pytest_webdriver.selenium_steps import SeleniumSteps
 from qa_pytest_webdriver.selenium_ui_adapter import SeleniumUiContext
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class SeleniumTests[
     TSteps: SeleniumSteps[Any],
-    TConfiguration: SeleniumConfiguration
+    TConfiguration: UiConfiguration
 ](AbstractTestsBase[TSteps, TConfiguration]):
     """
     Base class for Selenium-based UI test cases.
@@ -29,7 +27,7 @@ class SeleniumTests[
 
     Type Parameters:
         TSteps: The type of the steps class, typically derived from SeleniumSteps.
-        TConfiguration: The type of the configuration class, typically derived from SeleniumConfiguration.
+        TConfiguration: The type of the configuration class, typically derived from UiConfiguration.
     """
     _web_driver: WebDriver  # not thread safe
 
@@ -46,18 +44,13 @@ class SeleniumTests[
     @override
     def setup_method(self):
         '''
-        Initializes a local Chrome WebDriver before each test method.
+        Initializes a Selenium WebDriver before each test method.
 
-        If you need to customize or use other driver, override this method in your test class.
+        If you need to customize browser options, override this method
+        or configure settings in the [selenium] section of your .ini file.
         '''
         super().setup_method()
-
-        options = Options()
-        options.add_argument("--start-maximized")  # type: ignore
-        options.add_argument("--disable-gpu")
-        self._web_driver = Chrome(
-            options,
-            self._configuration.service)
+        self._web_driver = SeleniumUiContext.create_driver(self._configuration)
 
     @override
     def teardown_method(self):

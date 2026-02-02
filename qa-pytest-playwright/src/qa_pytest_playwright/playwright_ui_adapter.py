@@ -1,13 +1,17 @@
-
 # SPDX-FileCopyrightText: 2026 Adrian Herscu
 #
 # SPDX-License-Identifier: Apache-2.0
-from typing import Any, Iterator, Optional
+import json
+from typing import TYPE_CHECKING, Any, Iterator, Optional
 
+from playwright.sync_api import Browser
 from playwright.sync_api import Locator as PlaywrightLocator
-from playwright.sync_api import Page
+from playwright.sync_api import Page, Playwright
 from qa_pytest_commons.selector import Selector
 from qa_pytest_commons.ui_protocols import UiContext, UiElement
+
+if TYPE_CHECKING:
+    from qa_pytest_commons.ui_configuration import UiConfiguration
 
 """
 Playwright adapter for backend-agnostic UiElement and UiContext protocols.
@@ -92,6 +96,93 @@ class PlaywrightUiContext(UiContext[PlaywrightUiElement]):
 
     def execute_script(self, script: str, *args: object) -> Any:
         return self._page.evaluate(script, *args)
+
+    @staticmethod
+    def create_browser_and_page(
+        configuration: "UiConfiguration",
+    ) -> tuple[Playwright, Browser, Page]:
+        """
+        Creates and returns a fully configured Playwright browser and page.
+
+        Reads configuration from [playwright] section in the configuration parser.
+        Supported settings:
+        - browser: "chromium" (default), "chrome", "firefox", or "webkit"
+        - headless: true/false (default: false)
+        - maximize: true/false (default: false) - if true, uses full browser window (viewport=None)
+        - launch_args: JSON array of browser launch arguments (e.g., ["--disable-gpu"])
+        - viewport_width: int (default: 1920)
+        - viewport_height: int (default: 1080)
+        - Additional launch/context options can be specified as JSON:
+          - launch_options: JSON object with Playwright launch() parameters
+          - context_options: JSON object with new_context() parameters
+
+        Args:
+            configuration: UiConfiguration instance with parser access.
+
+        Returns:
+            tuple[Playwright, Browser, Page]: Playwright instance, browser, and page.
+
+        Raises:
+            ValueError: If an unsupported browser type is specified.
+        """
+        from playwright.sync_api import sync_playwright
+
+        parser = configuration.parser
+        playwright_section = parser["playwright"] if parser.has_section(
+            "playwright") else {}
+
+        browser_type = playwright_section.get("browser", "chromium").lower()
+        headless = parser.getboolean("playwright", "headless", fallback=False)
+        maximize = parser.getboolean("playwright", "maximize", fallback=False)
+        viewport_width = parser.getint(
+            "playwright", "viewport_width", fallback=1920)
+        viewport_height = parser.getint(
+            "playwright", "viewport_height", fallback=1080)
+
+        # Build launch arguments
+        launch_args: dict[str, Any] = {"headless": headless}
+
+        # Add custom launch arguments from config
+        if "launch_args" in playwright_section:
+            launch_args["args"] = json.loads(playwright_section["launch_args"])
+
+        # Merge custom launch options if specified
+        if "launch_options" in playwright_section:
+            custom_options = json.loads(playwright_section["launch_options"])
+            launch_args.update(custom_options)
+
+        # Start Playwright and launch browser
+        playwright = sync_playwright().start()
+
+        if browser_type in ("chromium", "chrome"):
+            browser = playwright.chromium.launch(**launch_args)
+        elif browser_type == "firefox":
+            browser = playwright.firefox.launch(**launch_args)
+        elif browser_type == "webkit":
+            browser = playwright.webkit.launch(**launch_args)
+        else:
+            playwright.stop()
+            raise ValueError(
+                f"Unsupported browser type: {browser_type}. "
+                f"Supported: chromium, chrome, firefox, webkit"
+            )
+
+        # Build context options
+        if maximize:
+            # viewport=None uses full browser window size
+            context_args: dict[str, Any] = {"viewport": None}
+        else:
+            context_args = {
+                "viewport": {"width": viewport_width, "height": viewport_height}
+            }
+
+        # Merge custom context options if specified
+        if "context_options" in playwright_section:
+            custom_context = json.loads(playwright_section["context_options"])
+            context_args.update(custom_context)
+
+        page = browser.new_page(**context_args)
+        return playwright, browser, page
 
     @staticmethod
     def _build_playwright_selector(selector: Selector) -> str:

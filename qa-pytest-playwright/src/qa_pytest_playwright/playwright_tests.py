@@ -6,17 +6,15 @@ from typing import Any, override
 
 from playwright.sync_api import Browser, Page, Playwright
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
+from qa_pytest_commons.ui_configuration import UiConfiguration
 from qa_pytest_commons.ui_protocols import UiContext, UiElement
-from qa_pytest_playwright.playwright_configuration import (
-    PlaywrightConfiguration,
-)
 from qa_pytest_playwright.playwright_steps import PlaywrightSteps
 from qa_pytest_playwright.playwright_ui_adapter import PlaywrightUiContext
 
 
 class PlaywrightTests[
     TSteps: PlaywrightSteps[Any],
-    TConfiguration: PlaywrightConfiguration
+    TConfiguration: UiConfiguration
 ](AbstractTestsBase[TSteps, TConfiguration]):
     """
     Base class for Playwright-based UI test cases.
@@ -30,7 +28,7 @@ class PlaywrightTests[
         _page (Page): The Playwright page instance (not thread safe).
     Type Parameters:
         TSteps: The type of the steps class, typically derived from PlaywrightSteps.
-        TConfiguration: The type of the configuration class, typically derived from PlaywrightConfiguration.
+        TConfiguration: The type of the configuration class, typically derived from UiConfiguration.
     """
     _playwright: Playwright  # not thread safe
     _browser: Browser  # not thread safe
@@ -65,15 +63,12 @@ class PlaywrightTests[
         """
         Initializes Playwright browser and page before each test method.
 
-        If you need to customize browser options or use a different browser,
-        override this method in your test class.
+        If you need to customize browser options, override this method
+        or configure settings in the [playwright] section of your .ini file.
         """
         super().setup_method()
-
-        from playwright.sync_api import sync_playwright
-        self._playwright = sync_playwright().start()
-        self._browser = self._configuration.service(self._playwright)
-        self._page = self._browser.new_page()
+        self._playwright, self._browser, self._page = \
+            PlaywrightUiContext.create_browser_and_page(self._configuration)
 
     @override
     def teardown_method(self):
