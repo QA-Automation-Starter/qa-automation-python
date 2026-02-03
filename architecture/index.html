@@ -771,19 +771,19 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 
     <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+         <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">should_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
+            <span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"kitty"</span><span class="p">]:</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>

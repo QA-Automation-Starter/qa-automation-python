@@ -402,22 +402,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test" class="md-nav__link">
+  <a href="#terminalx-ui-search-test-seleniumplaywright" class="md-nav__link">
     <span class="md-ellipsis">
-      TerminalX (UI) search test
+      TerminalX (UI) search test (Selenium/Playwright)
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test-with-playwright" class="md-nav__link">
-    <span class="md-ellipsis">
-      TerminalX (UI) search test with Playwright
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="TerminalX (UI) search test with Playwright">
+    <nav class="md-nav" aria-label="TerminalX (UI) search test (Selenium/Playwright)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -715,22 +706,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test" class="md-nav__link">
+  <a href="#terminalx-ui-search-test-seleniumplaywright" class="md-nav__link">
     <span class="md-ellipsis">
-      TerminalX (UI) search test
+      TerminalX (UI) search test (Selenium/Playwright)
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#terminalx-ui-search-test-with-playwright" class="md-nav__link">
-    <span class="md-ellipsis">
-      TerminalX (UI) search test with Playwright
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="TerminalX (UI) search test with Playwright">
+    <nav class="md-nav" aria-label="TerminalX (UI) search test (Selenium/Playwright)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -798,23 +780,24 @@
             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">adding</span><span class="p">(</span><span class="n">pet</span><span class="p">)</span>
             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_available_pets</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">pet</span><span class="p">)))))</span>
 </code></pre></div></p>
-<h2 id="terminalx-ui-search-test">TerminalX (UI) search test</h2>
-<p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
+<h2 id="terminalx-ui-search-test-seleniumplaywright">TerminalX (UI) search test (Selenium/Playwright)</h2>
+<p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a></p>
+<p>The code is similar for Selenium and Playwright.
 <div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+         <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">should_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
+            <span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;kitty&quot;</span><span class="p">]:</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
@@ -822,33 +805,27 @@
              <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
                  <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
 </code></pre></div></p>
-<h2 id="terminalx-ui-search-test-with-playwright">TerminalX (UI) search test with Playwright</h2>
-<p>Same test flow as above, using Playwright instead of Selenium.</p>
-<p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
-<div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PwTerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-                <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_user_logged_in</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">should_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">should_find</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_section</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">random_user</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking_search</span><span class="p">())</span>
-
-        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;kitty&quot;</span><span class="p">]:</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-             <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">searching_for</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-             <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_search_hints</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span><span class="n">tracing</span><span class="p">(</span>
-                 <span class="n">contains_string_ignoring_case</span><span class="p">(</span><span class="n">word</span><span class="p">)))))</span>
+<p>The only difference is in the test class declaration.
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ui</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TerminalXTests</span><span class="p">(</span>
+    <span class="n">SeleniumTests</span><span class="p">[</span><span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">],</span>
+                  <span class="n">TerminalXConfiguration</span><span class="p">]):</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">TerminalXSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">TerminalXConfiguration</span><span class="p">()</span>
+</code></pre></div>
+versus
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ui</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PwTerminalXTests</span><span class="p">(</span>
+    <span class="n">PlaywrightTests</span><span class="p">[</span><span class="n">PwTerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">],</span>
+                    <span class="n">TerminalXConfiguration</span><span class="p">]):</span>
+    <span class="n">_steps_type</span> <span class="o">=</span> <span class="n">PwTerminalXSteps</span>
+    <span class="n">_configuration</span> <span class="o">=</span> <span class="n">TerminalXConfiguration</span><span class="p">()</span>
 </code></pre></div></p>
 <h3 id="example-of-overriding-the-default-setup_method">Example of overriding the default <code>setup_method</code></h3>
-<p><div class="highlight"><pre><span></span><code>    <span class="nd">@override</span>
+<p>For Selenium:
+<div class="highlight"><pre><span></span><code>    <span class="nd">@override</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver</span><span class="w"> </span><span class="kn">import</span> <span class="n">Firefox</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver.firefox.options</span><span class="w"> </span><span class="kn">import</span> <span class="n">Options</span> <span class="k">as</span> <span class="n">FirefoxOptions</span>
@@ -866,6 +843,19 @@
 In this case, it checks if <code>browser_type</code> is firefox. This can be set
 temporarily via command line, like:
 <div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--config<span class="w"> </span>selenium:browser_type<span class="o">=</span>firefox<span class="w"> </span>qa-pytest-examples/tests/terminalx_tests.py::TerminalXTests
+</code></pre></div></p>
+<p>For Playwright:
+<div class="highlight"><pre><span></span><code>    <span class="nd">@override</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync_playwright</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">has_option</span><span class="p">(</span><span class="s2">&quot;playwright&quot;</span><span class="p">,</span> <span class="s2">&quot;browser_type&quot;</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s2">&quot;playwright&quot;</span><span class="p">][</span><span class="s2">&quot;browser_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;firefox&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_playwright</span> <span class="o">=</span> <span class="n">sync_playwright</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_browser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_playwright</span><span class="o">.</span><span class="n">firefox</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_browser</span><span class="o">.</span><span class="n">new_page</span><span class="p">(</span>
+                <span class="n">viewport</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
 </code></pre></div></p>
 <p>More details in <a href="../architecture/#the-configuration">Architecture TerminalX Configuration</a> section.</p>
 <hr />
