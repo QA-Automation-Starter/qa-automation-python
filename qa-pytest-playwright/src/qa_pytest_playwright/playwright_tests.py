@@ -63,12 +63,17 @@ class PlaywrightTests[
         """
         Initializes Playwright browser and page before each test method.
 
-        If you need to customize browser options, override this method
-        or configure settings in the [playwright] section of your .ini file.
+        If you need to customize browser options or use a different browser,
+        override this method in your test class.
         """
         super().setup_method()
-        self._playwright, self._browser, self._page = \
-            PlaywrightUiContext.create_browser_and_page(self._configuration)
+
+        from playwright.sync_api import sync_playwright
+        self._playwright = sync_playwright().start()
+        self._browser = self._playwright.chromium.launch(
+            args=["--disable-gpu"],
+            headless=False)
+        self._page = self._browser.new_page(viewport=None)
 
     @override
     def teardown_method(self):

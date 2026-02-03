@@ -44,13 +44,23 @@ class SeleniumTests[
     @override
     def setup_method(self):
         '''
-        Initializes a Selenium WebDriver before each test method.
+        Initializes a local Chrome WebDriver before each test method.
 
-        If you need to customize browser options, override this method
-        or configure settings in the [selenium] section of your .ini file.
+        If you need to customize or use other driver, override this method in your test class.
         '''
+        from selenium.webdriver import Chrome
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.chrome.service import Service
+        from webdriver_manager.chrome import ChromeDriverManager
+
         super().setup_method()
-        self._web_driver = SeleniumUiContext.create_driver(self._configuration)
+
+        options = Options()
+        options.add_argument("--start-maximized")
+        options.add_argument("--disable-gpu")
+        self._web_driver = Chrome(
+            options,
+            Service(ChromeDriverManager().install()))
 
     @override
     def teardown_method(self):

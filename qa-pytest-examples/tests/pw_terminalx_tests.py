@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+
+from typing import override
+
 import pytest
 from hamcrest import is_  # type: ignore
 from qa_pytest_examples import PwTerminalXSteps
@@ -26,6 +29,7 @@ class PwTerminalXTests(
 
     # --8<-- [start:func]
     # NOTE sections may be further collected in superclasses and reused across tests
+
     def login_section(
             self, user: TerminalXUser) -> PwTerminalXSteps[TerminalXConfiguration]:
         return (self.steps
@@ -46,5 +50,19 @@ class PwTerminalXTests(
              .then.the_search_hints(yields_item(tracing(
                  contains_string_ignoring_case(word)))))
     # --8<-- [end:func]
+
+    # --8<-- [start:setup_method]
+    @override
+    def setup_method(self) -> None:
+        from playwright.sync_api import sync_playwright
+        if self._configuration.parser.has_option("playwright", "browser_type") \
+                and self._configuration.parser["playwright"]["browser_type"] == "firefox":
+            self._playwright = sync_playwright().start()
+            self._browser = self._playwright.firefox.launch()
+            self._page = self._browser.new_page(
+                viewport={"width": 1920, "height": 1080})
+        else:
+            super().setup_method()
+    # --8<-- [end:setup_method]
 
 # --8<-- [end:class]
