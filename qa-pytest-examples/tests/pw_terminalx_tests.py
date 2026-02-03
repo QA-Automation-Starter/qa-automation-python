@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-from typing import override
+from typing import Self, override
 
 import pytest
 from hamcrest import is_  # type: ignore
@@ -19,6 +19,7 @@ from qa_testing_utils.matchers import (
 
 
 # --8<-- [start:class]
+# --8<-- [start:class_header]
 @pytest.mark.external
 @pytest.mark.ui
 class PwTerminalXTests(
@@ -26,23 +27,24 @@ class PwTerminalXTests(
                     TerminalXConfiguration]):
     _steps_type = PwTerminalXSteps
     _configuration = TerminalXConfiguration()
+    # --8<-- [end:class_header]
 
     # --8<-- [start:func]
     # NOTE sections may be further collected in superclasses and reused across tests
 
-    def login_section(
-            self, user: TerminalXUser) -> PwTerminalXSteps[TerminalXConfiguration]:
-        return (self.steps
-                .given.terminalx(self.ui_context)
-                .when.logging_in_with(user.credentials)
-                .then.the_user_logged_in(is_(user.name)))
+    def login_section(self, user: TerminalXUser) -> Self:
+        (self.steps
+         .given.terminalx(self.ui_context)
+         .when.logging_in_with(user.credentials)
+         .then.the_user_logged_in(is_(user.name)))
+        return self
 
     def should_login(self):
         self.login_section(self.configuration.random_user)
 
     def should_find(self):
         (self.login_section(self.configuration.random_user)
-            .when.clicking_search())
+         .steps.when.clicking_search())
 
         for word in ["hello", "kitty"]:
             (self.steps
