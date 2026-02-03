@@ -52,6 +52,31 @@ classDiagram
         +parser
     }
 
+    %% UI Protocols
+    class UiElement {
+        <<protocol>>
+        +click()
+        +type()
+        +clear()
+        +text
+    }
+    class UiContext {
+        <<protocol>>
+        +find_element()
+        +find_elements()
+        +get()
+    }
+
+    %% Backend-Agnostic UI Layer
+    class UiConfiguration
+    class UiSteps {
+        +ui_context()
+        +at()
+        +clicking()
+        +typing()
+        +the_element()
+    }
+
     %% Technology-Specific Extensions
     class RestTests
     class RestSteps
@@ -59,34 +84,59 @@ classDiagram
 
     class SeleniumTests
     class SeleniumSteps
-    class SeleniumConfiguration
+    class SeleniumUiElement
+    class SeleniumUiContext
+
+    class PlaywrightTests
+    class PlaywrightSteps
+    class PlaywrightUiElement
+    class PlaywrightUiContext
 
     %% Example: Custom Extension
     class TerminalXTests
     class TerminalXSteps
     class TerminalXConfiguration
 
-    %% Relationships
+    %% Core Relationships
     AbstractTestsBase <|-- RestTests
     AbstractTestsBase <|-- SeleniumTests
+    AbstractTestsBase <|-- PlaywrightTests
     SeleniumTests <|-- TerminalXTests
 
     GenericSteps <|-- RestSteps
-    GenericSteps <|-- SeleniumSteps
+    GenericSteps <|-- UiSteps
+    UiSteps <|-- SeleniumSteps
+    UiSteps <|-- PlaywrightSteps
     SeleniumSteps <|-- TerminalXSteps
 
     BaseConfiguration <|-- RestConfiguration
-    BaseConfiguration <|-- SeleniumConfiguration
-    SeleniumConfiguration <|-- TerminalXConfiguration
+    BaseConfiguration <|-- UiConfiguration
+    UiConfiguration <|-- TerminalXConfiguration
 
+    %% Protocol Implementations
+    UiElement <|.. SeleniumUiElement : implements
+    UiElement <|.. PlaywrightUiElement : implements
+    UiContext <|.. SeleniumUiContext : implements
+    UiContext <|.. PlaywrightUiContext : implements
+
+    %% Usage Relationships
     RestTests o-- RestSteps : uses
     RestTests o-- RestConfiguration : configures
 
     SeleniumTests o-- SeleniumSteps : uses
-    SeleniumTests o-- SeleniumConfiguration : configures
+    SeleniumTests o-- UiConfiguration : configures
+    SeleniumTests o-- SeleniumUiContext : creates
+
+    PlaywrightTests o-- PlaywrightSteps : uses
+    PlaywrightTests o-- UiConfiguration : configures
+    PlaywrightTests o-- PlaywrightUiContext : creates
 
     TerminalXTests o-- TerminalXSteps : uses
     TerminalXTests o-- TerminalXConfiguration : configures
+
+    UiSteps o-- UiContext : uses
+    SeleniumUiContext o-- SeleniumUiElement : returns
+    PlaywrightUiContext o-- PlaywrightUiElement : returns
 
     %% Example extension note
     %% You can add new technologies by subclassing the three core abstractions:
@@ -107,10 +157,9 @@ classDiagram
 | [`RestConfiguration`](api/qa-pytest-rest.md#qa_pytest_rest.RestConfiguration) | REST-specific configuration |
 | [`SeleniumTests`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumTests) | Selenium-specific test base |
 | [`SeleniumSteps`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumSteps) | Selenium-specific steps |
-| [`SeleniumConfiguration`](api/qa-pytest-webdriver.md#qa_pytest_webdriver.SeleniumConfiguration) | Selenium-specific configuration |
 | [`PlaywrightTests`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightTests) | Playwright-specific test base |
 | [`PlaywrightSteps`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightSteps) | Playwright-specific steps |
-| [`PlaywrightConfiguration`](api/qa-pytest-playwright.md#qa_pytest_playwright.PlaywrightConfiguration) | Playwright-specific configuration |
+| [`UiConfiguration`](api/qa-pytest-commons.md#qa_pytest_commons.UiConfiguration) | Shared UI configuration for both Selenium and Playwright |
 | [`TerminalXConfiguration`](api/qa-pytest-examples.md#qa_pytest_examples.TerminalXConfiguration) | Example: custom UI configuration |
 
 ---
@@ -123,15 +172,11 @@ classDiagram
 --8<-- "terminalx_tests.py:class"
 ```
 
-#### The Setup Method
-The `setup_method` demonstrates how default setup behavior can be overriden.
-In real world it would be pulled into a superclass that extends `SeleniumTests`.
+#### Browser Setup
+For custom browser configuration (different browser, custom options), override `setup_method()` in your test class.
+The base classes (`SeleniumTests`, `PlaywrightTests`) provide sensible Chrome/Chromium defaults.
 
 #### The Configuration
-Furthermore, the `self._configuration.parser["selenium"]["browser_type"]` could
-be defined as a method on the `TerminalXConfiguration` class, or a superclass of
-it.
-
 The configuration is loaded from two sources, in this example:
 
 1. `TerminalXConfiguration` class looks for a matching
