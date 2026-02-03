@@ -1,4 +1,3 @@
-
 # SPDX-FileCopyrightText: 2026 Adrian Herscu
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -18,18 +17,14 @@ class SeleniumUiElement(WebElement, UiElement):
         # Copy all attributes from the original WebElement
         self.__dict__ = element.__dict__
 
-    def click(self) -> None:
-        super().click()
-
     def type(self, text: str) -> None:
-        self.clear()
-        self.send_keys(text)
-
-    def clear(self) -> None:
         super().clear()
+        super().send_keys(text)
 
-    def send_keys(self, *value: str) -> None:
-        super().send_keys(*value)
+    def scroll_into_view(self) -> None:
+        self.parent.execute_script(  # type: ignore[attr-defined]
+            "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
+            self)
 
     @property
     def text(self) -> str:

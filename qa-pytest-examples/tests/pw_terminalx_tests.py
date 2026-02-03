@@ -2,15 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+
 from typing import override
 
 import pytest
 from hamcrest import is_  # type: ignore
 from qa_pytest_examples import PwTerminalXSteps
 from qa_pytest_examples.model.terminalx_user import TerminalXUser
-from qa_pytest_examples.pw_terminalx_configuration import (
-    PwTerminalXConfiguration,
-)
+from qa_pytest_examples.terminalx_configuration import TerminalXConfiguration
 from qa_pytest_playwright import PlaywrightTests
 from qa_testing_utils.matchers import (
     contains_string_ignoring_case,
@@ -23,15 +22,16 @@ from qa_testing_utils.matchers import (
 @pytest.mark.external
 @pytest.mark.ui
 class PwTerminalXTests(
-    PlaywrightTests[PwTerminalXSteps[PwTerminalXConfiguration],
-                    PwTerminalXConfiguration]):
+    PlaywrightTests[PwTerminalXSteps[TerminalXConfiguration],
+                    TerminalXConfiguration]):
     _steps_type = PwTerminalXSteps
-    _configuration = PwTerminalXConfiguration()
+    _configuration = TerminalXConfiguration()
 
     # --8<-- [start:func]
     # NOTE sections may be further collected in superclasses and reused across tests
+
     def login_section(
-            self, user: TerminalXUser) -> PwTerminalXSteps[PwTerminalXConfiguration]:
+            self, user: TerminalXUser) -> PwTerminalXSteps[TerminalXConfiguration]:
         return (self.steps
                 .given.terminalx(self.ui_context)
                 .when.logging_in_with(user.credentials)

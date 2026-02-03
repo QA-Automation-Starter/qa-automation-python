@@ -27,7 +27,10 @@ from qa_pytest_commons.ui_protocols import (
     UiContext,
     UiElement,
 )
+from qa_pytest_commons.ui_steps import (
+    UiSteps,
+)
 
 __all__ = ['AbstractTestsBase', 'BaseConfiguration', 'BddKeywords', 'By',
            'Configuration', 'GenericSteps', 'Selector', 'TElement',
-           'UiConfiguration', 'UiContext', 'UiElement']
+           'UiConfiguration', 'UiContext', 'UiElement', 'UiSteps']

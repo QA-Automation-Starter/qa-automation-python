@@ -6,7 +6,11 @@ from qa_pytest_commons.base_configuration import BaseConfiguration
 
 class UiConfiguration(BaseConfiguration):
     """
-    UI configuration base class exposing the entry_point property.
+    UI configuration base class exposing entry point.
+
+    Backend-specific browser settings are read directly from the configuration
+    parser by the respective adapters (Selenium, Playwright) to avoid forcing
+    abstraction over incompatible configuration models.
     """
     @cached_property
     @final

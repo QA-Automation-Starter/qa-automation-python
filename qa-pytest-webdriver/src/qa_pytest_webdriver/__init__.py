@@ -2,9 +2,6 @@
 from ._version import __version__  # isort: skip
 # mkinit: end preserve
 
-from qa_pytest_webdriver.selenium_configuration import (
-    SeleniumConfiguration,
-)
 from qa_pytest_webdriver.selenium_steps import (
     SeleniumSteps,
 )
@@ -16,5 +13,5 @@ from qa_pytest_webdriver.selenium_ui_adapter import (
     SeleniumUiElement,
 )
 
-__all__ = ['SeleniumConfiguration', 'SeleniumSteps', 'SeleniumTests',
-           'SeleniumUiContext', 'SeleniumUiElement']
+__all__ = ['SeleniumSteps', 'SeleniumTests', 'SeleniumUiContext',
+           'SeleniumUiElement']

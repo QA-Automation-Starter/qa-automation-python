@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+
 from typing import override
 
 import pytest
@@ -28,6 +29,7 @@ class TerminalXTests(
 
     # --8<-- [start:func]
     # NOTE sections may be further collected in superclasses and reused across tests
+
     def login_section(
             self, user: TerminalXUser) -> TerminalXSteps[TerminalXConfiguration]:
         return (self.steps
