@@ -340,36 +340,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-update-base-classes" class="md-nav__link">
+  <a href="#what-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Update Base Classes
+      What Changes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-test-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Test Base Class
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2-update-configuration-files" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-browser-setup-if-customized" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Update Configuration Files
+      2. Browser Setup (If Customized)
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#3-test-steps-remain-the-same" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#3-install-playwright-browsers" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Test Steps Remain the Same
+      3. Install Playwright Browsers
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#4-install-playwright-browsers" class="md-nav__link">
+  <a href="#what-doesnt-change" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Install Playwright Browsers
+      What Doesn't Change
     </span>
   </a>
   
@@ -691,36 +706,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-update-base-classes" class="md-nav__link">
+  <a href="#what-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Update Base Classes
+      What Changes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-test-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Test Base Class
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2-update-configuration-files" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-browser-setup-if-customized" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Update Configuration Files
+      2. Browser Setup (If Customized)
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#3-test-steps-remain-the-same" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#3-install-playwright-browsers" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Test Steps Remain the Same
+      3. Install Playwright Browsers
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#4-install-playwright-browsers" class="md-nav__link">
+  <a href="#what-doesnt-change" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Install Playwright Browsers
+      What Doesn't Change
     </span>
   </a>
   
@@ -755,49 +785,65 @@
 
 
 <h1 id="switching-from-selenium-to-playwright">Switching from Selenium to Playwright</h1>
-<p>Thanks to the backend-agnostic design, switching tests from Selenium to Playwright requires minimal changes:</p>
-<h2 id="1-update-base-classes">1. Update Base Classes</h2>
-<p><strong>From Selenium:</strong>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qa_pytest_webdriver</span><span class="w"> </span><span class="kn">import</span> <span class="n">SeleniumTests</span><span class="p">,</span> <span class="n">SeleniumConfiguration</span>
+<p>Thanks to the backend-agnostic design, switching tests from Selenium to Playwright is straightforward. Both backends use the same <code>UiConfiguration</code> and test logic remains identical.</p>
+<h2 id="what-changes">What Changes</h2>
+<h3 id="1-test-base-class">1. Test Base Class</h3>
+<p>Simply change the base class import and inheritance:</p>
+<p><strong>From:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qa_pytest_webdriver</span><span class="w"> </span><span class="kn">import</span> <span class="n">SeleniumTests</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyTests</span><span class="p">(</span><span class="n">SeleniumTests</span><span class="p">[</span><span class="n">MySteps</span><span class="p">[</span><span class="n">MyConfiguration</span><span class="p">],</span> <span class="n">MyConfiguration</span><span class="p">]):</span>
-    <span class="k">pass</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">MyConfiguration</span><span class="p">(</span><span class="n">SeleniumConfiguration</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="o">...</span>
 </code></pre></div></p>
-<p><strong>To Playwright:</strong>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qa_pytest_playwright</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlaywrightTests</span><span class="p">,</span> <span class="n">PlaywrightConfiguration</span>
+<p><strong>To:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qa_pytest_playwright</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlaywrightTests</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyTests</span><span class="p">(</span><span class="n">PlaywrightTests</span><span class="p">[</span><span class="n">MySteps</span><span class="p">[</span><span class="n">MyConfiguration</span><span class="p">],</span> <span class="n">MyConfiguration</span><span class="p">]):</span>
-    <span class="k">pass</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">MyConfiguration</span><span class="p">(</span><span class="n">PlaywrightConfiguration</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="o">...</span>
 </code></pre></div></p>
-<h2 id="2-update-configuration-files">2. Update Configuration Files</h2>
-<p>The configuration file structure remains the same:
-- Section name: <code>[ui]</code>
-- Entry point: <code>entry_point = &lt;your-url&gt;</code></p>
-<p>Both Selenium and Playwright use the same configuration section names and settings.
-Browser-specific settings (if any) are handled by the respective base classes.</p>
-<h2 id="3-test-steps-remain-the-same">3. Test Steps Remain the Same</h2>
-<p>Because steps use the backend-agnostic <code>UiContext</code> and <code>UiElement</code> protocols from <code>qa-pytest-commons</code>, <strong>your test logic doesn't need to change</strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
-    <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">ui_context</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">_and</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">clicking</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">))</span>
-    <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">css_selector</span><span class="p">(</span><span class="s2">&quot;welcome&quot;</span><span class="p">),</span> <span class="o">...</span><span class="p">))</span>
-</code></pre></div>
-<h2 id="4-install-playwright-browsers">4. Install Playwright Browsers</h2>
+<h3 id="2-browser-setup-if-customized">2. Browser Setup (If Customized)</h3>
+<p>If you overrode <code>setup_method()</code> for custom browser configuration, update the backend-specific code:</p>
+<p><strong>Selenium Example:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyTests</span><span class="p">(</span><span class="n">SeleniumTests</span><span class="p">[</span><span class="o">...</span><span class="p">]):</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver</span><span class="w"> </span><span class="kn">import</span> <span class="n">Firefox</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver.firefox.options</span><span class="w"> </span><span class="kn">import</span> <span class="n">Options</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver.firefox.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">Service</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">webdriver_manager.firefox</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeckoDriverManager</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--start-maximized&quot;</span><span class="p">)</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span><span class="n">GeckoDriverManager</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_web_driver</span> <span class="o">=</span> <span class="n">Firefox</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Playwright Equivalent:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyTests</span><span class="p">(</span><span class="n">PlaywrightTests</span><span class="p">[</span><span class="o">...</span><span class="p">]):</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync_playwright</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_playwright</span> <span class="o">=</span> <span class="n">sync_playwright</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_browser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_playwright</span><span class="o">.</span><span class="n">firefox</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">headless</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_browser</span><span class="o">.</span><span class="n">new_page</span><span class="p">(</span><span class="n">viewport</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">})</span>
+</code></pre></div></p>
+<h3 id="3-install-playwright-browsers">3. Install Playwright Browsers</h3>
 <p>Don't forget to install browsers:
 <div class="highlight"><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>playwright-install
 </code></pre></div></p>
+<h2 id="what-doesnt-change">What Doesn't Change</h2>
+<ul>
+<li><strong>Configuration files</strong> - Same <code>[ui]</code> section, same <code>entry_point</code></li>
+<li><strong>Test logic</strong> - All step definitions work identically</li>
+<li><strong>Configuration class</strong> - Both use <code>UiConfiguration</code></li>
+</ul>
 <h2 id="examples">Examples</h2>
-<p>See <a href="https://github.com/QA-Automation-Starter/qa-automation-python/tree/main/qa-pytest-examples">qa-pytest-examples</a> for complete examples comparing:
+<p>See <a href="https://github.com/QA-Automation-Starter/qa-automation-python/tree/main/qa-pytest-examples">qa-pytest-examples</a> comparing:
 - Selenium: <a href="https://github.com/QA-Automation-Starter/qa-automation-python/blob/main/qa-pytest-examples/tests/terminalx_tests.py">terminalx_tests.py</a>
 - Playwright: <a href="https://github.com/QA-Automation-Starter/qa-automation-python/blob/main/qa-pytest-examples/tests/pw_terminalx_tests.py">pw_terminalx_tests.py</a></p>
-<p>Both implementations demonstrate the same test flow using different backends.</p>
+<p>Both demonstrate identical test flows using different backends.</p>
 <hr />
 
 

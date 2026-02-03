@@ -801,6 +801,7 @@
 <h2 id="terminalx-ui-search-test">TerminalX (UI) search test</h2>
 <p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
 <div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
@@ -825,8 +826,9 @@
 <p>Same test flow as above, using Playwright instead of Selenium.</p>
 <p>Requires live <a href="https://www.terminalx.com">https://www.terminalx.com</a>
 <div class="highlight"><pre><span></span><code>    <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PwTerminalXSteps</span><span class="p">[</span><span class="n">PwTerminalXConfiguration</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PwTerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
                 <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">terminalx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui_context</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">logging_in_with</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>

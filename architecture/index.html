@@ -205,9 +205,9 @@
 <nav aria-label="TerminalX Tests" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#the-setup-method">
+<a class="md-nav__link" href="#browser-setup">
 <span class="md-ellipsis">
-      The Setup Method
+      Browser Setup
     </span>
 </a>
 </li>
@@ -447,9 +447,9 @@
 <nav aria-label="TerminalX Tests" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#the-setup-method">
+<a class="md-nav__link" href="#browser-setup">
 <span class="md-ellipsis">
-      The Setup Method
+      Browser Setup
     </span>
 </a>
 </li>
@@ -608,6 +608,31 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
         +parser
     }
 
+    %% UI Protocols
+    class UiElement {
+        &lt;<protocol>&gt;
+        +click()
+        +type()
+        +clear()
+        +text
+    }
+    class UiContext {
+        &lt;<protocol>&gt;
+        +find_element()
+        +find_elements()
+        +get()
+    }
+
+    %% Backend-Agnostic UI Layer
+    class UiConfiguration
+    class UiSteps {
+        +ui_context()
+        +at()
+        +clicking()
+        +typing()
+        +the_element()
+    }
+
     %% Technology-Specific Extensions
     class RestTests
     class RestSteps
@@ -615,39 +640,64 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 
     class SeleniumTests
     class SeleniumSteps
-    class SeleniumConfiguration
+    class SeleniumUiElement
+    class SeleniumUiContext
+
+    class PlaywrightTests
+    class PlaywrightSteps
+    class PlaywrightUiElement
+    class PlaywrightUiContext
 
     %% Example: Custom Extension
     class TerminalXTests
     class TerminalXSteps
     class TerminalXConfiguration
 
-    %% Relationships
+    %% Core Relationships
     AbstractTestsBase &lt;|-- RestTests
     AbstractTestsBase &lt;|-- SeleniumTests
+    AbstractTestsBase &lt;|-- PlaywrightTests
     SeleniumTests &lt;|-- TerminalXTests
 
     GenericSteps &lt;|-- RestSteps
-    GenericSteps &lt;|-- SeleniumSteps
+    GenericSteps &lt;|-- UiSteps
+    UiSteps &lt;|-- SeleniumSteps
+    UiSteps &lt;|-- PlaywrightSteps
     SeleniumSteps &lt;|-- TerminalXSteps
 
     BaseConfiguration &lt;|-- RestConfiguration
-    BaseConfiguration &lt;|-- SeleniumConfiguration
-    SeleniumConfiguration &lt;|-- TerminalXConfiguration
+    BaseConfiguration &lt;|-- UiConfiguration
+    UiConfiguration &lt;|-- TerminalXConfiguration
 
+    %% Protocol Implementations
+    UiElement &lt;|.. SeleniumUiElement : implements
+    UiElement &lt;|.. PlaywrightUiElement : implements
+    UiContext &lt;|.. SeleniumUiContext : implements
+    UiContext &lt;|.. PlaywrightUiContext : implements
+
+    %% Usage Relationships
     RestTests o-- RestSteps : uses
     RestTests o-- RestConfiguration : configures
 
     SeleniumTests o-- SeleniumSteps : uses
-    SeleniumTests o-- SeleniumConfiguration : configures
+    SeleniumTests o-- UiConfiguration : configures
+    SeleniumTests o-- SeleniumUiContext : creates
+
+    PlaywrightTests o-- PlaywrightSteps : uses
+    PlaywrightTests o-- UiConfiguration : configures
+    PlaywrightTests o-- PlaywrightUiContext : creates
 
     TerminalXTests o-- TerminalXSteps : uses
     TerminalXTests o-- TerminalXConfiguration : configures
 
+    UiSteps o-- UiContext : uses
+    SeleniumUiContext o-- SeleniumUiElement : returns
+    PlaywrightUiContext o-- PlaywrightUiElement : returns
+
     %% Example extension note
     %% You can add new technologies by subclassing the three core abstractions:
     %% AbstractTestsBase, GenericSteps, and BaseConfiguration.
-</abstract></abstract></abstract></code></pre>
+</protocol></protocol></abstract></abstract></abstract></code></pre>
 <hr/>
 <h2 id="key-classes">Key Classes</h2>
 <table>
@@ -691,10 +741,6 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <td>Selenium-specific steps</td>
 </tr>
 <tr>
-<td><a href="../api/qa-pytest-webdriver/#qa_pytest_webdriver.SeleniumConfiguration"><code>SeleniumConfiguration</code></a></td>
-<td>Selenium-specific configuration</td>
-</tr>
-<tr>
 <td><a href="../api/qa-pytest-playwright/#qa_pytest_playwright.PlaywrightTests"><code>PlaywrightTests</code></a></td>
 <td>Playwright-specific test base</td>
 </tr>
@@ -703,8 +749,8 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 <td>Playwright-specific steps</td>
 </tr>
 <tr>
-<td><a href="../api/qa-pytest-playwright/#qa_pytest_playwright.PlaywrightConfiguration"><code>PlaywrightConfiguration</code></a></td>
-<td>Playwright-specific configuration</td>
+<td><a href="../api/qa-pytest-commons/#qa_pytest_commons.UiConfiguration"><code>UiConfiguration</code></a></td>
+<td>Shared UI configuration for both Selenium and Playwright</td>
 </tr>
 <tr>
 <td><a href="../api/qa-pytest-examples/#qa_pytest_examples.TerminalXConfiguration"><code>TerminalXConfiguration</code></a></td>
@@ -724,6 +770,7 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
     <span class="n">_configuration</span> <span class="o">=</span> <span class="n">TerminalXConfiguration</span><span class="p">()</span>
 
     <span class="c1"># NOTE sections may be further collected in superclasses and reused across tests</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">login_section</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">TerminalXUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerminalXSteps</span><span class="p">[</span><span class="n">TerminalXConfiguration</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
@@ -759,13 +806,10 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_method</span><span class="p">()</span>
 </code></pre></div>
-<h4 id="the-setup-method">The Setup Method</h4>
-<p>The <code>setup_method</code> demonstrates how default setup behavior can be overriden.
-In real world it would be pulled into a superclass that extends <code>SeleniumTests</code>.</p>
+<h4 id="browser-setup">Browser Setup</h4>
+<p>For custom browser configuration (different browser, custom options), override <code>setup_method()</code> in your test class.
+The base classes (<code>SeleniumTests</code>, <code>PlaywrightTests</code>) provide sensible Chrome/Chromium defaults.</p>
 <h4 id="the-configuration">The Configuration</h4>
-<p>Furthermore, the <code>self._configuration.parser["selenium"]["browser_type"]</code> could
-be defined as a method on the <code>TerminalXConfiguration</code> class, or a superclass of
-it.</p>
 <p>The configuration is loaded from two sources, in this example:</p>
 <ol>
 <li><code>TerminalXConfiguration</code> class looks for a matching
