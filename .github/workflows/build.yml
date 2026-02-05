@@ -45,7 +45,7 @@ jobs:
         run: pdm run pytest -n auto -m "not (flaky or ui or external)"
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           # NOTE: this directory is defined in pyproject.toml
           name: allure-results
@@ -62,7 +62,7 @@ jobs:
       - uses: ./.github/actions/setup-pdm
 
       - name: Download test results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: allure-results
           path: allure-results/
