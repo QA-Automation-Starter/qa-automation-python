@@ -56,5 +56,17 @@
     "qa-pytest-rabbitmq/src",
     "qa-pytest-examples/src"
   ],
-  "yaml.validate": true
+  "yaml.validate": true,
+  "chat.mcp.serverSampling": {
+    "qa-automation-python/.vscode/mcp.json: microsoft/playwright-mcp": {
+      "allowedModels": [
+        "copilot/auto"
+      ]
+    },
+    "qa-automation-python/.vscode/mcp.json: github": {
+      "allowedModels": [
+        "copilot/auto"
+      ]
+    }
+  }
 }

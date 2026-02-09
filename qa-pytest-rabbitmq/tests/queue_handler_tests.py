@@ -45,6 +45,8 @@ class QueueHandlerTests(AbstractQueueHandlerTests):
                     queue=queue_name,
                     auto_ack=True)
 
+                # NOTE types-pika incorrectly stubs body as str, but it is
+                # actually bytes, so we cast it to bytes before decoding
                 assert_that(cast(bytes, body).decode(), equal_to(some_text))
 
     def should_publish_and_retrieve(self) -> None:

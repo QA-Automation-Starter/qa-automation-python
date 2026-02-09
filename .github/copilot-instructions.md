@@ -1,5 +1,15 @@
 # Copilot Instructions
 
+## Testing Strategy
+
+**Module-specific testing approaches:**
+- **qa-testing-utils**: Plain unit tests (no BDD, no pytest-commons dependency)
+- **qa-pytest-commons**: Plain unit tests for infrastructure (e.g., bdd_scenario_tests.py tests BDD mechanics)
+- **qa-pytest-{rest,webdriver,playwright,rabbitmq}**: Plain unit tests for utility classes (e.g., queue_handler_tests.py)
+- **qa-pytest-examples**: BDD integration tests using steps from domain modules
+
+**BDD scenarios apply only to qa-pytest-examples.** For BDD scenario structure, see [BDD Guide](../qa-pytest-examples/.specify/memory/bdd-guide.md).
+
 ## Coding Practices
 - Follow the project's established code style and formatting rules (see `pyproject.toml`).
 - Follow code style and re-use functionality of qa-testing-utils and qa-pytest-commons.
@@ -13,8 +23,6 @@
 - Use pytest for all tests.
 - Use pyhamcrest for assertions.
 - Tests shall comply with `tool.pytest.ini_options` in root pyproject.toml
-- Use BDD-style for all tests that build on-top of AbstractTestsBase,
-  reference qa-pytest-rest and qa-pytest-webdriver modules as examples.
 
 ## Project Requirements
 - Ensure all code is covered by appropriate unit or integration tests.
