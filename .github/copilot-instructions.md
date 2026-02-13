@@ -1,6 +1,11 @@
 # Copilot Instructions
 
-## Testing Strategy
+## Scope
+This file provides **tactical coding instructions**: how to write code, which tools to use, formatting standards, and coding practices.
+
+**For governance principles, architecture patterns, and non-negotiable workflows, see [.specify/memory/constitution.md](../.specify/memory/constitution.md).**
+
+## Coding Practices
 
 **Module-specific testing approaches:**
 - **qa-testing-utils**: Plain unit tests (no BDD, no pytest-commons dependency)
@@ -10,15 +15,19 @@
 
 **BDD scenarios apply only to qa-pytest-examples.** For BDD scenario structure, see [BDD Guide](../qa-pytest-examples/.specify/memory/bdd-guide.md).
 
-## Coding Practices
 - Follow the project's established code style and formatting rules (see `pyproject.toml`).
 - Follow code style and re-use functionality of qa-testing-utils and qa-pytest-commons.
-- Always add type annotations.
+- **Always add type annotations**: Non-negotiable requirement (see constitution Type Safety Requirements)
 - Always prefer Iterables over lists.
+- **Testing strategy**: See [constitution.md - Testing Strategy by Module Type](../.specify/memory/constitution.md#testing-strategy-by-module-type)
+  - qa-testing-utils: Plain unit tests
+  - qa-pytest-commons: BDD scenario tests
+  - qa-pytest-{domain}: Unit tests + self-tests
+  - qa-pytest-examples: BDD integration tests
 
 ## Preferred Technologies
 - Use Python 3.13 syntax for generics.
-- Use PDM for adding new dependencies.
+- Use PDM for adding new dependencies (see constitution Monorepo Structure).
 - Prefer one-liners unless unreadable.
 - Use pytest for all tests.
 - Use pyhamcrest for assertions.

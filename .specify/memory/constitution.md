@@ -1,5 +1,10 @@
 # QA Automation Python Monorepo Constitution
 
+## Scope
+This document defines **governance, principles, architecture patterns, and non-negotiable workflows**.
+
+**For tactical coding instructions (formatting, tools, style), see [.github/copilot-instructions.md](../../.github/copilot-instructions.md).**
+
 ## Development Standards
 
 All code must comply with [.github/copilot-instructions.md](../../.github/copilot-instructions.md), which defines:
@@ -43,6 +48,12 @@ qa-pytest-examples (integration examples)
 - **External dependencies allowed**: Each module declares PyPI dependencies for its purpose
 - **Shared utilities go in commons or utils**: Not in domain modules
 
+**Type Safety Requirements (NON-NEGOTIABLE):**
+- **All dependencies MUST have type annotations**: Native type hints preferred, type stubs acceptable
+- **No untyped libraries**: Reject dependencies without type support unless no typed alternative exists AND explicitly approved
+- **Verify before selection**: Check type annotation support BEFORE adding any dependency
+- **Popularity ≠ Type Safety**: Most popular library may not have best type support
+
 ### IV. Quality Gates
 Before merging to main:
 - **All tests pass**: `pdm run pytest` across all modules
@@ -60,13 +71,21 @@ Before merging to main:
 
 ## Monorepo Operations
 
+### Monorepo Structure (NON-NEGOTIABLE)
+- **Single .venv**: Only ONE virtual environment at root - NEVER in sub-packages
+- **Single pdm.lock**: Only ONE lock file at root - NEVER in sub-packages
+- **Editable installs**: Sub-packages installed via root `dev-dependencies` in editable mode
+- **Workflow discipline**:
+  - After adding/changing dependencies: `pdm run import-all`
+  - Before removing dependencies: `pdm run clean-all` then `pdm run import-all`
+
 ### Module Structure
 Each `qa-*` module contains:
 ```
 qa-MODULE-NAME/
 ├── src/qa_MODULE_NAME/  # Source code
 ├── tests/               # Tests mirroring src structure
-├── pyproject.toml       # Module-specific dependencies
+├── pyproject.toml       # Module-specific dependencies (NO lock file, NO .venv)
 └── README.md            # Module documentation
 ```
 
@@ -82,6 +101,41 @@ pdm run publish-all    # Publishes all modules to PyPI
 pdm run install-all    # Installs all modules in editable mode
 ```
 
+## Architecture Patterns
+
+### Reuse Over Reinvention
+- **Use qa-pytest-commons infrastructure**: Don't implement custom retry/timeout logic
+- **Leverage existing mechanisms**: `retrying`, `eventually_assert_that` for async operations
+- **Follow established patterns**: New modules mirror successful existing modules (fixtures, actions, verifications classes)
+- **Consistency across domains**: All BDD step modules follow same structure (REST, WebDriver, Playwright, RabbitMQ, Kafka)
+
+### Synchronous API Preference
+- **Prefer synchronous APIs** when adequate for the task (simpler to write and maintain)
+- **Background processing ≠ async/await**: Use threading for concurrent operations (e.g., queue_handler), keep API synchronous
+- **Async complexity justified only when**: Sync API genuinely inadequate AND async provides material benefits
+- **Example: Playwright**: Has async API, but sync API + retrying/eventually_assert_that works fine (async doesn't support hamcrest polling)
+- **Type safety pragmatism**: Accept minimal `# type: ignore` pragmas rather than force async complexity for type hints alone
+
+### Technology Onboarding Order
+- **Install first**: Ensure the technology is installed and runnable locally
+- **Document installation**: Provide links to official vendor documentation only (no restating or summarizing)
+- **Prove installation**: Add a minimal self-test that verifies the technology works
+- **Implement after proof**: Start feature implementation only after the self-test passes
+
+### Testing Strategy by Module Type
+- **qa-testing-utils**: Plain unit tests (no BDD, no pytest-commons dependency)
+- **qa-pytest-commons**: BDD scenario tests demonstrating that BDD steps infrastructure and Allure reporting work (e.g., bdd_scenario_tests.py)
+- **qa-pytest-{domain}**: Plain unit tests for utilities (if any, e.g., queue_handler_tests.py) + self-tests verifying wrapped technology works (e.g., playwright_self_tests.py, webdriver_self_tests.py)
+- **qa-pytest-examples**: BDD integration tests using steps from domain modules
+
+## Scope Management
+
+### MVP-First Development
+- **Core functionality first**: Get basic features working before advanced capabilities
+- **Defer complexity**: Advanced features (e.g., Avro schema registry) deferred to future versions
+- **Incremental expansion**: Start with JSON/string/binary, add specialized formats later
+- **Value delivery**: Ensure core use cases work end-to-end before expanding scope
+
 ## Governance
 
 ### Amendment Process
@@ -95,4 +149,4 @@ pdm run install-all    # Installs all modules in editable mode
 - **copilot-instructions.md supersedes** for coding style
 - **When in doubt**: Simplify, prefer established patterns
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-08
+**Version**: 1.2.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-12
