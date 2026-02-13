@@ -13,17 +13,17 @@ This file provides **tactical coding instructions**: how to write code, which to
 - **qa-pytest-{rest,webdriver,playwright,rabbitmq}**: Plain unit tests for utility classes (e.g., queue_handler_tests.py)
 - **qa-pytest-examples**: BDD integration tests using steps from domain modules
 
-**BDD scenarios apply only to qa-pytest-examples.** For BDD scenario structure, see [BDD Guide](../qa-pytest-examples/.specify/memory/bdd-guide.md).
+**BDD scenarios apply only to qa-pytest-examples.** For BDD scenario structure, see [BDD Guide](../.specify/memory/bdd-guide.md).
 
 - Follow the project's established code style and formatting rules (see `pyproject.toml`).
 - Follow code style and re-use functionality of qa-testing-utils and qa-pytest-commons.
 - **Always add type annotations**: Non-negotiable requirement (see constitution Type Safety Requirements)
 - Always prefer Iterables over lists.
-- **Testing strategy**: See [constitution.md - Testing Strategy by Module Type](../.specify/memory/constitution.md#testing-strategy-by-module-type)
+- **Testing strategy**: See [constitution.md - Testing Strategy by Module Type](../.specify/memory/constitution.md)
   - qa-testing-utils: Plain unit tests
   - qa-pytest-commons: BDD scenario tests
   - qa-pytest-{domain}: Unit tests + self-tests
-  - qa-pytest-examples: BDD integration tests
+  - qa-pytest-examples: BDD integration tests (see [BDD Guide](../.specify/memory/bdd-guide.md))
 
 ## Preferred Technologies
 - Use Python 3.13 syntax for generics.

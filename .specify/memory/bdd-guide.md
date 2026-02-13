@@ -31,6 +31,7 @@ User/system actions abstracted to meaningful business intent:
 - Abstract repeated patterns: "logs in as X@Y.com with password Z" (not: enters email, enters password, clicks button)
 - Avoid implementation details (selectors, internal modal mechanics)
 - Express intent, not mechanics
+- **Low-level protocol mechanics handled internally**: Don't expose TCP acks, producer acknowledgments, or other transport-layer details (e.g., "When publishing a message" handles Kafka producer acks internally, just like "When posting to /api/users" handles HTTP mechanics)
 
 ### Then Section: Observable Outcomes
 Observable outcomes that matter to business or functionality:
@@ -38,6 +39,9 @@ Observable outcomes that matter to business or functionality:
 - **Include UI details IF they block subsequent actions** (e.g., "cookies banner disappears" prevents interaction with site)
 - **Exclude UI details that are just implementation** (e.g., "modal styling", "submenu shows exact item list")
 - Abstract results: "no connected stations" (not: "message displays exact text X")
+- **Complex objects verified in single statement**: When verifying multiple properties of one object, use a single Then statement with all properties, not multiple Then/And statements. Example: "Then the message from test-events partition 1 matches:" with table of all properties (content, headers, key, offset) - not separate statements for each property
+- **Retrieval as verification**: In integration testing, retrieval operations are often verifications, not actions. Example: "Then the message from test-events partition 1 matches..." (verification) rather than "When consuming from partition 1" (action)
+- **Matching rules are implementation details**: Express WHAT to verify (expected values), not HOW to match (matching strategy). Example: "Then the messages from test-events partition 0 match:" (not "match in order", "match exactly", "match any order"). The table row order defines expected order; implementation chooses appropriate matchers (e.g., `contains_exactly_in_order`)
 
 ### UI Blocker Rule
 **Include UI details that prevent continuation:**
@@ -54,21 +58,29 @@ Observable outcomes that matter to business or functionality:
 ### Multiple When-Then Pairs
 Each meaningful interaction cycle gets its own When-Then pair, allowing sequential scenarios without nesting.
 
+### Stateful Operations Rule
+**Avoid verifications that consume or modify state needed by subsequent steps:**
+- Don't verify state if the verification consumes/modifies what later steps need
+- Let the actual action step prove the intermediate state existed
+- **Example**: "When consuming from partition 1" proves the message exists - no need for "Then message exists" before it
+- **Applies to**: Message queues (Kafka, RabbitMQ), databases with row locks, file systems with exclusive locks, any system where verification modifies state
+
 ## Correct Example: Abstracted, Focused BDD
 
 ```
 Scenario: User login and account access
-Given browser at https://holfuy.com/en
-When user accepts all cookies
-Then the cookies banner disappears
-When user logs in as adrian.herscu@gmail.com with password 123456
-Then adrian.herscu@gmail.com user is logged in
-When user opens MyAccount
+Given a browser
+When opening https://holfuy.com/en
+And accepting all cookies
+Then the cookies banner disappeared
+When logging in as adrian.herscu@gmail.com with password 123456
+Then the logged in user is adrian.herscu@gmail.com
+When opening MyAccount
 Then no connected stations are displayed
 ```
 
 **Why this works:**
-- "cookies banner disappears" is included because it's a **blocking issue** — if it doesn't disappear, the site is unusable
+- "cookies banner disappeared" is included because it's a **blocking issue** — if it doesn't disappear, the site is unusable
 - "Login modal appears" is excluded because it's just implementation detail that doesn't block the overall flow
 - Actions are abstracted to business intent: "logs in" not "enters email, enters password, clicks button"
 - Assertions are business-focused: "no connected stations" not exact message text
@@ -108,8 +120,10 @@ When reviewing a BDD scenario:
 - [ ] **Given section has no actions** — only setup/preconditions
 - [ ] **When section uses business intent** — abstracted user goals, not step-by-step
 - [ ] **Then section focuses on observable outcomes** — not internal mechanics
+- [ ] **Complex objects named explicitly** — "the X topic has Y partitions" not "the topic exists with partition count Y"
 - [ ] **UI blockers are included** — if it prevents next action, include it
 - [ ] **UI mechanics are excluded** — if it's just internal detail, leave it out
 - [ ] **Assertions are business-focused** — not tied to exact text or styling
 - [ ] **Language is concise** — removed irrelevant details
 - [ ] **Multiple When-Then pairs** — each meaningful interaction cycle is separate
+- [ ] **Stateful operations don't interfere** — verifications don't consume state needed by later steps

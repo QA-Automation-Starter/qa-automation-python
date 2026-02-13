@@ -10,7 +10,7 @@ This document defines **governance, principles, architecture patterns, and non-n
 All code must comply with [.github/copilot-instructions.md](../../.github/copilot-instructions.md), which defines:
 - Coding practices (type annotations, Iterables preference, one-liners)
 - Technology stack (Python 3.13, pytest, pyhamcrest, PDM)
-- BDD test structure (see also [qa-pytest-examples/.specify/memory/bdd-guide.md](../../qa-pytest-examples/.specify/memory/bdd-guide.md))
+- BDD test structure (see also [bdd-guide.md](bdd-guide.md))
 
 ## Core Principles
 
