@@ -68,5 +68,7 @@
         "copilot/auto"
       ]
     }
-  }
+  },
+  "terminal.integrated.gpuAcceleration": "auto",
+  "terminal.integrated.enablePersistentSessions": true
 }
