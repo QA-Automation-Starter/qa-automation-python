@@ -22,9 +22,9 @@ Test engineers need to create topics, publish messages with headers and keys, an
 ```gherkin
 Scenario: Complete Kafka message lifecycle with verification
   Given a Kafka broker
-  When creating a topic named "test-events" with 3 partitions
-  Then the test-events topic has 3 partitions
-  When publishing messages to test-events:
+  When creating topic "test-events" with 3 partitions
+  Then the topic "test-events" has 3 partitions
+  When publishing messages to "test-events":
     | content                       | headers                           | key      | partition |
     | {"event": "login", "seq": 1}  | {"source": "web", "version": "1"} | user-123 | 0         |
     | {"event": "logout", "seq": 2} | {"source": "web", "version": "1"} | user-123 | 1         |
@@ -34,14 +34,15 @@ Scenario: Complete Kafka message lifecycle with verification
   Then the messages from test-events partition 1 match:
     | content                       | headers                           | key      | partition | offset |
     | {"event": "logout", "seq": 2} | {"source": "web", "version": "1"} | user-123 | 1         | 0      |
-  When deleting the test-events topic
-  Then the test-events topic no longer exists
+  When deleting topic "test-events"
+  Then the topics do not contain "test-events"
 ```
 
 ---
 
 
 ## Requirements *(mandatory)*
+
 
 ### Functional Requirements
 
@@ -51,6 +52,7 @@ Scenario: Complete Kafka message lifecycle with verification
 - **FR-004**: System MUST allow verification of message content, headers, and metadata
 - **FR-005**: System MUST provide fixtures for Kafka broker configuration and connection management
 - **FR-006**: System SHOULD support consumer group configuration (optional, for advanced scenarios)
+  - **Deferred**: Consumer group configuration is explicitly deferred to a future version (not in scope for v1; see plan.md and tasks.md)
 - **FR-007**: System MUST provide utilities for topic creation and deletion during tests
 - **FR-008**: System MUST support partition-specific message operations
 - **FR-009**: System MUST integrate with pytest and qa-pytest-commons BDD infrastructure
