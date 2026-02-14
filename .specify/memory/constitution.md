@@ -55,6 +55,9 @@ qa-pytest-examples (integration examples)
 - **Popularity ≠ Type Safety**: Most popular library may not have best type support
 
 ### IV. Quality Gates
+After adding new test(s):
+- **All new tests pass**
+
 Before merging to main:
 - **All tests pass**: `pdm run pytest` across all modules
 - **No type errors**: All modules must type-check

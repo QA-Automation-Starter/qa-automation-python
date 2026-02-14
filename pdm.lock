@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:cee801dc70b27e141688d660647b1054f4e1259fe7973a4062683e439b6e6228"
+content_hash = "sha256:fb63413832c5fd0d38eafe8d6b3325116d944ab72518bcf2bf0d5311884c2a7b"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -247,6 +247,30 @@ groups = ["dev"]
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
+name = "confluent-kafka"
+version = "2.13.0"
+requires_python = ">=3.8"
+summary = "Confluent's Python client for Apache Kafka"
+groups = ["dev"]
+files = [
+    {file = "confluent_kafka-2.13.0-cp313-cp313-macosx_13_0_arm64.whl", hash = "sha256:0af90b3c566786017a01693da0ec4a876ca14cf37bc6164872652a6cf2702453"},
+    {file = "confluent_kafka-2.13.0-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:f25d05604dd92e9de72707582dded53aeb4737ef2e2c097a3ca08650200fc446"},
+    {file = "confluent_kafka-2.13.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:74ddf5ec7fa6058221a619c850f44bdbe8d969d7ed6efe8abdc857d2e233df20"},
+    {file = "confluent_kafka-2.13.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:f8d1d00397f3f32a1bcf4604d4164bf75838bd009e1e28282a7ae25e16814ea4"},
+    {file = "confluent_kafka-2.13.0-cp313-cp313-win_amd64.whl", hash = "sha256:9d1fd035e2c47c4db5fe9b0f59a28fe2f2f1012887290dd0ea7d46741f686e99"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314-macosx_13_0_arm64.whl", hash = "sha256:d448537147a33dd8c17656732989ddfe1d4a25a40bcb5f59bc63dc0a5041dd83"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314-macosx_13_0_x86_64.whl", hash = "sha256:1325585f9fc283c32c30df4226178dc89cf43d00f5c240e1f77ddedc94573690"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:266bbea18ce99f6e77ce0e9a118f353447c8705792ef5745eabcc5c6db08794a"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:7a373a1a3dd8e02dd218946583e951791480921fd777faeaf601c2834e2a6c0d"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314-win_amd64.whl", hash = "sha256:da956b2141d9f425dbfc3cf1c244ef6d0633b83fc5ceada6f496099258e63a68"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314t-macosx_13_0_arm64.whl", hash = "sha256:fa354e9fb95e26545decd429477072ea3a98a2e7acac11d09156772e06f14680"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314t-macosx_13_0_x86_64.whl", hash = "sha256:e256dc3a993bf5fde0fa4a1b6a5b72e3521cedbc9dc4d7a65f159afa4b72e5b4"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314t-manylinux_2_28_aarch64.whl", hash = "sha256:eb7988038b7f13ea490af93b9165ed40a3f385fb91e99ce8dacee8890e36e48a"},
+    {file = "confluent_kafka-2.13.0-cp314-cp314t-manylinux_2_28_x86_64.whl", hash = "sha256:cfd8f011b0b0a109f8747312dba6cee45b39fb53fc7d53f28813bce84a91228d"},
+    {file = "confluent_kafka-2.13.0.tar.gz", hash = "sha256:eff7a4391a9e6d4a33f0c05d0935b200a7463834f1f5d6e6253be318f910babd"},
 ]
 
 [[package]]
@@ -1308,6 +1332,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "qa-pytest-kafka"
+version = "0.0.14.dev18"
+requires_python = ">=3.13"
+editable = true
+path = "./qa-pytest-kafka"
+summary = ""
+groups = ["dev"]
+dependencies = [
+    "PyHamcrest==2.1.0",
+    "confluent-kafka>=2.3.0",
+    "pytest==8.4.1",
+    "qa-pytest-commons",
+    "qa-testing-utils",
+    "types-confluent-kafka",
+]
+
+[[package]]
 name = "qa-pytest-playwright"
 version = "0.0.13.dev23"
 requires_python = ">=3.13"
@@ -1678,6 +1719,17 @@ dependencies = [
 files = [
     {file = "typer-0.21.1-py3-none-any.whl", hash = "sha256:7985e89081c636b88d172c2ee0cfe33c253160994d47bdfdc302defd7d1f1d01"},
     {file = "typer-0.21.1.tar.gz", hash = "sha256:ea835607cd752343b6b2b7ce676893e5a0324082268b48f27aa058bdb7d2145d"},
+]
+
+[[package]]
+name = "types-confluent-kafka"
+version = "1.2.2"
+requires_python = "<4.0,>=3.8"
+summary = ""
+groups = ["dev"]
+files = [
+    {file = "types_confluent_kafka-1.2.2-py3-none-any.whl", hash = "sha256:61dbcf5223d48593ec925f69ce39f63b5ec79902b3f27e496ff0e7bceeba4baf"},
+    {file = "types_confluent_kafka-1.2.2.tar.gz", hash = "sha256:c1e4095ed8bd87b9f2b05f0b766ad0c2ade4e19da7e41c91542c805639d0bbef"},
 ]
 
 [[package]]

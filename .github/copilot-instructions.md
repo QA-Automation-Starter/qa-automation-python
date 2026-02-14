@@ -33,6 +33,8 @@ This file provides **tactical coding instructions**: how to write code, which to
 - Use pytest for all tests.
 - Use pyhamcrest for assertions.
 - Tests shall comply with `tool.pytest.ini_options` in root pyproject.toml
+  - Test function names must match the `python_functions` pattern (e.g., `should_*`)
+  - Each new module (e.g., qa-pytest-kafka) must be added to `.vscode/settings.json` in both `python.testing.pytestArgs` and `python.analysis.extraPaths` for test discovery and analysis, matching the pattern used for other modules.
 
 ## Project Requirements
 - Ensure all code is covered by appropriate unit or integration tests.
