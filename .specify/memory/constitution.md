@@ -56,10 +56,10 @@ qa-pytest-examples (integration examples)
 
 ### IV. Quality Gates
 After adding new test(s):
-- **All new tests pass**
+- **All new tests pass**: use `pdm run pytest -v <module-file>` in order to pick the venv
 
 Before merging to main:
-- **All tests pass**: `pdm run pytest` across all modules
+- **All tests pass**: use `pdm run pytest` in order to pick the venv
 - **No type errors**: All modules must type-check
 - **Format compliance**: `pdm run format-all` applied
 - **Documentation updated**: Public APIs documented in docstrings

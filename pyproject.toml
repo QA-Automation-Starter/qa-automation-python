@@ -45,7 +45,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
-addopts = "-s --import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
+addopts = "-s --import-mode=importlib"
 python_files = "*_tests.py"
 python_classes = "*Tests"
 python_functions = "should_*"

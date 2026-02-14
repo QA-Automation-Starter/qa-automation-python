@@ -30,7 +30,8 @@ This file provides **tactical coding instructions**: how to write code, which to
 - Use PDM for adding new dependencies (see constitution Monorepo Structure).
 - Always generate `__init__.py` files using `pdm run regenerate-init-and-format` for all modules and subpackages (do not create manually).
 - Prefer one-liners unless unreadable.
-- Use pytest for all tests.
+  - Use pytest for all tests.
+  - Always run tests using `pdm run pytest ...` to ensure the correct virtual environment and dependencies are used.
 - Use pyhamcrest for assertions.
 - Tests shall comply with `tool.pytest.ini_options` in root pyproject.toml
   - Test function names must match the `python_functions` pattern (e.g., `should_*`)
