@@ -79,6 +79,7 @@ clean-all = "git clean -fdX"
 format-all = { composite = ["isort .", "autopep8 . --in-place --recursive"] }
 # WARNING this overwrites all __init__.py files
 regenerate-init = "bash -c 'find qa-*/src/qa_* -type d -exec test -f {}/__init__.py \\; -exec mkinit {} -w --nomods \\;'"
+regenerate-init-and-format = { composite = ["pdm run regenerate-init", "pdm run format-all"] }
 build-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm build); done'"
 publish-all = "bash -c 'for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm publish); done'"
 install-all = "bash -c 'pdm install && for d in qa-*/pyproject.toml; do (cd \"${d%/*}\" && pdm install); done'"
