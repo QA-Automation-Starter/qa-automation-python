@@ -28,6 +28,7 @@ This file provides **tactical coding instructions**: how to write code, which to
 ## Preferred Technologies
 - Use Python 3.13 syntax for generics.
 - Use PDM for adding new dependencies (see constitution Monorepo Structure).
+- Always generate `__init__.py` files using `pdm run regenerate-init-and-format` for all modules and subpackages (do not create manually).
 - Prefer one-liners unless unreadable.
 - Use pytest for all tests.
 - Use pyhamcrest for assertions.

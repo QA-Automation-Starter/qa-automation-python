@@ -2,7 +2,17 @@
 
 # qa-pytest-kafka
 
-BDD-style Kafka testing utilities for pytest.
+BDD steps module for Kafka integration testing, following the qa-pytest-* monorepo architecture.
+
+## Features
+- BDD step classes for publishing and consuming Kafka messages
+- Topic creation/deletion utilities
+- Partition-specific operations
+- Test isolation and cleanup
+- Integration with pytest and qa-pytest-commons
+
+## Usage
+See quickstart.md and tests for examples.
 
 ## Kafka Prerequisites
 A running Kafka broker is required for self-tests and integration tests.
@@ -55,19 +65,3 @@ podman exec my-kafka /opt/kafka/bin/kafka-console-consumer.sh \
   --max-messages 1
 ```
 > NOTE: if you want queue behavior add `--group my-pytest-group`
-
-
-## Configuration
-Tests will use `localhost:9092` by default. If you use a different broker, set:
-
-- `KAFKA_BOOTSTRAP_SERVERS` (e.g., `localhost:9092`)
-
-## Structure
-- `kafka_handler.py`: Core logic for publishing/consuming messages.
-- `kafka_message.py`: Message wrapper.
-- `kafka_configuration.py`: Test configuration.
-- `kafka_fixtures.py`, `kafka_actions.py`, `kafka_verifications.py`: BDD step classes.
-- `kafka_tests.py`: Base BDD test class.
-
-## Usage
-See tests in `qa-pytest-kafka/tests` for examples.
