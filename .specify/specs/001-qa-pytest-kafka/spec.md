@@ -40,14 +40,6 @@ Scenario: Complete Kafka message lifecycle with verification
 
 ---
 
-### Edge Cases
-
-- What happens when attempting to consume from a non-existent topic?
-- How does the system handle messages that exceed the configured maximum size?
-- What happens when a consumer attempts to read from a partition that doesn't exist?
-- How are serialization errors handled when publishing or consuming messages?
-- What happens when the Kafka broker is unavailable during publish or consume operations?
-- How does the system handle duplicate message keys with different values?
 
 ## Requirements *(mandatory)*
 
@@ -62,7 +54,7 @@ Scenario: Complete Kafka message lifecycle with verification
 - **FR-007**: System MUST provide utilities for topic creation and deletion during tests
 - **FR-008**: System MUST support partition-specific message operations
 - **FR-009**: System MUST integrate with pytest and qa-pytest-commons BDD infrastructure
-- **FR-010**: System MUST provide proper cleanup mechanisms to ensure test isolation
+- **FR-010**: System MUST provide proper cleanup mechanisms to ensure test isolation, including handling partial states (topic created but publish failed) and maintaining references to created resources for step chaining
 
 ### Key Entities *(include if feature involves data)*
 
@@ -83,6 +75,20 @@ Scenario: Complete Kafka message lifecycle with verification
 - Q: Can we use confluent-kafka-python despite incomplete type hints (issue #1310)? → A: YES - Sync API preference outweighs type hint completeness. Use `# type: ignore` pragmatically where needed (similar to how Playwright sync API is preferred over async despite async having better support)
 - Q: Should we use threading for background consumption (like queue_handler)? → A: YES - Follow RabbitMQ queue_handler pattern: threading for background work, synchronous public API
 
+### Session 2026-02-13
+
+- Q: What is the purpose of message "key" in Kafka? → A: Keys enable partitioning (same key → same partition), ordering within partition, and log compaction. For testing, keys verify message routing and correlation
+- Q: Should we verify producer acknowledgments (like "Then message is persisted")? → A: NO - Producer acks are low-level protocol mechanics (like TCP acks in HTTP). Publish step handles errors internally; successful consumption proves persistence
+- Q: Should message retrieval be modeled as action ("When consuming") or verification ("Then message matches")? → A: Verification - in integration testing, retrieval proves published data is correct (see BDD guide "Retrieval as verification")
+- Q: Should we test both single and multiple messages? → A: NO - Multi-message test proves single message works (simpler = better)
+- Q: How to make multi-partition testing meaningful? → A: Publish to different partitions (0, 1), verify each partition separately - proves partition-specific operations work
+- Q: Should scenarios include matching rules like "match in order"? → A: NO - Matching rules are implementation details. Table row order defines expected order; implementation chooses matcher (e.g., `contains_exactly_in_order`)
+
+### Session 2026-02-14
+
+- Q: How should the module handle stateful scenarios where steps depend on earlier steps? → A: Test class maintains references to created resources (topics) enabling step chaining. This is typical for integration testing validating complete workflows through stateful systems (like RabbitMQ queue references)
+- Q: What happens when consuming from non-existent topic? → A: Kafka doesn't fail immediately - subscribe succeeds, poll returns None. Module validates topic exists before consume operations (fail fast on permanent config errors, not transient network issues)
+
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
@@ -101,3 +107,4 @@ Scenario: Complete Kafka message lifecycle with verification
 - The module uses confluent-kafka-python library (synchronous API, threading for background consumption like queue_handler)
 - Minimal `# type: ignore` pragmas accepted where confluent-kafka type hints incomplete (pragmatic trade-off for sync simplicity)
 - Tests run in isolated environments where topic creation/deletion is permitted
+- Integration scenarios are inherently stateful - test class maintains references to created resources (topics) enabling step chaining, similar to RabbitMQ module's queue handling

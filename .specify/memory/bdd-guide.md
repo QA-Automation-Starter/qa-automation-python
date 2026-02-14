@@ -65,6 +65,12 @@ Each meaningful interaction cycle gets its own When-Then pair, allowing sequenti
 - **Example**: "When consuming from partition 1" proves the message exists - no need for "Then message exists" before it
 - **Applies to**: Message queues (Kafka, RabbitMQ), databases with row locks, file systems with exclusive locks, any system where verification modifies state
 
+## Implementation Pattern
+
+Gherkin scenarios are implemented using a consistent architecture across all BDD step modules. For detailed class structure, extension patterns, and code examples, see [Architecture documentation](../../docs/architecture.md).
+
+**Key principle**: The fluent API (`.given`, `.when`, `.then`) mirrors Gherkin structure, enabling test code to read like natural language specifications.
+
 ## Correct Example: Abstracted, Focused BDD
 
 ```

@@ -166,6 +166,36 @@ classDiagram
 
 ## Usage Examples
 
+### Gherkin to Fluent API Mapping
+
+BDD scenarios written in Gherkin map directly to fluent API method calls:
+
+**Gherkin Scenario:**
+```gherkin
+Scenario: Publish and consume message
+  Given a queue handler
+  When publishing message "test_queue"
+  And consuming
+  Then the received messages contain a message "test_queue"
+```
+
+### Python implementation (from RabbitMqSelfTests::should_publish_and_consume)
+
+```python
+--8<-- "rabbitmq_self_tests.py:func"
+```
+
+**Key Points:**
+- `.given` → Given steps (setup/preconditions)
+- `.when` → When steps (actions)
+- `.and_` → And steps (additional actions/verifications)
+- `.then` → Then steps (verifications using hamcrest matchers)
+- Method chaining enables readable, sequential flow
+- Type-safe throughout (generics for domain objects)
+
+**Stateful Scenarios:**
+Integration scenarios are inherently stateful: the test class is responsible for managing the lifecycle of core resources (such as connections, clients, or handlers) and creates resource-specific handler objects (e.g., queue handler, topic handler, client). The steps class receives the handler via a dedicated method (e.g., `a_queue_handler`, `a_topic_handler`) and provides a fluent BDD API for all subsequent operations. This enables step chaining and ensures that asynchronous/background operations (like message consumption) are coordinated through the handler. Cleanup and teardown are managed by the test class, which ensures proper resource disposal even in partial failure states. This pattern applies to messaging (RabbitMQ, Kafka), REST sessions, browser contexts, and similar integration domains.
+
 ### TerminalX Tests
 
 ```python
@@ -217,3 +247,12 @@ shall be used at runtime.
     options:
       show_source: true
 
+## Error and Edge Case Handling (All Integration Modules)
+
+For all integration modules (Kafka, RabbitMQ, REST, etc.), the following principles apply to error and edge case handling:
+
+- **Propagate API exceptions or return values**: If an operation fails due to a test design error, invalid input, or system state (e.g., non-existent resource, invalid partition, serialization error, duplicate key), the module should propagate the underlying API exception or return value. This ensures failures are visible and actionable.
+- **Fail fast**: Do not attempt to recover from permanent errors (e.g., configuration mistakes, resource not found, message too large). Surface the error immediately to the test.
+- **No extra retrying at the BDD layer**: Do not wrap operations in additional retry logic unless the error is known to be transient and the underlying client does not already handle resilience. For most messaging and database clients, resilience is built-in; retrying at the BDD layer only delays test failure.
+- **Descriptive errors**: Where possible, ensure that errors surfaced to the test are descriptive and actionable, aiding in rapid diagnosis.
+- **Consistent pattern**: This approach ensures that all modules behave consistently, and test failures are clear and deterministic.
