@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from typing import Callable, Final, Iterator, Mapping, cast, final
 
-from confluent_kafka import Consumer, KafkaError
+from confluent_kafka import Consumer
 from confluent_kafka import Message as KafkaMessage
 from confluent_kafka import Producer
 from qa_testing_utils.logger import LoggerMixin
@@ -30,9 +30,9 @@ class Message[V]:
     offset: int | None = field(default=None, compare=False, hash=False)
 
     @staticmethod
-    def from_kafka(
+    def from_kafka[VV](
             msg: KafkaMessage,
-            deserializer: Callable[[bytes], V]) -> "Message[V]":
+            deserializer: Callable[[bytes], VV]) -> "Message[VV]":
         """Factory method to construct a Message from a confluent_kafka message."""
         raw_value = msg.value()
         return Message(
@@ -83,14 +83,9 @@ class KafkaHandler[K, V](LoggerMixin):
                     continue
                 error = msg.error()
                 if error is not None:
-                    partition_eof = getattr(KafkaError, "_PARTITION_EOF", None)
-                    if partition_eof is not None and error.code() == partition_eof:
-                        continue
                     self.log.warning(f"Kafka error: {error}")
                     continue
-                message = cast(
-                    Message[V],
-                    Message.from_kafka(msg, self.consuming_by))
+                message = Message.from_kafka(msg, self.consuming_by)
                 key = self.indexing_by(message)
                 self._received_messages[key] = message
                 self.log.debug(f"received {key}")
