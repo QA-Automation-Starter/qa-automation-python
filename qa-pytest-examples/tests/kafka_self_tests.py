@@ -2,18 +2,17 @@
 """
 Integration/Bdd self-test for Kafka BDD steps.
 """
-from qa_pytest_kafka import (
-    KafkaConfiguration,
-    KafkaHandler,
-    KafkaSteps,
-    Message,
-)
+from typing import Callable, override
+
+from qa_pytest_kafka import KafkaConfiguration, KafkaSteps, Message
 from qa_pytest_kafka.kafka_tests import KafkaTests
 from qa_testing_utils.matchers import tracing, yields_items
 
 
-class KafkaSelfTests(KafkaTests[str, str]):
-    _handler: KafkaHandler[str, str]
+class KafkaSelfTests(
+    KafkaTests
+    [str, str, KafkaSteps[str, str, KafkaConfiguration],
+     KafkaConfiguration]):
     _steps_type = KafkaSteps
     _configuration = KafkaConfiguration()
 
@@ -30,17 +29,16 @@ class KafkaSelfTests(KafkaTests[str, str]):
             )
          )
 
-    def setup_method(self) -> None:
-        super().setup_method()
-        self._handler = KafkaHandler[
-            str, str
-        ](
-            bootstrap_servers=self.config.bootstrap_servers,
-            topic=self.config.topic,
-            group_id=self.config.group_id,
-            indexing_by=lambda m: m.content,
-            consuming_by=lambda b: b.decode(),
-            publishing_by=lambda s: s.encode()
-        )
+    @override
+    def _indexing_by(self) -> Callable[[Message[str]], str]:
+        return lambda message: message.content
+
+    @override
+    def _consuming_by(self) -> Callable[[bytes], str]:
+        return lambda payload: payload.decode()
+
+    @override
+    def _publishing_by(self) -> Callable[[str], bytes]:
+        return lambda value: value.encode()
 
 # --8<-- [end:class]

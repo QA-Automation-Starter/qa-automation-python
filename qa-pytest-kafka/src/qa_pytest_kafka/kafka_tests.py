@@ -2,30 +2,54 @@
 """
 Base class for Kafka BDD self-tests, mirroring RabbitMQ BDD test structure.
 """
-from typing import Generic, TypeVar
+from collections.abc import Callable
+from typing import Any, override
 
+from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_kafka.kafka_configuration import KafkaConfiguration
+from qa_pytest_kafka.kafka_handler import KafkaHandler, Message
 from qa_pytest_kafka.kafka_steps import KafkaSteps
 
-K = TypeVar("K")
-V = TypeVar("V")
 
+class KafkaTests[
+    K,
+    V,
+    TSteps: KafkaSteps[Any, Any, Any],
+    TConfiguration: KafkaConfiguration
+](AbstractTestsBase[TSteps, TConfiguration]):
+    """
+    Base class for BDD-style Kafka integration tests.
 
-class KafkaTests(Generic[K, V]):
-    steps: KafkaSteps[K, V]
-    config: KafkaConfiguration
+    Type Args:
+        K: The type of the message key.
+        V: The type of the message content.
+        TSteps: The steps implementation type.
+        TConfiguration: The configuration type, must be a KafkaConfiguration.
+    """
+    _handler: KafkaHandler[K, V]
 
+    @override
     def setup_method(self) -> None:
-        self.config = KafkaConfiguration()
-        # Patch config for test
-        self.config.parser.read_dict({
-            'kafka': {
-                'bootstrap_servers': 'localhost:9092',
-                'topic': 'selftest-topic',
-                'group_id': 'selftest-group',
-            }
-        })
-        self.steps = KafkaSteps[K, V](self.config)
+        super().setup_method()
+        self._handler = self._create_handler()
 
-    def teardown_method(self) -> None:
-        pass  # No-op for now, extend if needed
+    def _create_handler(self) -> KafkaHandler[K, V]:
+        return KafkaHandler[
+            K, V
+        ](
+            bootstrap_servers=self.configuration.bootstrap_servers,
+            topic=self.configuration.topic,
+            group_id=self.configuration.group_id,
+            indexing_by=self._indexing_by(),
+            consuming_by=self._consuming_by(),
+            publishing_by=self._publishing_by(),
+        )
+
+    def _indexing_by(self) -> Callable[[Message[V]], K]:
+        raise NotImplementedError()
+
+    def _consuming_by(self) -> Callable[[bytes], V]:
+        raise NotImplementedError()
+
+    def _publishing_by(self) -> Callable[[V], bytes]:
+        raise NotImplementedError()

@@ -27,6 +27,39 @@ flowchart TD
 > - `MyTechTests(AbstractTestsBase[MyTechSteps, MyTechConfiguration])`
 > This pattern ensures you reuse the core BDD, configuration, and reporting mechanisms.
 
+### Generic Type Parameters (Keep It Minimal)
+
+Core inheritance rules:
+- Steps always derive from `GenericSteps`.
+- Tests always derive from `AbstractTestsBase` (the generic tests base).
+- Configurations always derive from `BaseConfiguration`.
+- Infrastructure steps/tests/configs must be extensible by design.
+
+Use type parameters only when the domain requires them:
+
+- **Messaging (Kafka, RabbitMQ)**: Use `K` (message key/index) and `V` (message payload) because handlers and matchers are keyed and payload-aware.
+- **Non-messaging domains (REST, UI)**: Avoid `K`/`V`. Use only the configuration type parameter (e.g., `TConfiguration`) and, if needed, a steps type parameter.
+
+This keeps the architecture generic while making it obvious when and why `K`/`V` appear.
+
+**Generic templates (PEP 695):**
+
+- **Steps (non-messaging):**
+    `class XSteps[TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])`
+
+- **Tests (non-messaging):**
+    `class XTests[TSteps: XSteps[Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])`
+
+- **Steps (messaging):**
+    `class XSteps[K, V, TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])`
+
+- **Tests (messaging):**
+    `class XTests[K, V, TSteps: XSteps[Any, Any, Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])`
+
+Guideline: do not hardcode configuration types in infrastructure classes; use a
+`TConfiguration` type parameter bounded by `BaseConfiguration` (or a domain base
+configuration) so users can extend configuration with extra properties.
+
 ```mermaid
 classDiagram
     %% Core Abstractions
@@ -274,6 +307,25 @@ or, if using environments:
 **Note:**
 - The configuration file is **not** inferred from the test file location.
 - This ensures that configuration is always colocated with the implementation module, supporting reuse and clarity across test modules.
+
+## Kafka Configuration URL Format
+
+Kafka configuration is now defined as a single URL string in `kafka_configuration.ini`:
+
+    kafka://<bootstrap_servers>/<topic>?group_id=<group_id>
+
+Rules:
+- The URL is **required** and validated on load.
+- `scheme`, `netloc`, and `path` must be present; otherwise a `ValueError` is raised.
+- `group_id` is required in the query string; missing values raise a `ValueError`.
+- Legacy `bootstrap_servers`, `topic`, and `group_id` fields are no longer used.
+
+## Kafka Module Alignment with Core Architecture
+
+Kafka now mirrors the RabbitMQ structure:
+- `KafkaTests` derives from `AbstractTestsBase` and uses `_steps_type` and `_configuration`.
+- `KafkaSteps` accepts a `TConfiguration: KafkaConfiguration` type parameter to support derived configurations.
+- Type parameter syntax uses Python 3.13 (PEP 695) across Kafka tests/steps.
 
 ## Error and Edge Case Handling (All Integration Modules)
 

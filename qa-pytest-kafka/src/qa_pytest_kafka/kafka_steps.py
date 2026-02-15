@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Generic, Iterable, Iterator, Self, TypeVar, final
+from typing import Iterable, Iterator, Self, final
 
 from hamcrest.core.matcher import Matcher
 from qa_pytest_commons.generic_steps import GenericSteps
@@ -9,11 +9,17 @@ from qa_pytest_kafka.kafka_handler import KafkaHandler, Message
 from qa_testing_utils.logger import Context
 from qa_testing_utils.object_utils import require_not_none
 
-K = TypeVar("K")
-V = TypeVar("V")
 
+class KafkaSteps[K, V, TConfiguration: KafkaConfiguration](
+        GenericSteps[TConfiguration]):
+    """
+    BDD-style step definitions for Kafka operations.
 
-class KafkaSteps(Generic[K, V], GenericSteps[KafkaConfiguration]):
+    Type Parameters:
+        K: The type of the message key.
+        V: The type of the message content.
+        TConfiguration: The configuration type, must be a KafkaConfiguration.
+    """
     _kafka_handler: KafkaHandler[K, V]
 
     @Context.traced
