@@ -12,6 +12,7 @@ from qa_pytest_kafka import (
 )
 from qa_pytest_kafka.kafka_tests import KafkaTests
 from qa_testing_utils.matchers import tracing, yields_items
+from qa_testing_utils.string_utils import EMPTY_STRING
 
 
 # --8<-- [start:class]
@@ -44,7 +45,7 @@ class KafkaSelfTests(
             bootstrap_servers=self.configuration.bootstrap_servers,
             topic=self.configuration.topic,
             group_id=self.configuration.group_id,
-            indexing_by=lambda message: message.content,
+            indexing_by=lambda message: message.content or EMPTY_STRING,
             consuming_by=lambda payload: payload.decode(),
             publishing_by=lambda value: value.encode())
 

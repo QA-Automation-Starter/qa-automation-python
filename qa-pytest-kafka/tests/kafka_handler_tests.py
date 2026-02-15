@@ -2,6 +2,7 @@
 
 from hamcrest import assert_that, equal_to, has_entries, has_property
 from qa_pytest_kafka.kafka_handler import KafkaHandler
+from qa_testing_utils.string_utils import EMPTY_STRING
 
 
 class KafkaHandlerTests:
@@ -10,7 +11,7 @@ class KafkaHandlerTests:
             bootstrap_servers='localhost:9092',
             topic='selftest-topic',
             group_id='selftest-group',
-            indexing_by=lambda m: m.content,
+            indexing_by=lambda m: m.content or EMPTY_STRING,
             consuming_by=lambda b: b.decode(),
             publishing_by=lambda s: s.encode()
         )

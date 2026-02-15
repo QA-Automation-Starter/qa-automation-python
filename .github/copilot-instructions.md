@@ -26,7 +26,7 @@ This file provides **tactical coding instructions**: how to write code, which to
   - qa-pytest-examples: BDD integration tests (see [BDD Guide](../.specify/memory/bdd-guide.md))
 
 ## Preferred Technologies
-- Use Python 3.13 syntax for generics.
+- Use Python 3.13 syntax for generics: **PEP 695 syntax preferred** (`class Foo[T]: ...` instead of `class Foo(Generic[T]): ...` with `TypeVar`).
 - Use PDM for adding new dependencies (see constitution Monorepo Structure).
 - Always generate `__init__.py` files using `pdm run regenerate-init-and-format` for all modules and subpackages (do not create manually).
 - Prefer one-liners unless unreadable.
