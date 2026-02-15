@@ -2,13 +2,19 @@
 """
 Integration/Bdd self-test for Kafka BDD steps.
 """
-from typing import Callable, override
+from typing import override
 
-from qa_pytest_kafka import KafkaConfiguration, KafkaSteps, Message
+from qa_pytest_kafka import (
+    KafkaConfiguration,
+    KafkaHandler,
+    KafkaSteps,
+    Message,
+)
 from qa_pytest_kafka.kafka_tests import KafkaTests
 from qa_testing_utils.matchers import tracing, yields_items
 
 
+# --8<-- [start:class]
 class KafkaSelfTests(
     KafkaTests
     [str, str, KafkaSteps[str, str, KafkaConfiguration],
@@ -16,6 +22,7 @@ class KafkaSelfTests(
     _steps_type = KafkaSteps
     _configuration = KafkaConfiguration()
 
+    # --8<-- [start:func]
     def should_publish_and_consume(self) -> None:
         (self.steps
             .given.a_kafka_handler(self._handler)
@@ -28,17 +35,17 @@ class KafkaSelfTests(
                 ])
             )
          )
+    # --8<-- [end:func]
 
     @override
-    def _indexing_by(self) -> Callable[[Message[str]], str]:
-        return lambda message: message.content
-
-    @override
-    def _consuming_by(self) -> Callable[[bytes], str]:
-        return lambda payload: payload.decode()
-
-    @override
-    def _publishing_by(self) -> Callable[[str], bytes]:
-        return lambda value: value.encode()
+    def setup_method(self) -> None:
+        super().setup_method()
+        self._handler = KafkaHandler[str, str](
+            bootstrap_servers=self.configuration.bootstrap_servers,
+            topic=self.configuration.topic,
+            group_id=self.configuration.group_id,
+            indexing_by=lambda message: message.content,
+            consuming_by=lambda payload: payload.decode(),
+            publishing_by=lambda value: value.encode())
 
 # --8<-- [end:class]
