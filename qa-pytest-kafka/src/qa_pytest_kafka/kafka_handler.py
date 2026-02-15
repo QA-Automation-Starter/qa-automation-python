@@ -21,10 +21,23 @@ V = TypeVar("V")
 
 @dataclass(frozen=True)
 class Message(Generic[V]):
+    """
+    Represents a Kafka message with business content and metadata.
+
+    Fields:
+        content: The business payload of the message.
+        headers: Optional headers as a dictionary.
+        key: Optional message key (for partitioning).
+        offset: Kafka-assigned sequence number within a partition.
+            - Not part of business equality or hash.
+            - Excluded from __eq__ and __hash__ to ensure tests and business logic
+              compare messages by content, key, and headers only.
+            - Used for tracking consumer progress and ordering, not for business identity.
+    """
     content: V
     headers: dict[str, Any] = field(default_factory=dict)
     key: bytes | None = None
-    offset: int | None = None
+    offset: int | None = field(default=None, compare=False, hash=False)
 
 
 @final

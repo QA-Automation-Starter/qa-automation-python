@@ -247,6 +247,34 @@ shall be used at runtime.
     options:
       show_source: true
 
+## Configuration File Discovery Pattern
+
+All subclasses of `BaseConfiguration` automatically infer their configuration file location based on the module in which the configuration class is defined—not the test file location.
+
+**Pattern:**
+
+- The configuration file is expected at:
+
+      <module_dir>/configurations/${TEST_ENVIRONMENT}/<module_name>.ini
+
+  - `<module_dir>`: Directory where the configuration class's module is located
+  - `${TEST_ENVIRONMENT}`: Optional environment subdirectory (e.g., dev, ci, prod)
+  - `<module_name>.ini`: The stem of the configuration class's module file (e.g., `KafkaConfiguration` → `kafka_configuration.ini`)
+
+**Example:**
+
+If you use `KafkaConfiguration` from the `qa-pytest-kafka` module, the expected configuration file is:
+
+    qa-pytest-kafka/src/qa_pytest_kafka/configurations/kafka_configuration.ini
+
+or, if using environments:
+
+    qa-pytest-kafka/src/qa_pytest_kafka/configurations/dev/kafka_configuration.ini
+
+**Note:**
+- The configuration file is **not** inferred from the test file location.
+- This ensures that configuration is always colocated with the implementation module, supporting reuse and clarity across test modules.
+
 ## Error and Edge Case Handling (All Integration Modules)
 
 For all integration modules (Kafka, RabbitMQ, REST, etc.), the following principles apply to error and edge case handling:
