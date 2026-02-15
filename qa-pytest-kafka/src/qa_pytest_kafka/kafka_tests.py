@@ -2,7 +2,7 @@
 """
 Base class for Kafka BDD self-tests, mirroring RabbitMQ BDD test structure.
 """
-from typing import Any
+from typing import Any, override
 
 from qa_pytest_commons.abstract_tests_base import AbstractTestsBase
 from qa_pytest_kafka.kafka_configuration import KafkaConfiguration
@@ -27,3 +27,13 @@ class KafkaTests[
         TConfiguration: The configuration type, must be a KafkaConfiguration.
     """
     _handler: KafkaHandler[K, V]
+
+    @override
+    def teardown_method(self):
+        """
+        Tears down the Kafka handler after each test method.
+        """
+        try:
+            self._handler.close()
+        finally:
+            super().teardown_method()

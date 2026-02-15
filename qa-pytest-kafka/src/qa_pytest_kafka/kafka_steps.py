@@ -36,12 +36,6 @@ class KafkaSteps[K, V, TConfiguration: KafkaConfiguration](
 
     @Context.traced
     @final
-    def consuming(self) -> Self:
-        self._kafka_handler.consume()
-        return self
-
-    @Context.traced
-    @final
     def the_received_messages(
             self, by_rule: Matcher[Iterator[Message[V]]]) -> Self:
         return self.eventually_assert_that(

@@ -28,7 +28,6 @@ class KafkaSelfTests(
         (self.steps
             .given.a_kafka_handler(self._handler)
             .when.publishing([Message(content="foo"), Message(content="bar")])
-            .and_.consuming()
             .then.the_received_messages(
                 yields_items([
                     tracing(Message(content="foo")),

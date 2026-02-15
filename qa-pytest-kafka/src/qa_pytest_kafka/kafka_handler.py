@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
+import threading
 from dataclasses import dataclass, field
-from typing import Callable, Final, Iterator, Mapping, cast, final
+from types import TracebackType
+from typing import Callable, Final, Iterator, Mapping, final
 
 from confluent_kafka import Consumer
 from confluent_kafka import Message as KafkaMessage
@@ -52,8 +54,58 @@ class KafkaHandler[K, V](LoggerMixin):
     indexing_by: Final[Callable[[Message[V]], K]]
     consuming_by: Final[Callable[[bytes], V]]
     publishing_by: Final[Callable[[V], bytes]]
-    _received_messages: dict[K, Message[V]] = field(
-        default_factory=lambda: cast(dict[K, Message[V]], {}), init=False)
+
+    _received_messages: Final[dict[K, Message[V]]] = field(
+        default_factory=lambda: dict(), init=False)
+    _worker_thread: threading.Thread = field(init=False)
+    _shutdown_event: threading.Event = field(
+        default_factory=threading.Event, init=False)
+    _lock: threading.RLock = field(default_factory=threading.RLock, init=False)
+
+    def __post_init__(self) -> None:
+        """Starts the consumer thread for handling asynchronous Kafka operations."""
+        self._worker_thread = threading.Thread(
+            target=self._worker_loop, name="kafka-consumer", daemon=True)
+        self._worker_thread.start()
+
+    def __enter__(self) -> "KafkaHandler[K, V]":
+        """Context manager entry. Returns self."""
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None
+    ) -> None:
+        """Context manager exit. Ensures the handler is closed."""
+        self.close()
+
+    def _worker_loop(self) -> None:
+        """Internal consumer loop for processing Kafka messages."""
+        try:
+            with Consumer({
+                'bootstrap.servers': self.bootstrap_servers,
+                'group.id': self.group_id,
+                'auto.offset.reset': 'earliest',
+                'enable.auto.commit': False,
+            }) as consumer:
+                consumer.subscribe([self.topic])
+                while not self._shutdown_event.is_set():
+                    msg = consumer.poll(0.5)
+                    if msg is None:
+                        continue
+                    error = msg.error()
+                    if error is not None:
+                        self.log.warning(f"Kafka error: {error}")
+                        continue
+                    message = Message.from_kafka(msg, self.consuming_by)
+                    key = self.indexing_by(message)
+                    with self._lock:
+                        self._received_messages[key] = message
+                    self.log.debug(f"received {key}")
+        except Exception as e:
+            self.log.error(f"Unhandled error in consumer thread: {e}")
 
     def publish(self, messages: Iterator[Message[V]]) -> None:
         with Producer({'bootstrap.servers': self.bootstrap_servers}) as producer:
@@ -67,29 +119,13 @@ class KafkaHandler[K, V](LoggerMixin):
     def publish_values(self, values: Iterator[V]) -> None:
         self.publish((Message(content=value) for value in values))
 
-    def consume(self, timeout: float = 5.0) -> None:
-        with Consumer({
-            'bootstrap.servers': self.bootstrap_servers,
-            'group.id': self.group_id,
-            'auto.offset.reset': 'earliest',
-            'enable.auto.commit': False,
-        }) as consumer:
-            consumer.subscribe([self.topic])
-            end_time = timeout
-            while end_time > 0:
-                msg = consumer.poll(0.5)
-                end_time -= 0.5
-                if msg is None:
-                    continue
-                error = msg.error()
-                if error is not None:
-                    self.log.warning(f"Kafka error: {error}")
-                    continue
-                message = Message.from_kafka(msg, self.consuming_by)
-                key = self.indexing_by(message)
-                self._received_messages[key] = message
-                self.log.debug(f"received {key}")
+    def close(self) -> None:
+        """Gracefully shuts down the consumer thread."""
+        self._shutdown_event.set()
+        self._worker_thread.join(timeout=5.0)
 
     @property
     def received_messages(self) -> Mapping[K, Message[V]]:
-        return dict(self._received_messages)
+        """Returns a snapshot of all received messages, indexed by key."""
+        with self._lock:
+            return dict(self._received_messages)
