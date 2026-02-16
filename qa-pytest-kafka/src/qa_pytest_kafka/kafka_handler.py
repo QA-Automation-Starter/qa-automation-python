@@ -48,9 +48,9 @@ class Message[V]:
 @final
 @dataclass
 class KafkaHandler[K, V](LoggerMixin):
-    bootstrap_servers: Final[str]
+    consumer: Final[Consumer]
+    producer: Final[Producer]
     topic: Final[str]
-    group_id: Final[str]
     indexing_by: Final[Callable[[Message[V]], K]]
     consuming_by: Final[Callable[[bytes], V]]
     publishing_by: Final[Callable[[V], bytes]]
@@ -84,45 +84,40 @@ class KafkaHandler[K, V](LoggerMixin):
     def _worker_loop(self) -> None:
         """Internal consumer loop for processing Kafka messages."""
         try:
-            with Consumer({
-                'bootstrap.servers': self.bootstrap_servers,
-                'group.id': self.group_id,
-                'auto.offset.reset': 'earliest',
-                'enable.auto.commit': False,
-            }) as consumer:
-                consumer.subscribe([self.topic])
-                while not self._shutdown_event.is_set():
-                    msg = consumer.poll(0.5)
-                    if msg is None:
-                        continue
-                    error = msg.error()
-                    if error is not None:
-                        self.log.warning(f"Kafka error: {error}")
-                        continue
-                    message = Message.from_kafka(msg, self.consuming_by)
-                    key = self.indexing_by(message)
-                    with self._lock:
-                        self._received_messages[key] = message
-                    self.log.debug(f"received {key}")
+            self.consumer.subscribe([self.topic])
+            while not self._shutdown_event.is_set():
+                msg = self.consumer.poll(0.5)
+                if msg is None:
+                    continue
+                error = msg.error()
+                if error is not None:
+                    self.log.warning(f"Kafka error: {error}")
+                    continue
+                message = Message.from_kafka(msg, self.consuming_by)
+                key = self.indexing_by(message)
+                with self._lock:
+                    self._received_messages[key] = message
+                self.log.debug(f"received {key}")
         except Exception as e:
             self.log.error(f"Unhandled error in consumer thread: {e}")
 
     def publish(self, messages: Iterator[Message[V]]) -> None:
-        with Producer({'bootstrap.servers': self.bootstrap_servers}) as producer:
-            for message in messages:
-                value = self.publishing_by(
-                    message.content) if message.content is not None else None
-                producer.produce(self.topic, value, message.key,
-                                 headers=list(message.headers.items()))
-                self.log.debug(f"published {message}")
+        for message in messages:
+            value = self.publishing_by(
+                message.content) if message.content is not None else None
+            self.producer.produce(self.topic, value, message.key,
+                                  headers=list(message.headers.items()))
+            self.log.debug(f"published {message}")
+        self.producer.flush()
 
     def publish_values(self, values: Iterator[V]) -> None:
         self.publish((Message(content=value) for value in values))
 
     def close(self) -> None:
-        """Gracefully shuts down the consumer thread."""
+        """Gracefully shuts down the consumer thread and closes Kafka clients."""
         self._shutdown_event.set()
         self._worker_thread.join(timeout=5.0)
+        self.consumer.close()
 
     @property
     def received_messages(self) -> Mapping[K, Message[V]]:

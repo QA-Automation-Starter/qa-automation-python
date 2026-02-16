@@ -3,7 +3,9 @@
 Integration/Bdd self-test for Kafka BDD steps.
 """
 from typing import override
+from uuid import uuid4
 
+from confluent_kafka import Consumer, Producer
 from qa_pytest_kafka import (
     KafkaConfiguration,
     KafkaHandler,
@@ -40,10 +42,18 @@ class KafkaSelfTests(
     @override
     def setup_method(self) -> None:
         super().setup_method()
+        # Create Consumer with unique group_id per test for isolation
         self._handler = KafkaHandler[str, str](
-            bootstrap_servers=self.configuration.bootstrap_servers,
-            topic=self.configuration.topic,
-            group_id=self.configuration.group_id,
+            Consumer({
+                'bootstrap.servers': self.configuration.bootstrap_servers,
+                'group.id': f'test-{uuid4()}',
+                'auto.offset.reset': 'earliest',
+                'enable.auto.commit': False,
+            }),
+            Producer({
+                'bootstrap.servers': self.configuration.bootstrap_servers,
+            }),
+            self.configuration.topic,
             indexing_by=lambda message: message.content or EMPTY_STRING,
             consuming_by=lambda payload: payload.decode(),
             publishing_by=lambda value: value.encode())
