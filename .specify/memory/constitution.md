@@ -119,6 +119,7 @@ pdm run install-all    # Installs all modules in editable mode
 - **Example: Playwright**: Has async API, but sync API + retrying/eventually_assert_that works fine (async doesn't support hamcrest polling)
 - **Type safety pragmatism**: Accept minimal `# type: ignore` pragmas rather than force async complexity for type hints alone
 
+
 ### Technology Onboarding Order
 - **Install first**: Ensure the technology is installed and runnable locally
 - **Document installation**: Provide links to official vendor documentation only (no restating or summarizing)
