@@ -1,0 +1,30 @@
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+package-dir = "src"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "qa-pytest-kafka"
+dynamic = ["version"]
+authors = [{ name = "Adrian Herscu", email = "adrian.herscu@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.13"
+license = "Apache-2.0"
+dependencies = [
+  "qa-testing-utils",
+  "qa-pytest-commons",
+  "confluent-kafka==2.13.0",
+  "pytest==8.4.1",
+  "PyHamcrest==2.1.0"
+]
+
+[tool.pdm.version]
+source = "scm"
+write_to = "qa_pytest_kafka/_version.py"
+write_template = "__version__ = '{}'"
+fallback_version = "0.0.0"

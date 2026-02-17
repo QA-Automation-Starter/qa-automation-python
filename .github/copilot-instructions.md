@@ -1,20 +1,55 @@
 # Copilot Instructions
 
+## Scope
+This file provides **tactical coding instructions**: how to write code, which tools to use, formatting standards, and coding practices.
+
+**For governance principles, architecture patterns, and non-negotiable workflows, see [.specify/memory/constitution.md](../.specify/memory/constitution.md).**
+
 ## Coding Practices
+
+**Module-specific testing approaches:**
+- **qa-testing-utils**: Plain unit tests (no BDD, no pytest-commons dependency)
+- **qa-pytest-commons**: Plain unit tests for infrastructure (e.g., bdd_scenario_tests.py tests BDD mechanics)
+- **qa-pytest-{rest,webdriver,playwright,rabbitmq}**: Plain unit tests for utility classes (e.g., queue_handler_tests.py)
+- **qa-pytest-examples**: BDD integration tests using steps from domain modules
+
+**BDD scenarios apply only to qa-pytest-examples.** For BDD scenario structure, see [BDD Guide](../.specify/memory/bdd-guide.md).
+
 - Follow the project's established code style and formatting rules (see `pyproject.toml`).
 - Follow code style and re-use functionality of qa-testing-utils and qa-pytest-commons.
-- Always add type annotations.
+- **Always add type annotations**: Non-negotiable requirement (see constitution Type Safety Requirements)
 - Always prefer Iterables over lists.
+- **Context managers mandatory**: Always use `with` statements for resources
+requiring cleanup
+- **Refactoring completeness**: When refactoring shared code, verify updates in ALL affected files:
+  - Primary module implementation (src/)
+  - Integration tests (qa-pytest-examples/tests/)
+  - Unit tests (qa-pytest-MODULE/tests/) ← Often overlooked
+  - Self-tests (technology verification)
+- **Testing strategy**: See [constitution.md - Testing Strategy by Module Type](../.specify/memory/constitution.md)
+  - qa-testing-utils: Plain unit tests
+  - qa-pytest-commons: BDD scenario tests
+  - qa-pytest-{domain}: Unit tests + self-tests
+  - qa-pytest-examples: BDD integration tests (see [BDD Guide](../.specify/memory/bdd-guide.md))
+
+### Resource Lifecycle Management
+- **Context managers mandatory**: All resources with cleanup (consumers, producers, handlers, connections) SHOULD use `with` statements, unless there is a specific
+reason to hold them open at the instance-level, and then the instance SHALL support
+the context manager protocol
+- **Dependency injection**: In order to allow configuration of dependencies,
+these must be supplied from outside, not hardcoded
 
 ## Preferred Technologies
-- Use Python 3.13 syntax for generics.
-- Use PDM for adding new dependencies.
+- Use Python 3.13 syntax for generics: **PEP 695 syntax preferred** (`class Foo[T]: ...` instead of `class Foo(Generic[T]): ...` with `TypeVar`).
+- Use PDM for adding new dependencies (see constitution Monorepo Structure).
+- Always generate `__init__.py` files using `pdm run regenerate-init-and-format` for all modules and subpackages (do not create manually).
 - Prefer one-liners unless unreadable.
-- Use pytest for all tests.
+  - Use pytest for all tests.
+  - Always run tests using `pdm run pytest ...` to ensure the correct virtual environment and dependencies are used.
 - Use pyhamcrest for assertions.
 - Tests shall comply with `tool.pytest.ini_options` in root pyproject.toml
-- Use BDD-style for all tests that build on-top of AbstractTestsBase,
-  reference qa-pytest-rest and qa-pytest-webdriver modules as examples.
+  - Test function names must match the `python_functions` pattern (e.g., `should_*`)
+  - Each new module (e.g., qa-pytest-kafka) must be added to `.vscode/settings.json` in both `python.testing.pytestArgs` and `python.analysis.extraPaths` for test discovery and analysis, matching the pattern used for other modules.
 
 ## Project Requirements
 - Ensure all code is covered by appropriate unit or integration tests.

@@ -19,6 +19,16 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
       }
     },
+ 		"microsoft/playwright-mcp": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest",
+				"--config",
+				".vscode/playwright-mcp-config.json"
+      ]
+		}
+
     // "perplexity-ask": {
     //   "command": "npx",
     //   "args": [
