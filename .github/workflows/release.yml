@@ -12,11 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
-        with:
-          version: "2.25.9"
-          python-version: "3.13"
+      - uses: ./.github/actions/setup-pdm
 
       - name: Build packages
         env:
