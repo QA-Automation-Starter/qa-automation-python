@@ -104,6 +104,26 @@ pdm run publish-all    # Publishes all modules to PyPI
 pdm run install-all    # Installs all modules in editable mode
 ```
 
+### CI/CD Configuration (NON-NEGOTIABLE)
+**Service configuration must match documented setup:**
+- **README as source of truth**: CI service configurations (GitHub Actions) MUST match module README installation instructions
+- **Single-instance defaults**: CI environments use single-instance configurations for all backing services (message brokers, databases, caches)
+- **Production defaults must be overridden**: Services with multi-node/clustering defaults MUST be configured for single-instance operation in CI
+- **Simple health checks**: Prefer simple port checks (`nc -z localhost PORT`) over complex API commands
+- **Configuration validation**: After modifying service setup in README, update CI workflow accordingly
+
+**Common configuration patterns:**
+- **Replication/clustering**: Override replication factors, cluster sizes, quorum requirements to 1
+- **Resource limits**: Set memory, storage, and connection limits appropriate for CI environments
+- **Timeouts**: Reduce initial delays, rebalance periods, and other wait times for faster tests
+- **Security**: Use minimal authentication for test environments (avoid complex certificate setups)
+
+**Example violations and fixes:**
+- ❌ Service with default replication factor 3 → ✓ Override to 1 for single-node CI
+- ❌ Complex health check commands that fail despite service running → ✓ Simple `nc -z localhost PORT`
+- ❌ CI configuration diverging from README → ✓ Keep both synchronized
+- ❌ Multi-node cluster configuration in CI → ✓ Single-node with clustering disabled
+
 ## Architecture Patterns
 
 ### Reuse Over Reinvention
@@ -153,4 +173,4 @@ pdm run install-all    # Installs all modules in editable mode
 - **copilot-instructions.md supersedes** for coding style
 - **When in doubt**: Simplify, prefer established patterns
 
-**Version**: 1.2.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-12
+**Version**: 1.3.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-17
