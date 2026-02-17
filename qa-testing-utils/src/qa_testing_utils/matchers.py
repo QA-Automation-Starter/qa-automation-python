@@ -1,3 +1,4 @@
+
 # SPDX-FileCopyrightText: 2025 Adrian Herscu
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -23,6 +24,11 @@ from hamcrest.core.helpers.wrap_matcher import wrap_matcher
 from hamcrest.core.matcher import Matcher
 from qa_testing_utils.logger import LoggerMixin
 
+type MatcherOrValue[T] = Union[Matcher[T], T]
+type DateOrDateTime = Union[date, datetime]
+
+
+# --- Classes ---
 
 class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
     """
@@ -44,21 +50,6 @@ class TracingMatcher[T](BaseMatcher[T], LoggerMixin):
 
     def describe_to(self, description: Description) -> None:
         self._matcher.describe_to(description)
-
-
-def tracing[T](matcher: Matcher[T]) -> TracingMatcher[T]:
-    """
-    Wraps a matcher with TracingMatcher to enable debug logging.
-
-    Usage:
-        assert_that(actual, traced(contains_string("hello")))
-
-    Args:
-        matcher (Matcher[T]): The matcher to wrap.
-    Returns:
-        TracingMatcher[T]: The wrapped matcher with tracing enabled.
-    """
-    return TracingMatcher(matcher)
 
 
 @final
@@ -83,19 +74,6 @@ class ContainsStringIgnoringCase(BaseMatcher[str]):
             f"a string containing (case-insensitive) '{self.substring}'")
 
 
-def contains_string_ignoring_case(substring: str) -> ContainsStringIgnoringCase:
-    """
-    Creates a matcher that checks if a given string contains the specified substring, ignoring case.
-
-    Args:
-        substring (str): The substring to search for within the target string, case-insensitively.
-
-    Returns:
-        ContainsStringIgnoringCase: A matcher object that evaluates whether the target string contains the specified substring, ignoring case.
-    """
-    return ContainsStringIgnoringCase(substring)
-
-
 @final
 class IsIteratorYielding[T](BaseMatcher[Iterator[T]]):
     """
@@ -118,8 +96,6 @@ class IsIteratorYielding[T](BaseMatcher[Iterator[T]]):
     def describe_to(self, description: Description) -> None:
         description.append_text("a stream containing ") \
             .append_description_of(self.element_matcher)
-
-# TODO IsStreamContainingEvery
 
 
 @final
@@ -175,9 +151,6 @@ class IsIteratorYieldingAll[T](BaseMatcher[Iterator[T]]):
             description.append_description_of(matcher)
 
 
-type DateOrDateTime = Union[date, datetime]
-
-
 @final
 class IsWithinDates(BaseMatcher[DateOrDateTime]):
     def __init__(
@@ -224,6 +197,36 @@ class IsWithinDates(BaseMatcher[DateOrDateTime]):
                 f"a date within {self.start_date} and {self.end_date}")
 
 
+# --- Module-level functions ---
+
+def tracing[T](matcher: MatcherOrValue[T]) -> TracingMatcher[T]:
+    """
+    Wraps a matcher, or value, with TracingMatcher to enable debug logging.
+
+    Usage:
+        assert_that(actual, traced(contains_string("hello")))
+
+    Args:
+        matcher (MatcherOrValue[T]): The matcher or value to wrap.
+    Returns:
+        TracingMatcher[T]: The wrapped matcher with tracing enabled.
+    """
+    return TracingMatcher(wrap_matcher(matcher))
+
+
+def contains_string_ignoring_case(substring: str) -> ContainsStringIgnoringCase:
+    """
+    Creates a matcher that checks if a given string contains the specified substring, ignoring case.
+
+    Args:
+        substring (str): The substring to search for within the target string, case-insensitively.
+
+    Returns:
+        ContainsStringIgnoringCase: A matcher object that evaluates whether the target string contains the specified substring, ignoring case.
+    """
+    return ContainsStringIgnoringCase(substring)
+
+
 def within_dates(
         start_date: Optional[DateOrDateTime],
         end_date: Optional[DateOrDateTime]) -> IsWithinDates:
@@ -240,7 +243,7 @@ def within_dates(
     return IsWithinDates(start_date, end_date)
 
 
-def yields_item[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
+def yields_item[T](match: MatcherOrValue[T]) -> Matcher[Iterator[T]]:
     """
     Matches if any element of yielded by iterator matches a given matcher.
 
@@ -258,7 +261,7 @@ def yields_item[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
     return IsIteratorYielding(wrap_matcher(match))
 
 
-def yields_every[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
+def yields_every[T](match: MatcherOrValue[T]) -> Matcher[Iterator[T]]:
     """
     Matches if every element yielded by the iterator matches a given matcher.
 
@@ -273,8 +276,7 @@ def yields_every[T](match: Union[Matcher[T], T]) -> Matcher[Iterator[T]]:
     return IsStreamContainingEvery(wrap_matcher(match))
 
 
-def yields_items[T](matches: Iterable[Union[Matcher[T],
-                                            T]]) -> Matcher[Iterator[T]]:
+def yields_items[T](matches: Iterable[MatcherOrValue[T]]) -> Matcher[Iterator[T]]:
     """
     Matches if each specified item is yielded at least once by the iterator.
 

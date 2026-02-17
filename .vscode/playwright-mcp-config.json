@@ -1,0 +1,11 @@
+{
+  "browser": {
+    "isolated": true,
+    "launchOptions": {
+      "args": [
+        "--disable-gpu",
+        "--incognito"
+      ]
+    }
+  }
+}

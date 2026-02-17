@@ -16,6 +16,7 @@ runs:
       with:
         path: |
           ~/.cache/pdm
+          ~/.cache/pip
           .venv/
         key: pdm-${{ runner.os }}-${{ hashFiles('pdm.lock') }}
         restore-keys: |

@@ -27,6 +27,39 @@ flowchart TD
 > - `MyTechTests(AbstractTestsBase[MyTechSteps, MyTechConfiguration])`
 > This pattern ensures you reuse the core BDD, configuration, and reporting mechanisms.
 
+### Generic Type Parameters (Keep It Minimal)
+
+Core inheritance rules:
+- Steps always derive from `GenericSteps`.
+- Tests always derive from `AbstractTestsBase` (the generic tests base).
+- Configurations always derive from `BaseConfiguration`.
+- Infrastructure steps/tests/configs must be extensible by design.
+
+Use type parameters only when the domain requires them:
+
+- **Messaging (Kafka, RabbitMQ)**: Use `K` (message key/index) and `V` (message payload) because handlers and matchers are keyed and payload-aware.
+- **Non-messaging domains (REST, UI)**: Avoid `K`/`V`. Use only the configuration type parameter (e.g., `TConfiguration`) and, if needed, a steps type parameter.
+
+This keeps the architecture generic while making it obvious when and why `K`/`V` appear.
+
+**Generic templates (PEP 695):**
+
+- **Steps (non-messaging):**
+    `class XSteps[TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])`
+
+- **Tests (non-messaging):**
+    `class XTests[TSteps: XSteps[Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])`
+
+- **Steps (messaging):**
+    `class XSteps[K, V, TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])`
+
+- **Tests (messaging):**
+    `class XTests[K, V, TSteps: XSteps[Any, Any, Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])`
+
+Guideline: do not hardcode configuration types in infrastructure classes; use a
+`TConfiguration` type parameter bounded by `BaseConfiguration` (or a domain base
+configuration) so users can extend configuration with extra properties.
+
 ```mermaid
 classDiagram
     %% Core Abstractions
@@ -166,6 +199,36 @@ classDiagram
 
 ## Usage Examples
 
+### Gherkin to Fluent API Mapping
+
+BDD scenarios written in Gherkin map directly to fluent API method calls:
+
+**Gherkin Scenario:**
+```gherkin
+Scenario: Publish and consume message
+  Given a queue handler
+  When publishing message "test_queue"
+  And consuming
+  Then the received messages contain a message "test_queue"
+```
+
+### Python implementation (from RabbitMqSelfTests::should_publish_and_consume)
+
+```python
+--8<-- "rabbitmq_self_tests.py:func"
+```
+
+**Key Points:**
+- `.given` → Given steps (setup/preconditions)
+- `.when` → When steps (actions)
+- `.and_` → And steps (additional actions/verifications)
+- `.then` → Then steps (verifications using hamcrest matchers)
+- Method chaining enables readable, sequential flow
+- Type-safe throughout (generics for domain objects)
+
+**Stateful Scenarios:**
+Integration scenarios are inherently stateful: the test class is responsible for managing the lifecycle of core resources (such as connections, clients, or handlers) and creates resource-specific handler objects (e.g., queue handler, topic handler, client). The steps class receives the handler via a dedicated method (e.g., `a_queue_handler`, `a_topic_handler`) and provides a fluent BDD API for all subsequent operations. This enables step chaining and ensures that asynchronous/background operations (like message consumption) are coordinated through the handler. Cleanup and teardown are managed by the test class, which ensures proper resource disposal even in partial failure states. This pattern applies to messaging (RabbitMQ, Kafka), REST sessions, browser contexts, and similar integration domains.
+
 ### TerminalX Tests
 
 ```python
@@ -217,3 +280,59 @@ shall be used at runtime.
     options:
       show_source: true
 
+## Configuration File Discovery Pattern
+
+All subclasses of `BaseConfiguration` automatically infer their configuration file location based on the module in which the configuration class is defined—not the test file location.
+
+**Pattern:**
+
+- The configuration file is expected at:
+
+      <module_dir>/configurations/${TEST_ENVIRONMENT}/<module_name>.ini
+
+  - `<module_dir>`: Directory where the configuration class's module is located
+  - `${TEST_ENVIRONMENT}`: Optional environment subdirectory (e.g., dev, ci, prod)
+  - `<module_name>.ini`: The stem of the configuration class's module file (e.g., `KafkaConfiguration` → `kafka_configuration.ini`)
+
+**Example:**
+
+If you use `KafkaConfiguration` from the `qa-pytest-kafka` module, the expected configuration file is:
+
+    qa-pytest-kafka/src/qa_pytest_kafka/configurations/kafka_configuration.ini
+
+or, if using environments:
+
+    qa-pytest-kafka/src/qa_pytest_kafka/configurations/dev/kafka_configuration.ini
+
+**Note:**
+- The configuration file is **not** inferred from the test file location.
+- This ensures that configuration is always colocated with the implementation module, supporting reuse and clarity across test modules.
+
+## Kafka Configuration URL Format
+
+Kafka configuration is now defined as a single URL string in `kafka_configuration.ini`:
+
+    kafka://<bootstrap_servers>/<topic>?group_id=<group_id>
+
+Rules:
+- The URL is **required** and validated on load.
+- `scheme`, `netloc`, and `path` must be present; otherwise a `ValueError` is raised.
+- `group_id` is required in the query string; missing values raise a `ValueError`.
+- Legacy `bootstrap_servers`, `topic`, and `group_id` fields are no longer used.
+
+## Kafka Module Alignment with Core Architecture
+
+Kafka now mirrors the RabbitMQ structure:
+- `KafkaTests` derives from `AbstractTestsBase` and uses `_steps_type` and `_configuration`.
+- `KafkaSteps` accepts a `TConfiguration: KafkaConfiguration` type parameter to support derived configurations.
+- Type parameter syntax uses Python 3.13 (PEP 695) across Kafka tests/steps.
+
+## Error and Edge Case Handling (All Integration Modules)
+
+For all integration modules (Kafka, RabbitMQ, REST, etc.), the following principles apply to error and edge case handling:
+
+- **Propagate API exceptions or return values**: If an operation fails due to a test design error, invalid input, or system state (e.g., non-existent resource, invalid partition, serialization error, duplicate key), the module should propagate the underlying API exception or return value. This ensures failures are visible and actionable.
+- **Fail fast**: Do not attempt to recover from permanent errors (e.g., configuration mistakes, resource not found, message too large). Surface the error immediately to the test.
+- **No extra retrying at the BDD layer**: Do not wrap operations in additional retry logic unless the error is known to be transient and the underlying client does not already handle resilience. For most messaging and database clients, resilience is built-in; retrying at the BDD layer only delays test failure.
+- **Descriptive errors**: Where possible, ensure that errors surfaced to the test are descriptive and actionable, aiding in rapid diagnosis.
+- **Consistent pattern**: This approach ensures that all modules behave consistently, and test failures are clear and deterministic.

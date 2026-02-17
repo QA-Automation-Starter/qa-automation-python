@@ -45,6 +45,7 @@
     "qa-pytest-webdriver/tests",
     "qa-pytest-playwright/tests",
     "qa-pytest-rabbitmq/tests",
+    "qa-pytest-kafka/tests",
     "qa-pytest-examples/tests"
   ],
   "python.analysis.extraPaths": [
@@ -54,7 +55,22 @@
     "qa-pytest-webdriver/src",
     "qa-pytest-playwright/src",
     "qa-pytest-rabbitmq/src",
+    "qa-pytest-kafka/src",
     "qa-pytest-examples/src"
   ],
-  "yaml.validate": true
+  "yaml.validate": true,
+  "chat.mcp.serverSampling": {
+    "qa-automation-python/.vscode/mcp.json: microsoft/playwright-mcp": {
+      "allowedModels": [
+        "copilot/auto"
+      ]
+    },
+    "qa-automation-python/.vscode/mcp.json: github": {
+      "allowedModels": [
+        "copilot/auto"
+      ]
+    }
+  },
+  "terminal.integrated.gpuAcceleration": "auto",
+  "terminal.integrated.enablePersistentSessions": true
 }
