@@ -37,8 +37,16 @@ jobs:
         image: apache/kafka:latest
         ports:
           - 9092:9092
+        env:
+          KAFKA_PROCESS_ROLES: broker,controller
+          KAFKA_NODE_ID: 1
+          KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+          KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+          KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
         options: >-
-          --health-cmd "kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
+          --health-cmd "nc -z localhost 9092 || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
