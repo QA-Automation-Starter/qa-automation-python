@@ -78,6 +78,29 @@ This file provides **tactical coding instructions**: how to write code, which to
 - CI test command must match local test discovery
 - Validate pytest config changes don't break test collection
 
+## Code Style Exceptions
+
+Certain infrastructure patterns require relaxing the "single-param", "one-thing", "fast-return", and "inlining" rules. These exceptions are intentional and documented below.
+
+**Important**: These exceptions are rare. When tempted to relax the rules, ask: "Is this background infrastructure, a DSL, or a language protocol?" If none apply, follow the rules strictly.
+
+### Background Event Loops & Polling Patterns
+- **Where**: Message broker handlers, queue consumers, event listeners (background worker threads)
+- **Why exception exists**: Event loops must continuously poll/subscribe and cannot follow "fast-return" (single return at end) or "one-thing" (single responsibility) patterns without becoming unreadable
+- **Acceptable pattern**: A main loop method may contain `while not shutdown` with error handling and dispatch to focused helper methods
+- **Mitigation**: Extract business logic into focused single-purpose methods called from the loop
+
+### DSL-Style Fluent APIs
+- **Where**: BDD step methods in UI automation, fluent builders, domain-specific languages
+- **Why exception exists**: Multi-parameter signatures are essential for readability and developer familiarity in domain-specific contexts
+- **Acceptable pattern**: Methods like `.action(param1, param2)` are clearer than `.action(ActionObject(param1, param2))` when params are closely related
+- **Mitigation**: Document multi-param design decisions in method docstrings; keep parameter count to 2-3 maximum
+
+### Magic Methods & Protocol Implementations
+- **Where**: `__init__()`, `__setattr__()`, `__get__()`, context manager methods
+- **Why exception exists**: Python protocols and dunder methods have fixed signatures; compliance with language semantics overrides architecture rules
+- **Mitigation**: Delegate complex logic to focused helper methods
+
 ## Additional Notes
 - Refer to `README.md` and `KNOWN-ISSUES.md` for project-specific guidance.
 - All Copilot-generated code must be reviewed before merging.

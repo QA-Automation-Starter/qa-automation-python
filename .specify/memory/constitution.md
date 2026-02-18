@@ -190,7 +190,7 @@ Releases are done via the `release.yml` flow, which uses `pdm run build-all` and
 
 ### Conflict Resolution
 - **Constitution supersedes** module-specific practices
-- **copilot-instructions.md supersedes** for coding style
+- **copilot-instructions.md supersedes** for coding style (see "Code Style Exceptions")
 - **When in doubt**: Simplify, prefer established patterns
 
 **Version**: 1.3.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-17
