@@ -180,6 +180,17 @@
       Extending the Framework
     </span>
 </a>
+<nav aria-label="Extending the Framework" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generic-type-parameters-keep-it-minimal">
+<span class="md-ellipsis">
+      Generic Type Parameters (Keep It Minimal)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#key-classes">
@@ -196,6 +207,20 @@
 </a>
 <nav aria-label="Usage Examples" class="md-nav">
 <ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gherkin-to-fluent-api-mapping">
+<span class="md-ellipsis">
+      Gherkin to Fluent API Mapping
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#python-implementation-from-rabbitmqselftestsshould_publish_and_consume">
+<span class="md-ellipsis">
+      Python implementation (from RabbitMqSelfTests::should_publish_and_consume)
+    </span>
+</a>
+</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#terminalx-tests">
 <span class="md-ellipsis">
@@ -308,6 +333,34 @@
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration-file-discovery-pattern">
+<span class="md-ellipsis">
+      Configuration File Discovery Pattern
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kafka-configuration-url-format">
+<span class="md-ellipsis">
+      Kafka Configuration URL Format
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kafka-module-alignment-with-core-architecture">
+<span class="md-ellipsis">
+      Kafka Module Alignment with Core Architecture
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-and-edge-case-handling-all-integration-modules">
+<span class="md-ellipsis">
+      Error and Edge Case Handling (All Integration Modules)
+    </span>
+</a>
 </li>
 </ul>
 </nav>
@@ -422,6 +475,17 @@
       Extending the Framework
     </span>
 </a>
+<nav aria-label="Extending the Framework" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generic-type-parameters-keep-it-minimal">
+<span class="md-ellipsis">
+      Generic Type Parameters (Keep It Minimal)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#key-classes">
@@ -438,6 +502,20 @@
 </a>
 <nav aria-label="Usage Examples" class="md-nav">
 <ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gherkin-to-fluent-api-mapping">
+<span class="md-ellipsis">
+      Gherkin to Fluent API Mapping
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#python-implementation-from-rabbitmqselftestsshould_publish_and_consume">
+<span class="md-ellipsis">
+      Python implementation (from RabbitMqSelfTests::should_publish_and_consume)
+    </span>
+</a>
+</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#terminalx-tests">
 <span class="md-ellipsis">
@@ -551,6 +629,34 @@
 </ul>
 </nav>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration-file-discovery-pattern">
+<span class="md-ellipsis">
+      Configuration File Discovery Pattern
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kafka-configuration-url-format">
+<span class="md-ellipsis">
+      Kafka Configuration URL Format
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kafka-module-alignment-with-core-architecture">
+<span class="md-ellipsis">
+      Kafka Module Alignment with Core Architecture
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-and-edge-case-handling-all-integration-modules">
+<span class="md-ellipsis">
+      Error and Edge Case Handling (All Integration Modules)
+    </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -584,6 +690,40 @@
 - <code>MyTechTests(AbstractTestsBase[MyTechSteps, MyTechConfiguration])</code>
 This pattern ensures you reuse the core BDD, configuration, and reporting mechanisms.</p>
 </blockquote>
+<h3 id="generic-type-parameters-keep-it-minimal">Generic Type Parameters (Keep It Minimal)</h3>
+<p>Core inheritance rules:
+- Steps always derive from <code>GenericSteps</code>.
+- Tests always derive from <code>AbstractTestsBase</code> (the generic tests base).
+- Configurations always derive from <code>BaseConfiguration</code>.
+- Infrastructure steps/tests/configs must be extensible by design.</p>
+<p>Use type parameters only when the domain requires them:</p>
+<ul>
+<li><strong>Messaging (Kafka, RabbitMQ)</strong>: Use <code>K</code> (message key/index) and <code>V</code> (message payload) because handlers and matchers are keyed and payload-aware.</li>
+<li><strong>Non-messaging domains (REST, UI)</strong>: Avoid <code>K</code>/<code>V</code>. Use only the configuration type parameter (e.g., <code>TConfiguration</code>) and, if needed, a steps type parameter.</li>
+</ul>
+<p>This keeps the architecture generic while making it obvious when and why <code>K</code>/<code>V</code> appear.</p>
+<p><strong>Generic templates (PEP 695):</strong></p>
+<ul>
+<li>
+<p><strong>Steps (non-messaging):</strong>
+<code>class XSteps[TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])</code></p>
+</li>
+<li>
+<p><strong>Tests (non-messaging):</strong>
+<code>class XTests[TSteps: XSteps[Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])</code></p>
+</li>
+<li>
+<p><strong>Steps (messaging):</strong>
+<code>class XSteps[K, V, TConfiguration: BaseConfiguration](GenericSteps[TConfiguration])</code></p>
+</li>
+<li>
+<p><strong>Tests (messaging):</strong>
+<code>class XTests[K, V, TSteps: XSteps[Any, Any, Any], TConfiguration: BaseConfiguration](AbstractTestsBase[TSteps, TConfiguration])</code></p>
+</li>
+</ul>
+<p>Guideline: do not hardcode configuration types in infrastructure classes; use a
+<code>TConfiguration</code> type parameter bounded by <code>BaseConfiguration</code> (or a domain base
+configuration) so users can extend configuration with extra properties.</p>
 <pre class="mermaid"><code>classDiagram
     %% Core Abstractions
     class AbstractTestsBase {
@@ -760,6 +900,33 @@ This pattern ensures you reuse the core BDD, configuration, and reporting mechan
 </table>
 <hr/>
 <h2 id="usage-examples">Usage Examples</h2>
+<h3 id="gherkin-to-fluent-api-mapping">Gherkin to Fluent API Mapping</h3>
+<p>BDD scenarios written in Gherkin map directly to fluent API method calls:</p>
+<p><strong>Gherkin Scenario:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">Scenario:</span><span class="nf"> Publish and consume message</span>
+<span class="k">  Given </span><span class="nf">a queue handler</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">publishing message "</span><span class="s">test_queue</span><span class="nf">"</span>
+<span class="nf">  </span><span class="k">And </span><span class="nf">consuming</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">the received messages contain a message "</span><span class="s">test_queue</span><span class="nf">"</span>
+</code></pre></div></p>
+<h3 id="python-implementation-from-rabbitmqselftestsshould_publish_and_consume">Python implementation (from RabbitMqSelfTests::should_publish_and_consume)</h3>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span><span class="w"> </span><span class="nf">should_publish_and_consume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span>
+            <span class="o">.</span><span class="n">given</span><span class="o">.</span><span class="n">a_queue_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_handler</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">publishing</span><span class="p">([</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">)])</span>
+            <span class="o">.</span><span class="n">and_</span><span class="o">.</span><span class="n">consuming</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">then</span><span class="o">.</span><span class="n">the_received_messages</span><span class="p">(</span><span class="n">yields_item</span><span class="p">(</span>
+                <span class="n">tracing</span><span class="p">(</span><span class="n">is_</span><span class="p">(</span><span class="n">Message</span><span class="p">(</span><span class="s2">"test_queue"</span><span class="p">))))))</span>
+</code></pre></div>
+<p><strong>Key Points:</strong>
+- <code>.given</code> → Given steps (setup/preconditions)
+- <code>.when</code> → When steps (actions)
+- <code>.and_</code> → And steps (additional actions/verifications)
+- <code>.then</code> → Then steps (verifications using hamcrest matchers)
+- Method chaining enables readable, sequential flow
+- Type-safe throughout (generics for domain objects)</p>
+<p><strong>Stateful Scenarios:</strong>
+Integration scenarios are inherently stateful: the test class is responsible for managing the lifecycle of core resources (such as connections, clients, or handlers) and creates resource-specific handler objects (e.g., queue handler, topic handler, client). The steps class receives the handler via a dedicated method (e.g., <code>a_queue_handler</code>, <code>a_topic_handler</code>) and provides a fluent BDD API for all subsequent operations. This enables step chaining and ensures that asynchronous/background operations (like message consumption) are coordinated through the handler. Cleanup and teardown are managed by the test class, which ensures proper resource disposal even in partial failure states. This pattern applies to messaging (RabbitMQ, Kafka), REST sessions, browser contexts, and similar integration domains.</p>
 <h3 id="terminalx-tests">TerminalX Tests</h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">external</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ui</span>
@@ -1100,7 +1267,53 @@ Safe to call from anywhere (e.g., BaseConfiguration).</p>
 </div>
 </div>
 </div>
-</div>
+</div><h2 id="configuration-file-discovery-pattern">Configuration File Discovery Pattern</h2>
+<p>All subclasses of <code>BaseConfiguration</code> automatically infer their configuration file location based on the module in which the configuration class is defined—not the test file location.</p>
+<p><strong>Pattern:</strong></p>
+<ul>
+<li>
+<p>The configuration file is expected at:</p>
+<p><module_dir>/configurations/${TEST_ENVIRONMENT}/<module_name>.ini</module_name></module_dir></p>
+</li>
+<li>
+<p><code>&lt;module_dir&gt;</code>: Directory where the configuration class's module is located</p>
+</li>
+<li><code>${TEST_ENVIRONMENT}</code>: Optional environment subdirectory (e.g., dev, ci, prod)</li>
+<li><code>&lt;module_name&gt;.ini</code>: The stem of the configuration class's module file (e.g., <code>KafkaConfiguration</code> → <code>kafka_configuration.ini</code>)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>If you use <code>KafkaConfiguration</code> from the <code>qa-pytest-kafka</code> module, the expected configuration file is:</p>
+<div class="highlight"><pre><span></span><code>qa-pytest-kafka/src/qa_pytest_kafka/configurations/kafka_configuration.ini
+</code></pre></div>
+<p>or, if using environments:</p>
+<div class="highlight"><pre><span></span><code>qa-pytest-kafka/src/qa_pytest_kafka/configurations/dev/kafka_configuration.ini
+</code></pre></div>
+<p><strong>Note:</strong>
+- The configuration file is <strong>not</strong> inferred from the test file location.
+- This ensures that configuration is always colocated with the implementation module, supporting reuse and clarity across test modules.</p>
+<h2 id="kafka-configuration-url-format">Kafka Configuration URL Format</h2>
+<p>Kafka configuration is now defined as a single URL string in <code>kafka_configuration.ini</code>:</p>
+<div class="highlight"><pre><span></span><code>kafka://&lt;bootstrap_servers&gt;/&lt;topic&gt;?group_id=&lt;group_id&gt;
+</code></pre></div>
+<p>Rules:
+- The URL is <strong>required</strong> and validated on load.
+- <code>scheme</code>, <code>netloc</code>, and <code>path</code> must be present; otherwise a <code>ValueError</code> is raised.
+- <code>group_id</code> is required in the query string; missing values raise a <code>ValueError</code>.
+- Legacy <code>bootstrap_servers</code>, <code>topic</code>, and <code>group_id</code> fields are no longer used.</p>
+<h2 id="kafka-module-alignment-with-core-architecture">Kafka Module Alignment with Core Architecture</h2>
+<p>Kafka now mirrors the RabbitMQ structure:
+- <code>KafkaTests</code> derives from <code>AbstractTestsBase</code> and uses <code>_steps_type</code> and <code>_configuration</code>.
+- <code>KafkaSteps</code> accepts a <code>TConfiguration: KafkaConfiguration</code> type parameter to support derived configurations.
+- Type parameter syntax uses Python 3.13 (PEP 695) across Kafka tests/steps.</p>
+<h2 id="error-and-edge-case-handling-all-integration-modules">Error and Edge Case Handling (All Integration Modules)</h2>
+<p>For all integration modules (Kafka, RabbitMQ, REST, etc.), the following principles apply to error and edge case handling:</p>
+<ul>
+<li><strong>Propagate API exceptions or return values</strong>: If an operation fails due to a test design error, invalid input, or system state (e.g., non-existent resource, invalid partition, serialization error, duplicate key), the module should propagate the underlying API exception or return value. This ensures failures are visible and actionable.</li>
+<li><strong>Fail fast</strong>: Do not attempt to recover from permanent errors (e.g., configuration mistakes, resource not found, message too large). Surface the error immediately to the test.</li>
+<li><strong>No extra retrying at the BDD layer</strong>: Do not wrap operations in additional retry logic unless the error is known to be transient and the underlying client does not already handle resilience. For most messaging and database clients, resilience is built-in; retrying at the BDD layer only delays test failure.</li>
+<li><strong>Descriptive errors</strong>: Where possible, ensure that errors surfaced to the test are descriptive and actionable, aiding in rapid diagnosis.</li>
+<li><strong>Consistent pattern</strong>: This approach ensures that all modules behave consistently, and test failures are clear and deterministic.</li>
+</ul>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

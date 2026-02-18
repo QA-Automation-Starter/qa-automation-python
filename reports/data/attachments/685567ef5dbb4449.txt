@@ -1,0 +1,29 @@
+DEBUG    KafkaSelfTests:abstract_tests_base.py:77 setup
+DEBUG    KafkaConfiguration:base_configuration.py:79 reading configuration from /home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-kafka/src/qa_pytest_kafka/configurations/kafka_configuration.ini
+DEBUG    KafkaConfiguration:base_configuration.py:82 successfully read ['/home/runner/work/qa-automation-python/qa-automation-python/qa-pytest-kafka/src/qa_pytest_kafka/configurations/kafka_configuration.ini']
+DEBUG    KafkaSelfTests:abstract_tests_base.py:70 initiating <class 'qa_pytest_kafka.kafka_steps.KafkaSteps'>
+DEBUG    KafkaSteps:logger.py:77 >>> Given a_kafka_handler KafkaHandler(consumer=<cimpl.Consumer object at 0x7f05076b1d00>, producer=<cimpl.Producer object at 0x7f05076b1da0>, topic='selftest-topic', indexing_by=<function KafkaSelfTests.setup_method.<locals>.<lambda> at 0x7f05076b1e40>, consuming_by=<function KafkaSelfTests.setup_method.<locals>.<lambda> at 0x7f05076b1ee0>, publishing_by=<function KafkaSelfTests.setup_method.<locals>.<lambda> at 0x7f05076b1f80>, _received_messages={}, _worker_thread=<Thread(kafka-consumer, started daemon 139659149563584)>, _shutdown_event=<threading.Event at 0x7f0507776750: unset>, _lock=<unlocked _thread.RLock object owner=0 count=0 at 0x7f0507789b00>) 
+DEBUG    KafkaSteps:logger.py:92 <<< Given a_kafka_handler
+DEBUG    KafkaSteps:logger.py:77 >>> When publishing [Message(content='foo', headers={}, key=None, offset=None), Message(content='bar', headers={}, key=None, offset=None)] 
+DEBUG    KafkaHandler:kafka_handler.py:110 published Message(content='foo', headers={}, key=None, offset=None)
+DEBUG    KafkaHandler:kafka_handler.py:110 published Message(content='bar', headers={}, key=None, offset=None)
+DEBUG    KafkaSteps:logger.py:92 <<< When publishing
+DEBUG    KafkaSteps:logger.py:77 >>> Then the_received_messages a stream containing each of: <Message(content='foo', headers={}, key=None, offset=None)>, <Message(content='bar', headers={}, key=None, offset=None)> 
+DEBUG    KafkaSteps:before_sleep.py:65 Retrying qa_pytest_commons.generic_steps.GenericSteps.eventually_assert_that.<locals>.<lambda> in 1.0 seconds as it raised AssertionError: 
+Expected: a stream containing each of: <Message(content='foo', headers={}, key=None, offset=None)>, <Message(content='bar', headers={}, key=None, offset=None)>
+     but: was <dict_valueiterator object at 0x7f0507603830>
+.
+DEBUG    KafkaSteps:before_sleep.py:65 Retrying qa_pytest_commons.generic_steps.GenericSteps.eventually_assert_that.<locals>.<lambda> in 2.0 seconds as it raised AssertionError: 
+Expected: a stream containing each of: <Message(content='foo', headers={}, key=None, offset=None)>, <Message(content='bar', headers={}, key=None, offset=None)>
+     but: was <dict_valueiterator object at 0x7f0507603ba0>
+.
+DEBUG    KafkaHandler:kafka_handler.py:100 received foo
+DEBUG    KafkaHandler:kafka_handler.py:100 received bar
+DEBUG    KafkaHandler:kafka_handler.py:100 received foo
+DEBUG    KafkaHandler:kafka_handler.py:100 received bar
+DEBUG    KafkaHandler:kafka_handler.py:100 received self-test-message
+DEBUG    TracingMatcher:matchers.py:48 Message(content='foo', headers={}, key=None, offset=2) -> True
+DEBUG    TracingMatcher:matchers.py:48 Message(content='foo', headers={}, key=None, offset=2) -> False
+DEBUG    TracingMatcher:matchers.py:48 Message(content='bar', headers={}, key=None, offset=3) -> True
+DEBUG    KafkaSteps:logger.py:92 <<< Then the_received_messages
+DEBUG    KafkaSelfTests:abstract_tests_base.py:83 teardown

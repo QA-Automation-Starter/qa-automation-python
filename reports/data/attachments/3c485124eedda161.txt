@@ -1,0 +1,6 @@
+DEBUG    KafkaHandler:kafka_handler.py:110 published Message(content='foo', headers={}, key=None, offset=None)
+DEBUG    KafkaHandler:kafka_handler.py:110 published Message(content='bar', headers={}, key=None, offset=None)
+DEBUG    KafkaHandler:kafka_handler.py:100 received foo
+DEBUG    KafkaHandler:kafka_handler.py:100 received bar
+DEBUG    KafkaHandler:kafka_handler.py:100 received foo
+DEBUG    KafkaHandler:kafka_handler.py:100 received bar
