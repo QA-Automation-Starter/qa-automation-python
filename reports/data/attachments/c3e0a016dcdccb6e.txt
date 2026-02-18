@@ -1,0 +1,3 @@
+DEBUG    SelfTests:self_tests.py:29 setup_class: called once before all tests in this class
+DEBUG    SelfTests:self_tests.py:38 before <bound method SelfTests.should_assert_equality of <tests.self_tests.SelfTests object at 0x7f131432d810>>
+DEBUG    SelfTests:self_tests.py:41 after <bound method SelfTests.should_assert_equality of <tests.self_tests.SelfTests object at 0x7f131432d810>>
