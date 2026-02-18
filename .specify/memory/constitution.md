@@ -92,8 +92,8 @@ When modifying pytest, CI, or module structure:
 - **Single pdm.lock**: Only ONE lock file at root - NEVER in sub-packages
 - **Editable installs**: Sub-packages installed via root `dev-dependencies` in editable mode
 - **Workflow discipline**:
-  - After adding/changing dependencies: `pdm run import-all`
-  - Before removing dependencies: `pdm run clean-all` then `pdm run import-all`
+  - After adding/changing dependencies: `pdm run install-all`
+  - After removing dependencies: `pdm run clean-all` then `pdm run install-all`
 
 ### Module Structure
 Each `qa-*` module contains:
@@ -105,17 +105,24 @@ qa-MODULE-NAME/
 └── README.md            # Module documentation
 ```
 
+## Module Quality Gates
+- **Documented infrastructure**: The `README.md` of the module MUST provide installation instructions for required infrastructure, if applicable
+- **CI/CD infrastructure setup**: The required infrastructure, as documented in the `README.md`, must be reflected in the `services` section of the `build.yml`, as applicable, otherwise dependent test will fail during CI/CD
+- **Module Documentation**: Each module MUST publish its API via the `mkdocs.yml` file
+
 ### Versioning Coordination
 - All modules share version number from root `pyproject.toml`
-- Breaking changes in any module trigger MAJOR version bump across all
-- Individual module changes trigger MINOR/PATCH version bump
+- Any dependency change, either in root or in submodules, must be followed by a `pdm run install-all`; this will cause the dev version to bump across all submodules, affecting all `version.py` files
+- Creating a new release tag, as described in the Release section in the root README.md, triggers the release.yml flow, which bumps the version across all submodules
 
 ### Build & Release
 ```bash
-pdm run build-all      # Builds all modules
-pdm run publish-all    # Publishes all modules to PyPI
 pdm run install-all    # Installs all modules in editable mode
+pdm run build-all      # Builds all modules, creating whl files
 ```
+
+Releases are done via the `release.yml` flow, which uses `pdm run build-all` and
+`pdm run publish-all` to build and publish all `whl` files to world-wide PyPI.
 
 ### CI/CD Configuration (NON-NEGOTIABLE)
 **Service configuration must match documented setup:**

@@ -93,15 +93,17 @@ Open in Codespace or Dev Container and everything will get installed and configu
 
 ```
 qa-automation-python/
-├── qa-testing-utils/        # Shared low-level utility functions
-├── qa-pytest-commons/       # Technology-agnostic test infrastructure
-├── qa-pytest-rest/          # REST-specific steps and config
-├── qa-pytest-webdriver/     # Selenium-specific implementation
-├── qa-pytest-playwright/    # Playwright-specific implementation
-├── qa-pytest-template/      # TBD: Cookiecutter project template
-├── qa-pytest-examples/      # Usage examples for application test projects
-├── pyproject.toml           # Root environment definition for PDM
-└── .vscode/                 # Recommended settings for VSCode integration
+├── qa-testing-utils/               # Shared low-level utility functions
+├── qa-pytest-commons/              # Technology-agnostic test infrastructure
+├── qa-pytest-rest/                 # REST-specific steps and config
+├── qa-pytest-webdriver/            # Selenium-specific implementation
+├── qa-pytest-playwright/           # Playwright-specific implementation
+├── qa-pytest-rabbitmq/             # RabbitMQ-specific implementation
+├── qa-pytest-kafka/                # Kafka-specific implementation
+├── {{cookiecutter.project_slug}}/  # Cookiecutter project template
+├── qa-pytest-examples/             # Usage examples for application test projects
+├── pyproject.toml                  # Root environment definition for PDM
+└── .vscode/                        # Recommended settings for VSCode integration
 ```
 
 ---

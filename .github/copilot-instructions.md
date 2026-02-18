@@ -19,8 +19,6 @@ This file provides **tactical coding instructions**: how to write code, which to
 - Follow code style and re-use functionality of qa-testing-utils and qa-pytest-commons.
 - **Always add type annotations**: Non-negotiable requirement (see constitution Type Safety Requirements)
 - Always prefer Iterables over lists.
-- **Context managers mandatory**: Always use `with` statements for resources
-requiring cleanup
 - **Refactoring completeness**: When refactoring shared code, verify updates in ALL affected files:
   - Primary module implementation (src/)
   - Integration tests (qa-pytest-examples/tests/)
@@ -31,13 +29,17 @@ requiring cleanup
   - qa-pytest-commons: BDD scenario tests
   - qa-pytest-{domain}: Unit tests + self-tests
   - qa-pytest-examples: BDD integration tests (see [BDD Guide](../.specify/memory/bdd-guide.md))
-
-### Resource Lifecycle Management
-- **Context managers mandatory**: All resources with cleanup (consumers, producers, handlers, connections) SHOULD use `with` statements, unless there is a specific
-reason to hold them open at the instance-level, and then the instance SHALL support
-the context manager protocol
-- **Dependency injection**: In order to allow configuration of dependencies,
-these must be supplied from outside, not hardcoded
+  - **Context managers mandatory**: All resources with cleanup (consumers, producers, handlers, connections) SHOULD use `with` statements, unless there is a specific
+  reason to hold them open at the instance-level, and then the instance SHALL support
+  the context manager protocol
+  - **Dependency injection**: In order to allow configuration of dependencies,
+  these must be supplied from outside, not hardcoded
+  - **Single-param mandatory**: All methods/functions SHOULD have a single-param
+  signature unless there is a special reason not to do so; that parameter can
+  be a type of declared class with multiple fields
+  - **Fast-return**: All methods/functions SHOULD prefer having `return` as their
+  first and last statement; this also means, small functions, that do one thing
+  - **Inlining**: SHOULD prefer inlining calls in order to reduce number of variables
 
 ## Preferred Technologies
 - Use Python 3.13 syntax for generics: **PEP 695 syntax preferred** (`class Foo[T]: ...` instead of `class Foo(Generic[T]): ...` with `TypeVar`).
