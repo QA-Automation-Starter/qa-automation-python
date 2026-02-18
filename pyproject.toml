@@ -45,19 +45,19 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
-addopts = "-s --import-mode=importlib"
+addopts = "-s --import-mode=importlib --html=report.html --self-contained-html --alluredir=allure-results"
 python_files = "*_tests.py"
 python_classes = "*Tests"
 python_functions = "should_*"
 # IMPORTANT these also must be present in .vscode/settings.json
 testpaths = [
-  "qa-testing-utils/tests/qa_testing_utils",
-  "qa-pytest-commons/tests/qa_pytest_commons",
-  "qa-pytest-rest/tests/qa_pytest_rest",
-  "qa-pytest-rabbitmq/tests/qa_pytest_rabbitmq",
-  "qa-pytest-webdriver/tests/qa_pytest_webdriver",
-  "qa-pytest-playwright/tests/qa_pytest_playwright",
-  "qa-pytest-examples/tests/qa_pytest_examples",
+  "qa-testing-utils/tests",
+  "qa-pytest-commons/tests",
+  "qa-pytest-rest/tests",
+  "qa-pytest-rabbitmq/tests",
+  "qa-pytest-webdriver/tests",
+  "qa-pytest-playwright/tests",
+  "qa-pytest-examples/tests",
   "qa-pytest-kafka/tests",
 ]
 pythonpath = [
