@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:fb63413832c5fd0d38eafe8d6b3325116d944ab72518bcf2bf0d5311884c2a7b"
+content_hash = "sha256:2b9bce19307d5b1eb786a1031ebadac028e3833e88a87d4e2484add64c043529"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -888,22 +888,21 @@ files = [
 
 [[package]]
 name = "mkdocstrings"
-version = "0.29.1"
-requires_python = ">=3.9"
+version = "1.0.3"
+requires_python = ">=3.10"
 summary = "Automatic documentation from sources, for MkDocs."
 groups = ["dev"]
 dependencies = [
-    "Jinja2>=2.11.1",
+    "Jinja2>=3.1",
     "Markdown>=3.6",
     "MarkupSafe>=1.1",
-    "importlib-metadata>=4.6; python_version < \"3.10\"",
     "mkdocs-autorefs>=1.4",
     "mkdocs>=1.6",
     "pymdown-extensions>=6.3",
 ]
 files = [
-    {file = "mkdocstrings-0.29.1-py3-none-any.whl", hash = "sha256:37a9736134934eea89cbd055a513d40a020d87dfcae9e3052c2a6b8cd4af09b6"},
-    {file = "mkdocstrings-0.29.1.tar.gz", hash = "sha256:8722f8f8c5cd75da56671e0a0c1bbed1df9946c0cef74794d6141b34011abd42"},
+    {file = "mkdocstrings-1.0.3-py3-none-any.whl", hash = "sha256:0d66d18430c2201dc7fe85134277382baaa15e6b30979f3f3bdbabd6dbdb6046"},
+    {file = "mkdocstrings-1.0.3.tar.gz", hash = "sha256:ab670f55040722b49bb45865b2e93b824450fb4aef638b00d7acb493a9020434"},
 ]
 
 [[package]]
@@ -925,18 +924,18 @@ files = [
 
 [[package]]
 name = "mkdocstrings"
-version = "0.29.1"
+version = "1.0.3"
 extras = ["python"]
-requires_python = ">=3.9"
+requires_python = ">=3.10"
 summary = "Automatic documentation from sources, for MkDocs."
 groups = ["dev"]
 dependencies = [
     "mkdocstrings-python>=1.16.2",
-    "mkdocstrings==0.29.1",
+    "mkdocstrings==1.0.3",
 ]
 files = [
-    {file = "mkdocstrings-0.29.1-py3-none-any.whl", hash = "sha256:37a9736134934eea89cbd055a513d40a020d87dfcae9e3052c2a6b8cd4af09b6"},
-    {file = "mkdocstrings-0.29.1.tar.gz", hash = "sha256:8722f8f8c5cd75da56671e0a0c1bbed1df9946c0cef74794d6141b34011abd42"},
+    {file = "mkdocstrings-1.0.3-py3-none-any.whl", hash = "sha256:0d66d18430c2201dc7fe85134277382baaa15e6b30979f3f3bdbabd6dbdb6046"},
+    {file = "mkdocstrings-1.0.3.tar.gz", hash = "sha256:ab670f55040722b49bb45865b2e93b824450fb4aef638b00d7acb493a9020434"},
 ]
 
 [[package]]
@@ -1175,38 +1174,38 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.4.1"
-requires_python = ">=3.9"
+version = "9.0.2"
+requires_python = ">=3.10"
 summary = "pytest: simple powerful testing with Python"
 groups = ["dev"]
 dependencies = [
     "colorama>=0.4; sys_platform == \"win32\"",
     "exceptiongroup>=1; python_version < \"3.11\"",
-    "iniconfig>=1",
-    "packaging>=20",
+    "iniconfig>=1.0.1",
+    "packaging>=22",
     "pluggy<2,>=1.5",
     "pygments>=2.7.2",
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7"},
-    {file = "pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c"},
+    {file = "pytest-9.0.2-py3-none-any.whl", hash = "sha256:711ffd45bf766d5264d487b917733b453d917afd2b0ad65223959f59089f875b"},
+    {file = "pytest-9.0.2.tar.gz", hash = "sha256:75186651a92bd89611d1d9fc20f0b4345fd827c41ccd5c299a868a05d70edf11"},
 ]
 
 [[package]]
 name = "pytest-cov"
-version = "6.2.1"
+version = "7.0.0"
 requires_python = ">=3.9"
 summary = "Pytest plugin for measuring coverage."
 groups = ["dev"]
 dependencies = [
-    "coverage[toml]>=7.5",
+    "coverage[toml]>=7.10.6",
     "pluggy>=1.2",
-    "pytest>=6.2.5",
+    "pytest>=7",
 ]
 files = [
-    {file = "pytest_cov-6.2.1-py3-none-any.whl", hash = "sha256:f5bc4c23f42f1cdd23c70b1dab1bbaef4fc505ba950d53e0081d0730dd7e86d5"},
-    {file = "pytest_cov-6.2.1.tar.gz", hash = "sha256:25cc6cc0a5358204b8108ecedc51a9b57b34cc6b8c967cc2c01a4e00d8a67da2"},
+    {file = "pytest_cov-7.0.0-py3-none-any.whl", hash = "sha256:3b8e9558b16cc1479da72058bdecf8073661c7f57f7d3c5f22a1c23507f2d861"},
+    {file = "pytest_cov-7.0.0.tar.gz", hash = "sha256:33c97eda2e049a0c5298e91f519302a1334c26ac65c1a483d6206fd458361af1"},
 ]
 
 [[package]]
@@ -1356,7 +1355,7 @@ dependencies = [
     "more-itertools==10.7.0",
     "ppretty==1.3",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-testing-utils",
     "returns==0.25.0",
     "tenacity==9.1.2",
@@ -1374,7 +1373,7 @@ dependencies = [
     "PyHamcrest==2.1.0",
     "more-itertools==10.7.0",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-pytest-commons",
     "qa-pytest-playwright",
     "qa-pytest-rabbitmq",
@@ -1396,7 +1395,7 @@ groups = ["dev"]
 dependencies = [
     "PyHamcrest==2.1.0",
     "confluent-kafka==2.13.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-pytest-commons",
     "qa-testing-utils",
 ]
@@ -1414,7 +1413,7 @@ dependencies = [
     "more-itertools==10.7.0",
     "playwright==1.57.0",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-pytest-commons",
     "qa-testing-utils",
     "returns==0.25.0",
@@ -1434,7 +1433,7 @@ dependencies = [
     "more-itertools==10.7.0",
     "pika==1.3.2",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "python-string-utils==1.0.0",
     "qa-pytest-commons",
     "qa-testing-utils",
@@ -1455,7 +1454,7 @@ dependencies = [
     "PyHamcrest==2.1.0",
     "more-itertools==10.7.0",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-pytest-commons",
     "qa-testing-utils",
     "requests==2.32.4",
@@ -1475,7 +1474,7 @@ dependencies = [
     "PyHamcrest==2.1.0",
     "more-itertools==10.7.0",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "qa-pytest-commons",
     "qa-testing-utils",
     "returns==0.25.0",
@@ -1498,7 +1497,7 @@ dependencies = [
     "more-itertools==10.7.0",
     "ppretty==1.3",
     "pyfunctional==1.5.0",
-    "pytest==8.4.1",
+    "pytest==9.0.2",
     "returns==0.25.0",
 ]
 
