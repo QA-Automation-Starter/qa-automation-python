@@ -34,6 +34,7 @@ plugins:
             - qa-pytest-rest/src
             - qa-pytest-examples/src
             - qa-pytest-rabbitmq/src
+            - qa-pytest-kafka/src
             - qa-testing-utils/src
 
 markdown_extensions:
@@ -44,6 +45,7 @@ markdown_extensions:
       - qa-pytest-playwright/src
       - qa-pytest-rest/src
       - qa-pytest-rabbitmq/src
+      - qa-pytest-kafka/src
       - qa-pytest-examples/src
       - qa-pytest-examples/tests
   - pymdownx.superfences:
@@ -69,6 +71,7 @@ nav:
     - Playwright: api/qa-pytest-playwright.md
     - REST: api/qa-pytest-rest.md
     - RabbitMQ: api/qa-pytest-rabbitmq.md
+    - Kafka: api/qa-pytest-kafka.md
     - Commons: api/qa-pytest-commons.md
     - Utils: api/qa-testing-utils.md
     - Examples: api/qa-pytest-examples.md
