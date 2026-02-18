@@ -64,6 +64,12 @@ Before merging to main:
 - **Format compliance**: `pdm run format-all` applied
 - **Documentation updated**: Public APIs documented in docstrings
 
+When modifying pytest, CI, or module structure:
+- [ ] **Test discovery verified**: `pytest --collect-only` shows expected test count
+- [ ] **CI matches local**: Test command in workflow matches local execution
+- [ ] **All configs updated**: When adding modules, ALL config files updated (pyproject.toml, .vscode/settings.json, mkdocs.yml)
+- [ ] **Reports still generate**: Both HTML and Allure reports generated successfully
+
 ### V. Source Control Policy (NON-NEGOTIABLE)
 **No automatic commits, merges, or pushes:**
 - All commits require explicit user approval
@@ -71,6 +77,13 @@ Before merging to main:
 - All pushes require explicit user approval
 - AI agents must propose changes only — never execute git operations
 - User reviews and approves all permanent source control operations
+
+### VI. Configuration Consistency
+**Single source of truth violations cause silent failures:**
+- Test paths, Python paths, and module lists appear in multiple files (root pyproject.toml, .vscode/settings.xml, and mkdocs.yml)
+- Changes must be applied consistently across all locations
+- Broken test discovery means CI passes with incomplete coverage
+- **Validation required**: After config changes, verify test discovery and report generation
 
 ## Monorepo Operations
 

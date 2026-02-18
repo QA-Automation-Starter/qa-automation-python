@@ -58,6 +58,24 @@ these must be supplied from outside, not hardcoded
 - Review and refactor Copilot suggestions for clarity.
 - Do not introduce license-incompatible code or external dependencies without approval.
 
+## Configuration Maintenance
+
+**When adding new qa-pytest-* module:**
+1. Update `pyproject.toml`: testpaths, pythonpath, dev-dependencies
+2. Update `.vscode/settings.json`: pytestArgs, extraPaths
+3. Update `mkdocs.yml`: paths, base_path, nav
+4. Create `docs/api/qa-pytest-MODULE.md`
+5. Verify test discovery: `pdm run pytest --collect-only` (should show all tests)
+
+**When modifying pytest configuration:**
+- Always verify test discovery still works: `pdm run pytest --collect-only | tail -3`
+- Check that test count matches expectations
+- Run locally before pushing to CI
+
+**CI/Local parity:**
+- CI test command must match local test discovery
+- Validate pytest config changes don't break test collection
+
 ## Additional Notes
 - Refer to `README.md` and `KNOWN-ISSUES.md` for project-specific guidance.
 - All Copilot-generated code must be reviewed before merging.
