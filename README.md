@@ -161,6 +161,11 @@ pdm init  # or copy an existing module like qa-testing-utils
 
 Then edit `pyproject.toml` accordingly.
 
+# Known Issues
+
+1. `webdriver-manager` fails to find an arm64 driver for linux
+2. `confluent-kafka` is not compatible with arm64 on windows
+
 ---
 
 # License
