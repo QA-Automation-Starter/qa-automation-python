@@ -18,7 +18,7 @@ license = "Apache-2.0"
 dependencies = [
   "qa-testing-utils",
   "qa-pytest-commons",
-  "confluent-kafka==2.13.0",
+  "confluent-kafka==2.15.0",
   "pytest==8.4.1",
   "PyHamcrest==2.1.0"
 ]
