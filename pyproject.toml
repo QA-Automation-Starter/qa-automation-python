@@ -22,7 +22,7 @@ dev = [
     "-e qa-pytest-examples @ file:///${PROJECT_ROOT}/qa-pytest-examples",
     "-e qa-pytest-kafka @ file:///${PROJECT_ROOT}/qa-pytest-kafka",
     "types-pika==1.2.0b1",
-    "pytest==8.4.1",
+    "pytest==9.0.3",
     "pytest-cov==6.2.1",
     "pytest-html==4.1.1",
     "allure-pytest==2.14.3",
