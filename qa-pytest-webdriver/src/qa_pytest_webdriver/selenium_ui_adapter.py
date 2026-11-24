@@ -15,7 +15,7 @@ Selenium adapter for backend-agnostic UiElement and UiContext protocols.
 class SeleniumUiElement(WebElement, UiElement):
     def __init__(self, element: WebElement) -> None:
         # Copy all attributes from the original WebElement
-        self.__dict__ = element.__dict__
+        self.__dict__ = element.__dict__  # type: ignore
 
     def type(self, text: str) -> None:
         super().clear()
