@@ -11,6 +11,12 @@ BDD-style RabbitMQ testing utilities for pytest.
 - `rabbitmq_fixtures.py`, `rabbitmq_actions.py`, `rabbitmq_verifications.py`: BDD step classes.
 - `rabbitmq_tests.py`: Base BDD test class.
 
+## Install RabbitMq
+
+```bash
+docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
+```
+
 ## Usage
 See `tests/test_rabbitmq_bdd.py` for an example BDD test skeleton.
 

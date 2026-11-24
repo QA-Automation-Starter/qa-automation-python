@@ -44,7 +44,7 @@ podman run -d \
 
 3. create a topic for testing
 ```bash
-podman exec my-kafka /opt/kafka/bin/kafka-topics.sh \
+docker exec my-kafka /opt/kafka/bin/kafka-topics.sh \
   --create --topic test-topic \
   --bootstrap-server localhost:9092
 ```

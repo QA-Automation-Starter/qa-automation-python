@@ -163,6 +163,11 @@ Then edit `pyproject.toml` accordingly.
 
 ---
 
+# Known Issues
+
+Running on ARM hardware with python compiled for ARM fails to install confluence-kafka.
+Workaround: install the x64 version of python.
+
 # License
 
 This project is licensed under the Apache 2.0 License.
